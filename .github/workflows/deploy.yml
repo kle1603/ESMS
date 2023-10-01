@@ -37,8 +37,8 @@ jobs:
                   cache: "npm"
             - name: Install dependencies
               run: npm install
-            - name: Add .env file
-              run: echo "${{ secrets.ENVIRONMENT_VARIABLES }}" > .env
+            # - name: Add .env file
+            #   run: echo "${{ secrets.ENVIRONMENT_VARIABLES }}" > .env
             - name: Build
               run: npm run build
             - name: Setup Pages

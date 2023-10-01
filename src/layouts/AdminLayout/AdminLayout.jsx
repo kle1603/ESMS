@@ -1,12 +1,11 @@
+import { Layout, Menu } from "antd";
 import PropTypes from "prop-types";
-// import { useState } from "react";
-import { Menu, Layout } from "antd";
 import { useNavigate } from "react-router-dom";
-
-import Logo from "@/assets/images/Logo.svg";
-import * as St from "./AdminLayout.styled";
+import * as St from "./AdminLayout.styled.js";
 import items from "./AdminLayout.items";
 import { Content } from "antd/es/layout/layout";
+import logo from "@/assets/images/Logo.svg";
+// import { useState } from "react";
 
 const { Sider, Header } = Layout;
 
@@ -28,7 +27,7 @@ const AdminLayout = ({ children }) => {
             <Sider breakpoint="lg" collapsedWidth="0">
                 <St.SideDiv onClick={handleClickLogo}>
                     <div className="sidebar__image">
-                        <img className="image" src={Logo} alt="" />
+                        <img className="image" src={logo} alt="" />
                     </div>
                     <h1 className="sidebar__heading">MINIONS</h1>
                 </St.SideDiv>
