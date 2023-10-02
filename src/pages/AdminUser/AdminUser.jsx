@@ -1,7 +1,7 @@
 // import PropTypes from "prop-types";
 import { Col, Divider, Row, Table } from "antd";
 
-import columns from "./User.columns";
+import columns from "./AdminUser.columns";
 import data from "./User.data";
 
 const User = () => {

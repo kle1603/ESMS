@@ -1,8 +1,13 @@
 import configs from "@/configs";
-import AdminLayout from "@/layouts/AdminLayout";
-import Dashboard from "@/pages/Dashboard";
+
 import Login from "@/pages/Login";
-import User from "@/pages/User";
+
+import AdminLayout from "@/layouts/AdminLayout";
+import AdminDashboard from "@/pages/AdminDashboard";
+import AdminUser from "@/pages/AdminUser";
+import AdminSemesters from "@/pages/AdminSemesters";
+import AdminSlots from "@/pages/AdminSlots";
+import AdminSubjects from "@/pages/AdminSubjects";
 
 const adminRoutes = [
     {
@@ -14,13 +19,31 @@ const adminRoutes = [
     {
         id: 2,
         path: configs.routes.admin,
-        component: Dashboard,
+        component: AdminDashboard,
         layout: AdminLayout,
     },
     {
         id: 3,
         path: configs.routes.adminUsers,
-        component: User,
+        component: AdminUser,
+        layout: AdminLayout,
+    },
+    {
+        id: 4,
+        path: configs.routes.adminSemesters,
+        component: AdminSemesters,
+        layout: AdminLayout,
+    },
+    {
+        id: 5,
+        path: configs.routes.adminSlots,
+        component: AdminSlots,
+        layout: AdminLayout,
+    },
+    {
+        id: 6,
+        path: configs.routes.adminSubjects,
+        component: AdminSubjects,
         layout: AdminLayout,
     },
 ];
