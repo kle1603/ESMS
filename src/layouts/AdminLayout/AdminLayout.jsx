@@ -1,10 +1,8 @@
-import { Layout, Menu } from "antd";
+import {  Layout, Menu } from "antd";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import * as St from "./AdminLayout.styled.js";
 import items from "./AdminLayout.items";
 
-import logo from "@/assets/images/Logo.svg";
 import AdminHeader from "@/components/AdminHeader/index.js";
 import { useState } from "react";
 // import { useState } from "react";
@@ -21,25 +19,12 @@ const AdminLayout = ({ children }) => {
         setActiveKey(e.key);
     };
 
-    const handleClickLogo = () => {
-        navigate("/admin");
-        setActiveKey("/admin");
-    };
-
     return (
         <Layout style={{ height: "100vh" }}>
-            <AdminHeader />
+            <AdminHeader setActiveKey={setActiveKey} />
             <Layout>
                 <Sider breakpoint="lg" collapsedWidth="0">
-                    <St.SideDiv onClick={handleClickLogo}>
-                        <div className="sidebar__image">
-                            <img className="image" src={logo} alt="" />
-                        </div>
-                        <h1 className="sidebar__heading">MINIONS</h1>
-                    </St.SideDiv>
                     <Menu
-                        style={{ marginTop: "30px" }}
-                        theme="dark"
                         // defaultSelectedKeys={[window.location.pathname]}
                         selectedKeys={[activeKey]}
                         mode="inline"

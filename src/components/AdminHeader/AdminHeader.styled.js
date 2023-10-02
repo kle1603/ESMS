@@ -1,4 +1,6 @@
+import { Menu } from "antd";
 import styled from "styled-components";
+import Theme from "../Theme";
 
 export const DivAvatar = styled.div`
     margin-right: 30px;
@@ -34,5 +36,40 @@ export const DivAvatar = styled.div`
             line-height: 1.6rem;
             font-size: 1.4rem;
         }
+    }
+`;
+
+export const MenuLogo = styled(Menu)`
+    color: red;
+    background-color: white;
+`;
+
+export const SideDiv = styled.div`
+    margin: 10px;
+    height: 44px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    .sidebar__image {
+        margin-left: 10px;
+        margin-right: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+
+        .image {
+            border-radius: 10px;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .sidebar__heading {
+        font-size: 1.8rem;
+        color: ${Theme.primary_color_background};
     }
 `;

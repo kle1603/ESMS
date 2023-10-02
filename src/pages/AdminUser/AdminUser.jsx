@@ -2,9 +2,28 @@
 import { Col, Divider, Row, Table } from "antd";
 
 import columns from "./AdminUser.columns";
-import data from "./User.data";
+import instance from "@/utils/instance";
+import { useEffect, useState } from "react";
 
 const User = () => {
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        instance
+            .get("users")
+            .then((res) => {
+                console.log(res.data.data);
+                const formattedData = res.data.data.map((item) => ({
+                    ...item,
+                    key: item.id,
+                }));
+                setData(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
     return (
         <Row>
             <Col xs={24}>
@@ -13,8 +32,11 @@ const User = () => {
                     columns={columns}
                     dataSource={data}
                     bordered
-                    // pagination={{ pageSize: 5, hideOnSinglePage: data.length <= 5 }}
-                    pagination={false}
+                    pagination={{
+                        // pageSize: 10,
+                        hideOnSinglePage: data.length <= 5,
+                    }}
+                    // pagination={false}
                 />
             </Col>
         </Row>

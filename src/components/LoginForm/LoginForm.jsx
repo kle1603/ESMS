@@ -13,6 +13,8 @@ try {
 }
 
 console.log(decoded);
+console.log(decoded.role);
+console.log(decoded.name);
 
 function Login() {
     return (
