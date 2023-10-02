@@ -31,18 +31,17 @@ export const DivLogin = styled.div`
     }
 
     .login-heading {
-        margin-top: 12px;
-        margin-bottom: 0px;
+        margin:12px 0;
         font-size: 3rem;
         color: #000000;
     }
 
     .login-desc {
         position: relative;
-        margin-top: 19px;
+        margin: 20px 0;
         font-size: 1.6rem;
         color: #000000;
-        font-weight: 300;
+        font-weight: 400;
 
         &::after {
             position: absolute;
@@ -61,10 +60,12 @@ export const DivLogin = styled.div`
         display: flex;
 
         border-radius: 20px;
-        border: 1px solid #90caf9;
+        border: 1px solid #cdc6c6;
+        box-shadow: 1px 2px 2px #cdc6c6;
         transition: all 0.3s ease-in-out;
         cursor: pointer;
-        color: #90caf9;
+        color: #000000;
+        font-weight: 500;
 
         .login-logo {
             padding-right: 10px;
