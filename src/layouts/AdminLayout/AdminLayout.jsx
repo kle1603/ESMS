@@ -6,8 +6,9 @@ import items from "./AdminLayout.items";
 import AdminHeader from "@/components/AdminHeader/index.js";
 import { useState } from "react";
 // import { useState } from "react";
+import * as St from "./AdminLayout.styled";
 
-const { Sider, Content } = Layout;
+const { Content } = Layout;
 
 const AdminLayout = ({ children }) => {
     // const [collapsed, setCollapsed] = useState(false);
@@ -23,7 +24,7 @@ const AdminLayout = ({ children }) => {
         <Layout style={{ height: "100vh" }}>
             <AdminHeader setActiveKey={setActiveKey} />
             <Layout>
-                <Sider breakpoint="lg" collapsedWidth="0">
+                <St.StyleSider breakpoint="lg" collapsedWidth="0">
                     <Menu
                         // defaultSelectedKeys={[window.location.pathname]}
                         selectedKeys={[activeKey]}
@@ -31,7 +32,7 @@ const AdminLayout = ({ children }) => {
                         items={items}
                         onClick={handleClick}
                     />
-                </Sider>
+                </St.StyleSider>
                 <Content
                     style={{
                         margin: "24px 16px",
