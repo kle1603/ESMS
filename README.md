@@ -6,9 +6,9 @@ How to use
   - run by "npm run dev"  
 
 If you want to edit or change something -> create new branch 
-  - Step 1: "git pull origin master"  
-  - Step 2: "git branch YOUR_NAME"  
-  - Step 3: "git checkout YOUR__BRANCH"  
+  - Step 1: "git branch YOUR_NAME"  
+  - Step 2: "git checkout YOUR__BRANCH"
+  - Step 3: "git pull origin master"   
   - Step 4: "git add ." when you done edit something  
   - Step 5: "git commit -m "message" "  
           - Rule for message "TITLE ..."  
