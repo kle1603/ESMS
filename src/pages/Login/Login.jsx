@@ -1,16 +1,7 @@
-import configs from "@/configs";
-import { Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import LoginForm from "@/components/LoginForm";
+
 const Login = () => {
-    const navigate = useNavigate();
-    return (
-        <div>
-            <p>Login</p>
-            <Button onClick={() => navigate(configs.routes.admin)}>
-                Hello
-            </Button>
-        </div>
-    );
+    return <LoginForm />;
 };
 
 export default Login;

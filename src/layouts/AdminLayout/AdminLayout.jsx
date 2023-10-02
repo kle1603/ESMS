@@ -5,23 +5,27 @@ import * as St from "./AdminLayout.styled.js";
 import items from "./AdminLayout.items";
 import { Content } from "antd/es/layout/layout";
 import logo from "@/assets/images/Logo.svg";
+import AdminHeader from "@/components/AdminHeader/index.js";
+import { useState } from "react";
 // import { useState } from "react";
 
-const { Sider, Header } = Layout;
+const { Sider } = Layout;
 
 const AdminLayout = ({ children }) => {
     // const [collapsed, setCollapsed] = useState(false);
-
     const navigate = useNavigate();
+    const [activeKey, setActiveKey] = useState(window.location.pathname);
 
     const handleClick = (e) => {
         navigate(e.key);
+        setActiveKey(e.key);
     };
 
     const handleClickLogo = () => {
-        // console.log('hello');
         navigate("/admin");
+        setActiveKey("/admin");
     };
+
     return (
         <Layout style={{ height: "100vh" }}>
             <Sider breakpoint="lg" collapsedWidth="0">
@@ -34,14 +38,15 @@ const AdminLayout = ({ children }) => {
                 <Menu
                     style={{ marginTop: "30px" }}
                     theme="dark"
-                    defaultSelectedKeys={[window.location.pathname]}
+                    // defaultSelectedKeys={[window.location.pathname]}
+                    selectedKeys={[activeKey]}
                     mode="inline"
                     items={items}
                     onClick={handleClick}
                 />
             </Sider>
             <Layout>
-                <Header />
+                <AdminHeader />
                 <Content
                     style={{
                         margin: "24px 16px",
