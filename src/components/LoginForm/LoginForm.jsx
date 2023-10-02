@@ -1,6 +1,18 @@
 import Logo from "@/assets/images/Schedule-amico.svg";
 import Google from "@/assets/images/Group.svg";
 import * as St from "./LoginForm.styled";
+import jwtDecode from "jwt-decode";
+
+const token = document.cookie; // Thay thế 'your-token-here' bằng token thực tế của bạn
+let decoded;
+
+try {
+    decoded = jwtDecode(token);
+} catch (err) {
+    console.error("Invalid token");
+}
+
+console.log(decoded);
 
 function Login() {
     return (
@@ -13,7 +25,7 @@ function Login() {
                         Join to create the future with us
                     </h2>
                     <a
-                        // href="http://localhost:3006/auth/google"
+                        href="http://localhost:3006/auth/google"
                         className="login-button"
                     >
                         <img className="login-logo" src={Google} alt="" />

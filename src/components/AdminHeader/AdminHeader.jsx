@@ -35,7 +35,7 @@ const AdminHeader = () => {
                             <div className="avatar__content">
                                 <h3 className="avatar__title">Ngoc Anh</h3>
                                 <p className="avatar__desc">
-                                    nanashilamomohaha
+                                nanashilamomohaha
                                 </p>
                             </div>
                             <Avatar

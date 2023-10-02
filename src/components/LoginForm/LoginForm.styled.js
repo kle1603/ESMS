@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const DivLogin = styled.div`
     height: 100vh;
@@ -48,7 +48,7 @@ export const DivLogin = styled.div`
             position: absolute;
             bottom: -25px;
             left: calc(50% - 50px);
-            content: '';
+            content: "";
             width: 100px;
             height: 1px;
             background-color: #000000;
@@ -93,7 +93,7 @@ export const DivLogin = styled.div`
         a::before {
             position: absolute;
             display: block;
-            content: '';
+            content: "";
             right: 0;
             top: 100%;
             width: 0;
