@@ -1,12 +1,13 @@
-import {  Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import items from "./AdminLayout.items";
+import items, { item } from "./AdminLayout.items";
 
 import AdminHeader from "@/components/AdminHeader/index.js";
 import { useState } from "react";
 // import { useState } from "react";
 import * as St from "./AdminLayout.styled";
+import logo from "@/assets/images/Logo.svg";
 
 const { Content } = Layout;
 
@@ -19,23 +20,51 @@ const AdminLayout = ({ children }) => {
         navigate(e.key);
         setActiveKey(e.key);
     };
+    const handleClickLogo = () => {
+        navigate("/admin");
+        setActiveKey("/admin");
+    };
 
     return (
         <Layout style={{ height: "100vh" }}>
-            <AdminHeader setActiveKey={setActiveKey} />
-            <Layout>
-                <St.StyleSider breakpoint="lg" collapsedWidth="0">
+            <St.StyleSider
+                style={{
+                    background: "transparent",
+                }}
+                breakpoint="lg"
+                collapsedWidth="0"
+            >
+                <div className="top__wrapper">
+                    <St.SideDiv onClick={handleClickLogo}>
+                        <div className="sidebar__image">
+                            <img className="image" src={logo} alt="" />
+                        </div>
+                        <h1 className="sidebar__heading">MINIONS</h1>
+                    </St.SideDiv>
                     <Menu
+                        style={{ borderInlineEnd: "none" }}
                         // defaultSelectedKeys={[window.location.pathname]}
                         selectedKeys={[activeKey]}
                         mode="inline"
                         items={items}
                         onClick={handleClick}
                     />
-                </St.StyleSider>
+                </div>
+                <div className="bottom__wrapper">
+                    <Menu
+                        style={{ borderInlineEnd: "none", marginBottom: "2px" }}
+                        // defaultSelectedKeys={[window.location.pathname]}
+                        selectedKeys={[activeKey]}
+                        mode="inline"
+                        items={item}
+                    />
+                </div>
+            </St.StyleSider>
+            <Layout>
+                <AdminHeader />
                 <Content
                     style={{
-                        margin: "16px",
+                        margin: "16px 16px 0 16px",
                         padding: 24,
                         backgroundColor: "white",
                         overflowY: "auto", // Cho phép cuộn nếu nội dung vượt quá chiều cao

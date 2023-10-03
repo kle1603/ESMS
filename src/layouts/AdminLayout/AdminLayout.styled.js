@@ -2,30 +2,76 @@ import styled from "styled-components";
 import { Layout } from "antd";
 import Theme from "@/components/Theme";
 
-const {Sider} = Layout;
+const { Sider } = Layout;
 
-export const StyleSider = styled(Sider) `
+export const StyleSider = styled(Sider)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.ant-layout-sider-children {
-        background-color: white;
-        border: 2px solid #dfdfdf;
-        box-shadow: 0px 2px 2px 2px #dfdfdf;
+    .ant-layout-sider-zero-width-trigger {
+        top: 10px;
     }
 
-.ant-menu {
-    background-color: white;
-    margin-top: 20px;
-}
+    .ant-layout-sider-children {
+        width: 100%;
+        background-color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
 
-.ant-menu-title-content {
-    font-family: ${Theme.font.primary_font};
-}
+        .top__wrapper,
+        .bottom__wrapper {
+            width: 100%;
+        }
 
-.ant-menu-light .ant-menu-item-selected {
-    background-color: ${Theme.color.main_background};
-    color: white;
+        .ant-menu {
+            background-color: white;
+            /* margin-top: 20px; */
 
-}
+            .ant-menu-item-group-title {
+                font-family: ${Theme.font.primary_font};
+            }
+        }
 
+        .ant-menu-title-content {
+            font-family: ${Theme.font.primary_font};
+        }
 
-`
+        .ant-menu-light .ant-menu-item-selected {
+            background-color: ${Theme.color.main_background};
+            color: white;
+        }
+    }
+`;
+
+export const SideDiv = styled.div`
+    margin: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid black;
+
+    .sidebar__image {
+        margin-right: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+
+        .image {
+            border-radius: 10px;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .sidebar__heading {
+        font-size: 1.8rem;
+        color: ${Theme.primary_color_background};
+
+        font-family: ${Theme.font.primary_font};
+    }
+`;
