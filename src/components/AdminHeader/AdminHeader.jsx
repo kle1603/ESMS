@@ -1,38 +1,24 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { Avatar, Badge, Layout, Space } from "antd";
 import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import * as St from "./AdminHeader.styled";
 import PopUpOver from "../PopUpOver";
-import { useNavigate } from "react-router-dom";
-import logo from "@/assets/images/Logo.svg";
 
 const { Header } = Layout;
 
-const AdminHeader = ({ setActiveKey }) => {
-    const navigate = useNavigate();
-
-    const handleClickLogo = () => {
-        navigate("/admin");
-        setActiveKey("/admin");
-    };
-
+const AdminHeader = () => {
     return (
         <Header
             style={{
+                margin: "0 15px",
                 padding: 0,
                 background: "white",
             }}
         >
             <Space
                 align="center"
-                style={{ display: "flex", justifyContent: "space-between" }}
+                style={{ display: "flex", justifyContent: "flex-end" }}
             >
-                <St.SideDiv onClick={handleClickLogo}>
-                    <div className="sidebar__image">
-                        <img className="image" src={logo} alt="" />
-                    </div>
-                    <h1 className="sidebar__heading">MINIONS</h1>
-                </St.SideDiv>
                 <Space align="center">
                     <PopUpOver>
                         <Badge dot count={5} offset={[-8, 0]}>
@@ -66,8 +52,6 @@ const AdminHeader = ({ setActiveKey }) => {
     );
 };
 
-AdminHeader.propTypes = {
-    setActiveKey: PropTypes.func.isRequired,
-};
+AdminHeader.propTypes = {};
 
 export default AdminHeader;
