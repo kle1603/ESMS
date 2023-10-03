@@ -12,9 +12,9 @@ try {
     console.error("Invalid token");
 }
 
-console.log(decoded);
-console.log(decoded.role);
-console.log(decoded.name);
+// console.log(decoded);
+// console.log(decoded.role);
+// console.log(decoded.name);
 
 function Login() {
     return (
