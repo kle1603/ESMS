@@ -30,11 +30,13 @@ export const DivAvatar = styled.div`
             margin-bottom: 4px;
             line-height: 1.8rem;
             font-size: 1.6rem;
+            font-family: ${Theme.font.primary_font};
         }
 
         .avatar__desc {
             line-height: 1.6rem;
             font-size: 1.4rem;
+            font-family: ${Theme.font.primary_font};
         }
     }
 `;
@@ -71,5 +73,7 @@ export const SideDiv = styled.div`
     .sidebar__heading {
         font-size: 1.8rem;
         color: ${Theme.primary_color_background};
+
+        font-family: ${Theme.font.primary_font};
     }
 `;
