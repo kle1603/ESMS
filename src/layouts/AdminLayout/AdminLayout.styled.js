@@ -22,7 +22,7 @@ export const StyleSider = styled(Sider) `
 }
 
 .ant-menu-light .ant-menu-item-selected {
-    background-color: ${Theme.color.main_background};
+    background-color: ${Theme.color.main_color};
     color: white;
 
 }

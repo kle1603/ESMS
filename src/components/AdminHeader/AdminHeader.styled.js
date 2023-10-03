@@ -9,9 +9,9 @@ export const DivAvatar = styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        background-color: #ccc;
-        height: 50px;
-
+        background-color: ${Theme.color.primary_color};
+        box-shadow: 0px 0px 8px 2px #dfdfdf;
+        height: 40px;
         border-radius: 999px;
     }
 
@@ -27,18 +27,27 @@ export const DivAvatar = styled.div`
         flex-direction: column;
 
         .avatar__title {
-            margin-bottom: 4px;
-            line-height: 1.8rem;
-            font-size: 1.6rem;
+            margin: 4px;
+            line-height: 1.0rem;
+            font-size: 1.4rem;
             font-family: ${Theme.font.primary_font};
+            color: #685cff;
         }
 
         .avatar__desc {
             line-height: 1.6rem;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-family: ${Theme.font.primary_font};
+            color: #685cffa8;
         }
     }
+
+        .ant-avatar-lg.ant-avatar-icon{
+             font-size: 24px}
+
+        .ant-avatar-lg {
+            width: 35px;
+            height: 35px}
 `;
 
 export const MenuLogo = styled(Menu)`
