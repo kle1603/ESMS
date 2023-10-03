@@ -35,7 +35,7 @@ const AdminLayout = ({ children }) => {
                 </St.StyleSider>
                 <Content
                     style={{
-                        margin: "24px 16px",
+                        margin: "16px",
                         padding: 24,
                         backgroundColor: "white",
                         overflowY: "auto", // Cho phép cuộn nếu nội dung vượt quá chiều cao
