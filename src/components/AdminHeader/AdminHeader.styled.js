@@ -31,14 +31,14 @@ export const DivAvatar = styled.div`
             line-height: 1.0rem;
             font-size: 1.4rem;
             font-family: ${Theme.font.primary_font};
-            color: #685cff;
+            color: ${Theme.color.title_color};
         }
 
         .avatar__desc {
             line-height: 1.6rem;
             font-size: 1.2rem;
             font-family: ${Theme.font.primary_font};
-            color: #685cffa8;
+            color: ${Theme.color.desc_color};
         }
     }
 

@@ -4,10 +4,11 @@ import { Popover } from "antd";
 
 import * as St from "./PopUpOver.styled";
 
+
 const text = (
     <St.DivHeader>
         <St.PopupTitle>Notification</St.PopupTitle>
-        <St.PopupDesc>View more</St.PopupDesc>
+        <St.PopupDesc style={{color:"#685cff"}}>View more</St.PopupDesc>
     </St.DivHeader>
 );
 
@@ -16,7 +17,7 @@ const content = (
         <div className="item">
             <div className="image__wrapper">
                 <div className="image">
-                    <img className="img" src="" alt="" />
+                    <img className="img" src="src/assets/images/Logo.svg" alt="" />
                 </div>
             </div>
             <div className="desc__wrapper">

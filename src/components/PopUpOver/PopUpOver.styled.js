@@ -1,5 +1,6 @@
 import { Typography } from "antd";
 import styled from "styled-components";
+import Theme from "../Theme";
 
 export const PopupTitle = styled(Typography.Text)`
     font-size: 2rem;
@@ -24,7 +25,7 @@ export const DivContent = styled.div`
     overscroll-behavior: contain;
 
     .item {
-        background: rgba(240, 81, 35, 0.1);
+        background-color: ${Theme.color.notification_color};
         margin: 0px 8px 8px 8px;
         position: relative;
         display: flex;
@@ -50,9 +51,10 @@ export const DivContent = styled.div`
     .image__wrapper {
         border-radius: 50%;
         flex-shrink: 0;
-        height: 48px;
+        height: 40px;
         position: relative;
-        width: 48px;
+        width: 40px;
+        margin-right: 10px;
 
         .image {
             width: 100%;
@@ -76,7 +78,7 @@ export const DivContent = styled.div`
         word-break: break-word;
 
         .desc__footer {
-            color: orange;
+            color: ${Theme.color.desc_color};
             font-size: 1.3rem;
             font-weight: 500;
             margin-top: 6px;
