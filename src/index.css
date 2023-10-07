@@ -30,7 +30,7 @@ a {
     text-decoration: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 0px) {
     ::-webkit-scrollbar {
         border-radius: 0;
         height: 8px;

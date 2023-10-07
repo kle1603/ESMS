@@ -8,6 +8,9 @@ import AdminUser from "@/pages/AdminUser";
 import AdminSemesters from "@/pages/AdminSemesters";
 import AdminSlots from "@/pages/AdminSlots";
 import AdminSubjects from "@/pages/AdminSubjects";
+import StaffDashboard from "@/pages/StaffDashboard";
+import StaffLayout from "@/layouts/StaffLayout";
+import StaffTestNaNe from "@/pages/StaffTestNaNe";
 
 const adminRoutes = [
     {
@@ -45,6 +48,18 @@ const adminRoutes = [
         path: configs.routes.adminSubjects,
         component: AdminSubjects,
         layout: AdminLayout,
+    },
+    {
+        id: 7,
+        path: configs.routes.staff,
+        component: StaffDashboard,
+        layout: StaffLayout,
+    },
+    {
+        id: 8,
+        path: configs.routes.staffTestNaNe,
+        component: StaffTestNaNe,
+        layout: StaffLayout,
     },
 ];
 
