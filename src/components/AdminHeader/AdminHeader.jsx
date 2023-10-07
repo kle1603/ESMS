@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 import { Avatar, Badge, Layout, Space } from "antd";
-import { BellOutlined, UserOutlined } from "@ant-design/icons";
+import { BellOutlined } from "@ant-design/icons";
 import * as St from "./AdminHeader.styled";
 import PopUpOver from "../PopUpOver";
 
@@ -42,7 +42,8 @@ const AdminHeader = () => {
                             <Avatar
                                 className="avatar__icon"
                                 size="large"
-                                icon={<UserOutlined />}
+                                // icon={<UserOutlined />}
+                                src="src/assets/images/avatar.jpg"
                             />
                         </div>
                     </St.DivAvatar>
