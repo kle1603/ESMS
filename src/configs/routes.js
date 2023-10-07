@@ -7,6 +7,7 @@ const routes = {
     adminUsers: "/admin/users",
     staff: "/staff",
     staffCalendar: "/staff/calendar",
+    staffTestNaNe: "/staff/test",
     lecturer: "/lecturer",
 };
 

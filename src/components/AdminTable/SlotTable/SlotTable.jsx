@@ -1,98 +1,21 @@
-// SlotTable.js
-import { Form, Modal, Popconfirm, Typography } from "antd";
-import { useState } from "react";
-import { EditableTable } from "./EditableTable";
-import { AddRowModal } from "./AddRowModal";
+import { Form, Input, Modal, Table } from "antd";
+import { useEffect, useState } from "react";
 
 import * as St from "./SlotTable.styled";
+import instance from "@/utils/instance";
 
 const SlotTable = () => {
     const [form] = Form.useForm();
-    const [editingKey, setEditingKey] = useState("");
-    const [count, setCount] = useState(0);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    const [dataSource, setDataSource] = useState([
-        // Your initial data
-    ]);
-
-    const edit = (record) => {
-        form.setFieldsValue({ season: "", year: "", ...record });
-        setEditingKey(record.key);
-    };
-
-    const cancel = () => {
-        setEditingKey("");
-    };
-
-    const save = async (key) => {
-        try {
-            const row = await form.validateFields();
-            const newData = [...dataSource];
-            const index = newData.findIndex((item) => key === item.key);
-
-            if (index > -1) {
-                const item = newData[index];
-                newData.splice(index, 1, { ...item, ...row });
-                setDataSource(newData);
-                setEditingKey("");
-            } else {
-                newData.push(row);
-                setDataSource(newData);
-                setEditingKey("");
-            }
-        } catch (errInfo) {
-            console.log("Validate Failed:", errInfo);
-        }
-    };
-
-    const handleDelete = (key) => {
-        const newData = dataSource.filter((item) => item.key !== key);
-        setDataSource(newData);
-    };
-
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
-
-    const handleOk = () => {
-        form.validateFields()
-            .then((values) => {
-                Modal.confirm({
-                    title: "Bạn có chắc chắn không?",
-                    onOk: () => {
-                        form.resetFields();
-                        const newData = {
-                            key: count,
-                            ...values,
-                        };
-                        setDataSource([...dataSource, newData]);
-                        setCount(count + 1);
-                        setModalVisible(false);
-                    },
-                    onCancel() {
-                        // Không làm gì khi người dùng nhấn hủy
-                    },
-                });
-            })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
-                // Không đóng modal nếu có lỗi
-            });
-    };
-
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
-
-    const isEditing = (record) => record.key === editingKey;
 
     const columns = [
         // Your columns
         {
             title: "Slot",
             dataIndex: "slot",
-            width: "20%",
+            width: "25%",
             editable: true,
         },
         {
@@ -111,45 +34,60 @@ const SlotTable = () => {
         {
             title: "Operation",
             dataIndex: "operation",
-            render: (_, record) => {
-                const editable = isEditing(record);
-                return editable ? (
-                    <span>
-                        <Typography.Link
-                            onClick={() => save(record.key)}
-                            style={{
-                                marginRight: 8,
-                            }}
-                        >
-                            Save
-                        </Typography.Link>
-                        <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                            <Typography.Link>Cancel</Typography.Link>
-                        </Popconfirm>
-                    </span>
-                ) : (
-                    <span>
-                        <Typography.Link
-                            disabled={editingKey !== ""}
-                            onClick={() => edit(record)}
-                        >
-                            Edit
-                        </Typography.Link>
-                        <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
-                        >
-                            <Typography.Link
-                                style={{ marginLeft: 8, display: "inline" }}
-                            >
-                                Delete
-                            </Typography.Link>
-                        </Popconfirm>
-                    </span>
-                );
-            },
         },
     ];
+
+    const fetchData = () => {
+        instance
+            .get("/timeSlots/getAll")
+            .then((res) => {
+                const formattedData = res.data.data.map((item) => ({
+                    ...item,
+                    key: item.id,
+                    slot: item.id,
+                    startTime: item.startTime.slice(0, 5),
+                    endTime: item.endTime.slice(0, 5),
+                }));
+                setLoading(false);
+                setData(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleOk = () => {
+        form.validateFields()
+            .then((values) => {
+                const { startTime, endTime } = values;
+                instance
+                    .post("/timeSlots/create", { startTime, endTime })
+                    .then(() => {
+                        form.resetFields();
+                        setModalVisible(false);
+                        fetchData();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            })
+            .catch((info) => {
+                console.log("Validate Failed:", info);
+            });
+    };
+
+    const handleAdd = () => {
+        setModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        form.resetFields();
+        setModalVisible(false);
+    };
 
     return (
         <St.DivTable>
@@ -160,18 +98,46 @@ const SlotTable = () => {
             >
                 Add a row
             </St.ButtonTable>
-            <AddRowModal
-                visible={modalVisible}
-                handleOk={handleOk}
-                handleCancel={handleCancel}
-                form={form}
-            />
-            <EditableTable
-                dataSource={dataSource}
-                form={form}
-                editingKey={editingKey}
-                isEditing={isEditing}
+            <Modal
+                title="Add a row"
+                open={modalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Form form={form} name="add_row_form">
+                    <Form.Item
+                        name="startTime"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the start time!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Start time" />
+                    </Form.Item>
+                    <Form.Item
+                        name="endTime"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the end time!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="End time" />
+                    </Form.Item>
+                </Form>
+            </Modal>
+            <Table
                 columns={columns}
+                dataSource={data}
+                bordered
+                loading={loading}
+                pagination={{
+                    pageSize: 5,
+                    hideOnSinglePage: data.length <= 5,
+                }}
             />
         </St.DivTable>
     );
