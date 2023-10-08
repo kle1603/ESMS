@@ -11,6 +11,8 @@ import AdminSubjects from "@/pages/AdminSubjects";
 import StaffDashboard from "@/pages/StaffDashboard";
 import StaffLayout from "@/layouts/StaffLayout";
 import StaffTestNaNe from "@/pages/StaffTestNaNe";
+import StaffPending from "@/pages/StaffPending";
+import StaffHistory from "@/pages/StaffHistory";
 
 const adminRoutes = [
     {
@@ -59,6 +61,18 @@ const adminRoutes = [
         id: 8,
         path: configs.routes.staffTestNaNe,
         component: StaffTestNaNe,
+        layout: StaffLayout,
+    },
+    {
+        id: 9,
+        path: configs.routes.staffPending,
+        component: StaffPending,
+        layout: StaffLayout,
+    },
+    {
+        id: 10,
+        path: configs.routes.staffHistory,
+        component: StaffHistory,
         layout: StaffLayout,
     },
 ];

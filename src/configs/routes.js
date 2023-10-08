@@ -8,6 +8,8 @@ const routes = {
     staff: "/staff",
     staffCalendar: "/staff/calendar",
     staffTestNaNe: "/staff/test",
+    staffPending: "/staff/pending",
+    staffHistory: "/staff/history",
     lecturer: "/lecturer",
 };
 

@@ -35,6 +35,27 @@ const items = [
     {
         type: "divider",
     },
+    {
+        label: "Examination",
+        key: "title3",
+        icon: null,
+        type: "group",
+        children: [
+            {
+                label: "Pending",
+                key: configs.routes.staffPending,
+                icon: <EditOutlined />,
+            },
+            {
+                label: "History",
+                key: configs.routes.staffHistory,
+                icon: <EditOutlined />,
+            },
+        ],
+    },
+    {
+        type: "divider",
+    },
 ];
 
 export default items;
