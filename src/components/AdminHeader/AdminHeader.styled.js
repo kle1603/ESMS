@@ -4,6 +4,7 @@ import Theme from "../Theme";
 
 export const DivAvatar = styled.div`
     margin-right: 30px;
+    cursor: pointer;
 
     .avatar__wrapper {
         display: flex;
@@ -28,26 +29,28 @@ export const DivAvatar = styled.div`
 
         .avatar__title {
             margin: 4px;
-            line-height: 1.0rem;
+            line-height: 1rem;
             font-size: 1.4rem;
             font-family: ${Theme.font.primary_font};
-            color: ${Theme.color.title_color};
+            color: ${Theme.color.secondary_color};
         }
 
         .avatar__desc {
             line-height: 1.6rem;
             font-size: 1.2rem;
             font-family: ${Theme.font.primary_font};
-            color: ${Theme.color.desc_color};
+            color: ${Theme.color.third_color};
         }
     }
 
-        .ant-avatar-lg.ant-avatar-icon{
-             font-size: 24px}
+    .ant-avatar-lg.ant-avatar-icon {
+        font-size: 24px;
+    }
 
-        .ant-avatar-lg {
-            width: 35px;
-            height: 35px}
+    .ant-avatar-lg {
+        width: 35px;
+        height: 35px;
+    }
 `;
 
 export const MenuLogo = styled(Menu)`

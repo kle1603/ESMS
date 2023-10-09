@@ -25,6 +25,7 @@ const AdminHeader = () => {
                         <Badge dot count={5} offset={[-8, 0]}>
                             <BellOutlined
                                 style={{
+                                    cursor: "pointer",
                                     fontSize: "2rem",
                                     paddingRight: "10px",
                                 }}

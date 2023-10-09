@@ -153,8 +153,8 @@ const SemesterTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 7,
-                    hideOnSinglePage: data.length <= 7,
+                    pageSize: 6,
+                    hideOnSinglePage: data.length <= 6,
                 }}
             />
         </St.DivTable>
