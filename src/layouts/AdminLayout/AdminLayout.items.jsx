@@ -5,6 +5,8 @@ import {
     BookOutlined,
     UserOutlined,
     LogoutOutlined,
+    ProfileOutlined,
+    CalendarOutlined,
 } from "@ant-design/icons";
 
 const items = [
@@ -34,7 +36,7 @@ const items = [
             {
                 label: "Semester",
                 key: configs.routes.adminSemesters,
-                icon: <EditOutlined />,
+                icon: <CalendarOutlined />,
             },
             {
                 label: "Slot",
@@ -45,6 +47,11 @@ const items = [
                 label: "Subject",
                 key: configs.routes.adminSubjects,
                 icon: <BookOutlined />,
+            },
+            {
+                label: "Course",
+                key: configs.routes.adminCourses,
+                icon: <ProfileOutlined />,
             },
             {
                 label: "User",
@@ -74,5 +81,4 @@ export const item = [
             },
         ],
     },
-    
 ];

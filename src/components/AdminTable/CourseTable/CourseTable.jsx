@@ -1,10 +1,10 @@
 import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 
-import * as St from "./SlotTable.styled";
+import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
 
-const SlotTable = () => {
+const CourseTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,26 +13,33 @@ const SlotTable = () => {
     const columns = [
         // Your columns
         {
-            title: "Slot",
-            dataIndex: "slot",
+            title: "No",
+            dataIndex: "no",
+            width: "15%",
+            editable: true,
+        },
+        {
+            title: "Subject Code",
+            dataIndex: "subjectCode",
+            width: "20%",
+            editable: true,
+        },
+        {
+            title: "Subject Name",
+            dataIndex: "subjectName",
             width: "25%",
             editable: true,
         },
         {
-            title: "Start Time",
-            dataIndex: "startTime",
-            width: "25%",
-            editable: true,
-        },
-        {
-            title: "End Time",
-            dataIndex: "endTime",
-            width: "25%",
+            title: "Num of Students",
+            dataIndex: "numOfStudents",
+            width: "20%",
             editable: true,
         },
         {
             title: "Operation",
             dataIndex: "operation",
+            width: "20%",
             render: (_, record) =>
                 data.length >= 1 ? (
                     <Popconfirm
@@ -52,9 +59,6 @@ const SlotTable = () => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     key: item.id,
-                    slot: item.id,
-                    startTime: item.startTime.slice(0, 5),
-                    endTime: item.endTime.slice(0, 5),
                 }));
                 setLoading(false);
                 setData(formattedData);
@@ -126,36 +130,37 @@ const SlotTable = () => {
             >
                 <Form form={form} name="add_row_form">
                     <Form.Item
-                        name="startTime"
+                        name="subjectCode"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the start time!",
-                            },
-                            {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
+                                message: "Please input the subject code!",
                             },
                         ]}
                     >
-                        <Input placeholder="Start time" />
+                        <Input placeholder="Subject code" />
                     </Form.Item>
                     <Form.Item
-                        name="endTime"
+                        name="subjectName"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the start time!",
-                            },
-                            {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
+                                message: "Please input the subject name!",
                             },
                         ]}
                     >
-                        <Input placeholder="End time" />
+                        <Input placeholder="Subject Name" />
+                    </Form.Item>{" "}
+                    <Form.Item
+                        name="numOfStudents"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the Num of Students!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Num of Students" />
                     </Form.Item>
                 </Form>
             </Modal>
@@ -173,4 +178,4 @@ const SlotTable = () => {
     );
 };
 
-export default SlotTable;
+export default CourseTable;
