@@ -8,7 +8,10 @@ const routes = {
     staff: "/staff",
     staffCalendar: "/staff/calendar",
     staffTestNaNe: "/staff/test",
+    staffExamPhase: "/staff/exam-phase",
+    staffExamRoom: "/staff/exam-room",
     lecturer: "/lecturer",
+    lecturerExamPhase: "/lecturer/exam-phase",
 };
 
 export default routes;

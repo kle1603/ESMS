@@ -1,7 +1,13 @@
 // import PropTypes from 'prop-types'
 
+import SemesterTable from "@/components/AdminTable/SemesterTable";
+
 const AdminSemesters = () => {
-    return <div>AdminSemester</div>;
+    return (
+        <div>
+            <SemesterTable />
+        </div>
+    );
 };
 
 AdminSemesters.propTypes = {};

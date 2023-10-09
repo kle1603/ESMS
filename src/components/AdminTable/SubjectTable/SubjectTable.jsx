@@ -310,8 +310,8 @@ const SubjectTable = () => {
                     columns={mergedColumns}
                     rowClassName="editable-row"
                     pagination={{
-                        pageSize: 5,
-                        hideOnSinglePage: dataSource.length <= 5,
+                        pageSize: 7,
+                        hideOnSinglePage: dataSource.length <= 7,
                     }}
                 />
             </Form>

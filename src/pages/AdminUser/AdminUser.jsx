@@ -2,12 +2,13 @@
 import { Col, Divider, Row, Table } from "antd";
 
 import columns from "./AdminUser.columns";
-import instance from "@/utils/instance";
 import { useEffect, useState } from "react";
+// import { getUser } from "@/utils/userAPI";
+import instance from "@/utils/instance";
 
 const User = () => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         instance
@@ -18,13 +19,25 @@ const User = () => {
                     ...item,
                     key: item.id,
                 }));
-                setLoading(false)
+                setLoading(false);
                 setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
             });
     }, []);
+
+    // useEffect(() => {
+    //     const user = async () => {
+    //         try {
+    //             const data = await getUser();
+    //             console.log(data.data.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     user();
+    // }, []);
 
     return (
         <Row>
