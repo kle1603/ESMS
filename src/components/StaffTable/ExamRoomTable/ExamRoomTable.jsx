@@ -1,7 +1,7 @@
 // import PropTypes from "prop-types";
 import { Popconfirm, Form, Typography, Input, Divider } from "antd";
 import { useState } from "react";
-import * as St from "./PendingTable.styled";
+import * as St from "./ExamRoomTable.styled";
 
 const EditableCell = ({
     editing,
@@ -39,26 +39,28 @@ const data = [
     {
         key: "1",
         no: "1",
-        session: "FALL",
-        year: "2023",
-        type: "FE",
-        block: "10",
-        startDay: "01/01/2023",
-        endDay: "03/01/2023",
+        start: "7:30",
+        end: "9:00",
+        day: "28/9/2023",
+        subject: "FER",
+        room: "301",
+        location: "campus",
+        lecturer: "HoangNT",
     },
     {
         key: "2",
         no: "2",
-        session: "FALL",
-        year: "2023",
-        type: "PE",
-        block: "10",
-        startDay: "01/01/2023",
-        endDay: "03/01/2023",
+        start: "9:30",
+        end: "11:00",
+        day: "28/9/2023",
+        subject: "PRN",
+        room: "401",
+        location: "campus",
+        lecturer: "HungLD",
     },
 ];
 
-const PendingTable = () => {
+const ExamRoomTable = () => {
     const [form] = Form.useForm();
     const [dataSource, setDataSource] = useState(data);
     const [editingKey, setEditingKey] = useState("");
@@ -106,34 +108,39 @@ const PendingTable = () => {
             width: "10%",
         },
         {
-            title: "Session",
-            dataIndex: "session",
-            width: "15%",
-        },
-        {
-            title: "Year",
-            dataIndex: "year",
+            title: "Start",
+            dataIndex: "start",
             width: "10%",
         },
         {
-            title: "Type",
-            dataIndex: "type",
+            title: "End",
+            dataIndex: "end",
             width: "10%",
         },
         {
-            title: "Block",
-            dataIndex: "block",
+            title: "Day",
+            dataIndex: "day",
             width: "10%",
         },
         {
-            title: "Start Day",
-            dataIndex: "startDay",
+            title: "Subject",
+            dataIndex: "subject",
+            width: "10%",
+        },
+        {
+            title: "Room",
+            dataIndex: "room",
             editable: true,
-            width: "15%",
+            width: "10%",
         },
         {
-            title: "End Day",
-            dataIndex: "endDay",
+            title: "Location",
+            dataIndex: "location",
+            width: "10%",
+        },
+        {
+            title: "Lecturer",
+            dataIndex: "lecturer",
             editable: true,
             width: "15%",
         },
@@ -188,6 +195,7 @@ const PendingTable = () => {
 
     return (
         <div>
+            <Divider orientation="left">Exam Room</Divider>
             <Form form={form} component={false}>
                 <St.StyledTable
                     components={{
@@ -200,8 +208,8 @@ const PendingTable = () => {
                     columns={mergedColumns}
                     rowClassName="editable-row"
                     pagination={{
-                        pageSize: 5,
-                        hideOnSinglePage: dataSource.length <= 5,
+                        pageSize: 7,
+                        hideOnSinglePage: dataSource.length <= 7,
                     }}
                 />
             </Form>
@@ -209,4 +217,4 @@ const PendingTable = () => {
     );
 };
 
-export default PendingTable;
+export default ExamRoomTable;

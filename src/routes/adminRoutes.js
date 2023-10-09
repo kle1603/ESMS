@@ -11,8 +11,11 @@ import AdminSubjects from "@/pages/AdminSubjects";
 import StaffDashboard from "@/pages/StaffDashboard";
 import StaffLayout from "@/layouts/StaffLayout";
 import StaffTestNaNe from "@/pages/StaffTestNaNe";
-import StaffPending from "@/pages/StaffPending";
-import StaffHistory from "@/pages/StaffHistory";
+import StaffExamPhase from "@/pages/StaffExamPhase";
+import LecturerLayout from "@/layouts/LecturerLayout";
+import LecturerDashboard from "@/pages/LecturerDashboard";
+import LecturerExamPhase from "@/pages/LecturerExamPhase";
+import StaffExamRoom from "@/pages/StaffExamRoom";
 
 const adminRoutes = [
     {
@@ -65,15 +68,27 @@ const adminRoutes = [
     },
     {
         id: 9,
-        path: configs.routes.staffPending,
-        component: StaffPending,
+        path: configs.routes.staffExamPhase,
+        component: StaffExamPhase,
         layout: StaffLayout,
     },
     {
         id: 10,
-        path: configs.routes.staffHistory,
-        component: StaffHistory,
+        path: configs.routes.staffExamRoom,
+        component: StaffExamRoom,
         layout: StaffLayout,
+    },
+    {
+        id: 11,
+        path: configs.routes.lecturer,
+        component: LecturerDashboard,
+        layout: LecturerLayout,
+    },
+    {
+        id: 12,
+        path: configs.routes.lecturerExamPhase,
+        component: LecturerExamPhase,
+        layout: LecturerLayout,
     },
 ];
 

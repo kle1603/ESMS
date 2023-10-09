@@ -1,10 +1,10 @@
 import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 
-import * as St from "./SlotTable.styled";
+import * as St from "./SemesterTable.styled";
 import instance from "@/utils/instance";
 
-const SlotTable = () => {
+const SemesterTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,20 +13,20 @@ const SlotTable = () => {
     const columns = [
         // Your columns
         {
-            title: "Slot",
-            dataIndex: "slot",
+            title: "No",
+            dataIndex: "no",
             width: "25%",
             editable: true,
         },
         {
-            title: "Start Time",
-            dataIndex: "startTime",
+            title: "Season",
+            dataIndex: "season",
             width: "25%",
             editable: true,
         },
         {
-            title: "End Time",
-            dataIndex: "endTime",
+            title: "Year",
+            dataIndex: "year",
             width: "25%",
             editable: true,
         },
@@ -53,9 +53,6 @@ const SlotTable = () => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     key: item.id,
-                    slot: item.id,
-                    startTime: item.startTime.slice(0, 5),
-                    endTime: item.endTime.slice(0, 5),
                 }));
                 setLoading(false);
                 setData(formattedData);
@@ -127,36 +124,26 @@ const SlotTable = () => {
             >
                 <Form form={form} name="add_row_form">
                     <Form.Item
-                        name="startTime"
+                        name="season"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the start time!",
-                            },
-                            {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
+                                message: "Please input the name of Season !",
                             },
                         ]}
                     >
-                        <Input placeholder="Start time" />
+                        <Input placeholder="Season" />
                     </Form.Item>
                     <Form.Item
-                        name="endTime"
+                        name="year"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the start time!",
-                            },
-                            {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
+                                message: "Please input the year !",
                             },
                         ]}
                     >
-                        <Input placeholder="End time" />
+                        <Input placeholder="Year" />
                     </Form.Item>
                 </Form>
             </Modal>
@@ -174,4 +161,4 @@ const SlotTable = () => {
     );
 };
 
-export default SlotTable;
+export default SemesterTable;

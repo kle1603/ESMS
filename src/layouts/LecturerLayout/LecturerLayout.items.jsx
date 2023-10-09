@@ -10,25 +10,8 @@ const items = [
         children: [
             {
                 label: "Dashboard",
-                key: configs.routes.staff,
+                key: configs.routes.lecturer,
                 icon: <HomeOutlined />,
-            },
-        ],
-    },
-
-    {
-        type: "divider",
-    },
-    {
-        label: "Data",
-        key: "title2",
-        icon: null,
-        type: "group",
-        children: [
-            {
-                label: "Test",
-                key: configs.routes.staffTestNaNe,
-                icon: <EditOutlined />,
             },
         ],
     },
@@ -43,12 +26,7 @@ const items = [
         children: [
             {
                 label: "Exam Phase",
-                key: configs.routes.staffExamPhase,
-                icon: <EditOutlined />,
-            },
-            {
-                label: "Exam Room",
-                key: configs.routes.staffExamRoom,
+                key: configs.routes.lecturerExamPhase,
                 icon: <EditOutlined />,
             },
         ],

@@ -17,7 +17,7 @@ const items = [
     },
 ];
 
-const StaffHistory = () => {
+const StaffExamPhase = () => {
     return (
         <div>
             {/* <Divider orientation="left">History</Divider>
@@ -27,6 +27,6 @@ const StaffHistory = () => {
     );
 };
 
-StaffHistory.propTypes = {};
+StaffExamPhase.propTypes = {};
 
-export default StaffHistory;
+export default StaffExamPhase;

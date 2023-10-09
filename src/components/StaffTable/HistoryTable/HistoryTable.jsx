@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 import { useState } from "react";
-import { Popconfirm, Table, Typography } from "antd";
+import { Divider, Popconfirm, Typography } from "antd";
 import axios from "axios";
 import * as St from "./HistoryTable.styled";
 

@@ -3,6 +3,7 @@ import { Avatar, Badge, Layout, Space } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 import * as St from "./AdminHeader.styled";
 import PopUpOver from "../PopUpOver";
+import avatar from "../../assets/images/avatar.jpg";
 
 const { Header } = Layout;
 
@@ -43,7 +44,7 @@ const AdminHeader = () => {
                                 className="avatar__icon"
                                 size="large"
                                 // icon={<UserOutlined />}
-                                src="src/assets/images/avatar.jpg"
+                                src={avatar}
                             />
                         </div>
                     </St.DivAvatar>
