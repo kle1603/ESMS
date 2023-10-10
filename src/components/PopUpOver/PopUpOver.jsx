@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Popover } from "antd";
 
 import * as St from "./PopUpOver.styled";
-import logo from '../../assets/images/Logo.svg';
+import logo from "../../assets/images/Logo.svg";
 
 const text = (
     <St.DivHeader>
