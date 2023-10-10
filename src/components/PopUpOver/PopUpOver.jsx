@@ -4,6 +4,7 @@ import { Popover } from "antd";
 
 import * as St from "./PopUpOver.styled";
 
+import logo from '../../assets/images/Logo.svg'
 
 const text = (
     <St.DivHeader>
@@ -17,7 +18,7 @@ const content = (
         <div className="item">
             <div className="image__wrapper">
                 <div className="image">
-                    <img className="img" src="src/assets/images/Logo.svg" alt="" />
+                    <img className="img" src={logo} alt="" />
                 </div>
             </div>
             <div className="desc__wrapper">
