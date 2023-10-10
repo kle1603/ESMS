@@ -8,7 +8,7 @@ import logo from "../../assets/images/Logo.svg";
 const text = (
     <St.DivHeader>
         <St.PopupTitle>Notification</St.PopupTitle>
-        <St.PopupDesc style={{color:"#685cff"}}>View more</St.PopupDesc>
+        <St.PopupDesc style={{ color: "#685cff" }}>View more</St.PopupDesc>
     </St.DivHeader>
 );
 
