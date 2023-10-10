@@ -13,16 +13,22 @@ const UserTable = () => {
 
     const columns = [
         {
+            title: "No",
+            dataIndex: "no",
+            key: "no",
+            width: "10%",
+        },
+        {
             title: "Email",
             dataIndex: "email",
             key: "email",
-            width: "30%",
+            width: "25%",
         },
         {
             title: "Name",
             dataIndex: "name",
             key: "name",
-            width: "30%",
+            width: "25%",
         },
         {
             title: "Role",
@@ -73,6 +79,7 @@ const UserTable = () => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     key: item.id,
+                    no: item.id,
                 }));
                 setLoading(false);
                 setData(formattedData);
