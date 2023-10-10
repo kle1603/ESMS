@@ -1,38 +1,56 @@
-import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
-import { useEffect, useState } from "react";
+// import PropTypes from "prop-types";
+import { Form, Input, Modal, Popconfirm, Table, Tag, Typography } from "antd";
+import * as St from "./UserTable.styled";
 
-import * as St from "./SlotTable.styled";
+import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 
-const SlotTable = () => {
-    const [form] = Form.useForm();
+const UserTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
 
     const columns = [
-        // Your columns
         {
-            title: "Slot",
-            dataIndex: "slot",
-            width: "25%",
-            editable: true,
+            title: "No",
+            dataIndex: "no",
+            key: "no",
+            width: "10%",
         },
         {
-            title: "Start Time",
-            dataIndex: "startTime",
+            title: "Email",
+            dataIndex: "email",
+            key: "email",
             width: "25%",
-            editable: true,
         },
         {
-            title: "End Time",
-            dataIndex: "endTime",
+            title: "Name",
+            dataIndex: "name",
+            key: "name",
             width: "25%",
-            editable: true,
+        },
+        {
+            title: "Role",
+            key: "role",
+            dataIndex: "role",
+            width: "20%",
+            render: (role) => {
+                let color = role.length > 5 ? "geekblue" : "volcano";
+                if (role === "loser") {
+                    color = "green";
+                }
+                return (
+                    <Tag color={color} key={role}>
+                        {role.toUpperCase()}
+                    </Tag>
+                );
+            },
         },
         {
             title: "Operation",
             dataIndex: "operation",
+            width: "20%",
             render: (_, record) =>
                 data.length >= 1 ? (
                     <Popconfirm
@@ -45,16 +63,23 @@ const SlotTable = () => {
         },
     ];
 
-    const fetchData = () => {
+    instance
+        .get("users")
+        .then((res) => {
+            console.log(res.data.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+    useEffect(() => {
         instance
-            .get("timeSlots/getAll")
+            .get("users")
             .then((res) => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     key: item.id,
-                    slot: item.id,
-                    startTime: item.startTime.slice(0, 5),
-                    endTime: item.endTime.slice(0, 5),
+                    no: item.id,
                 }));
                 setLoading(false);
                 setData(formattedData);
@@ -62,42 +87,10 @@ const SlotTable = () => {
             .catch((error) => {
                 console.log(error);
             });
-    };
-
-    useEffect(() => {
-        fetchData();
     }, []);
 
-    const handleDelete = (e) => {
-        instance
-            .delete("timeSlots/delete", { data: { id: e } })
-            .then((res) => {
-                console.log(res);
-                fetchData();
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
     const handleOk = () => {
-        form.validateFields()
-            .then((values) => {
-                const { startTime, endTime } = values;
-                instance
-                    .post("timeSlots/create", { startTime, endTime })
-                    .then(() => {
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
-            });
+        form.validateFields();
     };
 
     const handleAdd = () => {
@@ -108,6 +101,18 @@ const SlotTable = () => {
         form.resetFields();
         setModalVisible(false);
     };
+
+    // useEffect(() => {
+    //     const user = async () => {
+    //         try {
+    //             const data = await getUser();
+    //             console.log(data.data.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     user();
+    // }, []);
 
     return (
         <St.DivTable>
@@ -126,36 +131,42 @@ const SlotTable = () => {
             >
                 <Form form={form} name="add_row_form">
                     <Form.Item
-                        name="startTime"
+                        name="role"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the start time!",
+                                message: "Please choose role!",
                             },
                             {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
+                                pattern:
+                                    /^(Admin|admin|ADMIN|Staff|staff|Lecturer|lecturer)$/,
+                                message: "Invalid role!",
                             },
                         ]}
                     >
-                        <Input placeholder="Start time" />
+                        <Input placeholder="Role" />
                     </Form.Item>
                     <Form.Item
-                        name="endTime"
+                        name="email"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the start time!",
-                            },
-                            {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
+                                message: "Please input the email!",
                             },
                         ]}
                     >
-                        <Input placeholder="End time" />
+                        <Input placeholder="Email" />
+                    </Form.Item>
+                    <Form.Item
+                        name="name"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the name!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Name" />
                     </Form.Item>
                 </Form>
             </Modal>
@@ -167,10 +178,14 @@ const SlotTable = () => {
                 pagination={{
                     pageSize: 6,
                     hideOnSinglePage: data.length <= 6,
+                    showSizeChanger: false,
+                    showQuickJumper: true,
                 }}
             />
         </St.DivTable>
     );
 };
 
-export default SlotTable;
+UserTable.propTypes = {};
+
+export default UserTable;
