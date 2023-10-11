@@ -10,7 +10,8 @@ import {
 } from "antd";
 
 import * as St from "./SubjectTable.styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import instance from "@/utils/instance";
 
 const EditableCell = ({
     editing,
@@ -48,8 +49,8 @@ const EditableCell = ({
 const SubjectTable = () => {
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState("");
-    const [dataSource, setDataSource] = useState([]);
-    const [count, setCount] = useState(2);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
     const isEditing = (record) => record.key === editingKey;
@@ -91,38 +92,62 @@ const SubjectTable = () => {
         }
     };
 
-    const handleDelete = (key) => {
-        const newData = dataSource.filter((item) => item.key !== key);
-        setDataSource(newData);
-    };
-
     const handleAdd = () => {
         setModalVisible(true);
+    };
+
+    const fetchData = () => {
+        instance
+            .get("courses")
+            .then((res) => {
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    name: item.subjectCode,
+                    fe: item.FE,
+                    pe: item.PE,
+                    key: index,
+                }));
+                setLoading(false);
+                setData(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleDelete = (e) => {
+        instance
+            .delete("courses", { data: { id: e } })
+            .then((res) => {
+                console.log(res);
+                fetchData();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                Modal.confirm({
-                    title: "Bạn có chắc chắn không?",
-                    onOk: () => {
+                const { startTime, endTime } = values;
+                instance
+                    .post("courses", { startTime, endTime })
+                    .then(() => {
                         form.resetFields();
-                        const newData = {
-                            key: count,
-                            ...values,
-                        };
-                        setDataSource([...dataSource, newData]);
-                        setCount(count + 1);
                         setModalVisible(false);
-                    },
-                    onCancel() {
-                        // Không làm gì khi người dùng nhấn hủy
-                    },
-                });
+                        fetchData();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
-                // Không đóng modal nếu có lỗi
             });
     };
 
@@ -306,13 +331,14 @@ const SubjectTable = () => {
                         },
                     }}
                     bordered
-                    dataSource={dataSource}
+                    dataSource={data}
                     columns={mergedColumns}
                     rowClassName="editable-row"
                     pagination={{
                         pageSize: 7,
-                        hideOnSinglePage: dataSource.length <= 7,
+                        hideOnSinglePage: data.length <= 7,
                     }}
+                    loading={loading}
                 />
             </Form>
         </St.DivTable>

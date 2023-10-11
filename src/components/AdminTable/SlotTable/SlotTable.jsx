@@ -45,14 +45,9 @@ const SlotTable = () => {
         },
     ];
 
-    instance
-        .get("timeSlots")
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    instance.get("timeSlots", {}).then((res) => {
+        console.log(res);
+    });
 
     const fetchData = () => {
         instance
