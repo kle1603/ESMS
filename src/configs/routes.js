@@ -6,6 +6,7 @@ const routes = {
     adminSlots: "/admin/slots",
     adminUsers: "/admin/users",
     adminCourses: "/admin/courses",
+    adminRoom: "/admin/room",
     staff: "/staff",
     staffCalendar: "/staff/calendar",
     staffTestNaNe: "/staff/test",

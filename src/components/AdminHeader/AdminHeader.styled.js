@@ -1,6 +1,6 @@
 import { Menu } from "antd";
 import styled from "styled-components";
-import Theme from "../Theme";
+import Theme from "../../Theme";
 
 export const DivAvatar = styled.div`
     margin-right: 30px;

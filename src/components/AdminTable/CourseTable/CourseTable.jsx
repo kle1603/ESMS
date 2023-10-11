@@ -52,17 +52,18 @@ const CourseTable = () => {
         },
     ];
 
-    instance.get('courses')
+    instance
+        .get("courses/")
         .then((res) => {
             console.log(res);
         })
         .catch((error) => {
             console.log(error);
-        })
+        });
 
     const fetchData = () => {
         instance
-            .get("timeSlots")
+            .get("timeSlots/getAll")
             .then((res) => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
