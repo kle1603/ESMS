@@ -86,6 +86,10 @@ const RoomTable = () => {
                                 required: true,
                                 message: "Please input a room number!",
                             },
+                            {
+                                pattern: /^[0-9]+$/,
+                                message: "Invalid room number!",
+                            },
                         ]}
                     >
                         <Input placeholder="Room Number" />
@@ -96,6 +100,10 @@ const RoomTable = () => {
                             {
                                 required: true,
                                 message: "Please input a location!",
+                            },
+                            {
+                                pattern: /^(NVH|Campus)$/,
+                                message: "Invalid location!",
                             },
                         ]}
                     >
