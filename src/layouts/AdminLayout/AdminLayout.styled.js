@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Layout } from "antd";
-import Theme from "@/components/Theme";
+import Theme from "@/Theme";
 
 const { Sider } = Layout;
 
