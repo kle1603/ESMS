@@ -52,9 +52,18 @@ const CourseTable = () => {
         },
     ];
 
+    instance
+        .get("courses/")
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
     const fetchData = () => {
         instance
-            .get("timeSlots/getAll")
+            .get("courses/")
             .then((res) => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,

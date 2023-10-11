@@ -9,6 +9,8 @@ import {
     CalendarOutlined,
 } from "@ant-design/icons";
 
+import { SiGoogleclassroom } from "react-icons/si"
+
 const items = [
     {
         label: "Dashboard",
@@ -52,6 +54,11 @@ const items = [
                 label: "Course",
                 key: configs.routes.adminCourses,
                 icon: <ProfileOutlined />,
+            },
+            {
+                label: "Room",
+                key: configs.routes.adminRoom,
+                icon: <SiGoogleclassroom />,
             },
             {
                 label: "User",
