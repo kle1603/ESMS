@@ -45,9 +45,18 @@ const SlotTable = () => {
         },
     ];
 
+    instance
+        .get("timeSlots")
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
     const fetchData = () => {
         instance
-            .get("timeSlots/getAll")
+            .get("timeSlots")
             .then((res) => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
@@ -70,7 +79,7 @@ const SlotTable = () => {
 
     const handleDelete = (e) => {
         instance
-            .delete("timeSlots/delete", { data: { id: e } })
+            .delete("timeSlots", { data: { id: e } })
             .then((res) => {
                 console.log(res);
                 fetchData();
@@ -85,7 +94,7 @@ const SlotTable = () => {
             .then((values) => {
                 const { startTime, endTime } = values;
                 instance
-                    .post("timeSlots/create", { startTime, endTime })
+                    .post("timeSlots", { startTime, endTime })
                     .then(() => {
                         form.resetFields();
                         setModalVisible(false);
