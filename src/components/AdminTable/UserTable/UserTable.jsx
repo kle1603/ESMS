@@ -37,7 +37,7 @@ const UserTable = () => {
             width: "20%",
             render: (role) => {
                 let color = role.length > 5 ? "geekblue" : "volcano";
-                if (role === "loser") {
+                if (role === "Admin") {
                     color = "green";
                 }
                 return (
@@ -63,22 +63,16 @@ const UserTable = () => {
         },
     ];
 
-    instance
-        .get("users")
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-
-    useEffect(() => {
+    const fetchData = () => {
         instance
-            .get("users")
+            .get("users", {
+                params: { page_no: 1, limit: 10 },
+            })
             .then((res) => {
-                const formattedData = res.data.data.map((item) => ({
+                console.log(res);
+                const formattedData = res.data.data.Data.map((item) => ({
                     ...item,
-                    key: item.id,
+                    key: item.email,
                     no: item.id,
                 }));
                 setLoading(false);
@@ -87,7 +81,24 @@ const UserTable = () => {
             .catch((error) => {
                 console.log(error);
             });
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
+
+    const handleDelete = (e) => {
+        console.log(e);
+        instance
+            .delete("users", { data: { email: e } })
+            .then((res) => {
+                console.log(res);
+                fetchData();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleOk = () => {
         form.validateFields();
@@ -176,10 +187,10 @@ const UserTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: 20,
+                    hideOnSinglePage: data.length <= 20,
                     showSizeChanger: false,
-                    showQuickJumper: true,
+                    // showQuickJumper: true,
                 }}
             />
         </St.DivTable>

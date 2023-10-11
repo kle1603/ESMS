@@ -52,22 +52,26 @@ const CourseTable = () => {
         },
     ];
 
-    instance
-        .get("courses/")
-        .then((res) => {
-            console.log(res);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    // instance
+    //     .get("courses")
+    //     .then((res) => {
+    //         const newData = res.data.data.map((data) => ({
+    //             ...data,
+    //         }));
+    //         console.log(newData);
+    //     })
+    //     .catch((error) => {
+    //         console.log(error);
+    //     });
 
     const fetchData = () => {
         instance
-            .get("courses/")
+            .get("courses")
             .then((res) => {
-                const formattedData = res.data.data.map((item) => ({
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
-                    key: item.id,
+                    no: item.No,
+                    key: index,
                 }));
                 setLoading(false);
                 setData(formattedData);
@@ -83,7 +87,7 @@ const CourseTable = () => {
 
     const handleDelete = (e) => {
         instance
-            .delete("timeSlots/delete", { data: { id: e } })
+            .delete("courses", { data: { id: e } })
             .then((res) => {
                 console.log(res);
                 fetchData();
@@ -98,7 +102,7 @@ const CourseTable = () => {
             .then((values) => {
                 const { startTime, endTime } = values;
                 instance
-                    .post("timeSlots/create", { startTime, endTime })
+                    .post("courses", { startTime, endTime })
                     .then(() => {
                         form.resetFields();
                         setModalVisible(false);
