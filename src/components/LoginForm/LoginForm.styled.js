@@ -1,8 +1,9 @@
+import Theme from "@/Theme";
 import styled from "styled-components";
 
 export const DivLogin = styled.div`
     height: 100vh;
-    background: #e3e3e3;
+    background: #eef5ff;
 
     .login__container {
         height: 100%;
@@ -58,10 +59,9 @@ export const DivLogin = styled.div`
         margin-top: 71px;
         padding: 8px 26px;
         display: flex;
-
         border-radius: 20px;
         border: 1px solid #cdc6c6;
-        box-shadow: 1px 2px 2px #cdc6c6;
+        box-shadow: 0.5px 1px 0.5px #cdc6c6;
         transition: all 0.3s ease-in-out;
         cursor: pointer;
         color: #000000;
@@ -72,7 +72,7 @@ export const DivLogin = styled.div`
         }
 
         &:hover {
-            background-color: #90caf9;
+            background-color: ${Theme.color.button_hover_color};
             color: white;
             border: 1px solid white;
         }
@@ -84,7 +84,7 @@ export const DivLogin = styled.div`
 
         .login-contact-link {
             cursor: pointer;
-            color: #90caf9;
+            color: ${Theme.color.main_color};
         }
 
         a {
@@ -100,7 +100,7 @@ export const DivLogin = styled.div`
             width: 0;
             height: 2.3px;
             opacity: 0.75;
-            background: #90caf9;
+            background: ${Theme.color.main_color};
             transition: all 0.25s linear 0s;
         }
         a:hover::before {
