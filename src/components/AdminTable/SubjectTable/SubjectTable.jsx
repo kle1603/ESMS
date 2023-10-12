@@ -100,12 +100,14 @@ const SubjectTable = () => {
         instance
             .get("courses")
             .then((res) => {
-                const formattedData = res.data.data.map((item, index) => ({
+                const formattedData = res.data.data.map((item) => ({
                     ...item,
-                    name: item.subjectCode,
-                    fe: item.FE,
-                    pe: item.PE,
-                    key: index,
+                    no: item.courseId,
+                    semester: item.semester,
+                    name: item.subName,
+                    fe: item.fe,
+                    pe: item.pe,
+                    key: item.courseId,
                 }));
                 setLoading(false);
                 setData(formattedData);
@@ -122,8 +124,7 @@ const SubjectTable = () => {
     const handleDelete = (e) => {
         instance
             .delete("courses", { data: { id: e } })
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 fetchData();
             })
             .catch((error) => {
@@ -158,9 +159,9 @@ const SubjectTable = () => {
 
     const columns = [
         {
-            title: "Name",
-            dataIndex: "name",
-            width: "20%",
+            title: "No",
+            dataIndex: "no",
+            width: "10%",
             editable: true,
         },
         {
@@ -170,9 +171,9 @@ const SubjectTable = () => {
             editable: true,
         },
         {
-            title: "Num of Students",
-            dataIndex: "numOfStu",
-            width: "20%",
+            title: "Name",
+            dataIndex: "name",
+            width: "30%",
             editable: true,
         },
         {
@@ -287,17 +288,6 @@ const SubjectTable = () => {
                         ]}
                     >
                         <Input placeholder="Semester" />
-                    </Form.Item>
-                    <Form.Item
-                        name="numOfStu"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the num of students!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Num of Students" />
                     </Form.Item>
                     <Form.Item
                         name="fe"

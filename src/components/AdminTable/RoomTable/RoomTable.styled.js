@@ -2,7 +2,8 @@ import { Button } from "antd";
 import styled from "styled-components";
 
 export const DivTable = styled.div`
-    padding-top: 40px;
+    margin-top: 20px;
+    padding-top: 50px;
     position: relative;
 `;
 

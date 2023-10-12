@@ -4,12 +4,17 @@ import * as St from "./UserTable.styled";
 
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
+import Search from "antd/es/input/Search";
+import toast, { Toaster } from "react-hot-toast";
 
 const UserTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+    const [search, setSearch] = useState("");
+    const [total, setTotal] = useState();
+    const [page, setPage] = useState();
 
     const columns = [
         {
@@ -37,8 +42,8 @@ const UserTable = () => {
             width: "20%",
             render: (role) => {
                 let color = role.length > 5 ? "geekblue" : "volcano";
-                if (role === "Admin") {
-                    color = "green";
+                if (role === "lecturer") {
+                    color = "magenta";
                 }
                 return (
                     <Tag color={color} key={role}>
@@ -64,19 +69,31 @@ const UserTable = () => {
     ];
 
     const fetchData = () => {
+        setLoading(true);
         instance
-            .get("users", {
-                params: { page_no: 1, limit: 10 },
+            .get(`users/${search}`, {
+                params: { page_no: page, limit: 6 },
             })
             .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data.Data.map((item) => ({
-                    ...item,
-                    key: item.email,
-                    no: item.id,
-                }));
-                setLoading(false);
-                setData(formattedData);
+                if (res.data.data.Data) {
+                    setTotal(res.data.data.Total);
+                    const formattedData = res.data.data.Data.map((item) => ({
+                        ...item,
+                        key: item.email,
+                        no: item.id,
+                    }));
+                    setLoading(false);
+                    setData(formattedData);
+                } else {
+                    const formattedData = res.data.data.map((item) => ({
+                        ...item,
+                        key: item.email,
+                        no: item.id,
+                    }));
+                    setLoading(false);
+                    setData(formattedData);
+                    setTotal(formattedData.length);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -85,10 +102,9 @@ const UserTable = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [search, page]);
 
     const handleDelete = (e) => {
-        console.log(e);
         instance
             .delete("users", { data: { email: e } })
             .then((res) => {
@@ -101,7 +117,25 @@ const UserTable = () => {
     };
 
     const handleOk = () => {
-        form.validateFields();
+        form.validateFields()
+            .then((values) => {
+                const { role, email, name } = values;
+                instance
+                    .post("users", { role, email, name })
+                    .then(() => {
+                        toast.success("Successfully created!");
+                        form.resetFields();
+                        setModalVisible(false);
+                        fetchData();
+                    })
+                    .catch((error) => {
+                        toast.error("This is an error!");
+                        console.log(error);
+                    });
+            })
+            .catch((info) => {
+                console.log("Validate Failed:", info);
+            });
     };
 
     const handleAdd = () => {
@@ -113,20 +147,20 @@ const UserTable = () => {
         setModalVisible(false);
     };
 
-    // useEffect(() => {
-    //     const user = async () => {
-    //         try {
-    //             const data = await getUser();
-    //             console.log(data.data.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-    //     user();
-    // }, []);
+    const handleSearch = (e) => {
+        setSearch(e);
+    };
+
+    const handleChange = (page) => {
+        setPage(page);
+    };
 
     return (
         <St.DivTable>
+            <Toaster />
+            <St.SpaceStyled>
+                <Search onSearch={handleSearch} />
+            </St.SpaceStyled>
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"
@@ -187,10 +221,12 @@ const UserTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 20,
-                    hideOnSinglePage: data.length <= 20,
+                    pageSize: 6,
+                    hideOnSinglePage: data.length <= 10,
                     showSizeChanger: false,
-                    // showQuickJumper: true,
+                    total: total,
+                    showQuickJumper: true,
+                    onChange: handleChange,
                 }}
             />
         </St.DivTable>

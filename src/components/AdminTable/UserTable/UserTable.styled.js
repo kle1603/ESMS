@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { Button } from "antd";
+import { Button, Space } from "antd";
 
 export const DivTable = styled.div`
-    padding-top: 40px;
+    margin-top: 20px;
+    padding-top: 50px;
     position: relative;
 `;
 
@@ -12,4 +13,8 @@ export const ButtonTable = styled(Button)`
     right: 0;
 `;
 
-
+export const SpaceStyled = styled(Space)`
+    position: absolute;
+    top: 0;
+    left: 0;
+`;
