@@ -52,26 +52,16 @@ const CourseTable = () => {
         },
     ];
 
-    // instance
-    //     .get("courses")
-    //     .then((res) => {
-    //         const newData = res.data.data.map((data) => ({
-    //             ...data,
-    //         }));
-    //         console.log(newData);
-    //     })
-    //     .catch((error) => {
-    //         console.log(error);
-    //     });
-
     const fetchData = () => {
         instance
             .get("courses")
             .then((res) => {
-                const formattedData = res.data.data.map((item, index) => ({
+                const formattedData = res.data.data.map((item) => ({
                     ...item,
-                    no: item.No,
-                    key: index,
+                    no: item.courseId,
+                    subjectCode: item.subCode,
+                    subjectName: item.subName,
+                    key: item.courseId,
                 }));
                 setLoading(false);
                 setData(formattedData);

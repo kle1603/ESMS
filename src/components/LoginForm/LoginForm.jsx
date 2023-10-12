@@ -27,7 +27,7 @@ function Login() {
                         Join to create the future with us
                     </h2>
                     <a
-                        href="http://localhost:3006/auth/google"
+                        href="http://localhost:8080/auth/google"
                         className="login-button"
                     >
                         <img className="login-logo" src={Google} alt="" />

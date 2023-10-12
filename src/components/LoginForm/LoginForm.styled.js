@@ -79,7 +79,7 @@ export const DivLogin = styled.div`
     }
 
     .login-contact {
-        margin-top: 125px;
+        margin-top: 100px;
         padding-bottom: 20px;
 
         .login-contact-link {

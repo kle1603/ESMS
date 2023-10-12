@@ -45,10 +45,6 @@ const SlotTable = () => {
         },
     ];
 
-    instance.get("timeSlots", {}).then((res) => {
-        console.log(res);
-    });
-
     const fetchData = () => {
         instance
             .get("timeSlots")
@@ -75,8 +71,7 @@ const SlotTable = () => {
     const handleDelete = (e) => {
         instance
             .delete("timeSlots", { data: { id: e } })
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 fetchData();
             })
             .catch((error) => {

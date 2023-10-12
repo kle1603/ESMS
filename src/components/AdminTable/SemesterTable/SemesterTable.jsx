@@ -48,7 +48,7 @@ const SemesterTable = () => {
 
     const fetchData = () => {
         instance
-            .get("timeSlots/getAll")
+            .get("semester")
             .then((res) => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
@@ -69,8 +69,7 @@ const SemesterTable = () => {
     const handleDelete = (e) => {
         instance
             .delete("timeSlots/delete", { data: { id: e } })
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 fetchData();
             })
             .catch((error) => {
