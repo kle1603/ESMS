@@ -53,10 +53,10 @@ const AdminLayout = ({ children }) => {
                 <div className="bottom__wrapper">
                     <Menu
                         style={{ borderInlineEnd: "none", marginBottom: "2px" }}
-                        // defaultSelectedKeys={[window.location.pathname]}
                         selectedKeys={[activeKey]}
                         mode="inline"
                         items={item}
+                        onClick={handleClick}
                     />
                 </div>
             </St.StyleSider>

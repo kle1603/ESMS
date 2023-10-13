@@ -1,5 +1,5 @@
-import { get } from "./axios";
+// import { get } from "./axios";
 
-export const getUser = () => {
-    return get("users");
-};
+// export const getUser = () => {
+//     return get("users");
+// };

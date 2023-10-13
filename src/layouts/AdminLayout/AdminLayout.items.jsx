@@ -9,7 +9,7 @@ import {
     CalendarOutlined,
 } from "@ant-design/icons";
 
-import { SiGoogleclassroom } from "react-icons/si"
+import { SiGoogleclassroom } from "react-icons/si";
 
 const items = [
     {
@@ -74,6 +74,8 @@ const items = [
 
 export default items;
 
+const handleClick = () => {};
+
 export const item = [
     {
         label: "Logout",
@@ -82,8 +84,8 @@ export const item = [
         type: "group",
         children: [
             {
-                label: "Logout",
-                key: "logout",
+                label: <span onClick={handleClick}>Logout</span>,
+                key: configs.routes.login,
                 icon: <LogoutOutlined />,
             },
         ],

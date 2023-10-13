@@ -14,6 +14,7 @@ const routes = {
     staffExamRoom: "/staff/exam-room",
     lecturer: "/lecturer",
     lecturerExamPhase: "/lecturer/exam-phase",
+    lecturerSchedule: "/lecturer/schedule",
 };
 
 export default routes;

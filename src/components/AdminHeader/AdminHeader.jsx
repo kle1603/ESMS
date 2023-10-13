@@ -4,10 +4,20 @@ import { BellOutlined } from "@ant-design/icons";
 import * as St from "./AdminHeader.styled";
 import PopUpOver from "../PopUpOver";
 import avatar from "../../assets/images/avatar.jpg";
+// import jwtDecode from "jwt-decode";
+// import { useEffect, useState } from "react";
 
 const { Header } = Layout;
 
 const AdminHeader = () => {
+    // const token = document.cookie; // Thay thế 'your-token-here' bằng token thực tế của bạn
+    // const [decode, setDecode] = useState([]);
+
+    // useEffect(() => {
+    //     const result = jwtDecode(token);
+    //     setDecode(result);
+    // }, []);
+
     return (
         <Header
             style={{
@@ -37,9 +47,7 @@ const AdminHeader = () => {
                         <div className="avatar__wrapper">
                             <div className="avatar__content">
                                 <h3 className="avatar__title">Ngoc Anh</h3>
-                                <p className="avatar__desc">
-                                    nanashilamomohaha
-                                </p>
+                                <p className="avatar__desc">hahahahahaha</p>
                             </div>
                             <Avatar
                                 className="avatar__icon"
