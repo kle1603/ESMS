@@ -10,7 +10,6 @@ import AdminSlots from "@/pages/AdminSlots";
 import AdminSubjects from "@/pages/AdminSubjects";
 import StaffDashboard from "@/pages/StaffDashboard";
 import StaffLayout from "@/layouts/StaffLayout";
-import StaffTestNaNe from "@/pages/StaffTestNaNe";
 import StaffExamPhase from "@/pages/StaffExamPhase";
 import LecturerLayout from "@/layouts/LecturerLayout";
 import LecturerDashboard from "@/pages/LecturerDashboard";
@@ -77,30 +76,24 @@ const adminRoutes = [
     },
     {
         id: 10,
-        path: configs.routes.staffTestNaNe,
-        component: StaffTestNaNe,
-        layout: StaffLayout,
-    },
-    {
-        id: 11,
         path: configs.routes.staffExamPhase,
         component: StaffExamPhase,
         layout: StaffLayout,
     },
     {
-        id: 12,
+        id: 11,
         path: configs.routes.staffExamRoom,
         component: StaffExamRoom,
         layout: StaffLayout,
     },
     {
-        id: 13,
+        id: 12,
         path: configs.routes.lecturer,
         component: LecturerDashboard,
         layout: LecturerLayout,
     },
     {
-        id: 14,
+        id: 13,
         path: configs.routes.lecturerExamPhase,
         component: LecturerExamPhase,
         layout: LecturerLayout,

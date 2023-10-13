@@ -20,24 +20,8 @@ const items = [
         type: "divider",
     },
     {
-        label: "Data",
-        key: "title2",
-        icon: null,
-        type: "group",
-        children: [
-            {
-                label: "Test",
-                key: configs.routes.staffTestNaNe,
-                icon: <EditOutlined />,
-            },
-        ],
-    },
-    {
-        type: "divider",
-    },
-    {
         label: "Exam Phase",
-        key: "title3",
+        key: "title2",
         icon: null,
         type: "group",
         children: [
