@@ -18,6 +18,7 @@ import LecturerExamPhase from "@/pages/LecturerExamPhase";
 import StaffExamRoom from "@/pages/StaffExamRoom";
 import AdminCourses from "@/pages/AdminCourses";
 import AdminRoom from "@/pages/AdminRoom";
+import LecturerSchedule from "@/pages/LecturerSchedule";
 
 const adminRoutes = [
     {
@@ -102,6 +103,12 @@ const adminRoutes = [
         id: 14,
         path: configs.routes.lecturerExamPhase,
         component: LecturerExamPhase,
+        layout: LecturerLayout,
+    },
+    {
+        id: 15,
+        path: configs.routes.lecturerSchedule,
+        component: LecturerSchedule,
         layout: LecturerLayout,
     },
 ];

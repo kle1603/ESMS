@@ -29,6 +29,11 @@ const items = [
                 key: configs.routes.lecturerExamPhase,
                 icon: <EditOutlined />,
             },
+            {
+                label: "Exam Schedule",
+                key: configs.routes.lecturerSchedule,
+                icon: <EditOutlined />,
+            },
         ],
     },
     {

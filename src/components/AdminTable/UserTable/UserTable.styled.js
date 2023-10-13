@@ -17,4 +17,10 @@ export const SpaceStyled = styled(Space)`
     position: absolute;
     top: 0;
     left: 0;
+
+    width: 400px;
+
+    .ant-space-item {
+        width: 100%;
+    }
 `;

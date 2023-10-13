@@ -1,20 +1,6 @@
 import Logo from "@/assets/images/Schedule-amico.svg";
 import Google from "@/assets/images/Group.svg";
 import * as St from "./LoginForm.styled";
-import jwtDecode from "jwt-decode";
-
-const token = document.cookie; // Thay thế 'your-token-here' bằng token thực tế của bạn
-let decoded;
-
-try {
-    decoded = jwtDecode(token);
-} catch (err) {
-    console.error("Invalid token");
-}
-
-// console.log(decoded);
-// console.log(decoded.role);
-// console.log(decoded.name);
 
 function Login() {
     return (

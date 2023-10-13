@@ -48,10 +48,12 @@ const SemesterTable = () => {
 
     const fetchData = () => {
         instance
-            .get("semester")
+            .get("semesters")
             .then((res) => {
-                const formattedData = res.data.data.map((item) => ({
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
+                    season: item.season,
+                    no: index + 1,
                     key: item.id,
                 }));
                 setLoading(false);
@@ -68,7 +70,7 @@ const SemesterTable = () => {
 
     const handleDelete = (e) => {
         instance
-            .delete("timeSlots/delete", { data: { id: e } })
+            .delete("semester", { data: { id: e } })
             .then(() => {
                 fetchData();
             })
@@ -80,9 +82,10 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { startTime, endTime } = values;
+                const { season, year } = values;
+                // console.log(values);
                 instance
-                    .post("timeSlots/create", { startTime, endTime })
+                    .post("semesters", { season, year })
                     .then(() => {
                         form.resetFields();
                         setModalVisible(false);

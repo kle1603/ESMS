@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Table, Tag, Typography } from "antd";
 import * as St from "./RoomTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
@@ -9,6 +9,8 @@ const RoomTable = () => {
     const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+
+    const text = "khong co note gi ca";
 
     const columns = [
         {
@@ -34,9 +36,7 @@ const RoomTable = () => {
             dataIndex: "note",
             key: "note",
             width: "35%",
-            render: () => (
-                <Typography.Text>Không có bất kì lưu ý nào</Typography.Text>
-            ),
+            // render: () => <Tag color="green">{text.toUpperCase()}</Tag>,
         },
         {
             title: "Operation",

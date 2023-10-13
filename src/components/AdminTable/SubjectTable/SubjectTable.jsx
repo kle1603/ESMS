@@ -100,6 +100,7 @@ const SubjectTable = () => {
         instance
             .get("courses")
             .then((res) => {
+                console.log(res);
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     no: item.courseId,
