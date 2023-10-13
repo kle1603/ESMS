@@ -1,43 +1,48 @@
 // import PropTypes from "prop-types";
-import { useState } from "react";
-import { Divider, Popconfirm, Typography } from "antd";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { Popconfirm, Typography } from "antd";
 import * as St from "./HistoryTable.styled";
+import instance from "@/utils/instance";
 
 const HistoryTable = () => {
-    const [dataSource, setDataSource] = useState([
-        {
-            key: "1",
-            no: "1",
-            session: "FALL",
-            year: "2023",
-            type: "FE",
-            block: "10",
-            startDay: "01/01/2023",
-            endDay: "03/01/2023",
-        },
-        {
-            key: "2",
-            no: "2",
-            session: "FALL",
-            year: "2023",
-            type: "PE",
-            block: "10",
-            startDay: "01/01/2023",
-            endDay: "03/01/2023",
-        },
-    ]);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleDelete = (key) => {
-        axios
-            .delete(`your-api-url/${key}`)
-            .then(() => {
-                const newData = dataSource.filter((item) => item.key !== key);
-                setDataSource(newData);
+    const fetchData = () => {
+        instance
+            .get("examPhases")
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    no: index + 1,
+                    session: item.sesson,
+                    startDay: item.SDay,
+                    endDay: item.EDay,
+                    key: index,
+                }));
+                setLoading(false);
+                setData(formattedData);
             })
             .catch((error) => {
-                console.error("Error deleting item:", error);
+                console.log(error);
             });
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleDelete = (e) => {
+        console.log(e);
+        // instance
+        //     .delete("examPhases", { data: { id: e } })
+        //     .then(() => {
+        //         fetchData();
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
     };
 
     const columns = [
@@ -79,11 +84,11 @@ const HistoryTable = () => {
             width: "15%",
         },
         {
-            title: "operation",
+            title: "Operation",
             dataIndex: "operation",
             width: "15%",
             render: (_, record) =>
-                dataSource.length >= 1 ? (
+                data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"
                         onConfirm={() => handleDelete(record.key)}
@@ -98,12 +103,13 @@ const HistoryTable = () => {
         <div>
             <St.StyledTable
                 bordered
-                dataSource={dataSource}
+                dataSource={data}
                 columns={columns}
                 pagination={{
                     pageSize: 5,
-                    hideOnSinglePage: dataSource.length <= 5,
+                    hideOnSinglePage: data.length <= 5,
                 }}
+                loading={loading}
             />
         </div>
     );

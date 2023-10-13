@@ -74,17 +74,17 @@ const SubjectTable = () => {
     const save = async (key) => {
         try {
             const row = await form.validateFields();
-            const newData = [...dataSource];
+            const newData = [...data];
             const index = newData.findIndex((item) => key === item.key);
 
             if (index > -1) {
                 const item = newData[index];
                 newData.splice(index, 1, { ...item, ...row });
-                setDataSource(newData);
+                setData(newData);
                 setEditingKey("");
             } else {
                 newData.push(row);
-                setDataSource(newData);
+                setData(newData);
                 setEditingKey("");
             }
         } catch (errInfo) {
