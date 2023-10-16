@@ -57,11 +57,13 @@ const SemesterTable = () => {
                     no: index + 1,
                     key: item.id,
                 }));
-                setLoading(false);
                 setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
@@ -78,7 +80,7 @@ const SemesterTable = () => {
                 fetchData();
             })
             .catch((error) => {
-                toast.error("This is an error!");
+                toast.error("Error deleted!");
                 console.log(error);
             });
     };

@@ -119,11 +119,13 @@ const RoomTable = () => {
                     roomNumber: item.roomNum,
                     key: item.roomNum,
                 }));
-                setLoading(false);
                 setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 

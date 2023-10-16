@@ -129,11 +129,13 @@ const SubjectTable = () => {
                     pe: item.pe,
                     key: item.id,
                 }));
-                setLoading(false);
                 setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
@@ -149,7 +151,7 @@ const SubjectTable = () => {
                 fetchData();
             })
             .catch((error) => {
-                toast.error("This is an error!");
+                toast.error("Error deleted!");
                 console.log(error);
             });
     };
