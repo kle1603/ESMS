@@ -6,14 +6,46 @@ import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
 
+const EditableCell = ({
+    editing,
+    dataIndex,
+    title,
+    inputType,
+    record,
+    index,
+    children,
+    ...restProps
+}) => {
+    const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
+    return (
+        <td {...restProps}>
+            {editing ? (
+                <Form.Item
+                    name={dataIndex}
+                    style={{ margin: 0 }}
+                    rules={[
+                        {
+                            required: true,
+                            message: `Please Input ${title}!`,
+                        },
+                    ]}
+                >
+                    {inputNode}
+                </Form.Item>
+            ) : (
+                children
+            )}
+        </td>
+    );
+};
+
 const RoomTable = () => {
     const [search, setSearch] = useState("");
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
-
-    const text = "khong co note gi ca";
+    const [editingKey, setEditingKey] = useState("");
 
     const columns = [
         {
@@ -48,16 +80,19 @@ const RoomTable = () => {
         },
         {
             title: "Note",
-            // dataIndex: "note",
+            dataIndex: "note",
             key: "note",
-            width: "35%",
-            // render: (record) => <Tag color="green">{text.toUpperCase()}</Tag>,
-            render: (record) => {
-                console.log(record);
-                return record.note.length > 0 ? (
-                    record.note
+            width: "25%",
+            editable: true,
+            render: (text) => {
+                return text.length > 0 ? (
+                    <St.TagStyled color="red">
+                        {text.toUpperCase()}
+                    </St.TagStyled>
                 ) : (
-                    <Tag color="green">{text.toUpperCase()}</Tag>
+                    <Tag color="green">
+                        {"khong co note gi ca".toUpperCase()}
+                    </Tag>
                 );
             },
         },
@@ -65,23 +100,119 @@ const RoomTable = () => {
             title: "Operation",
             dataIndex: "operation",
             width: "20%",
-            render: (_, record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
+            render: (_, record) => {
+                const editable = isEditing(record);
+                return editable ? (
+                    <span>
+                        <Typography.Link
+                            onClick={() => save(record.key)}
+                            style={{
+                                marginRight: 8,
+                            }}
+                        >
+                            Save
+                        </Typography.Link>
+                        <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+                            <Typography.Link>Cancel</Typography.Link>
+                        </Popconfirm>
+                    </span>
+                ) : (
+                    <span>
+                        <Typography.Link
+                            disabled={editingKey !== ""}
+                            onClick={() => edit(record)}
+                        >
+                            Edit
+                        </Typography.Link>
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => handleDelete(record.key)}
+                        >
+                            <Typography.Link
+                                style={{ marginLeft: 8, display: "inline" }}
+                            >
+                                Delete
+                            </Typography.Link>
+                        </Popconfirm>
+                    </span>
+                );
+            },
         },
     ];
+
+    const mergedColumns = columns.map((col) => {
+        if (!col.editable) {
+            return col;
+        }
+
+        return {
+            ...col,
+            onCell: (record) => ({
+                record,
+                inputType: "text",
+                dataIndex: col.dataIndex,
+                title: col.title,
+                editing: isEditing(record),
+            }),
+        };
+    });
+
+    const isEditing = (record) => record.key === editingKey;
+
+    const edit = (record) => {
+        form.setFieldsValue({
+            note: "",
+            ...record,
+        });
+        setEditingKey(record.key);
+    };
+
+    const cancel = () => {
+        setEditingKey("");
+    };
+
+    const save = async (key) => {
+        try {
+            const row = await form.validateFields();
+            const newData = [...data];
+            const index = newData.findIndex((item) => key === item.key);
+
+            if (index > -1) {
+                const item = newData[index];
+                newData.splice(index, 1, { ...item, ...row });
+                setData(newData);
+                setEditingKey("");
+
+                console.log(row);
+                console.log(key);
+
+                instance
+                    .put("rooms", {
+                        id: key,
+                        note: row.note,
+                    })
+                    .then(() => {
+                        toast.success("Successfully updated!");
+                        fetchData();
+                    })
+                    .catch((error) => {
+                        toast.error("This is an error!");
+                        console.log(error);
+                    });
+            } else {
+                newData.push(row);
+                setData(newData);
+                setEditingKey("");
+            }
+        } catch (errInfo) {
+            console.log("Validate Failed:", errInfo);
+        }
+    };
 
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
                 const { roomNumber, location, note } = values;
-                console.log(values);
                 instance
                     .post("rooms", { roomNum: roomNumber, location, note })
                     .then(() => {
@@ -117,7 +248,7 @@ const RoomTable = () => {
                     ...item,
                     no: item.id,
                     roomNumber: item.roomNum,
-                    key: item.roomNum,
+                    key: item.id,
                 }));
                 setData(formattedData);
             })
@@ -213,17 +344,25 @@ const RoomTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table
-                columns={columns}
-                dataSource={data}
-                bordered
-                loading={loading}
-                pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
-                    showSizeChanger: false,
-                }}
-            />
+            <Form form={form} component={false}>
+                <Table
+                    components={{
+                        body: {
+                            cell: EditableCell,
+                        },
+                    }}
+                    bordered
+                    dataSource={data}
+                    columns={mergedColumns}
+                    rowClassName="editable-row"
+                    pagination={{
+                        pageSize: 6,
+                        hideOnSinglePage: data.length <= 6,
+                        showSizeChanger: false,
+                    }}
+                    loading={loading}
+                />
+            </Form>
         </St.DivTable>
     );
 };

@@ -75,21 +75,20 @@ const UserTable = () => {
                 params: { page_no: page, limit: 6 },
             })
             .then((res) => {
+                console.log(res)
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);
-                    const formattedData = res.data.data.Data.map(
-                        (item, index) => ({
-                            ...item,
-                            key: item.email,
-                            no: index + 1,
-                        })
-                    );
-                    setData(formattedData);
-                } else {
-                    const formattedData = res.data.data.map((item, index) => ({
+                    const formattedData = res.data.data.Data.map((item) => ({
                         ...item,
                         key: item.email,
-                        no: index + 1,
+                        no: item.id,
+                    }));
+                    setData(formattedData);
+                } else {
+                    const formattedData = res.data.data.map((item) => ({
+                        ...item,
+                        key: item.email,
+                        no: item.id,
                     }));
                     setData(formattedData);
                     setTotal(formattedData.length);

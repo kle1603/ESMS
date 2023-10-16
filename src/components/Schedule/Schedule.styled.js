@@ -1,90 +1,71 @@
-import Theme from "@/Theme";
 import { Calendar } from "react-big-calendar";
 import styled from "styled-components";
 
 export const Calender = styled(Calendar)`
-    .rbc-time-header-cell {
-        .rbc-header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            .rbc-button-link {
-                font-weight: 600;
-                font-size: 1.4rem;
-            }
-        }
+    & .rbc-day-slot .rbc-event,
+    .rbc-day-slot .rbc-background-event {
+        border: transparent;
     }
 
-    .rbc-toolbar button {
-        transition: all 0.3s ease-in-out;
-        border: 1px solid #ccc;
-        overflow: hidden;
-
-        &:hover {
-            color: #fff;
-            background-color: #1677ff;
-        }
-
-        &:focus {
-            color: #fff;
-            background-color: #1677ff;
-        }
+    & .rbc-timeslot-group {
+        min-height: 70px;
     }
 
-    .rbc-toolbar button:active,
-    .rbc-toolbar button.rbc-active {
-        background-image: none;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-        color: #fff;
-        background-color: #1677ff;
+    & .rbc-day-slot .rbc-event {
+        border: 1px solid pink;
     }
 
-    .rbc-row-segment {
-        transition: all 0.3s ease-in-out;
-
-        &:hover {
-            opacity: 0.9;
-        }
-
-        .rbc-event {
-            .title {
-                color: #fff;
-            }
-        }
-    }
-
-    .rbc-agenda-table {
-        color: ${Theme.color.primary_color};
-
+    & .rbc-event {
+        
         .title {
             color: #fff;
         }
     }
 
-    .rbc-events-container {
-        width: 100%;
+    & .rbc-event-label {
+        font-size: 1rem;
+    }
 
-        .rbc-event {
-            transition: all 0.3s ease-in-out;
+    & .rbc-event-label,
+    & .rbc-allday-cell {
+        display: none;
+    }
 
-            &:hover {
-                opacity: 0.9;
-            }
+    & .rbc-timeslot-group {
+        border-bottom-color: #ccc;
+    }
 
-            .title {
-                color: ${Theme.color.primary_color};
-            }
+    /* Custom toolbar */
+    & .rbc-btn-group {
+        background-color: #ddd;
+        padding: 4px;
+        border-radius: 6px;
+
+        & > button[type="button"] {
+            box-shadow: none;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        & > .rbc-active {
+            background-color: #fff;
         }
     }
 
-    .rbc-event:focus,
-    .rbc-day-slot .rbc-background-event:focus {
-        outline: none;
+    & .rbc-toolbar button:active:hover,
+    & .rbc-toolbar button:active:focus,
+    & .rbc-toolbar button.rbc-active:hover,
+    & .rbc-toolbar button.rbc-active:focus,
+    & .rbc-toolbar button:focus {
+        background-color: #fff;
     }
 
-    .rbc-agenda-event-cell {
-        cursor: pointer;
+    & .rbc-toolbar-label {
+    }
+
+    & .rbc-current-time-indicator {
+        background-color: green;
     }
 `;

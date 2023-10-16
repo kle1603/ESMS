@@ -58,9 +58,6 @@ const SubjectTable = () => {
 
     const edit = (record) => {
         form.setFieldsValue({
-            name: "",
-            semester: "",
-            numOfStu: "",
             fe: "",
             pe: "",
             ...record,
@@ -78,9 +75,6 @@ const SubjectTable = () => {
             const newData = [...data];
             const index = newData.findIndex((item) => key === item.key);
 
-            console.log(newData);
-            console.log(row);
-
             if (index > -1) {
                 const item = newData[index];
                 newData.splice(index, 1, { ...item, ...row });
@@ -89,12 +83,11 @@ const SubjectTable = () => {
 
                 instance
                     .put("subjects", {
-                        id: 1,
+                        id: key,
                         pe: row.pe,
                         fe: row.fe,
                     })
-                    .then((res) => {
-                        console.log(res);
+                    .then(() => {
                         toast.success("Successfully updated!");
                         fetchData();
                     })
@@ -128,6 +121,7 @@ const SubjectTable = () => {
                     fe: item.fe,
                     pe: item.pe,
                     key: item.id,
+                    id: item.id,
                 }));
                 setData(formattedData);
             })
@@ -349,8 +343,8 @@ const SubjectTable = () => {
                     columns={mergedColumns}
                     rowClassName="editable-row"
                     pagination={{
-                        pageSize: 7,
-                        hideOnSinglePage: data.length <= 7,
+                        pageSize: 6,
+                        hideOnSinglePage: data.length <= 6,
                         showSizeChanger: false,
                     }}
                     loading={loading}
