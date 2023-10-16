@@ -19,7 +19,6 @@ const Schedule = () => {
     const handleEvent = (event) => {
         setIsModalOpen(true);
         setEvent(event);
-        console.log(event);
     };
 
     const eventPropGetter = ({ start }) => {
@@ -29,7 +28,7 @@ const Schedule = () => {
 
         // Kết hợp style cho sự kiện
         const style = {
-            borderColor: "transparent",
+            borderColor: "1px solid #fff",
             backgroundColor: isPastEvent ? color_past : color_now,
         };
 

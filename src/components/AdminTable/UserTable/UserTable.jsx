@@ -84,7 +84,6 @@ const UserTable = () => {
                             no: index + 1,
                         })
                     );
-                    setLoading(false);
                     setData(formattedData);
                 } else {
                     const formattedData = res.data.data.map((item, index) => ({
@@ -92,13 +91,15 @@ const UserTable = () => {
                         key: item.email,
                         no: index + 1,
                     }));
-                    setLoading(false);
                     setData(formattedData);
                     setTotal(formattedData.length);
                 }
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 

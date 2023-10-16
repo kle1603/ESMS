@@ -349,6 +349,7 @@ const SubjectTable = () => {
                     pagination={{
                         pageSize: 7,
                         hideOnSinglePage: data.length <= 7,
+                        showSizeChanger: false,
                     }}
                     loading={loading}
                 />

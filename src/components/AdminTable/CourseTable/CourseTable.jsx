@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
+import { Toaster } from "react-hot-toast";
+import Search from "antd/es/input/Search";
 
 const CourseTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [search, setSearch] = useState("");
 
     const columns = [
         // Your columns
@@ -117,8 +120,16 @@ const CourseTable = () => {
         setModalVisible(false);
     };
 
+    const handleSearch = (e) => {
+        setSearch(e);
+    };
+
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
+            <St.SpaceStyled>
+                <Search onSearch={handleSearch} />
+            </St.SpaceStyled>
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"

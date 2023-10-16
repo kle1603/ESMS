@@ -3,8 +3,11 @@ import { Form, Input, Modal, Popconfirm, Table, Tag, Typography } from "antd";
 import * as St from "./RoomTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
+import toast, { Toaster } from "react-hot-toast";
+import Search from "antd/es/input/Search";
 
 const RoomTable = () => {
+    const [search, setSearch] = useState("");
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
@@ -24,19 +27,39 @@ const RoomTable = () => {
             dataIndex: "roomNumber",
             key: "roomNumber",
             width: "20%",
+            sorter: (a, b) => a.roomNumber - b.roomNumber,
         },
         {
             title: "Location",
             dataIndex: "location",
             key: "location",
             width: "25%",
+            filters: [
+                {
+                    text: "XAVALO",
+                    value: "XAVALO",
+                },
+                {
+                    text: "NVH",
+                    value: "NVH",
+                },
+            ],
+            onFilter: (value, record) => record.location === value,
         },
         {
             title: "Note",
-            dataIndex: "note",
+            // dataIndex: "note",
             key: "note",
             width: "35%",
-            // render: () => <Tag color="green">{text.toUpperCase()}</Tag>,
+            // render: (record) => <Tag color="green">{text.toUpperCase()}</Tag>,
+            render: (record) => {
+                console.log(record);
+                return record.note.length > 0 ? (
+                    record.note
+                ) : (
+                    <Tag color="green">{text.toUpperCase()}</Tag>
+                );
+            },
         },
         {
             title: "Operation",
@@ -57,15 +80,18 @@ const RoomTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { roomNumber, location } = values;
+                const { roomNumber, location, note } = values;
+                console.log(values);
                 instance
-                    .post("rooms", { roomNum: roomNumber, location })
+                    .post("rooms", { roomNum: roomNumber, location, note })
                     .then(() => {
+                        toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
                         fetchData();
                     })
                     .catch((error) => {
+                        toast.error("Error created!");
                         console.log(error);
                     });
             })
@@ -109,15 +135,25 @@ const RoomTable = () => {
         instance
             .delete("rooms", { data: { roomNum: e } })
             .then(() => {
+                toast.success("Successfully deleted!");
                 fetchData();
             })
             .catch((error) => {
+                toast.error("Error deleted!");
                 console.log(error);
             });
     };
 
+    const handleSearch = (e) => {
+        setSearch(e);
+    };
+
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
+            <St.SpaceStyled>
+                <Search onSearch={handleSearch} />
+            </St.SpaceStyled>
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"
@@ -183,6 +219,7 @@ const RoomTable = () => {
                 pagination={{
                     pageSize: 6,
                     hideOnSinglePage: data.length <= 6,
+                    showSizeChanger: false,
                 }}
             />
         </St.DivTable>
