@@ -115,7 +115,7 @@ const UserTable = () => {
                 fetchData();
             })
             .catch((error) => {
-                toast.error("This is an error!");
+                toast.error("Error deleted!");
                 console.log(error);
             });
     };

@@ -250,11 +250,13 @@ const RoomTable = () => {
                     roomNumber: item.roomNum,
                     key: item.id,
                 }));
-                setLoading(false);
                 setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
