@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import * as St from "./SlotTable.styled";
 import instance from "@/utils/instance";
+import toast from "react-hot-toast";
 
 const SlotTable = () => {
     const [form] = Form.useForm();
@@ -57,7 +58,6 @@ const SlotTable = () => {
                     startTime: item.startTime.slice(0, 5),
                     endTime: item.endTime.slice(0, 5),
                 }));
-                setLoading(false);
                 setData(formattedData);
             })
             .catch((error) => {
@@ -74,9 +74,11 @@ const SlotTable = () => {
         instance
             .delete("timeSlots", { data: { id: e } })
             .then(() => {
+                toast.success("Successfully deleted!");
                 fetchData();
             })
             .catch((error) => {
+                toast.error("Error deleted!");
                 console.log(error);
             });
     };
@@ -88,12 +90,14 @@ const SlotTable = () => {
                 instance
                     .post("timeSlots", { startTime, endTime })
                     .then(() => {
+                        toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
                         fetchData();
                     })
                     .catch((error) => {
                         console.log(error);
+                        toast.error("Error created!");
                     });
             })
             .catch((info) => {

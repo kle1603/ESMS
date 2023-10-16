@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
 
 const CourseTable = () => {
@@ -67,11 +67,13 @@ const CourseTable = () => {
                     numOfStudents: item.numOfStu,
                     key: item.courseId,
                 }));
-                setLoading(false);
                 setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
@@ -84,10 +86,12 @@ const CourseTable = () => {
             .delete("courses", { data: { id: e } })
             .then((res) => {
                 console.log(res);
+                toast.success("Successfully deleted!");
                 fetchData();
             })
             .catch((error) => {
                 console.log(error);
+                toast.error("Error deleted!");
             });
     };
 
@@ -98,12 +102,14 @@ const CourseTable = () => {
                 instance
                     .post("courses", { startTime, endTime })
                     .then(() => {
+                        toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
                         fetchData();
                     })
                     .catch((error) => {
                         console.log(error);
+                        toast.error("Error created!");
                     });
             })
             .catch((info) => {
