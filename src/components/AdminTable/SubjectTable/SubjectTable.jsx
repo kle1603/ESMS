@@ -12,6 +12,7 @@ import {
 import * as St from "./SubjectTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
+import toast, { Toaster } from "react-hot-toast";
 
 const EditableCell = ({
     editing,
@@ -77,11 +78,30 @@ const SubjectTable = () => {
             const newData = [...data];
             const index = newData.findIndex((item) => key === item.key);
 
+            console.log(newData);
+            console.log(row);
+
             if (index > -1) {
                 const item = newData[index];
                 newData.splice(index, 1, { ...item, ...row });
                 setData(newData);
                 setEditingKey("");
+
+                instance
+                    .put("subjects", {
+                        id: 1,
+                        pe: row.pe,
+                        fe: row.fe,
+                    })
+                    .then((res) => {
+                        console.log(res);
+                        toast.success("Successfully updated!");
+                        fetchData();
+                    })
+                    .catch((error) => {
+                        toast.error("This is an error!");
+                        console.log(error);
+                    });
             } else {
                 newData.push(row);
                 setData(newData);
@@ -98,17 +118,16 @@ const SubjectTable = () => {
 
     const fetchData = () => {
         instance
-            .get("courses")
+            .get("subjects")
             .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data.map((item) => ({
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
-                    no: item.courseId,
-                    semester: item.semester,
-                    name: item.subName,
+                    no: index + 1,
+                    semester: item.semesterNo,
+                    name: item.name,
                     fe: item.fe,
                     pe: item.pe,
-                    key: item.courseId,
+                    key: item.id,
                 }));
                 setLoading(false);
                 setData(formattedData);
@@ -124,11 +143,13 @@ const SubjectTable = () => {
 
     const handleDelete = (e) => {
         instance
-            .delete("courses", { data: { id: e } })
+            .delete("subjects", { data: { id: e } })
             .then(() => {
+                toast.success("Successfully deleted!");
                 fetchData();
             })
             .catch((error) => {
+                toast.error("This is an error!");
                 console.log(error);
             });
     };
@@ -138,13 +159,15 @@ const SubjectTable = () => {
             .then((values) => {
                 const { startTime, endTime } = values;
                 instance
-                    .post("courses", { startTime, endTime })
+                    .post("subjects", { startTime, endTime })
                     .then(() => {
+                        toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
                         fetchData();
                     })
                     .catch((error) => {
+                        toast.error("This is an error!");
                         console.log(error);
                     });
             })
@@ -163,19 +186,16 @@ const SubjectTable = () => {
             title: "No",
             dataIndex: "no",
             width: "10%",
-            editable: true,
         },
         {
             title: "Semester",
             dataIndex: "semester",
             width: "15%",
-            editable: true,
         },
         {
             title: "Name",
             dataIndex: "name",
             width: "30%",
-            editable: true,
         },
         {
             title: "FE",
@@ -251,6 +271,7 @@ const SubjectTable = () => {
 
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"

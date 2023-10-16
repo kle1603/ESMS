@@ -61,6 +61,7 @@ const CourseTable = () => {
                     no: item.courseId,
                     subjectCode: item.subCode,
                     subjectName: item.subName,
+                    numOfStudents: item.numOfStu,
                     key: item.courseId,
                 }));
                 setLoading(false);

@@ -1,17 +1,51 @@
 // import PropTypes from "prop-types";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { myEventsList } from "./ScheduleEvents";
 import Event from "./Event";
+import * as St from "./Schedule.styled";
+import Theme from "@/Theme";
+import { useState } from "react";
+import ModalSchedule from "./ModalSchedule";
 
 const localizer = momentLocalizer(moment);
 
 const Schedule = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [event, setEvent] = useState({});
+
+    const handleEvent = (event) => {
+        setIsModalOpen(true);
+        setEvent(event);
+        console.log(event);
+    };
+
+    const eventPropGetter = ({ start }) => {
+        const isPastEvent = start < new Date(); // Kiểm tra nếu start là quá khứ
+        let color_now = Theme.color.primary_color_background;
+        let color_past = Theme.color.third_color;
+
+        // Kết hợp style cho sự kiện
+        const style = {
+            borderColor: "transparent",
+            backgroundColor: isPastEvent ? color_past : color_now,
+        };
+
+        return {
+            style,
+        };
+    };
+
     return (
         <div>
-            <Calendar
+            <ModalSchedule
+                event={event}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+            />
+            <St.Calender
                 components={{
                     header: ({ date }) => moment(date).format("ddd (DD/MM)"),
                     event: Event,
@@ -24,6 +58,8 @@ const Schedule = () => {
                 style={{ height: 578 }}
                 min={new Date(0, 0, 0, 7, 0, 0)}
                 max={new Date(0, 0, 0, 18, 0, 0)}
+                eventPropGetter={eventPropGetter}
+                onSelectEvent={handleEvent}
                 popup
             />
         </div>
