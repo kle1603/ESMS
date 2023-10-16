@@ -36,24 +36,24 @@ const items = [
         type: "group",
         children: [
             {
-                label: "Semester",
-                key: configs.routes.adminSemesters,
-                icon: <CalendarOutlined />,
-            },
-            {
                 label: "Slot",
                 key: configs.routes.adminSlots,
                 icon: <EditOutlined />,
             },
             {
-                label: "Subject",
-                key: configs.routes.adminSubjects,
-                icon: <BookOutlined />,
-            },
-            {
                 label: "Course",
                 key: configs.routes.adminCourses,
                 icon: <ProfileOutlined />,
+            },
+            {
+                label: "Semester",
+                key: configs.routes.adminSemesters,
+                icon: <CalendarOutlined />,
+            },
+            {
+                label: "Subject",
+                key: configs.routes.adminSubjects,
+                icon: <BookOutlined />,
             },
             {
                 label: "Room",

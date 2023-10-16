@@ -19,7 +19,7 @@ const items = [
         type: "divider",
     },
     {
-        label: "Exam Phase",
+        label: "Exam Schedule",
         key: "title3",
         icon: null,
         type: "group",
@@ -30,12 +30,12 @@ const items = [
                 icon: <EditOutlined />,
             },
             {
-                label: "Cancel Register",
+                label: "Change",
                 key: configs.routes.lecturerCancelRegister,
                 icon: <EditOutlined />,
             },
             {
-                label: "Exam Schedule",
+                label: "View",
                 key: configs.routes.lecturerSchedule,
                 icon: <EditOutlined />,
             },

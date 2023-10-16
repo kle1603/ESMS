@@ -1,13 +1,5 @@
 // import PropTypes from "prop-types";
-import {
-    Form,
-    Input,
-    InputNumber,
-    Modal,
-    Popconfirm,
-    Table,
-    Typography,
-} from "antd";
+import { Form, Input, InputNumber, Modal, Popconfirm, Typography } from "antd";
 
 import * as St from "./SubjectTable.styled";
 import { useEffect, useState } from "react";
@@ -332,12 +324,13 @@ const SubjectTable = () => {
                 </Form>
             </Modal>
             <Form form={form} component={false}>
-                <Table
+                <St.StyledTable
                     components={{
                         body: {
                             cell: EditableCell,
                         },
                     }}
+                    scroll={{ x: true }}
                     bordered
                     dataSource={data}
                     columns={mergedColumns}

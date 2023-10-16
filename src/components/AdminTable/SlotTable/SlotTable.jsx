@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./SlotTable.styled";
@@ -59,6 +59,7 @@ const SlotTable = () => {
                     endTime: item.endTime.slice(0, 5),
                 }));
                 setData(formattedData);
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -164,7 +165,7 @@ const SlotTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table
+            <St.StyledTable
                 columns={columns}
                 dataSource={data}
                 bordered

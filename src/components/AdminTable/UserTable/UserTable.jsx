@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Table, Tag, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
 import * as St from "./UserTable.styled";
 
 import { useEffect, useState } from "react";
@@ -72,10 +72,10 @@ const UserTable = () => {
         setLoading(true);
         instance
             .get(`users/${search}`, {
-                params: { page_no: page, limit: 6 },
+                params: { page_no: page, limit: 5 },
             })
             .then((res) => {
-                console.log(res)
+                console.log(res);
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);
                     const formattedData = res.data.data.Data.map((item) => ({
@@ -219,14 +219,14 @@ const UserTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table
+            <St.StyledTable
                 columns={columns}
                 dataSource={data}
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 10,
+                    pageSize: 5,
+                    hideOnSinglePage: data.length <= 5,
                     showSizeChanger: false,
                     total: total,
                     showQuickJumper: true,

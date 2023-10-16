@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./SemesterTable.styled";
@@ -158,7 +158,7 @@ const SemesterTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table
+            <St.StyledTable
                 columns={columns}
                 dataSource={data}
                 bordered

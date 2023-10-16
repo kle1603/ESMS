@@ -1,12 +1,4 @@
-import {
-    Form,
-    Input,
-    InputNumber,
-    Modal,
-    Popconfirm,
-    Table,
-    Typography,
-} from "antd";
+import { Form, Input, InputNumber, Modal, Popconfirm, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./CourseTable.styled";
@@ -320,7 +312,7 @@ const CourseTable = () => {
                 </Form>
             </Modal>
             <Form form={form} component={false}>
-                <Table
+                <St.StyledTable
                     components={{
                         body: {
                             cell: EditableCell,

@@ -10,8 +10,8 @@ export const myEventsList = [
     {
         id: 2,
         title: "Hello",
-        start: new Date(2023, 9, 8, 16, 0),
-        end: new Date(2023, 9, 8, 18, 0),
+        start: new Date(2023, 9, 17, 15, 0),
+        end: new Date(2023, 9, 17, 16, 0),
         staff: "Kle",
         phone: "0866 123 456",
     },
@@ -58,8 +58,8 @@ export const myEventsList = [
     {
         id: 8,
         title: "Hello",
-        start: new Date(2023, 9, 12, 12, 0),
-        end: new Date(2023, 9, 12, 14, 0),
+        start: new Date(2023, 9, 12, 11, 0),
+        end: new Date(2023, 9, 12, 12, 0),
         staff: "Kle",
         phone: "0866 123 456",
     },
