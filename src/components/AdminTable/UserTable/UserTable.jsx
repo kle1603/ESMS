@@ -110,11 +110,12 @@ const UserTable = () => {
         setLoading(true);
         instance
             .delete("users", { data: { email: e } })
-            .then((res) => {
-                console.log(res);
+            .then(() => {
+                toast.success("Successfully deleted!");
                 fetchData();
             })
             .catch((error) => {
+                toast.error("This is an error!");
                 console.log(error);
             });
     };
@@ -160,7 +161,7 @@ const UserTable = () => {
 
     return (
         <St.DivTable>
-            <Toaster />
+            <Toaster position="top-right" reverseOrder={false} />
             <St.SpaceStyled>
                 <Search onSearch={handleSearch} />
             </St.SpaceStyled>

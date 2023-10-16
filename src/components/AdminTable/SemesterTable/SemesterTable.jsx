@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import * as St from "./SemesterTable.styled";
 import instance from "@/utils/instance";
+import toast, { Toaster } from "react-hot-toast";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
@@ -69,12 +70,15 @@ const SemesterTable = () => {
     }, []);
 
     const handleDelete = (e) => {
+        console.log(e);
         instance
-            .delete("semester", { data: { id: e } })
+            .delete("semesters", { data: { id: e } })
             .then(() => {
+                toast.success("Successfully deleted!");
                 fetchData();
             })
             .catch((error) => {
+                toast.error("This is an error!");
                 console.log(error);
             });
     };
@@ -87,11 +91,13 @@ const SemesterTable = () => {
                 instance
                     .post("semesters", { season, year })
                     .then(() => {
+                        toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
                         fetchData();
                     })
                     .catch((error) => {
+                        toast.error("This is an error!");
                         console.log(error);
                     });
             })
@@ -111,6 +117,7 @@ const SemesterTable = () => {
 
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"
