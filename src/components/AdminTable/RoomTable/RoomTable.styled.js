@@ -1,4 +1,4 @@
-import { Button, Space } from "antd";
+import { Button, Space, Tag } from "antd";
 import styled from "styled-components";
 
 export const DivTable = styled.div`
@@ -23,4 +23,8 @@ export const SpaceStyled = styled(Space)`
     .ant-space-item {
         width: 100%;
     }
+`;
+
+export const TagStyled = styled(Tag)`
+    max-width: 200px;
 `;

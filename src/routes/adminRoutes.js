@@ -13,11 +13,12 @@ import StaffLayout from "@/layouts/StaffLayout";
 import StaffExamPhase from "@/pages/StaffExamPhase";
 import LecturerLayout from "@/layouts/LecturerLayout";
 import LecturerDashboard from "@/pages/LecturerDashboard";
-import LecturerExamPhase from "@/pages/LecturerExamPhase";
 import StaffExamRoom from "@/pages/StaffExamRoom";
 import AdminCourses from "@/pages/AdminCourses";
 import AdminRoom from "@/pages/AdminRoom";
 import LecturerSchedule from "@/pages/LecturerSchedule";
+import LecturerRegister from "@/pages/LecturerRegister";
+import LecturerCancelRegister from "@/pages/LecturerCancelRegister";
 
 const adminRoutes = [
     {
@@ -94,8 +95,14 @@ const adminRoutes = [
     },
     {
         id: 13,
-        path: configs.routes.lecturerExamPhase,
-        component: LecturerExamPhase,
+        path: configs.routes.lecturerRegister,
+        component: LecturerRegister,
+        layout: LecturerLayout,
+    },
+    {
+        id: 14,
+        path: configs.routes.lecturerCancelRegister,
+        component: LecturerCancelRegister,
         layout: LecturerLayout,
     },
     {

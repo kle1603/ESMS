@@ -1,7 +1,8 @@
 // import PropTypes from "prop-types";
 
 import ExamTable from "@/components/LecturerTable/ExamTable";
-import * as St from "./LecturerExamPhase.styled";
+import * as St from "./LecturerRegister.styled";
+import instance from "@/utils/instance";
 
 const items = [
     {
@@ -103,6 +104,15 @@ const items = [
 ];
 
 const LecturerExamPhase = () => {
+    instance
+        .get("examPhases/notScheduled")
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
     return (
         <div>
             <St.StyledTabs

@@ -24,11 +24,10 @@ const Schedule = () => {
     const eventPropGetter = ({ start }) => {
         const isPastEvent = start < new Date(); // Kiểm tra nếu start là quá khứ
         let color_now = Theme.color.primary_color_background;
-        let color_past = Theme.color.third_color;
+        let color_past = "#ccc";
 
         // Kết hợp style cho sự kiện
         const style = {
-            borderColor: "1px solid #fff",
             backgroundColor: isPastEvent ? color_past : color_now,
         };
 
@@ -60,6 +59,8 @@ const Schedule = () => {
                 eventPropGetter={eventPropGetter}
                 onSelectEvent={handleEvent}
                 popup
+                defaultView="week"
+                views={["week", "day"]}
             />
         </div>
     );

@@ -25,8 +25,13 @@ const items = [
         type: "group",
         children: [
             {
-                label: "Exam Phase",
-                key: configs.routes.lecturerExamPhase,
+                label: "Register",
+                key: configs.routes.lecturerRegister,
+                icon: <EditOutlined />,
+            },
+            {
+                label: "Cancel Register",
+                key: configs.routes.lecturerCancelRegister,
                 icon: <EditOutlined />,
             },
             {

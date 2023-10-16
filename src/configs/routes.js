@@ -13,7 +13,8 @@ const routes = {
     staffExamPhase: "/staff/exam-phase",
     staffExamRoom: "/staff/exam-room",
     lecturer: "/lecturer",
-    lecturerExamPhase: "/lecturer/exam-phase",
+    lecturerRegister: "/lecturer/register",
+    lecturerCancelRegister: "/lecturer/cancel-register",
     lecturerSchedule: "/lecturer/schedule",
 };
 
