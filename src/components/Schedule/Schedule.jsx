@@ -8,7 +8,7 @@ import Event from "./Event";
 import * as St from "./Schedule.styled";
 import Theme from "@/Theme";
 import { useState } from "react";
-// import ModalSchedule from "./ModalSchedule";
+import ModalSchedule from "./ModalSchedule";
 
 const localizer = momentLocalizer(moment);
 
@@ -40,6 +40,11 @@ const Schedule = () => {
 
     return (
         <div>
+            <ModalSchedule
+                event={event}
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+            />
             <St.Calender
                 components={{
                     header: ({ date }) => moment(date).format("ddd (DD/MM)"),
