@@ -26,8 +26,8 @@ const Schedule = () => {
 
     const eventPropGetter = ({ start }) => {
         const isPastEvent = start < new Date(); // Kiểm tra nếu start là quá khứ
-        let color_now = Theme.color.primary_color_background;
-        let color_past = "#ccc";
+        let color_now = Theme.color.main_color;
+        let color_past = "#386a20";
 
         // Kết hợp style cho sự kiện
         const style = {
