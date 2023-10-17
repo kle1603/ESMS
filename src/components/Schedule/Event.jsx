@@ -5,7 +5,8 @@ import { Typography } from "antd";
 const Event = ({ event }) => {
     return (
         <div>
-            <Typography className="title">Hi: {event.title}</Typography>
+            <Typography className="title">Subject: {event.title}</Typography>
+            <Typography className="title">Status: {event.status}</Typography>
         </div>
     );
 };

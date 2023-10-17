@@ -1,17 +1,68 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
+
+import { Dropdown, Popconfirm, Table, Typography } from "antd";
+import { useState } from "react";
+
 import * as St from "./CancelRegisterTable.styled";
-import { useEffect, useState } from "react";
-import instance from "@/utils/instance";
-import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
 
 const CancelRegisterTable = () => {
-    const [search, setSearch] = useState("");
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [form] = Form.useForm();
-    const [modalVisible, setModalVisible] = useState(false);
+    const [data, setData] = useState([
+        {
+            key: 1,
+            no: 1,
+            day: "17/10/2023",
+            startTime: "12:00",
+            endTime: "14:00",
+        },
+        {
+            key: 2,
+            no: 2,
+            day: "18/10/2023",
+            startTime: "8:00",
+            endTime: "10:00",
+        },
+        {
+            key: 3,
+            no: 3,
+            day: "18/10/2023",
+            startTime: "12:00",
+            endTime: "14:00",
+        },
+        {
+            key: 4,
+            no: 4,
+            day: "18/10/2023",
+            startTime: "15:00",
+            endTime: "17:00",
+        },
+    ]);
+    const [label, setLabel] = useState("Fall 2023");
+
+    const handleClick = (e) => {
+        const value = e.target.innerText;
+        console.log(value);
+        setLabel(value);
+    };
+
+    const items = [
+        {
+            key: "1",
+            label: <Typography onClick={handleClick}>Fall 2022</Typography>,
+        },
+        {
+            key: "2",
+            label: <Typography onClick={handleClick}>Spring 2023</Typography>,
+        },
+        {
+            key: "3",
+            label: <Typography onClick={handleClick}>Summer 2023</Typography>,
+        },
+        {
+            key: "4",
+            label: <Typography onClick={handleClick}>Fall 2023</Typography>,
+        },
+    ];
 
     const columns = [
         {
@@ -21,25 +72,31 @@ const CancelRegisterTable = () => {
             width: "10%",
         },
         {
-            title: "Room Number",
-            dataIndex: "roomNumber",
-            key: "roomNumber",
+            title: "Day",
+            dataIndex: "day",
+            key: "day",
+            width: "25%",
+        },
+        {
+            title: "Start Time",
+            dataIndex: "startTime",
+            key: "startTime",
             width: "20%",
         },
         {
-            title: "Location",
-            dataIndex: "location",
-            key: "location",
-            width: "25%",
+            title: "End Time",
+            dataIndex: "endTime",
+            key: "endTime",
+            width: "20%",
         },
         {
             title: "Operation",
             dataIndex: "operation",
-            width: "20%",
+            width: "25%",
             render: (_, record) =>
                 data.length >= 1 ? (
                     <Popconfirm
-                        title="Sure to delete?"
+                        title="Sure to register?"
                         onConfirm={() => handleDelete(record.key)}
                     >
                         <Typography.Link>Delete</Typography.Link>
@@ -48,145 +105,30 @@ const CancelRegisterTable = () => {
         },
     ];
 
-    const handleOk = () => {
-        form.validateFields()
-            .then((values) => {
-                const { roomNumber, location, note } = values;
-                console.log(values);
-                instance
-                    .post("rooms", { roomNum: roomNumber, location, note })
-                    .then(() => {
-                        toast.success("Successfully created!");
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        toast.error("Error created!");
-                        console.log(error);
-                    });
-            })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
-            });
-    };
-
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
-
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
-
-    const fetchData = () => {
-        instance
-            .get("rooms")
-            .then((res) => {
-                const formattedData = res.data.data.map((item) => ({
-                    ...item,
-                    no: item.id,
-                    roomNumber: item.roomNum,
-                    key: item.roomNum,
-                }));
-                setLoading(false);
-                setData(formattedData);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const handleDelete = (e) => {
-        instance
-            .delete("rooms", { data: { roomNum: e } })
-            .then(() => {
-                toast.success("Successfully deleted!");
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("Error deleted!");
-                console.log(error);
-            });
-    };
-
-    const handleSearch = (e) => {
-        setSearch(e);
-    };
-
     return (
         <St.DivTable>
-            <Toaster position="top-right" reverseOrder={false} />
             <St.SpaceStyled>
-                <Search onSearch={handleSearch} />
+                <Search />
             </St.SpaceStyled>
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
+            <St.TagStyled color="geekblue">
+                <Typography className="label">{label}</Typography>
+            </St.TagStyled>
+            <Dropdown
+                menu={{
+                    items,
+                }}
+                placement="bottom"
             >
-                Add a row
-            </St.ButtonTable>
-            <Modal
-                title="Add a row"
-                open={modalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <Form form={form} name="add_row_form">
-                    <Form.Item
-                        name="roomNumber"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input a room number!",
-                            },
-                            {
-                                pattern: /^[0-9]+$/,
-                                message: "Invalid room number!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Room Number" />
-                    </Form.Item>
-                    <Form.Item
-                        name="location"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input a location!",
-                            },
-                            {
-                                pattern: /^(NVH|XAVALO)$/,
-                                message: "Invalid location!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Location" />
-                    </Form.Item>
-                    <Form.Item
-                        name="note"
-                        rules={[
-                            {
-                                required: false,
-                                message: "Please input a note!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Note" />
-                    </Form.Item>
-                </Form>
-            </Modal>
+                <St.ButtonTable type="primary" style={{ marginBottom: 16 }}>
+                    Semesters
+                </St.ButtonTable>
+            </Dropdown>
             <Table
+                scroll={{ x: true }}
                 columns={columns}
                 dataSource={data}
                 bordered
-                loading={loading}
+                loading={false}
                 pagination={{
                     pageSize: 6,
                     hideOnSinglePage: data.length <= 6,

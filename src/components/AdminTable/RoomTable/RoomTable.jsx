@@ -96,9 +96,16 @@ const RoomTable = () => {
             editable: true,
             render: (text) => {
                 return text.length > 0 ? (
-                    <St.TagStyled color="red">
-                        {text.toUpperCase()}
-                    </St.TagStyled>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <St.TagStyled color="red">
+                            {text.toUpperCase()}
+                        </St.TagStyled>
+                    </div>
                 ) : (
                     <Tag color="green">
                         {"khong co note gi ca".toUpperCase()}
@@ -194,9 +201,6 @@ const RoomTable = () => {
                 newData.splice(index, 1, { ...item, ...row });
                 setData(newData);
                 setEditingKey("");
-
-                console.log(row);
-                console.log(key);
 
                 instance
                     .put("rooms", {

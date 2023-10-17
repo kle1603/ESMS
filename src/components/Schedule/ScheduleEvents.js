@@ -1,35 +1,39 @@
 export const myEventsList = [
     {
         id: 1,
-        title: "Hello",
-        start: new Date(2023, 9, 8, 7, 30),
-        end: new Date(2023, 9, 8, 9, 0),
+        title: "SWP",
+        start: new Date(2023, 9, 18, 7, 0),
+        end: new Date(2023, 9, 18, 9, 30),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "On going",
     },
     {
         id: 2,
-        title: "Hello",
-        start: new Date(2023, 9, 17, 15, 0),
-        end: new Date(2023, 9, 17, 16, 0),
+        title: "SWT",
+        start: new Date(2023, 9, 18, 15, 0),
+        end: new Date(2023, 9, 18, 16, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "On going",
     },
     {
         id: 3,
-        title: "Hello",
-        start: new Date(2023, 9, 9, 7, 0),
-        end: new Date(2023, 9, 9, 10, 0),
+        title: "SWR",
+        start: new Date(2023, 9, 18, 10, 0),
+        end: new Date(2023, 9, 18, 12, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "On going",
     },
     {
         id: 4,
-        title: "Hello",
+        title: "FER",
         start: new Date(2023, 9, 9, 14, 0),
         end: new Date(2023, 9, 9, 15, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "Done",
     },
     {
         id: 5,
@@ -38,6 +42,7 @@ export const myEventsList = [
         end: new Date(2023, 9, 10, 13, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "Done",
     },
     {
         id: 6,
@@ -46,6 +51,7 @@ export const myEventsList = [
         end: new Date(2023, 9, 11, 11, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "Done",
     },
     {
         id: 7,
@@ -54,6 +60,7 @@ export const myEventsList = [
         end: new Date(2023, 9, 12, 9, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "Done",
     },
     {
         id: 8,
@@ -62,6 +69,7 @@ export const myEventsList = [
         end: new Date(2023, 9, 12, 12, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "Done",
     },
     {
         id: 9,
@@ -70,6 +78,7 @@ export const myEventsList = [
         end: new Date(2023, 9, 12, 15, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "Done",
     },
     {
         id: 10,
@@ -78,5 +87,6 @@ export const myEventsList = [
         end: new Date(2023, 9, 16, 18, 0),
         staff: "Kle",
         phone: "0866 123 456",
+        status: "Done",
     },
 ];
