@@ -1,5 +1,13 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Table, Tag, Typography } from "antd";
+import {
+    Form,
+    Input,
+    InputNumber,
+    Modal,
+    Popconfirm,
+    Tag,
+    Typography,
+} from "antd";
 import * as St from "./RoomTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
@@ -59,6 +67,7 @@ const RoomTable = () => {
             dataIndex: "roomNumber",
             key: "roomNumber",
             width: "20%",
+            editable: true,
             sorter: (a, b) => a.roomNumber - b.roomNumber,
         },
         {
@@ -66,6 +75,7 @@ const RoomTable = () => {
             dataIndex: "location",
             key: "location",
             width: "25%",
+            editable: true,
             filters: [
                 {
                     text: "XAVALO",
@@ -86,9 +96,16 @@ const RoomTable = () => {
             editable: true,
             render: (text) => {
                 return text.length > 0 ? (
-                    <St.TagStyled color="red">
-                        {text.toUpperCase()}
-                    </St.TagStyled>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <St.TagStyled color="red">
+                            {text.toUpperCase()}
+                        </St.TagStyled>
+                    </div>
                 ) : (
                     <Tag color="green">
                         {"khong co note gi ca".toUpperCase()}
@@ -162,6 +179,8 @@ const RoomTable = () => {
     const edit = (record) => {
         form.setFieldsValue({
             note: "",
+            location: "",
+            roomNumber: "",
             ...record,
         });
         setEditingKey(record.key);
@@ -183,13 +202,12 @@ const RoomTable = () => {
                 setData(newData);
                 setEditingKey("");
 
-                console.log(row);
-                console.log(key);
-
                 instance
                     .put("rooms", {
                         id: key,
                         note: row.note,
+                        roomNum: row.roomNumber,
+                        location: row.location,
                     })
                     .then(() => {
                         toast.success("Successfully updated!");
@@ -345,7 +363,7 @@ const RoomTable = () => {
                 </Form>
             </Modal>
             <Form form={form} component={false}>
-                <Table
+                <St.StyledTable
                     components={{
                         body: {
                             cell: EditableCell,

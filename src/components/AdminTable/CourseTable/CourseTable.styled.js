@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Space } from "antd";
+import { Button, Space, Table } from "antd";
 
 export const DivTable = styled.div`
     margin-top: 20px;
@@ -22,5 +22,11 @@ export const SpaceStyled = styled(Space)`
 
     .ant-space-item {
         width: 100%;
+    }
+`;
+
+export const StyledTable = styled(Table)`
+    .ant-table-cell {
+        height: 65px;
     }
 `;

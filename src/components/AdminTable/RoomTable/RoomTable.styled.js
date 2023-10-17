@@ -1,4 +1,4 @@
-import { Button, Space, Tag } from "antd";
+import { Button, Space, Table, Tag } from "antd";
 import styled from "styled-components";
 
 export const DivTable = styled.div`
@@ -28,6 +28,12 @@ export const SpaceStyled = styled(Space)`
 export const TagStyled = styled(Tag)`
     max-width: 300px;
     overflow: hidden;
-    white-space: nowrap; 
+    white-space: nowrap;
     text-overflow: ellipsis;
+`;
+
+export const StyledTable = styled(Table)`
+    .ant-table-cell {
+        height: 65px;
+    }
 `;

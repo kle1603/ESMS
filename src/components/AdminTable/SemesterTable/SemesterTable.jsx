@@ -1,4 +1,4 @@
-import { Form, Input, Modal, Popconfirm, Table, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./SemesterTable.styled";
@@ -16,34 +16,79 @@ const SemesterTable = () => {
         {
             title: "No",
             dataIndex: "no",
-            width: "25%",
+            width: "10%",
+            editable: true,
+        },
+        {
+            title: "Time",
+            dataIndex: "time",
+            width: "20%",
             editable: true,
         },
         {
             title: "Season",
             dataIndex: "season",
-            width: "25%",
+            width: "20%",
             editable: true,
         },
         {
             title: "Year",
             dataIndex: "year",
-            width: "25%",
+            // key: "year",
+            width: "15%",
             editable: true,
         },
+        {
+            title: "Status",
+            dataIndex: "status",
+            width: "20%",
+            render: (text, record) => {
+                const currentYear = new Date().getFullYear();
+                const year = record.year;
 
+                if (year === currentYear) {
+                    return <Tag color="green">On Going</Tag>;
+                } else if (year < currentYear) {
+                    return <Tag color="red">Past</Tag>;
+                } else {
+                    return "Upcoming";
+                }
+            },
+        },
         {
             title: "Operation",
             dataIndex: "operation",
-            render: (_, record) =>
-                data.length >= 1 ? (
+            width: "15%",
+            render: (_, record) => {
+                const currentYear = new Date().getFullYear();
+                const year = record.year;
+                const status =
+                    year === currentYear
+                        ? "On Going"
+                        : year < currentYear
+                        ? "Past"
+                        : "Upcoming";
+
+                if (status === "Past") {
+                    return (
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => handleDelete(record.key)}
+                        >
+                            <Typography.Link>Can not delete</Typography.Link>
+                        </Popconfirm>
+                    );
+                }
+
+                return (
                     <Popconfirm
                         title="Sure to delete?"
                         onConfirm={() => handleDelete(record.key)}
                     >
                         <Typography.Link>Delete</Typography.Link>
                     </Popconfirm>
-                ) : null,
+                );
+            },
         },
     ];
 
@@ -158,7 +203,7 @@ const SemesterTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table
+            <St.StyledTable
                 columns={columns}
                 dataSource={data}
                 bordered

@@ -16,9 +16,16 @@ export const Calender = styled(Calendar)`
     }
 
     & .rbc-event {
-        
+        margin-left: 6px;
+
         .title {
             color: #fff;
+        }
+
+        .rbc-event-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 

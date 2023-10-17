@@ -11,10 +11,13 @@ import { useState } from "react";
 import ModalSchedule from "./ModalSchedule";
 
 const localizer = momentLocalizer(moment);
+// localizer.formats.timeGutterFormat = "H:mm";
 
 const Schedule = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [event, setEvent] = useState({});
+    const start = new Date(0, 0, 0, 7, 0, 0);
+    const end = new Date(0, 0, 0, 19, 0, 0);
 
     const handleEvent = (event) => {
         setIsModalOpen(true);
@@ -54,8 +57,8 @@ const Schedule = () => {
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 578 }}
-                min={new Date(0, 0, 0, 7, 0, 0)}
-                max={new Date(0, 0, 0, 18, 0, 0)}
+                min={start}
+                max={end}
                 eventPropGetter={eventPropGetter}
                 onSelectEvent={handleEvent}
                 popup
