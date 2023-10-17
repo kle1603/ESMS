@@ -52,7 +52,8 @@ export const SideDiv = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    border: 1px solid black;
+    border-radius: 12px;
+    border: 3px solid #f5f5f5;
 
     .sidebar__image {
         margin-right: 14px;

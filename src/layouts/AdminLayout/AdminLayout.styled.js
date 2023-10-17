@@ -47,7 +47,8 @@ export const StyleSider = styled(Sider)`
 `;
 
 export const SideDiv = styled.div`
-    margin: 12px 15px;
+    /* margin: 12px 15px; */
+    margin: 9px;
     display: flex;
     align-items: center;
     justify-content: center;
