@@ -25,7 +25,7 @@ const PageNotFound = () => {
                     <Typography className="title">404</Typography>
                     <Typography className="desc">PAGE NOT FOUND!</Typography>
                     <Typography className="sub-desc">
-                        Sorry! We can't find the page you are looking for.
+                        Sorry! We can not find the page you are looking for.
                     </Typography>
                     <Button className="button">
                         <Typography className="button-title">

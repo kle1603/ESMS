@@ -96,6 +96,7 @@ export const DivStyled = styled.div`
         position: absolute;
         top: 3%;
         left: 2%;
+        
         border-radius: 12px;
         border: 3px solid #00a992;
         display: flex;
@@ -107,6 +108,7 @@ export const DivStyled = styled.div`
             width: 40px;
             height: 40px;
             overflow: hidden;
+
 
             .logo-img {
                 width: 100%;

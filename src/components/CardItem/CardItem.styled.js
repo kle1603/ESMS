@@ -1,14 +1,15 @@
+import Theme from "@/Theme";
 import { Card } from "antd";
 import styled from "styled-components";
 
 export const CardStyled = styled(Card)`
     height: 150px;
-    background-color: #685cff;
+    background-color: ${Theme.color.main_color};
     transition: all 0.3s ease-in-out;
 
     &:hover {
         transform: translateY(-6px);
-        background-color: #5244ff;
+        background-color: #00B0FF;
     }
 
     .ant-card-body {
