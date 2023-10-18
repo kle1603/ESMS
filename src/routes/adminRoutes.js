@@ -19,6 +19,7 @@ import AdminRoom from "@/pages/AdminRoom";
 import LecturerSchedule from "@/pages/LecturerSchedule";
 import LecturerRegister from "@/pages/LecturerRegister";
 import LecturerCancelRegister from "@/pages/LecturerCancelRegister";
+import PageNotFound from "@/pages/PageNotFound";
 
 const adminRoutes = [
     {
@@ -110,6 +111,12 @@ const adminRoutes = [
         path: configs.routes.lecturerSchedule,
         component: LecturerSchedule,
         layout: LecturerLayout,
+    },
+    {
+        id: 16,
+        path: configs.routes.pageNotFound,
+        component: PageNotFound,
+        layout: null,
     },
 ];
 
