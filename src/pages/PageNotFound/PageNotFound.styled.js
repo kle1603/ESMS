@@ -93,6 +93,7 @@ export const DivStyled = styled.div`
     }
 
     .logo {
+        padding: 10px 14px;
         position: absolute;
         top: 3%;
         left: 2%;
@@ -102,8 +103,11 @@ export const DivStyled = styled.div`
         justify-content: center;
         align-items: center;
 
+        z-index: 100;
+        cursor: pointer;
+
         .image {
-            margin: 6px 10px 6px 14px;
+            margin-right: 12px;
             width: 40px;
             height: 40px;
             overflow: hidden;
@@ -117,7 +121,6 @@ export const DivStyled = styled.div`
         }
 
         .logo-title {
-            margin: 6px 14px 6px 0;
             font-size: 2rem;
             font-weight: 500;
         }
@@ -166,7 +169,7 @@ export const DivStyled = styled.div`
                 height: 40px;
                 border-radius: 1px;
                 color: black;
-                transition: all 0.1s ease;
+                transition: all 0.3s ease;
                 box-shadow: 0 0 0 2px #000, 2px 2px 0 2px #00c5a7;
                 background-image: linear-gradient(45deg, #00e2c7, transparent);
 
