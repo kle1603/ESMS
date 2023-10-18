@@ -16,6 +16,7 @@ const routes = {
     lecturerRegister: "/lecturer/register",
     lecturerCancelRegister: "/lecturer/cancel-register",
     lecturerSchedule: "/lecturer/schedule",
+    pageNotFound: "/*",
 };
 
 export default routes;
