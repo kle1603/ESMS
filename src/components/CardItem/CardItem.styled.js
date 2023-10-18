@@ -24,7 +24,7 @@ export const CardStyled = styled(Card)`
 
         .title {
             font-size: 2.4rem;
-            color: rgba(255, 255, 255, 0.7);
+            color:${Theme.color.white_matte} ;
 
             white-space: nowrap;
             overflow: hidden;
@@ -33,9 +33,9 @@ export const CardStyled = styled(Card)`
 
         .icon {
             padding: 8px;
-            border: 1px solid ${Theme.color.white_color};
+            border: 1px solid white;
             border-radius: 50%;
-            color: white;
+            color: ${Theme.color.white_color};
             font-size: 2rem;
         }
     }
@@ -51,7 +51,7 @@ export const CardStyled = styled(Card)`
         }
 
         .value-desc {
-            color: rgba(255, 255, 255, 0.7);
+            color: ${Theme.color.white_matte};
         }
     }
 `;
