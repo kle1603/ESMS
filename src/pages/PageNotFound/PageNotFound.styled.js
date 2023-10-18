@@ -171,7 +171,6 @@ export const DivStyled = styled.div`
                 background-image: linear-gradient(45deg, #00e2c7, transparent);
 
                 &:hover {
-                    background-color: #00c5a7;
                     background-image: linear-gradient(
                         -45deg,
                         #00e2c7,
