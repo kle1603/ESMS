@@ -4,12 +4,12 @@ import styled from "styled-components";
 
 export const CardStyled = styled(Card)`
     height: 150px;
-    background-color: ${Theme.color.main_color};
+    background-color: ${Theme.color.blue_2};
     transition: all 0.3s ease-in-out;
 
     &:hover {
         transform: translateY(-6px);
-        background-color: #00B0FF;
+        background-color: ${Theme.color.blue_1};
     }
 
     .ant-card-body {
@@ -24,7 +24,7 @@ export const CardStyled = styled(Card)`
 
         .title {
             font-size: 2.4rem;
-            color: rgba(255, 255, 255, 0.7);
+            color:${Theme.color.white_matte} ;
 
             white-space: nowrap;
             overflow: hidden;
@@ -35,7 +35,7 @@ export const CardStyled = styled(Card)`
             padding: 8px;
             border: 1px solid white;
             border-radius: 50%;
-            color: white;
+            color: ${Theme.color.white_color};
             font-size: 2rem;
         }
     }
@@ -47,11 +47,11 @@ export const CardStyled = styled(Card)`
 
         .value-title {
             font-size: 3.2rem;
-            color: white;
+            color: ${Theme.color.white_color};
         }
 
         .value-desc {
-            color: rgba(255, 255, 255, 0.7);
+            color: ${Theme.color.white_matte};
         }
     }
 `;
