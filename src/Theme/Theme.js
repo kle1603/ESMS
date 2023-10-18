@@ -11,7 +11,12 @@ const theme = {
         desc_color: "#685cffa8",
         notification_color: "#eef5ff",
         button_hover_color: "#90caf9",
-        background_404: "#fff"
+        background_404: "#fff",
+
+        blue_1: "#0043BE",
+        blue_2: "#1677ff",
+
+        white_color: "#fff",
     },
     font: {
         primary_font: "Roboto Slab",

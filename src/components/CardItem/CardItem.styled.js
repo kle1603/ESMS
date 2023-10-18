@@ -4,12 +4,12 @@ import styled from "styled-components";
 
 export const CardStyled = styled(Card)`
     height: 150px;
-    background-color: ${Theme.color.main_color};
+    background-color: ${Theme.color.blue_2};
     transition: all 0.3s ease-in-out;
 
     &:hover {
         transform: translateY(-6px);
-        background-color: #00B0FF;
+        background-color: ${Theme.color.blue_1};
     }
 
     .ant-card-body {
@@ -33,7 +33,7 @@ export const CardStyled = styled(Card)`
 
         .icon {
             padding: 8px;
-            border: 1px solid white;
+            border: 1px solid ${Theme.color.white_color};
             border-radius: 50%;
             color: white;
             font-size: 2rem;
@@ -47,7 +47,7 @@ export const CardStyled = styled(Card)`
 
         .value-title {
             font-size: 3.2rem;
-            color: white;
+            color: ${Theme.color.white_color};
         }
 
         .value-desc {
