@@ -1,17 +1,32 @@
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
-import { Card } from "antd";
+import { Flex, Typography } from "antd";
 
-const CardItem = () => {
+import * as St from "./CardItem.styled";
+
+const CardItem = ({ title, value, icon }) => {
     return (
         <div>
-            <Card hoverable bordered={true}>
-                Card content
-            </Card>
+            <St.CardStyled hoverable bordered={true} loading={false}>
+                <Flex className="wrapper">
+                    <Typography className="title">{title}</Typography>
+                    {icon}
+                </Flex>
+                <Flex className="value">
+                    <Typography className="value-title">{value}</Typography>
+                    <Typography className="value-desc">
+                        At this semester
+                    </Typography>
+                </Flex>
+            </St.CardStyled>
         </div>
     );
 };
 
-CardItem.propTypes = {};
+CardItem.propTypes = {
+    title: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
+    icon: PropTypes.node.isRequired,
+};
 
 export default CardItem;

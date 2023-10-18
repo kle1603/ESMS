@@ -1,3 +1,4 @@
+import Theme from "@/Theme";
 import { Calendar } from "react-big-calendar";
 import styled from "styled-components";
 
@@ -12,14 +13,15 @@ export const Calender = styled(Calendar)`
     }
 
     & .rbc-day-slot .rbc-event {
-        /* border: 3px solid #ccc; */
         border-left: 5px solid #1b5500;
         border-top: 3px solid #ccc;
     }
 
-    & .rbc-event {
-        margin-left: 6px;
+    & .ant-typography {
+        color: #fff;
+    }
 
+    & .rbc-event {
         .title {
             color: #fff;
         }
@@ -29,6 +31,14 @@ export const Calender = styled(Calendar)`
             justify-content: center;
             align-items: center;
         }
+    }
+
+    & .rbc-selected {
+        background-color: #3174aa;
+    }
+
+    & .future-event {
+        background-color: ${Theme.color.primary_color_background};
     }
 
     & .rbc-event-label {

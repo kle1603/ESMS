@@ -26,16 +26,20 @@ const Schedule = () => {
 
     const eventPropGetter = ({ start }) => {
         const isPastEvent = start < new Date(); // Kiểm tra nếu start là quá khứ
-        let color_now = Theme.color.main_color;
-        let color_past = "#386a20";
+        // let color_now = Theme.color.main_color;
+        // let color_past = "#386a20";
 
         // Kết hợp style cho sự kiện
-        const style = {
-            backgroundColor: isPastEvent ? color_past : color_now,
-        };
+        // const style = {
+        //     backgroundColor: isPastEvent ? color_past : color_now,
+        // };
+
+        // Thêm className dựa trên thời gian
+        const className = isPastEvent ? "past-event" : "future-event";
 
         return {
-            style,
+            // style,
+            className,
         };
     };
 
@@ -63,7 +67,7 @@ const Schedule = () => {
                 onSelectEvent={handleEvent}
                 popup
                 defaultView="week"
-                views={["week", "day"]}
+                views={["month", "week", "day"]}
             />
         </div>
     );
