@@ -7,6 +7,12 @@ import logo from "@/assets/images/Logo.svg";
 const PageNotFound = () => {
     return (
         <St.DivStyled>
+            <Flex className="animation">
+                <Flex className="animation-rain"> </Flex>
+                <Flex className="animation-rain"> </Flex>
+                <Flex className="animation-rain"> </Flex>
+                <Flex className="animation-rain"> </Flex>
+            </Flex>
             <Flex className="logo">
                 <Flex className="image">
                     <img className="logo-img" src={logo} />
@@ -18,9 +24,13 @@ const PageNotFound = () => {
                 <Flex className="container">
                     <Typography className="title">404</Typography>
                     <Typography className="desc">PAGE NOT FOUND!</Typography>
-                    <Typography className="sub-desc">Sorry! We can't find the page you are looking for.</Typography>
+                    <Typography className="sub-desc">
+                        Sorry! We can't find the page you are looking for.
+                    </Typography>
                     <Button className="button">
-                        <Typography className="button-title">LOGIN PAGE</Typography>
+                        <Typography className="button-title">
+                            LOGIN PAGE
+                        </Typography>
                     </Button>
                 </Flex>
             </Flex>
