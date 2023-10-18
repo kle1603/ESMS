@@ -3,8 +3,15 @@ import { Button, Flex, Typography } from "antd";
 import * as St from "./PageNotFound.styled";
 
 import logo from "@/assets/images/Logo.svg";
+import { useNavigate } from "react-router-dom";
 
 const PageNotFound = () => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate("/");
+    };
+
     return (
         <St.DivStyled>
             <Flex className="animation">
@@ -13,7 +20,7 @@ const PageNotFound = () => {
                 <Flex className="animation-rain"> </Flex>
                 <Flex className="animation-rain"> </Flex>
             </Flex>
-            <Flex className="logo">
+            <Flex className="logo" onClick={handleClick}>
                 <Flex className="image">
                     <img className="logo-img" src={logo} />
                 </Flex>
@@ -27,7 +34,7 @@ const PageNotFound = () => {
                     <Typography className="sub-desc">
                         Sorry! We can not find the page you are looking for.
                     </Typography>
-                    <Button className="button">
+                    <Button className="button" onClick={handleClick}>
                         <Typography className="button-title">
                             LOGIN PAGE
                         </Typography>
