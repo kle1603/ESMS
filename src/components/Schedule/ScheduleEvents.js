@@ -2,8 +2,8 @@ export const myEventsList = [
     {
         id: 1,
         title: "SWP",
-        start: new Date(2023, 9, 18, 7, 0),
-        end: new Date(2023, 9, 18, 9, 30),
+        start: new Date(2023, 9, 20, 7, 0),
+        end: new Date(2023, 9, 20, 9, 30),
         staff: "Kle",
         phone: "0866 123 456",
         status: "On going",
@@ -29,8 +29,8 @@ export const myEventsList = [
     {
         id: 4,
         title: "FER",
-        start: new Date(2023, 9, 9, 14, 0),
-        end: new Date(2023, 9, 9, 15, 0),
+        start: new Date(2023, 9, 18, 14, 0),
+        end: new Date(2023, 9, 18, 15, 0),
         staff: "Kle",
         phone: "0866 123 456",
         status: "Done",
@@ -47,8 +47,8 @@ export const myEventsList = [
     {
         id: 6,
         title: "Hello",
-        start: new Date(2023, 9, 11, 9, 0),
-        end: new Date(2023, 9, 11, 11, 0),
+        start: new Date(2023, 9, 18, 13, 0),
+        end: new Date(2023, 9, 18, 14, 0),
         staff: "Kle",
         phone: "0866 123 456",
         status: "Done",

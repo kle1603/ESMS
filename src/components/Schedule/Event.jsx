@@ -6,7 +6,7 @@ const Event = ({ event }) => {
     return (
         <div>
             <Typography className="title">Subject: {event.title}</Typography>
-            <Typography className="title">Status: {event.status}</Typography>
+            {/* <Typography className="title">Status: {event.status}</Typography> */}
         </div>
     );
 };

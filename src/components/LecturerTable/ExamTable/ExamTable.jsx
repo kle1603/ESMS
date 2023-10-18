@@ -49,6 +49,10 @@ const ExamTable = () => {
         setLabel(value);
     };
 
+    const handleAdd = (e) => {
+        console.log(e);
+    };
+
     const items = [
         {
             key: "1",
@@ -80,6 +84,24 @@ const ExamTable = () => {
             dataIndex: "day",
             key: "day",
             width: "25%",
+            onCell: (record, rowIndex) => {
+                let rowSpan = 1;
+                if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
+                    rowSpan = 0;
+                } else {
+                    let count = 0;
+                    while (
+                        rowIndex + count < data.length &&
+                        data[rowIndex + count].day === record.day
+                    ) {
+                        count++;
+                    }
+                    rowSpan = count;
+                }
+                return {
+                    rowSpan: rowSpan,
+                };
+            },
         },
         {
             title: "Start Time",
@@ -107,7 +129,7 @@ const ExamTable = () => {
                 data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to register?"
-                        onConfirm={() => handleDelete(record.key)}
+                        onConfirm={() => handleAdd(record.key)}
                     >
                         <Typography.Link>Register</Typography.Link>
                     </Popconfirm>

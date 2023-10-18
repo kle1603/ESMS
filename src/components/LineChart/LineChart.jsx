@@ -7,31 +7,32 @@ import {
     LinearScale,
     PointElement,
     Title,
+    Tooltip,
+    Legend,
 } from "chart.js";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title);
+import * as St from "./LineChart.styled";
+
+ChartJS.register(
+    LineElement,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
 const LineChart = () => {
     const data = {
-        labels: [
-            // "Jan",
-            // "Feb",
-            // "Mar",
-            // "Apr",
-            // "May",
-            // "Jun",
-            // "Jul",
-            // "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
+        labels: ["Sep", "Oct", "Nov", "Dec"],
         datasets: [
             {
+                label: "Fall",
                 data: [2, 8, 3, 9],
-                backgroundColor: "transparent",
-                borderColor: "#f26c6d",
+                // backgroundColor: "transparent",
+                backgroundColor: "rgb(75, 192, 192)",
+                borderColor: "rgb(75, 192, 192)",
                 pointBorderColor: "transparent",
                 pointBorderWidth: 4,
                 tension: 0.3,
@@ -70,9 +71,9 @@ const LineChart = () => {
     };
 
     return (
-        <div style={{ height: 300 }}>
-            <Line width={"100%"} height={"100%"} data={data} options={option} />
-        </div>
+        <St.CardStyled hoverable loading={false}>
+            <Line className="chart" data={data} options={option} />
+        </St.CardStyled>
     );
 };
 
