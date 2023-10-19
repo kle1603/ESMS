@@ -34,7 +34,7 @@ const LineChart = () => {
                 backgroundColor: "rgb(75, 192, 192)",
                 borderColor: "rgb(75, 192, 192)",
                 pointBorderColor: "transparent",
-                pointBorderWidth: 4,
+                borderWidth: 3,
                 tension: 0.3,
             },
         ],

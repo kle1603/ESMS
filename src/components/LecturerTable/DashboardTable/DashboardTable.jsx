@@ -1,21 +1,23 @@
 // import PropTypes from "prop-types";
 
-import CardItem from "@/components/CardItem/CardItem";
-import LineChart from "@/components/LineChart";
-import { Col, Row } from "antd";
+import CardItem from "@/components/LecturerDashboard/CardItem/CardItem";
+import LineChart from "@/components/LecturerDashboard/LineChart";
+import { Col, Divider, Row } from "antd";
 import {
     HistoryOutlined,
     ScheduleOutlined,
     PaperClipOutlined,
     ExclamationOutlined,
 } from "@ant-design/icons";
-import CardTable from "@/components/CardTable";
+import CardTable from "@/components/LecturerDashboard/CardTable";
+import BarChart from "@/components/LecturerDashboard/BarChart";
 
 const DashboardTable = () => {
     return (
         <div>
             <Row gutter={[16, 20]}>
                 <Col xs={24} md={24} lg={11}>
+                    <Divider orientation="left">Haha</Divider>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} md={12}>
                             <CardItem
@@ -48,9 +50,15 @@ const DashboardTable = () => {
                     </Row>
                 </Col>
                 <Col xs={24} md={24} lg={13}>
+                    <Divider orientation="left">Haha</Divider>
                     <LineChart />
                 </Col>
                 <Col xs={24}>
+                    <Divider orientation="left">Haha</Divider>
+                    <BarChart />
+                </Col>
+                <Col xs={24}>
+                    <Divider orientation="left">Haha</Divider>
                     <CardTable />
                 </Col>
             </Row>
