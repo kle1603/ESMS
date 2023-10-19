@@ -178,7 +178,7 @@ const SubjectTable = () => {
         {
             title: "Subject Name",
             dataIndex: "subjectName",
-            width: "30%",
+            width: "25%",
         },
         {
             title: "Subject Code",
@@ -194,6 +194,7 @@ const SubjectTable = () => {
         {
             title: "Operation",
             dataIndex: "operation",
+            width: "10%",
             render: (_, record) => {
                 const editable = isEditing(record);
                 return editable ? (

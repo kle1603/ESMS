@@ -204,7 +204,7 @@ const CourseTable = () => {
         {
             title: "Operation",
             dataIndex: "operation",
-            width: "20%",
+            width: "15%",
             render: (_, record) => {
                 const editable = isEditing(record);
                 return editable ? (

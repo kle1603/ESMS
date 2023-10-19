@@ -16,13 +16,13 @@ const SemesterTable = () => {
         {
             title: "No",
             dataIndex: "no",
-            width: "10%",
+            width: "15%",
             editable: true,
         },
         {
             title: "Time",
             dataIndex: "time",
-            width: "20%",
+            width: "25%",
             editable: true,
         },
         {
