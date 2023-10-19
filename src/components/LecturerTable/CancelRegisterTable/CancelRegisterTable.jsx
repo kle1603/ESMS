@@ -36,6 +36,20 @@ const CancelRegisterTable = () => {
             startTime: "15:00",
             endTime: "17:00",
         },
+        {
+            key: 5,
+            no: 5,
+            day: "19/10/2023",
+            startTime: "12:00",
+            endTime: "14:00",
+        },
+        {
+            key: 6,
+            no: 6,
+            day: "19/10/2023",
+            startTime: "8:00",
+            endTime: "10:00",
+        },
     ]);
     const [label, setLabel] = useState("Fall 2023");
 
