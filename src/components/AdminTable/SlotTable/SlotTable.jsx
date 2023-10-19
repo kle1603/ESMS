@@ -26,6 +26,12 @@ const SlotTable = () => {
             editable: true,
         },
         {
+            title: "Day",
+            dataIndex: "day",
+            width: "20%",
+            editable: true,
+        },
+        {
             title: "Start Time",
             dataIndex: "startTime",
             width: "20%",
@@ -40,7 +46,7 @@ const SlotTable = () => {
         {
             title: "Status",
             dataIndex: "status",
-            width: "15%",
+            width: "10%",
             editable: true,
         },
         {
