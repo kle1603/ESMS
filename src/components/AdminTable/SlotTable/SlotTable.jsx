@@ -14,21 +14,33 @@ const SlotTable = () => {
     const columns = [
         // Your columns
         {
+            title: "No",
+            dataIndex: "no",
+            width: "10%",
+            editable: true,
+        },
+        {
             title: "Slot",
             dataIndex: "slot",
-            width: "25%",
+            width: "20%",
             editable: true,
         },
         {
             title: "Start Time",
             dataIndex: "startTime",
-            width: "25%",
+            width: "20%",
             editable: true,
         },
         {
             title: "End Time",
             dataIndex: "endTime",
-            width: "25%",
+            width: "20%",
+            editable: true,
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            width: "15%",
             editable: true,
         },
         {
@@ -47,13 +59,14 @@ const SlotTable = () => {
     ];
 
     const fetchData = () => {
-        setLoading(true);
+        // setLoading(true);
         instance
             .get("timeSlots")
             .then((res) => {
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     key: item.id,
+                    no: item.id,
                     slot: item.id,
                     startTime: item.startTime.slice(0, 5),
                     endTime: item.endTime.slice(0, 5),
@@ -63,6 +76,9 @@ const SlotTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 

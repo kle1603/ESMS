@@ -28,14 +28,7 @@ const SemesterTable = () => {
         {
             title: "Season",
             dataIndex: "season",
-            width: "20%",
-            editable: true,
-        },
-        {
-            title: "Year",
-            dataIndex: "year",
-            // key: "year",
-            width: "15%",
+            width: "25%",
             editable: true,
         },
         {
@@ -133,10 +126,10 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { season, year } = values;
+                const { season } = values;
                 // console.log(values);
                 instance
-                    .post("semesters", { season, year })
+                    .post("semesters", { season})
                     .then(() => {
                         toast.success("Successfully created!");
                         form.resetFields();
@@ -190,7 +183,7 @@ const SemesterTable = () => {
                     >
                         <Input placeholder="Season" />
                     </Form.Item>
-                    <Form.Item
+                    {/* <Form.Item
                         name="year"
                         rules={[
                             {
@@ -200,7 +193,7 @@ const SemesterTable = () => {
                         ]}
                     >
                         <Input placeholder="Year" />
-                    </Form.Item>
+                    </Form.Item> */}
                 </Form>
             </Modal>
             <St.StyledTable

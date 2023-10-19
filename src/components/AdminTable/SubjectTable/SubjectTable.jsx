@@ -76,8 +76,6 @@ const SubjectTable = () => {
                 instance
                     .put("subjects", {
                         id: key,
-                        pe: row.pe,
-                        fe: row.fe,
                     })
                     .then(() => {
                         toast.success("Successfully updated!");
@@ -109,9 +107,7 @@ const SubjectTable = () => {
                     ...item,
                     no: index + 1,
                     semester: item.semesterNo,
-                    name: item.name,
-                    fe: item.fe,
-                    pe: item.pe,
+                    subjectName: item.name,
                     key: item.id,
                     id: item.id,
                 }));
@@ -141,7 +137,6 @@ const SubjectTable = () => {
                 console.log(error);
             });
     };
-
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
@@ -181,19 +176,18 @@ const SubjectTable = () => {
             width: "15%",
         },
         {
-            title: "Name",
-            dataIndex: "name",
+            title: "Subject Name",
+            dataIndex: "subjectName",
             width: "30%",
         },
         {
-            title: "FE",
-            dataIndex: "fe",
-            width: "15%",
-            editable: true,
+            title: "Subject Code",
+            dataIndex: "subjectCode",
+            width: "25%",
         },
         {
-            title: "PE",
-            dataIndex: "pe",
+            title: "Status",
+            dataIndex: "status",
             width: "15%",
             editable: true,
         },
@@ -278,17 +272,6 @@ const SubjectTable = () => {
             >
                 <Form form={form} name="add_row_form">
                     <Form.Item
-                        name="name"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the name!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Name" />
-                    </Form.Item>
-                    <Form.Item
                         name="semester"
                         rules={[
                             {
@@ -300,26 +283,26 @@ const SubjectTable = () => {
                         <Input placeholder="Semester" />
                     </Form.Item>
                     <Form.Item
-                        name="fe"
+                        name="subjectName"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the FE time!",
+                                message: "Please input the subject name!",
                             },
                         ]}
                     >
-                        <Input placeholder="FE time" />
+                        <Input placeholder="Subject Name" />
                     </Form.Item>
                     <Form.Item
-                        name="pe"
+                        name="subjectCode"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the PE time!",
+                                message: "Please input the subject code!",
                             },
                         ]}
                     >
-                        <Input placeholder="PE time" />
+                        <Input placeholder="Subject Code" />
                     </Form.Item>
                 </Form>
             </Modal>

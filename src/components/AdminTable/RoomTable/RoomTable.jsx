@@ -89,9 +89,9 @@ const RoomTable = () => {
             onFilter: (value, record) => record.location === value,
         },
         {
-            title: "Note",
-            dataIndex: "note",
-            key: "note",
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
             width: "25%",
             editable: true,
             render: (text) => {
@@ -178,7 +178,7 @@ const RoomTable = () => {
 
     const edit = (record) => {
         form.setFieldsValue({
-            note: "",
+            // note: "",
             location: "",
             roomNumber: "",
             ...record,
@@ -205,7 +205,7 @@ const RoomTable = () => {
                 instance
                     .put("rooms", {
                         id: key,
-                        note: row.note,
+                        // note: row.note,
                         roomNum: row.roomNumber,
                         location: row.location,
                     })
@@ -230,9 +230,9 @@ const RoomTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { roomNumber, location, note } = values;
+                const { roomNumber, location } = values;
                 instance
-                    .post("rooms", { roomNum: roomNumber, location, note })
+                    .post("rooms", { roomNum: roomNumber, location })
                     .then(() => {
                         toast.success("Successfully created!");
                         form.resetFields();
@@ -348,17 +348,6 @@ const RoomTable = () => {
                         ]}
                     >
                         <Input placeholder="Location" />
-                    </Form.Item>
-                    <Form.Item
-                        name="note"
-                        rules={[
-                            {
-                                required: false,
-                                message: "Please input a note!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Note" />
                     </Form.Item>
                 </Form>
             </Modal>
