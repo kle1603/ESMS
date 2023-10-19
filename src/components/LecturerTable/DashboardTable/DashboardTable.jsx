@@ -9,6 +9,7 @@ import {
     PaperClipOutlined,
     ExclamationOutlined,
 } from "@ant-design/icons";
+import CardTable from "@/components/CardTable";
 
 const DashboardTable = () => {
     return (
@@ -48,6 +49,9 @@ const DashboardTable = () => {
                 </Col>
                 <Col xs={24} md={24} lg={13}>
                     <LineChart />
+                </Col>
+                <Col xs={24}>
+                    <CardTable />
                 </Col>
             </Row>
         </div>
