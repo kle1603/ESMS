@@ -177,7 +177,7 @@ const CourseTable = () => {
         {
             title: "No",
             dataIndex: "no",
-            width: "15%",
+            width: "10%",
         },
         {
             title: "Subject Code",
@@ -193,6 +193,12 @@ const CourseTable = () => {
             title: "Num of Students",
             dataIndex: "numOfStudents",
             width: "20%",
+            editable: true,
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            width: "10%",
             editable: true,
         },
         {
