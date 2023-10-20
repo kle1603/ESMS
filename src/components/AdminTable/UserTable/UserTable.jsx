@@ -8,8 +8,25 @@ import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 
 const UserTable = () => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([
+        {
+            key: 1,
+            no: 1,
+            email: "khang@gmail.com",
+            name: "khang",
+            role: "lecturer",
+            status: "Active",
+        },
+        {
+            key: 2,
+            no: 2,
+            email: "hahaha@gmail.com",
+            name: "hahaha",
+            role: "staff",
+            status: "Active",
+        },
+    ]);
+    const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const [search, setSearch] = useState("");
@@ -27,23 +44,40 @@ const UserTable = () => {
             title: "Email",
             dataIndex: "email",
             key: "email",
-            width: "25%",
+            width: "20%",
         },
         {
             title: "Name",
             dataIndex: "name",
             key: "name",
-            width: "25%",
+            width: "20%",
         },
         {
             title: "Role",
             key: "role",
             dataIndex: "role",
-            width: "20%",
+            width: "15%",
             render: (role) => {
                 let color = role.length > 5 ? "geekblue" : "volcano";
                 if (role === "lecturer") {
                     color = "magenta";
+                }
+                return (
+                    <Tag color={color} key={role}>
+                        {role.toUpperCase()}
+                    </Tag>
+                );
+            },
+        },
+        {
+            title: "Status",
+            dataIndex: "status",
+            key: "status",
+            width: "15%",
+            render: (role) => {
+                let color = "magenta";
+                if (role === "active") {
+                    color = "geekblue";
                 }
                 return (
                     <Tag color={color} key={role}>

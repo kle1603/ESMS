@@ -5,8 +5,25 @@ import * as St from "./HistoryTable.styled";
 import instance from "@/utils/instance";
 
 const HistoryTable = () => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([
+        {
+            key: "1",
+            no: "1",
+            session: "FALL 2023",
+            phase: "Dot 1",
+            startDay: "01/01/2023",
+            endDay: "03/01/2023",
+        },
+        {
+            key: "2",
+            no: "2",
+            session: "FALL 2023",
+            phase: "Dot 2",
+            startDay: "01/01/2023",
+            endDay: "03/01/2023",
+        },
+    ]);
+    const [loading, setLoading] = useState(false);
 
     const fetchData = () => {
         instance
@@ -57,19 +74,9 @@ const HistoryTable = () => {
             width: "15%",
         },
         {
-            title: "Year",
-            dataIndex: "year",
-            width: "10%",
-        },
-        {
-            title: "Type",
-            dataIndex: "type",
-            width: "10%",
-        },
-        {
-            title: "Block",
-            dataIndex: "block",
-            width: "10%",
+            title: "Phase",
+            dataIndex: "phase",
+            width: "15%",
         },
         {
             title: "Start Day",

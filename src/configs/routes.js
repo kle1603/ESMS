@@ -14,7 +14,7 @@ const routes = {
     staffExamRoom: "/staff/exam-room",
     lecturer: "/lecturer",
     lecturerRegister: "/lecturer/register",
-    lecturerCancelRegister: "/lecturer/cancel-register",
+    lecturerExamSlots: "/lecturer/examSlots",
     lecturerSchedule: "/lecturer/schedule",
     pageNotFound: "/*",
 };

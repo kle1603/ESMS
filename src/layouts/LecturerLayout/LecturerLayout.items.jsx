@@ -1,7 +1,6 @@
 import configs from "@/configs";
 import { HomeOutlined } from "@ant-design/icons";
 import { LiaExchangeAltSolid } from "react-icons/lia";
-import { FiEdit } from "react-icons/fi";
 import { MdLogout } from "react-icons/md";
 import { CiViewTable } from "react-icons/ci";
 
@@ -29,17 +28,12 @@ const items = [
         type: "group",
         children: [
             {
-                label: "Register",
-                key: configs.routes.lecturerRegister,
-                icon: <FiEdit />,
-            },
-            {
-                label: "Change",
-                key: configs.routes.lecturerCancelRegister,
+                label: "My Exam Slot",
+                key: configs.routes.lecturerExamSlots,
                 icon: <LiaExchangeAltSolid />,
             },
             {
-                label: "View",
+                label: "My Schedule",
                 key: configs.routes.lecturerSchedule,
                 icon: <CiViewTable />,
             },

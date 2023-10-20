@@ -18,8 +18,8 @@ import AdminCourses from "@/pages/AdminCourses";
 import AdminRoom from "@/pages/AdminRoom";
 import LecturerSchedule from "@/pages/LecturerSchedule";
 import LecturerRegister from "@/pages/LecturerRegister";
-import LecturerCancelRegister from "@/pages/LecturerCancelRegister";
 import PageNotFound from "@/pages/PageNotFound";
+import LecturerExamSlots from "@/pages/LecturerExamSlots";
 
 const adminRoutes = [
     {
@@ -102,8 +102,8 @@ const adminRoutes = [
     },
     {
         id: 14,
-        path: configs.routes.lecturerCancelRegister,
-        component: LecturerCancelRegister,
+        path: configs.routes.lecturerExamSlots,
+        component: LecturerExamSlots,
         layout: LecturerLayout,
     },
     {

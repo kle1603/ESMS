@@ -42,8 +42,17 @@ const EditableCell = ({
 const SubjectTable = () => {
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState("");
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([
+        {
+            key: 1,
+            no: 1,
+            semester: 5,
+            subjectName: "Toan roi rac",
+            subjectCode: "MAE101",
+            status: "Active"
+        },
+    ]);
+    const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
     const isEditing = (record) => record.key === editingKey;

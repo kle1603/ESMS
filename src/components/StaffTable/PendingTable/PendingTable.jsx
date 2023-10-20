@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Popconfirm, Form, Typography, Input, Divider } from "antd";
+import { Popconfirm, Form, Typography, Input, Divider, Button } from "antd";
 import { useState } from "react";
 import * as St from "./PendingTable.styled";
 
@@ -39,20 +39,16 @@ const data = [
     {
         key: "1",
         no: "1",
-        session: "FALL",
-        year: "2023",
-        type: "FE",
-        block: "10",
+        session: "FALL 2023",
+        phase: "Dot 1",
         startDay: "01/01/2023",
         endDay: "03/01/2023",
     },
     {
         key: "2",
         no: "2",
-        session: "FALL",
-        year: "2023",
-        type: "PE",
-        block: "10",
+        session: "FALL 2023",
+        phase: "Dot 2",
         startDay: "01/01/2023",
         endDay: "03/01/2023",
     },
@@ -111,19 +107,9 @@ const PendingTable = () => {
             width: "15%",
         },
         {
-            title: "Year",
-            dataIndex: "year",
-            width: "10%",
-        },
-        {
-            title: "Type",
-            dataIndex: "type",
-            width: "10%",
-        },
-        {
-            title: "Block",
-            dataIndex: "block",
-            width: "10%",
+            title: "Phase",
+            dataIndex: "phase",
+            width: "15%",
         },
         {
             title: "Start Day",
@@ -205,6 +191,12 @@ const PendingTable = () => {
                     }}
                 />
             </Form>
+            <Button
+                style={{ position: "absolute", bottom: "-50px", right: 0 }}
+                type="primary"
+            >
+                Generate
+            </Button>
         </div>
     );
 };

@@ -49,8 +49,23 @@ const EditableCell = ({
 
 const RoomTable = () => {
     const [search, setSearch] = useState("");
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([
+        {
+            key: 1,
+            no: 1,
+            roomNumber: 120,
+            location: "XAVALO",
+            status: "Active",
+        },
+        {
+            key: 2,
+            no: 2,
+            roomNumber: 220,
+            location: "XAVALO",
+            status: "Active",
+        },
+    ]);
+    const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const [editingKey, setEditingKey] = useState("");

@@ -34,8 +34,6 @@ export const SpaceStyled = styled(Space)`
     top: 0;
     left: 0;
 
-    width: 400px;
-
     .ant-space-item {
         width: 100%;
     }
