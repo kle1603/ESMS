@@ -1,10 +1,10 @@
 // import PropTypes from "prop-types";
 
-import { Dropdown, Popconfirm, Table, Typography } from "antd";
+import { Cascader, Popconfirm, Table, Typography } from "antd";
 import { useState } from "react";
 
 import * as St from "./CancelRegisterTable.styled";
-import Search from "antd/es/input/Search";
+import { useNavigate } from "react-router-dom";
 
 const CancelRegisterTable = () => {
     const [data, setData] = useState([
@@ -51,32 +51,11 @@ const CancelRegisterTable = () => {
             endTime: "10:00",
         },
     ]);
-    const [label, setLabel] = useState("Fall 2023");
+    const navigate = useNavigate();
 
-    const handleClick = (e) => {
-        const value = e.target.innerText;
-        console.log(value);
-        setLabel(value);
+    const handleRegister = (e) => {
+        navigate("/lecturer/register");
     };
-
-    const items = [
-        {
-            key: "1",
-            label: <Typography onClick={handleClick}>Fall 2022</Typography>,
-        },
-        {
-            key: "2",
-            label: <Typography onClick={handleClick}>Spring 2023</Typography>,
-        },
-        {
-            key: "3",
-            label: <Typography onClick={handleClick}>Summer 2023</Typography>,
-        },
-        {
-            key: "4",
-            label: <Typography onClick={handleClick}>Fall 2023</Typography>,
-        },
-    ];
 
     const columns = [
         {
@@ -137,24 +116,64 @@ const CancelRegisterTable = () => {
         },
     ];
 
+    const options = [
+        {
+            value: "Summer 2023",
+            label: "Summer 2023",
+        },
+        {
+            value: "Spring 2023",
+            label: "Spring 2023",
+        },
+        {
+            value: "Fall 2023",
+            label: "Fall 2023",
+        },
+    ];
+
+    const option = [
+        {
+            value: "Dot 1",
+            label: "Dot 1",
+        },
+        {
+            value: "Dot 2",
+            label: "Dot 2",
+        },
+        {
+            value: "Dot 3",
+            label: "Dot 3",
+        },
+        {
+            value: "Dot 4",
+            label: "Dot 4",
+        },
+        {
+            value: "Dot 5",
+            label: "Dot 5",
+        },
+        {
+            value: "Dot 6",
+            label: "Dot 6",
+        },
+    ];
+
     return (
         <St.DivTable>
             <St.SpaceStyled>
-                <Search />
+                SEMESTER: 
+                <Cascader style={{ width: 130 }} options={options} />
+                PHASE: 
+                <Cascader style={{ width: 80 }} options={option} />
             </St.SpaceStyled>
-            <St.TagStyled color="geekblue">
-                <Typography className="label">{label}</Typography>
-            </St.TagStyled>
-            <Dropdown
-                menu={{
-                    items,
-                }}
-                placement="bottom"
+            <St.ButtonTable
+                type="primary"
+                style={{ marginBottom: 16 }}
+                onClick={handleRegister}
             >
-                <St.ButtonTable type="primary" style={{ marginBottom: 16 }}>
-                    Semesters
-                </St.ButtonTable>
-            </Dropdown>
+                Register
+            </St.ButtonTable>
+
             <Table
                 scroll={{ x: true }}
                 columns={columns}

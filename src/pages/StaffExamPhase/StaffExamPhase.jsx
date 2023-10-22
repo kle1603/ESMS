@@ -20,8 +20,6 @@ const items = [
 const StaffExamPhase = () => {
     return (
         <div>
-            {/* <Divider orientation="left">History</Divider>
-            <HistoryTable /> */}
             <Tabs defaultActiveKey="1" items={items} />
         </div>
     );

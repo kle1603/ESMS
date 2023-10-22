@@ -5,7 +5,7 @@ import CancelRegisterTable from "@/components/LecturerTable/CancelRegisterTable"
 const LecturerExamPhase = () => {
     return (
         <div>
-            <CancelRegisterTable />
+            <CancelRegisterTable /> 
         </div>
     );
 };

@@ -1,13 +1,38 @@
 import { Form, Input, Modal, Popconfirm, Typography } from "antd";
 import { useEffect, useState } from "react";
 
-import * as St from "./SlotTable.styled";
+import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
 import toast from "react-hot-toast";
 
-const SlotTable = () => {
+const PhaseTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([
+        {
+            key: 1,
+            no: 1,
+            name: "Dot 1 mua ha",
+            startTime: "1/10/2023",
+            endTime: "2/10/2023",
+            status: "Close",
+        },
+        {
+            key: 2,
+            no: 2,
+            name: "Dot bo sung lan 1",
+            startTime: "3/10/2023",
+            endTime: "10/10/2023",
+            status: "Active",
+        },
+        {
+            key: 2,
+            no: 2,
+            name: "Dot bo sung lan 2",
+            startTime: "11/10/2023",
+            endTime: "16/10/2023",
+            status: "Active",
+        },
+    ]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -20,14 +45,8 @@ const SlotTable = () => {
             editable: true,
         },
         {
-            title: "Slot",
-            dataIndex: "slot",
-            width: "20%",
-            editable: true,
-        },
-        {
-            title: "Day",
-            dataIndex: "day",
+            title: "Name",
+            dataIndex: "name",
             width: "20%",
             editable: true,
         },
@@ -54,12 +73,16 @@ const SlotTable = () => {
             dataIndex: "operation",
             render: (_, record) =>
                 data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
+                    <div>
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => handleDelete(record.key)}
+                        >
+                            <Typography.Link>Delete</Typography.Link>
+                        </Popconfirm>
+
+                        <Typography.Link style={{marginLeft: 20}}>Detail</Typography.Link>
+                    </div>
                 ) : null,
         },
     ];
@@ -201,4 +224,4 @@ const SlotTable = () => {
     );
 };
 
-export default SlotTable;
+export default PhaseTable;
