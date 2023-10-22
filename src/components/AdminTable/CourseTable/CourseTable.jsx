@@ -41,7 +41,29 @@ const EditableCell = ({
 
 const CourseTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([
+        {
+            key: 1,
+            no: 1,
+            courseCode: "MAE101",
+            numOfStudents: 120,
+            status: "Active",
+        },
+        {
+            key: 2,
+            no: 2,
+            courseCode: "PRN301",
+            numOfStudents: 230,
+            status: "Active",
+        },
+        {
+            key: 3,
+            no: 3,
+            courseCode: "SWP301",
+            numOfStudents: 180,
+            status: "Active",
+        },
+    ]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [search, setSearch] = useState("");
@@ -180,14 +202,9 @@ const CourseTable = () => {
             width: "10%",
         },
         {
-            title: "Subject Code",
-            dataIndex: "subjectCode",
+            title: "Course Code",
+            dataIndex: "courseCode",
             width: "20%",
-        },
-        {
-            title: "Subject Name",
-            dataIndex: "subjectName",
-            width: "25%",
         },
         {
             title: "Num of Students",

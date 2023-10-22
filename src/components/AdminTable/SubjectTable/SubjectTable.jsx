@@ -49,7 +49,7 @@ const SubjectTable = () => {
             semester: 5,
             subjectName: "Toan roi rac",
             subjectCode: "MAE101",
-            status: "Active"
+            status: "Active",
         },
     ]);
     const [loading, setLoading] = useState(false);
@@ -178,11 +178,6 @@ const SubjectTable = () => {
             title: "No",
             dataIndex: "no",
             width: "10%",
-        },
-        {
-            title: "Semester",
-            dataIndex: "semester",
-            width: "15%",
         },
         {
             title: "Subject Name",

@@ -36,33 +36,38 @@ const items = [
         type: "group",
         children: [
             {
-                label: "Slot",
-                key: configs.routes.adminSlots,
-                icon: <EditOutlined />,
-            },
-            {
-                label: "Course",
-                key: configs.routes.adminCourses,
-                icon: <ProfileOutlined />,
-            },
-            {
-                label: "Semester",
+                label: "Semesters",
                 key: configs.routes.adminSemesters,
                 icon: <CalendarOutlined />,
             },
             {
-                label: "Subject",
+                label: "Phase",
+                key: configs.routes.adminPhases,
+                icon: <EditOutlined />,
+            },
+            {
+                label: "Subjects",
                 key: configs.routes.adminSubjects,
                 icon: <BookOutlined />,
             },
             {
-                label: "Room",
-                key: configs.routes.adminRoom,
+                label: "Courses",
+                key: configs.routes.adminCourses,
+                icon: <ProfileOutlined />,
+            },
+            {
+                label: "Rooms",
+                key: configs.routes.adminRooms,
                 icon: <SiGoogleclassroom />,
             },
             {
-                label: "User",
+                label: "Users",
                 key: configs.routes.adminUsers,
+                icon: <UserOutlined />,
+            },
+            {
+                label: "Examiners",
+                key: configs.routes.adminExaminers,
                 icon: <UserOutlined />,
             },
         ],
