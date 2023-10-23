@@ -7,7 +7,22 @@ import toast, { Toaster } from "react-hot-toast";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([
+        {
+            key: 1,
+            no: 1,
+            startTime: "1/5/2023",
+            endTime: "1/9/2023",
+            season: "Summer 2023",
+        },
+        {
+            key: 2,
+            no: 2,
+            startTime: "1/10/2023",
+            endTime: "1/1/2024",
+            season: "Fall 2023",
+        },
+    ]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -16,25 +31,31 @@ const SemesterTable = () => {
         {
             title: "No",
             dataIndex: "no",
+            width: "10%",
+            editable: true,
+        },
+        {
+            title: "Start Time",
+            dataIndex: "startTime",
             width: "15%",
             editable: true,
         },
         {
-            title: "Time",
-            dataIndex: "time",
-            width: "25%",
+            title: "End Time",
+            dataIndex: "endTime",
+            width: "15%",
             editable: true,
         },
         {
             title: "Season",
             dataIndex: "season",
-            width: "25%",
+            width: "20%",
             editable: true,
         },
         {
             title: "Status",
             dataIndex: "status",
-            width: "20%",
+            width: "15%",
             render: (text, record) => {
                 const currentYear = new Date().getFullYear();
                 const year = record.year;
@@ -44,7 +65,7 @@ const SemesterTable = () => {
                 } else if (year < currentYear) {
                     return <Tag color="red">Past</Tag>;
                 } else {
-                    return "Upcoming";
+                    return <Tag color="green">On Going</Tag>;
                 }
             },
         },
@@ -129,7 +150,7 @@ const SemesterTable = () => {
                 const { season } = values;
                 // console.log(values);
                 instance
-                    .post("semesters", { season})
+                    .post("semesters", { season })
                     .then(() => {
                         toast.success("Successfully created!");
                         form.resetFields();

@@ -1,20 +1,20 @@
 // import PropTypes from "prop-types";
 import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
-import * as St from "./UserTable.styled";
+import * as St from "./ExaminerTable.styled";
 
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 
-const UserTable = () => {
+const ExaminerTable = () => {
     const [data, setData] = useState([
         {
             key: 1,
             no: 1,
             email: "khang@gmail.com",
             name: "khang",
-            role: "admin",
+            role: "lecturer",
             status: "Active",
         },
         {
@@ -22,7 +22,7 @@ const UserTable = () => {
             no: 2,
             email: "hahaha@gmail.com",
             name: "hahaha",
-            role: "USER",
+            role: "staff",
             status: "Active",
         },
         {
@@ -30,8 +30,8 @@ const UserTable = () => {
             no: 3,
             email: "hihihihihia@gmail.com",
             name: "haghahasfsa",
-            role: "USER",
-            status: "Nghi viec roi",
+            role: "ctv",
+            status: "Active",
         },
     ]);
     const [loading, setLoading] = useState(false);
@@ -69,6 +69,8 @@ const UserTable = () => {
                 let color = role.length > 5 ? "volcano" : "geekblue";
                 if (role === "admin") {
                     color = "volcano";
+                } else if (role === "ctv") {
+                    color = "green";
                 }
                 return (
                     <Tag color={color} key={role}>
@@ -279,6 +281,6 @@ const UserTable = () => {
     );
 };
 
-UserTable.propTypes = {};
+ExaminerTable.propTypes = {};
 
-export default UserTable;
+export default ExaminerTable;
