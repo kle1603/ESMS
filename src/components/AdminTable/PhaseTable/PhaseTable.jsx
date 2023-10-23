@@ -1,9 +1,21 @@
-import { Form, Input, Modal, Popconfirm, Typography } from "antd";
+import {
+    Button,
+    DatePicker,
+    Flex,
+    Form,
+    Input,
+    Modal,
+    Popconfirm,
+    Select,
+    Tag,
+    Typography,
+} from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
 import toast from "react-hot-toast";
+import dayjs from "dayjs";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -25,8 +37,8 @@ const PhaseTable = () => {
             status: "Active",
         },
         {
-            key: 2,
-            no: 2,
+            key: 3,
+            no: 3,
             name: "Dot bo sung lan 2",
             startTime: "11/10/2023",
             endTime: "16/10/2023",
@@ -35,6 +47,23 @@ const PhaseTable = () => {
     ]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [formStep, setFormStep] = useState(0);
+    const [formData, setFormData] = useState(null);
+
+    const handleNext = () => {
+        form.validateFields()
+            .then((values) => {
+                setFormData(values); // Save form 1 data
+                setFormStep(1);
+            })
+            .catch((info) => {
+                console.log("Validate Failed:", info);
+            });
+    };
+
+    const handlePrevious = () => {
+        setFormStep(0);
+    };
 
     const columns = [
         // Your columns
@@ -47,43 +76,105 @@ const PhaseTable = () => {
         {
             title: "Name",
             dataIndex: "name",
-            width: "20%",
+            width: "25%",
             editable: true,
         },
         {
             title: "Start Time",
             dataIndex: "startTime",
-            width: "20%",
+            width: "15%",
             editable: true,
         },
         {
             title: "End Time",
             dataIndex: "endTime",
-            width: "20%",
+            width: "15%",
             editable: true,
         },
         {
             title: "Status",
             dataIndex: "status",
-            width: "10%",
+            width: "15%",
             editable: true,
+            render: (text, record) => {
+                const currentDate = new Date();
+                const endTime = new Date(record.endTime);
+
+                if (currentDate > endTime) {
+                    return <Tag color="red">CLOSED</Tag>;
+                } else {
+                    return <Tag color="green">ON GOING</Tag>;
+                }
+            },
         },
         {
             title: "Operation",
             dataIndex: "operation",
-            render: (_, record) =>
-                data.length >= 1 ? (
-                    <div>
-                        <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
-                        >
-                            <Typography.Link>Delete</Typography.Link>
-                        </Popconfirm>
+            width: "20%",
+            render: (_, record) => {
+                const currentDate = new Date();
+                const endTime = new Date(record.endTime);
 
-                        <Typography.Link style={{marginLeft: 20}}>Detail</Typography.Link>
-                    </div>
-                ) : null,
+                if (currentDate > endTime) {
+                    return (
+                        <Flex
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Typography.Link disabled>
+                                Can not delete
+                            </Typography.Link>
+                            <Typography.Link>Detail</Typography.Link>
+                        </Flex>
+                    );
+                } else {
+                    return (
+                        <Flex
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <Popconfirm
+                                title="Sure to delete?"
+                                onConfirm={() => handleDelete(record.key)}
+                            >
+                                <Typography.Link>Delete</Typography.Link>
+                            </Popconfirm>
+                            <Typography.Link>Detail</Typography.Link>
+                        </Flex>
+                    );
+                }
+            },
+        },
+    ];
+
+    const options = [
+        {
+            value: "Fall 2023",
+            label: "Fall 2023",
+        },
+        {
+            value: "Summer 2023",
+            label: "Summer 2023",
+        },
+        {
+            value: "Spring 2023",
+            label: "Spring 2023",
+        },
+        {
+            value: "Fall 2022",
+            label: "Fall 2022",
+        },
+        {
+            value: "Summer 2022",
+            label: "Summer 2022",
         },
     ];
 
@@ -132,19 +223,21 @@ const PhaseTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { startTime, endTime } = values;
-                instance
-                    .post("timeSlots", { startTime, endTime })
-                    .then(() => {
-                        toast.success("Successfully created!");
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        toast.error("Error created!");
-                    });
+                console.log(values);
+                console.log(formData);
+                // const { startTime, endTime } = values;
+                // instance
+                //     .post("timeSlots", { startTime, endTime })
+                //     .then(() => {
+                //         toast.success("Successfully created!");
+                //         form.resetFields();
+                //         setModalVisible(false);
+                //         fetchData();
+                //     })
+                //     .catch((error) => {
+                //         console.log(error);
+                //         toast.error("Error created!");
+                //     });
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
@@ -158,10 +251,33 @@ const PhaseTable = () => {
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
+        setFormStep(0);
+    };
+
+    const initialValues = {
+        name: "a",
+        date: dayjs(),
+    };
+
+    const layout = {
+        labelCol: {
+            span: 6,
+        },
+        wrapperCol: {
+            span: 18,
+        },
     };
 
     return (
         <St.DivTable>
+            <St.StyledLeft>
+                <Typography className="title">Semester: </Typography>
+                <Select
+                    className="select"
+                    defaultValue={options[0].value}
+                    options={options}
+                />
+            </St.StyledLeft>
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"
@@ -169,47 +285,82 @@ const PhaseTable = () => {
             >
                 Add a row
             </St.ButtonTable>
+
             <Modal
-                title="Add a row"
+                title="Add new phase"
                 open={modalVisible}
-                onOk={handleOk}
+                onOk={formStep === 0 ? handleNext : handleOk}
                 onCancel={handleCancel}
+                footer={
+                    formStep === 0
+                        ? [
+                              //   <Button key="cancel" onClick={handleCancel}>
+                              //       Cancel
+                              //   </Button>,
+                              <Button
+                                  key="next"
+                                  type="primary"
+                                  onClick={handleNext}
+                              >
+                                  Next
+                              </Button>,
+                          ]
+                        : [
+                              <Button key="previous" onClick={handlePrevious}>
+                                  Previous
+                              </Button>,
+                              <Button
+                                  key="submit"
+                                  type="primary"
+                                  onClick={handleOk}
+                              >
+                                  OK
+                              </Button>,
+                          ]
+                }
             >
-                <Form form={form} name="add_row_form">
-                    <Form.Item
-                        name="startTime"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the start time!",
-                            },
-                            {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Start time" />
-                    </Form.Item>
-                    <Form.Item
-                        name="endTime"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the start time!",
-                            },
-                            {
-                                pattern: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-                                message:
-                                    "Please enter a valid time format (HH:mm)!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="End time" />
-                    </Form.Item>
+                <Form
+                    style={{ marginTop: 40 }}
+                    {...layout}
+                    form={form}
+                    name="add_row_form"
+                    initialValues={initialValues}
+                >
+                    {formStep === 0 ? (
+                        // Form 1
+                        <div>
+                            <Form.Item
+                                name="name"
+                                label="Phase Name"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the Name!",
+                                    },
+                                ]}
+                            >
+                                <Input allowClear placeholder="Name" />
+                            </Form.Item>
+                            <Form.Item
+                                name="date"
+                                label="Start Day"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the Start Time!",
+                                    },
+                                ]}
+                            >
+                                <DatePicker defaultValue={dayjs()} />
+                            </Form.Item>
+                        </div>
+                    ) : (
+                        // Form 2
+                        <div>Slot data</div>
+                    )}
                 </Form>
             </Modal>
+
             <St.StyledTable
                 columns={columns}
                 dataSource={data}
