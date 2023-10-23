@@ -4,12 +4,12 @@ import {
     EditOutlined,
     BookOutlined,
     UserOutlined,
-    LogoutOutlined,
     ProfileOutlined,
     CalendarOutlined,
 } from "@ant-design/icons";
 
 import { SiGoogleclassroom } from "react-icons/si";
+import { MdLogout } from "react-icons/md";
 
 const items = [
     {
@@ -86,7 +86,7 @@ export const item = [
             {
                 label: <span onClick={handleClick}>Logout</span>,
                 key: configs.routes.login,
-                icon: <LogoutOutlined />,
+                icon: <MdLogout />,
             },
         ],
     },
