@@ -1,5 +1,6 @@
 import configs from "@/configs";
-import { HomeOutlined, EditOutlined, LogoutOutlined } from "@ant-design/icons";
+import { HomeOutlined, EditOutlined } from "@ant-design/icons";
+import { MdLogout } from "react-icons/md"
 
 const items = [
     {
@@ -54,7 +55,7 @@ export const item = [
             {
                 label: "Logout",
                 key: "logout",
-                icon: <LogoutOutlined />,
+                icon: <MdLogout />,
             },
         ],
     },
