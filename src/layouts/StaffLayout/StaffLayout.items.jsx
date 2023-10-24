@@ -1,6 +1,6 @@
 import configs from "@/configs";
 import { HomeOutlined, EditOutlined } from "@ant-design/icons";
-import { MdLogout } from "react-icons/md"
+import { MdLogout } from "react-icons/md";
 
 const items = [
     {
@@ -29,11 +29,6 @@ const items = [
             {
                 label: "Exam Phase",
                 key: configs.routes.staffExamPhase,
-                icon: <EditOutlined />,
-            },
-            {
-                label: "Exam Room",
-                key: configs.routes.staffExamRoom,
                 icon: <EditOutlined />,
             },
         ],

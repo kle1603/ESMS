@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import items, { item } from "./AdminLayout.items";
 
-import AdminHeader from "@/components/AdminHeader/index.js";
+import AdminHeader from "@/components/HeaderLayout/index.js";
 import { useState } from "react";
 // import { useState } from "react";
 import * as St from "./AdminLayout.styled";
@@ -72,7 +72,9 @@ const AdminLayout = ({ children }) => {
                         height: "calc(100vh - 64px - 24px)", // Trừ đi chiều cao của Header và margin của Content
                     }}
                 >
-                    <div style={{minHeight: "calc(100vh - 100px)"}}>{children}</div>
+                    <div style={{ minHeight: "calc(100vh - 100px)" }}>
+                        {children}
+                    </div>
                     <FooterContent />
                 </Content>
             </Layout>

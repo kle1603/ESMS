@@ -14,8 +14,6 @@ export const ButtonTable = styled(Button)`
 `;
 
 export const StyledTable = styled(Table)`
-    min-width: 1000px;
-
     .ant-table-cell {
         height: 65px;
     }
