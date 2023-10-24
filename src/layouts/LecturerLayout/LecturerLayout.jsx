@@ -72,8 +72,10 @@ const LecturerLayout = ({ children }) => {
                         height: "calc(100vh - 64px - 24px)", // Trừ đi chiều cao của Header và margin của Content
                     }}
                 >
-                    {children}
-                    <FooterContent />  
+                    <div style={{ minHeight: "calc(100vh - 100px)" }}>
+                        {children}
+                    </div>
+                    <FooterContent />
                 </Content>
             </Layout>
         </Layout>
