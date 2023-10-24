@@ -1,5 +1,4 @@
 import {
-    Button,
     DatePicker,
     Flex,
     Form,
@@ -16,6 +15,8 @@ import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
+
+const { RangePicker } = DatePicker;
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -47,23 +48,6 @@ const PhaseTable = () => {
     ]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    const [formStep, setFormStep] = useState(0);
-    const [formData, setFormData] = useState(null);
-
-    const handleNext = () => {
-        form.validateFields()
-            .then((values) => {
-                setFormData(values); // Save form 1 data
-                setFormStep(1);
-            })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
-            });
-    };
-
-    const handlePrevious = () => {
-        setFormStep(0);
-    };
 
     const columns = [
         // Your columns
@@ -128,7 +112,6 @@ const PhaseTable = () => {
                             <Typography.Link disabled>
                                 Can not delete
                             </Typography.Link>
-                            <Typography.Link>Detail</Typography.Link>
                         </Flex>
                     );
                 } else {
@@ -147,7 +130,6 @@ const PhaseTable = () => {
                             >
                                 <Typography.Link>Delete</Typography.Link>
                             </Popconfirm>
-                            <Typography.Link>Detail</Typography.Link>
                         </Flex>
                     );
                 }
@@ -176,6 +158,11 @@ const PhaseTable = () => {
             value: "Summer 2022",
             label: "Summer 2022",
         },
+    ];
+
+    const option = [
+        { value: "Coursera", label: "Coursera" },
+        { value: "Normal", label: "Normal" },
     ];
 
     const fetchData = () => {
@@ -224,7 +211,6 @@ const PhaseTable = () => {
         form.validateFields()
             .then((values) => {
                 console.log(values);
-                console.log(formData);
                 // const { startTime, endTime } = values;
                 // instance
                 //     .post("timeSlots", { startTime, endTime })
@@ -251,20 +237,19 @@ const PhaseTable = () => {
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
-        setFormStep(0);
     };
 
     const initialValues = {
-        name: "a",
-        date: dayjs(),
+        // name: "Phase 1",
+        // date: dayjs(),
     };
 
     const layout = {
         labelCol: {
-            span: 6,
+            span: 7,
         },
         wrapperCol: {
-            span: 18,
+            span: 14,
         },
     };
 
@@ -289,35 +274,8 @@ const PhaseTable = () => {
             <Modal
                 title="Add new phase"
                 open={modalVisible}
-                onOk={formStep === 0 ? handleNext : handleOk}
+                onOk={handleOk}
                 onCancel={handleCancel}
-                footer={
-                    formStep === 0
-                        ? [
-                              //   <Button key="cancel" onClick={handleCancel}>
-                              //       Cancel
-                              //   </Button>,
-                              <Button
-                                  key="next"
-                                  type="primary"
-                                  onClick={handleNext}
-                              >
-                                  Next
-                              </Button>,
-                          ]
-                        : [
-                              <Button key="previous" onClick={handlePrevious}>
-                                  Previous
-                              </Button>,
-                              <Button
-                                  key="submit"
-                                  type="primary"
-                                  onClick={handleOk}
-                              >
-                                  OK
-                              </Button>,
-                          ]
-                }
             >
                 <Form
                     style={{ marginTop: 40 }}
@@ -326,38 +284,47 @@ const PhaseTable = () => {
                     name="add_row_form"
                     initialValues={initialValues}
                 >
-                    {formStep === 0 ? (
-                        // Form 1
-                        <div>
-                            <Form.Item
-                                name="name"
-                                label="Phase Name"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input the Name!",
-                                    },
-                                ]}
-                            >
-                                <Input allowClear placeholder="Name" />
-                            </Form.Item>
-                            <Form.Item
-                                name="date"
-                                label="Start Day"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please input the Start Time!",
-                                    },
-                                ]}
-                            >
-                                <DatePicker defaultValue={dayjs()} />
-                            </Form.Item>
-                        </div>
-                    ) : (
-                        // Form 2
-                        <div>Slot data</div>
-                    )}
+                    <div>
+                        <Form.Item
+                            name="name"
+                            label="Phase Name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input the Name!",
+                                },
+                            ]}
+                        >
+                            <Input allowClear placeholder="Name" />
+                        </Form.Item>
+                        <Form.Item
+                            name="option"
+                            label="Option"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please select the option!",
+                                },
+                            ]}
+                        >
+                            <Select
+                                options={option}
+                                defaultValue={option[1].value}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            name="date"
+                            label="Range"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please select the Range Time!",
+                                },
+                            ]}
+                        >
+                            <RangePicker />
+                        </Form.Item>
+                    </div>
                 </Form>
             </Modal>
 
