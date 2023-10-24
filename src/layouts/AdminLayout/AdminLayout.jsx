@@ -8,6 +8,7 @@ import { useState } from "react";
 // import { useState } from "react";
 import * as St from "./AdminLayout.styled";
 import logo from "@/assets/images/Logo.svg";
+import FooterContent from "@/components/FooterContent/FooterContent";
 
 const { Content } = Layout;
 
@@ -71,7 +72,8 @@ const AdminLayout = ({ children }) => {
                         height: "calc(100vh - 64px - 24px)", // Trừ đi chiều cao của Header và margin của Content
                     }}
                 >
-                    {children}
+                    <div style={{minHeight: "calc(100vh - 224px)"}}>{children}</div>
+                    <FooterContent />
                 </Content>
             </Layout>
         </Layout>

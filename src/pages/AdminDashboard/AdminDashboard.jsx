@@ -5,10 +5,15 @@ import { Col, Divider, Row } from "antd";
 const Dashboard = () => {
     return (
         <Row gutter={16}>
-        <Col xs={24} sm={24} md={24} lg={24}>
-            <Divider orientation="left">Dashboard</Divider>
-        </Col>
-    </Row>
+            <Col xs={24} sm={24} md={24} lg={24}>
+                <Divider
+                    orientation="left"
+                    style={{ fontFamily: "Roboto Slab" }}
+                >
+                    Dashboard
+                </Divider>
+            </Col>
+        </Row>
     );
 };
 

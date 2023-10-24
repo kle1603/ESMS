@@ -13,11 +13,13 @@ const theme = {
         button_hover_color: "#90caf9",
         background_404: "#fff",
 
+        //màu xếp từ nhạt đến đậm
         blue_1: "#0043BE",
         blue_2: "#1677ff",
         white_color: "#fff",
         white_matte: "rgba(255, 255, 255, 0.7)",
-
+        gray_1: "#ccc",
+        gray_2: "#D9D9D9",
     },
     font: {
         primary_font: "Roboto Slab",
