@@ -11,16 +11,44 @@ const SemesterTable = () => {
         {
             key: 1,
             no: 1,
+            startTime: "1/10/2023",
+            endTime: "1/1/2024",
+            season: "Fall 2023",
+        },
+        {
+            key: 2,
+            no: 2,
             startTime: "1/5/2023",
             endTime: "1/9/2023",
             season: "Summer 2023",
         },
         {
-            key: 2,
-            no: 2,
-            startTime: "1/10/2023",
-            endTime: "1/1/2024",
-            season: "Fall 2023",
+            key: 3,
+            no: 3,
+            startTime: "20/10/2022",
+            endTime: "10/1/2023",
+            season: "Spring 2023",
+        },
+        {
+            key: 4,
+            no: 4,
+            startTime: "1/5/2022",
+            endTime: "1/9/2022",
+            season: "Fall 2022",
+        },
+        {
+            key: 5,
+            no: 5,
+            startTime: "20/10/2022",
+            endTime: "10/1/2022",
+            season: "Summer 2022",
+        },
+        {
+            key: 6,
+            no: 6,
+            startTime: "1/5/2022",
+            endTime: "1/9/2022",
+            season: "Spring 2022",
         },
     ]);
     const [loading, setLoading] = useState(true);
@@ -57,15 +85,13 @@ const SemesterTable = () => {
             dataIndex: "status",
             width: "15%",
             render: (text, record) => {
-                const currentYear = new Date().getFullYear();
-                const year = record.year;
+                const currentDate = new Date();
+                const endTime = new Date(record.endTime);
 
-                if (year === currentYear) {
-                    return <Tag color="green">On Going</Tag>;
-                } else if (year < currentYear) {
-                    return <Tag color="red">Past</Tag>;
+                if (currentDate > endTime) {
+                    return <Tag color="red">CLOSED</Tag>;
                 } else {
-                    return <Tag color="green">On Going</Tag>;
+                    return <Tag color="green">ON GOING</Tag>;
                 }
             },
         },
@@ -74,34 +100,25 @@ const SemesterTable = () => {
             dataIndex: "operation",
             width: "15%",
             render: (_, record) => {
-                const currentYear = new Date().getFullYear();
-                const year = record.year;
-                const status =
-                    year === currentYear
-                        ? "On Going"
-                        : year < currentYear
-                        ? "Past"
-                        : "Upcoming";
+                const currentDate = new Date();
+                const endTime = new Date(record.endTime);
 
-                if (status === "Past") {
+                if (currentDate > endTime) {
+                    return (
+                        <Typography.Link disabled>
+                            Can not delete
+                        </Typography.Link>
+                    );
+                } else {
                     return (
                         <Popconfirm
                             title="Sure to delete?"
                             onConfirm={() => handleDelete(record.key)}
                         >
-                            <Typography.Link>Can not delete</Typography.Link>
+                            <Typography.Link>Delete</Typography.Link>
                         </Popconfirm>
                     );
                 }
-
-                return (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                );
             },
         },
     ];
@@ -187,7 +204,7 @@ const SemesterTable = () => {
                 Add a row
             </St.ButtonTable>
             <Modal
-                title="Add a row"
+                title="Add new Semester"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
@@ -198,23 +215,34 @@ const SemesterTable = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the name of Season !",
+                                message: "Please input the name of Season!",
                             },
                         ]}
                     >
                         <Input placeholder="Season" />
                     </Form.Item>
-                    {/* <Form.Item
-                        name="year"
+                    <Form.Item
+                        name="startTime"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the year !",
+                                message: "Please input the Start Time!",
                             },
                         ]}
                     >
-                        <Input placeholder="Year" />
-                    </Form.Item> */}
+                        <Input placeholder="Start Time" />
+                    </Form.Item>
+                    <Form.Item
+                        name="endTime"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the End Time!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="End Time" />
+                    </Form.Item>
                 </Form>
             </Modal>
             <St.StyledTable
