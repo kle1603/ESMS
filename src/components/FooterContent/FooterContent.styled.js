@@ -8,7 +8,8 @@ export const FooterStyled = styled.div`
     align-items: center;
 
     .ant-layout-footer {
-        padding: 0 15px;
+        margin: 300px 15px 15px;
+        border-top: 2px solid ${Theme.color.gray_3};
     }
 
     .container {
