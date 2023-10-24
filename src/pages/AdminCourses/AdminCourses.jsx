@@ -6,7 +6,9 @@ import { Divider } from "antd";
 const AdminCourses = () => {
     return (
         <div>
-            <Divider orientation="left">Course</Divider>
+            <Divider orientation="left" style={{ fontFamily: "Roboto Slab" }}>
+                Course
+            </Divider>
             <CourseTable />
         </div>
     );

@@ -8,6 +8,7 @@ import { useState } from "react";
 // import { useState } from "react";
 import * as St from "./StaffLayout.styled";
 import logo from "@/assets/images/Logo.svg";
+import FooterContent from "@/components/FooterContent/FooterContent";
 
 const { Content } = Layout;
 
@@ -72,6 +73,7 @@ const StaffLayout = ({ children }) => {
                     }}
                 >
                     {children}
+                    <FooterContent />
                 </Content>
             </Layout>
         </Layout>
