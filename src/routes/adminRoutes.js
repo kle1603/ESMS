@@ -125,6 +125,12 @@ const adminRoutes = [
         component: PageNotFound,
         layout: null,
     },
+    {
+        id: 18,
+        path: configs.routes.adminSlots,
+        component: AdminSlots,
+        layout: AdminLayout,
+    },
 ];
 
 export default adminRoutes;
