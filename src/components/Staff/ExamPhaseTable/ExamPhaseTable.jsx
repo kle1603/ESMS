@@ -1,7 +1,7 @@
 // import PropTypes from "prop-types";
 
 import SelectOption from "@/components/SelectOption";
-import { Input, Table, Typography } from "antd";
+import { Input, Select, Table, Typography } from "antd";
 
 import * as St from "./ExamPhaseTable.styled";
 import { useState } from "react";
@@ -13,7 +13,14 @@ const ExamPhaseTable = () => {
     const handleInputChange = (e, key, field) => {
         setChanges({
             ...changes,
-            [key]: { ...changes[key], [field]: e.target.value },
+            [key]: { ...changes[key], [field]: e.target.value.trim() },
+        });
+    };
+
+    const handleSelectChange = (value, key, field) => {
+        setChanges({
+            ...changes,
+            [key]: { ...changes[key], [field]: value },
         });
     };
 
@@ -25,6 +32,7 @@ const ExamPhaseTable = () => {
 
     const save = async (key) => {
         console.log(changes[key]);
+        console.log(key);
         setEditingKey("");
         setChanges({});
     };
@@ -99,18 +107,8 @@ const ExamPhaseTable = () => {
         {
             title: "No",
             width: "10%",
-            // render: (record) => {
-            //     return <div>{record.no}</div>;
-            // },
             render: (record) => {
-                return isEditing(record) ? (
-                    <Input
-                        defaultValue={record.no}
-                        onChange={(e) => handleInputChange(e, record.key, "no")}
-                    />
-                ) : (
-                    <div>{record.no}</div>
-                );
+                return <div>{record.no}</div>;
             },
         },
         {
@@ -156,14 +154,38 @@ const ExamPhaseTable = () => {
             title: "Room",
             width: "10%",
             render: (record) => {
-                return <div>{record.room}</div>;
+                return isEditing(record) ? (
+                    <Input
+                        defaultValue={record.room}
+                        onChange={(e) =>
+                            handleInputChange(e, record.key, "room")
+                        }
+                    />
+                ) : (
+                    <div>{record.room}</div>
+                );
             },
         },
         {
             title: "Lecturer",
             width: "15%",
             render: (record) => {
-                return <div>{record.lecturer}</div>;
+                return isEditing(record) ? (
+                    // <Input
+                    //     defaultValue={record.lecturer}
+                    //     onChange={(e) => handleInputChange(e, record.key, "lecturer")}
+                    // />
+                    <Select
+                        style={{ width: "100%" }}
+                        defaultValue={"Room"}
+                        options={phase}
+                        onChange={(value) =>
+                            handleSelectChange(value, record.key, "lecturer")
+                        }
+                    />
+                ) : (
+                    <div>{record.lecturer}</div>
+                );
             },
         },
         {
@@ -200,9 +222,9 @@ const ExamPhaseTable = () => {
         },
     ];
 
-    const handleDelete = (e) => {
-        console.log(e);
-    };
+    // const handleDelete = (e) => {
+    //     console.log(e);
+    // };
 
     return (
         <St.DivTable>
