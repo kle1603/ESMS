@@ -1,27 +1,16 @@
 // import PropTypes from "prop-types";
 
-import HistoryTable from "@/components/StaffTable/HistoryTable";
-import PendingTable from "@/components/StaffTable/PendingTable";
-import { Tabs } from "antd";
-
-const items = [
-    {
-        key: "1",
-        label: "Pending",
-        children: <PendingTable />,
-    },
-    {
-        key: "2",
-        label: "History",
-        children: <HistoryTable />,
-    },
-];
+import ExamPhaseTable from "@/components/Staff/ExamPhaseTable";
+import { Col, Divider, Row } from "antd";
 
 const StaffExamPhase = () => {
     return (
-        <div>
-            <Tabs defaultActiveKey="1" items={items} />
-        </div>
+        <Row gutter={16}>
+            <Col span={24}>
+                <Divider orientation="left">Exam Phase</Divider>
+                <ExamPhaseTable/>
+            </Col>
+        </Row>
     );
 };
 

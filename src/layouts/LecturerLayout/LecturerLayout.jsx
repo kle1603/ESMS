@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import items, { item } from "./LecturerLayout.items";
 
-import AdminHeader from "@/components/AdminHeader/index.js";
+import AdminHeader from "@/components/HeaderLayout/index.js";
 import { useState } from "react";
 // import { useState } from "react";
 import * as St from "./LecturerLayout.styled";

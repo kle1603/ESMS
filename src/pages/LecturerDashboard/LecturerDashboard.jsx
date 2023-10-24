@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import { LecDashboard } from "@/components/LecturerTable/DashboardTable";
+import { LecDashboard } from "@/components/Lecturer/DashboardTable";
 
 const LecturerDashboard = () => {
     return (

@@ -127,6 +127,7 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
+                console.log(res)
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     season: item.season,

@@ -1,7 +1,7 @@
 // import PropTypes from "prop-types";
 
-import CardItem from "@/components/LecturerDashboard/CardItem/CardItem";
-import LineChart from "@/components/LecturerDashboard/LineChart";
+import CardItem from "@/components/Dashboard/CardItem/CardItem";
+import LineChart from "@/components/Dashboard/LineChart";
 import { Col, Divider, Row } from "antd";
 import {
     HistoryOutlined,
@@ -9,8 +9,8 @@ import {
     PaperClipOutlined,
     ExclamationOutlined,
 } from "@ant-design/icons";
-import CardTable from "@/components/LecturerDashboard/CardTable";
-import BarChart from "@/components/LecturerDashboard/BarChart";
+import CardTable from "@/components/Dashboard/CardTable";
+import BarChart from "@/components/Dashboard/BarChart";
 
 const DashboardTable = () => {
     return (

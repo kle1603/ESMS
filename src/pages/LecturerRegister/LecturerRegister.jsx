@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import ExamTable from "@/components/LecturerTable/ExamTable";
+import ExamTable from "@/components/Lecturer/ExamTable";
 
 const LecturerRegister = () => {
     return (

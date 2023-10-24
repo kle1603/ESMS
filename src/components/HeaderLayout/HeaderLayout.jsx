@@ -1,7 +1,7 @@
 // import PropTypes from "prop-types";
 import { Avatar, Badge, Layout, Space } from "antd";
 import { BellOutlined } from "@ant-design/icons";
-import * as St from "./AdminHeader.styled";
+import * as St from "./HeaderLayout.styled";
 import PopUpOver from "../PopUpOver";
 import avatar from "../../assets/images/avatar.jpg";
 // import jwtDecode from "jwt-decode";
