@@ -8,6 +8,7 @@ const routes = {
     adminCourses: "/admin/courses",
     adminRooms: "/admin/rooms",
     adminExaminers: "/admin/examiners",
+    adminSlot: "/admin/phases/:id",
     staff: "/staff",
     staffCalendar: "/staff/calendar",
     staffTestNaNe: "/staff/test",
