@@ -1,4 +1,4 @@
-import RoomTable from "@/components/AdminTable/RoomTable";
+import RoomTable from "@/components/Admin/RoomTable";
 import { Divider } from "antd";
 
 const AdminRoom = () => {

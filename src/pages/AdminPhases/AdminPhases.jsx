@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import PhaseTable from "@/components/AdminTable/PhaseTable";
+import PhaseTable from "@/components/Admin/PhaseTable";
 import { Col, Divider, Row } from "antd";
 
 const AdminSlots = () => {

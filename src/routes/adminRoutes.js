@@ -12,7 +12,6 @@ import StaffLayout from "@/layouts/StaffLayout";
 import StaffExamPhase from "@/pages/StaffExamPhase";
 import LecturerLayout from "@/layouts/LecturerLayout";
 import LecturerDashboard from "@/pages/LecturerDashboard";
-import StaffExamRoom from "@/pages/StaffExamRoom";
 import AdminCourses from "@/pages/AdminCourses";
 import AdminRoom from "@/pages/AdminRoom";
 import LecturerSchedule from "@/pages/LecturerSchedule";
@@ -89,12 +88,7 @@ const adminRoutes = [
         component: StaffExamPhase,
         layout: StaffLayout,
     },
-    {
-        id: 12,
-        path: configs.routes.staffExamRoom,
-        component: StaffExamRoom,
-        layout: StaffLayout,
-    },
+
     {
         id: 13,
         path: configs.routes.lecturer,

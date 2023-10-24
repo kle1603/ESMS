@@ -198,7 +198,7 @@ const SubjectTable = () => {
         {
             title: "Operation",
             dataIndex: "operation",
-            width: "10%",
+            width: "25%",
             render: (_, record) => {
                 const editable = isEditing(record);
                 return editable ? (

@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import ExaminerTable from "@/components/AdminTable/ExaminerTable";
+import ExaminerTable from "@/components/Admin/ExaminerTable";
 import { Divider } from "antd";
 
 const AdminExaminers = () => {

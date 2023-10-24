@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import SubjectTable from "@/components/AdminTable/SubjectTable";
+import SubjectTable from "@/components/Admin/SubjectTable";
 import { Col, Divider, Row } from "antd";
 
 const AdminSubjects = () => {

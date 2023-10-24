@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import CancelRegisterTable from "@/components/LecturerTable/CancelRegisterTable";
+import CancelRegisterTable from "@/components/Lecturer/CancelRegisterTable";
 
 const LecturerExamPhase = () => {
     return (

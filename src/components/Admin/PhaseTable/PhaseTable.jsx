@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
 import toast from "react-hot-toast";
-import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
@@ -246,10 +245,12 @@ const PhaseTable = () => {
 
     const layout = {
         labelCol: {
-            span: 7,
+            // offset: 0,
+            // span: 7,
         },
         wrapperCol: {
-            span: 14,
+            span: 12,
+            offset: 3,
         },
     };
 

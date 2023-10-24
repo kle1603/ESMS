@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import CourseTable from "@/components/AdminTable/CourseTable";
+import CourseTable from "@/components/Admin/CourseTable";
 import { Divider } from "antd";
 
 const AdminCourses = () => {
