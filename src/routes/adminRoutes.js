@@ -20,6 +20,8 @@ import PageNotFound from "@/pages/PageNotFound";
 import LecturerExamSlots from "@/pages/LecturerExamSlots";
 import AdminPhases from "@/pages/AdminPhases";
 import AdminExaminers from "@/pages/AdminExaminers";
+import StaffExamPhaseDetail from "@/pages/StaffExamPhaseDetail";
+import StaffExaminer from "@/pages/StaffExaminer";
 
 const adminRoutes = [
     {
@@ -84,37 +86,48 @@ const adminRoutes = [
     },
     {
         id: 11,
+        path: configs.routes.staffExaminer,
+        component: StaffExaminer,
+        layout: StaffLayout,
+    },
+    {
+        id: 12,
         path: configs.routes.staffExamPhase,
         component: StaffExamPhase,
         layout: StaffLayout,
     },
-
     {
         id: 13,
+        path: configs.routes.staffExamPhaseDetail,
+        component: StaffExamPhaseDetail,
+        layout: StaffLayout,
+    },
+    {
+        id: 14,
         path: configs.routes.lecturer,
         component: LecturerDashboard,
         layout: LecturerLayout,
     },
     {
-        id: 14,
+        id: 15,
         path: configs.routes.lecturerRegister,
         component: LecturerRegister,
         layout: LecturerLayout,
     },
     {
-        id: 15,
+        id: 16,
         path: configs.routes.lecturerExamSlots,
         component: LecturerExamSlots,
         layout: LecturerLayout,
     },
     {
-        id: 16,
+        id: 17,
         path: configs.routes.lecturerSchedule,
         component: LecturerSchedule,
         layout: LecturerLayout,
     },
     {
-        id: 17,
+        id: 18,
         path: configs.routes.pageNotFound,
         component: PageNotFound,
         layout: null,

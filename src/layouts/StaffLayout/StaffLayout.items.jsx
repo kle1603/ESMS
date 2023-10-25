@@ -27,6 +27,11 @@ const items = [
         type: "group",
         children: [
             {
+                label: "Examiner",
+                key: configs.routes.staffExaminer,
+                icon: <EditOutlined />,
+            },
+            {
                 label: "Exam Phase",
                 key: configs.routes.staffExamPhase,
                 icon: <EditOutlined />,
