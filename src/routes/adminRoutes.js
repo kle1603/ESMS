@@ -20,6 +20,7 @@ import PageNotFound from "@/pages/PageNotFound";
 import LecturerExamSlots from "@/pages/LecturerExamSlots";
 import AdminPhases from "@/pages/AdminPhases";
 import AdminExaminers from "@/pages/AdminExaminers";
+import AdminSlots from "@/pages/AdminSlots";
 
 const adminRoutes = [
     {
