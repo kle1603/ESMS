@@ -1,45 +1,50 @@
 // import PropTypes from "prop-types";
 
 import SelectOption from "@/components/SelectOption";
-import { Input, Select, Table, Typography } from "antd";
+import { Form, Input, Modal, Table, Typography } from "antd";
 
 import * as St from "./ExamPhaseTable.styled";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const ExamPhaseTable = () => {
-    const [editingKey, setEditingKey] = useState("");
-    const [changes, setChanges] = useState({});
+    const [form] = Form.useForm();
+    const [modalVisible, setModalVisible] = useState(false);
+    const navigate = useNavigate();
 
-    const handleInputChange = (e, key, field) => {
-        setChanges({
-            ...changes,
-            [key]: { ...changes[key], [field]: e.target.value.trim() },
-        });
-    };
+    // const [editingKey, setEditingKey] = useState("");
+    // const [changes, setChanges] = useState({});
 
-    const handleSelectChange = (value, key, field) => {
-        setChanges({
-            ...changes,
-            [key]: { ...changes[key], [field]: value },
-        });
-    };
+    // const handleInputChange = (e, key, field) => {
+    //     setChanges({
+    //         ...changes,
+    //         [key]: { ...changes[key], [field]: e.target.value.trim() },
+    //     });
+    // };
 
-    const isEditing = (record) => record.key === editingKey;
+    // const handleSelectChange = (value, key, field) => {
+    //     setChanges({
+    //         ...changes,
+    //         [key]: { ...changes[key], [field]: value },
+    //     });
+    // };
 
-    const edit = (record) => {
-        setEditingKey(record.key);
-    };
+    // const isEditing = (record) => record.key === editingKey;
 
-    const save = async (key) => {
-        console.log(changes[key]);
-        console.log(key);
-        setEditingKey("");
-        setChanges({});
-    };
+    // const edit = (record) => {
+    //     setEditingKey(record.key);
+    // };
 
-    const cancel = () => {
-        setEditingKey("");
-    };
+    // const save = async (key) => {
+    //     console.log(changes[key]);
+    //     console.log(key);
+    //     setEditingKey("");
+    //     setChanges({});
+    // };
+
+    // const cancel = () => {
+    //     setEditingKey("");
+    // };
 
     const semester = [
         {
@@ -70,6 +75,7 @@ const ExamPhaseTable = () => {
             day: "1/1/2023",
             startTime: "7:00",
             endTime: "8:30",
+            course: "MAE",
             room: "120",
             lecturer: "HoangNT",
         },
@@ -79,6 +85,7 @@ const ExamPhaseTable = () => {
             day: "1/1/2023",
             startTime: "7:00",
             endTime: "8:30",
+            course: "PRJ",
             room: "123",
             lecturer: "PhuongLNK",
         },
@@ -88,6 +95,7 @@ const ExamPhaseTable = () => {
             day: "2/1/2023",
             startTime: "7:00",
             endTime: "8:30",
+            course: "FER",
             room: "120",
             lecturer: "HoangNT",
         },
@@ -97,6 +105,7 @@ const ExamPhaseTable = () => {
             day: "2/1/2023",
             startTime: "7:00",
             endTime: "8:30",
+            course: "SWP",
             room: "123",
             lecturer: "PhuongLNK",
         },
@@ -106,14 +115,14 @@ const ExamPhaseTable = () => {
         // Your columns
         {
             title: "No",
-            width: "10%",
+            width: "5%",
             render: (record) => {
                 return <div>{record.no}</div>;
             },
         },
         {
             title: "Day",
-            width: "20%",
+            width: "15%",
             render: (record) => {
                 return <div>{record.day}</div>;
             },
@@ -138,93 +147,118 @@ const ExamPhaseTable = () => {
         },
         {
             title: "Start Time",
-            width: "15%",
+            width: "10%",
             render: (record) => {
                 return <div>{record.startTime}</div>;
             },
         },
         {
             title: "End Time",
-            width: "15%",
+            width: "10%",
             render: (record) => {
                 return <div>{record.endTime}</div>;
             },
         },
         {
-            title: "Room",
-            width: "10%",
+            title: "Course",
+            width: "15%",
             render: (record) => {
-                return isEditing(record) ? (
-                    <Input
-                        defaultValue={record.room}
-                        onChange={(e) =>
-                            handleInputChange(e, record.key, "room")
-                        }
-                    />
-                ) : (
-                    <div>{record.room}</div>
-                );
+                return <div>{record.course}</div>;
             },
+        },
+        {
+            title: "Room",
+            width: "15%",
+            render: (record) => {
+                return <div>{record.room}</div>;
+            },
+            // render: (record) => {
+            //     return isEditing(record) ? (
+            //         <Input
+            //             defaultValue={record.room}
+            //             onChange={(e) =>
+            //                 handleInputChange(e, record.key, "room")
+            //             }
+            //         />
+            //     ) : (
+            //         <div>{record.room}</div>
+            //     );
+            // },
         },
         {
             title: "Lecturer",
             width: "15%",
             render: (record) => {
-                return isEditing(record) ? (
-                    // <Input
-                    //     defaultValue={record.lecturer}
-                    //     onChange={(e) => handleInputChange(e, record.key, "lecturer")}
-                    // />
-                    <Select
-                        style={{ width: "100%" }}
-                        defaultValue={"Room"}
-                        options={phase}
-                        onChange={(value) =>
-                            handleSelectChange(value, record.key, "lecturer")
-                        }
-                    />
-                ) : (
-                    <div>{record.lecturer}</div>
-                );
+                return <div>{record.lecturer}</div>;
             },
+            // render: (record) => {
+            //     return isEditing(record) ? (
+            //         // <Input
+            //         //     defaultValue={record.lecturer}
+            //         //     onChange={(e) => handleInputChange(e, record.key, "lecturer")}
+            //         // />
+            //         <Select
+            //             style={{ width: "100%" }}
+            //             defaultValue={"Room"}
+            //             options={phase}
+            //             onChange={(value) =>
+            //                 handleSelectChange(value, record.key, "lecturer")
+            //             }
+            //         />
+            //     ) : (
+            //         <div>{record.lecturer}</div>
+            //     );
+            // },
         },
         {
             title: "Operation",
             width: "15%",
-            // render: (record) => {
-            //     return (
-            //         <Typography.Link onClick={() => handleDelete(record)}>
-            //             Delete
-            //         </Typography.Link>
-            //     );
-            // },
-            render: (_, record) => {
-                const editable = isEditing(record);
-                return editable ? (
-                    <span>
-                        <a
-                            onClick={() => save(record.key)}
-                            style={{ marginRight: 8 }}
-                        >
-                            Save
-                        </a>
-                        <a onClick={cancel}>Cancel</a>
-                    </span>
-                ) : (
-                    <Typography.Link
-                        disabled={editingKey !== ""}
-                        onClick={() => edit(record)}
-                    >
+            render: (record) => {
+                return (
+                    <Typography.Link onClick={() => handleEdit(record)}>
                         Edit
                     </Typography.Link>
                 );
             },
+            // render: (_, record) => {
+            //     const editable = isEditing(record);
+            //     return editable ? (
+            //         <span>
+            //             <a
+            //                 onClick={() => save(record.key)}
+            //                 style={{ marginRight: 8 }}
+            //             >
+            //                 Save
+            //             </a>
+            //             <a onClick={cancel}>Cancel</a>
+            //         </span>
+            //     ) : (
+            //         <Typography.Link
+            //             disabled={editingKey !== ""}
+            //             onClick={() => edit(record)}
+            //         >
+            //             Edit
+            //         </Typography.Link>
+            //     );
+            // },
         },
     ];
 
-    // const handleDelete = (e) => {
-    //     console.log(e);
-    // };
+    const handleAdd = () => {
+        setModalVisible(true);
+    };
+
+    const handleOk = () => {};
+
+    const handleCancel = () => {
+        form.resetFields();
+        setModalVisible(false);
+    };
+
+    const handleEdit = (e) => {
+        navigate(`${e.no}`);
+        console.log(e);
+    };
 
     return (
         <St.DivTable>
@@ -237,9 +271,60 @@ const ExamPhaseTable = () => {
                 <Typography className="title">Phase: </Typography>
                 <SelectOption defaultValue={phase[0].value} options={phase} />
             </St.StyledLeft>
-            <St.ButtonTable type="primary" style={{ marginBottom: 16 }}>
+            <St.ButtonTable
+                type="primary"
+                style={{ marginBottom: 16 }}
+                onClick={handleAdd}
+            >
                 Add a row
             </St.ButtonTable>
+            <Modal
+                title="Add a row"
+                open={modalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <Form form={form} name="add_row_form">
+                    <Form.Item
+                        name="role"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please choose role!",
+                            },
+                            {
+                                pattern:
+                                    /^(Admin|admin|ADMIN|Staff|staff|Lecturer|lecturer)$/,
+                                message: "Invalid role!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Role" />
+                    </Form.Item>
+                    <Form.Item
+                        name="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the email!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Email" />
+                    </Form.Item>
+                    <Form.Item
+                        name="name"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the name!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Name" />
+                    </Form.Item>
+                </Form>
+            </Modal>
             <Table bordered columns={columns} dataSource={data} />
         </St.DivTable>
     );
