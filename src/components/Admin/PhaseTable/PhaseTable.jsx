@@ -1,6 +1,5 @@
 import {
     DatePicker,
-    Flex,
     Form,
     Input,
     Modal,
@@ -52,36 +51,38 @@ const PhaseTable = () => {
         // Your columns
         {
             title: "No",
-            dataIndex: "no",
             width: "10%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.id}</Typography>;
+            },
         },
         {
             title: "Name",
-            dataIndex: "name",
             width: "25%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.ePName}</Typography>;
+            },
         },
         {
             title: "Start Time",
-            dataIndex: "startTime",
             width: "15%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.sDay}</Typography>;
+            },
         },
         {
             title: "End Time",
-            dataIndex: "endTime",
             width: "15%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.eDay}</Typography>;
+            },
         },
         {
             title: "Status",
-            dataIndex: "status",
             width: "15%",
-            editable: true,
             render: (text, record) => {
                 const currentDate = new Date();
-                const endTime = new Date(record.endTime);
+                const endTime = new Date(record);
 
                 if (currentDate > endTime) {
                     return <Tag color="red">CLOSED</Tag>;
@@ -92,44 +93,25 @@ const PhaseTable = () => {
         },
         {
             title: "Operation",
-            dataIndex: "operation",
             width: "20%",
             render: (_, record) => {
                 const currentDate = new Date();
-                const endTime = new Date(record.endTime);
+                const endTime = new Date(record);
 
                 if (currentDate > endTime) {
                     return (
-                        <Flex
-                            style={{
-                                width: "100%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                            }}
-                        >
-                            <Typography.Link disabled>
-                                Can not delete
-                            </Typography.Link>
-                        </Flex>
+                        <Typography.Link disabled>
+                            Can not delete
+                        </Typography.Link>
                     );
                 } else {
                     return (
-                        <Flex
-                            style={{
-                                width: "100%",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                            }}
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => handleDelete(record.key)}
                         >
-                            <Popconfirm
-                                title="Sure to delete?"
-                                onConfirm={() => handleDelete(record.key)}
-                            >
-                                <Typography.Link>Delete</Typography.Link>
-                            </Popconfirm>
-                        </Flex>
+                            <Typography.Link>Delete</Typography.Link>
+                        </Popconfirm>
                     );
                 }
             },
@@ -167,15 +149,12 @@ const PhaseTable = () => {
     const fetchData = () => {
         // setLoading(true);
         instance
-            .get("timeSlots")
+            .get("examPhases")
             .then((res) => {
+                console.log(res);
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     key: item.id,
-                    no: item.id,
-                    slot: item.id,
-                    startTime: item.startTime.slice(0, 5),
-                    endTime: item.endTime.slice(0, 5),
                 }));
                 setData(formattedData);
                 setLoading(false);
@@ -195,7 +174,7 @@ const PhaseTable = () => {
     const handleDelete = (e) => {
         setLoading(true);
         instance
-            .delete("timeSlots", { data: { id: e } })
+            .delete("examPhases", { data: { id: e } })
             .then(() => {
                 toast.success("Successfully deleted!");
                 fetchData();

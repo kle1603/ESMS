@@ -73,14 +73,14 @@ const UserTable = () => {
             title: "Role",
             key: "role",
             width: "15%",
-            render: (role) => {
-                let color = role.length > 5 ? "volcano" : "geekblue";
-                if (role === "admin") {
+            render: (record) => {
+                let color = record.role.length > 5 ? "volcano" : "geekblue";
+                if (record.role === "admin") {
                     color = "volcano";
                 }
                 return (
-                    <Tag color={color} key={role}>
-                        {role.toUpperCase()}
+                    <Tag color={color} key={record.id}>
+                        {record.role.toUpperCase()}
                     </Tag>
                 );
             },
@@ -89,14 +89,14 @@ const UserTable = () => {
             title: "Status",
             // key: "status",
             width: "15%",
-            render: (role) => {
-                let color = "magenta";
-                if (role === "active") {
-                    color = "geekblue";
+            render: (record) => {
+                let color = "geekblue";
+                if (record.status === 1) {
+                    color = "magenta";
                 }
                 return (
-                    <Tag color={color} key={role}>
-                        {role.toUpperCase()}
+                    <Tag color={color} key={record.id}>
+                        {record.status === 1 ? "ACTIVE" : "INACTIVE"}
                     </Tag>
                 );
             },
@@ -211,7 +211,7 @@ const UserTable = () => {
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
             <St.SpaceStyled>
-                <Search onSearch={handleSearch} />
+                <Search allowClear onSearch={handleSearch} />
             </St.SpaceStyled>
             <St.ButtonTable
                 onClick={handleAdd}

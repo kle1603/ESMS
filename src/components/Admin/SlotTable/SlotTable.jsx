@@ -1,7 +1,8 @@
 // import PropTypes from 'prop-types'
 import { Form, Input, Modal, Select, Tag, TimePicker, Typography } from "antd";
 import * as St from "./SlotTable.styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import instance from "@/utils/instance";
 // import moment from "moment";
 // import moment from "moment";
 
@@ -9,6 +10,7 @@ const SlotTable = () => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
 
     const handleAdd = () => {
         setModalVisible(true);
@@ -96,26 +98,26 @@ const SlotTable = () => {
         },
     ];
 
-    const data = [
-        {
-            no: 1,
-            name: "Slot 1",
-            startTime: "7:30",
-            endTime: "9:15",
-        },
-        {
-            no: 2,
-            name: "Slot 2",
-            startTime: "9:30",
-            endTime: "11:45",
-        },
-        {
-            no: 3,
-            name: "Slot 3",
-            startTime: "12:30",
-            endTime: "14:15",
-        },
-    ];
+    // const data = [
+    //     {
+    //         no: 1,
+    //         name: "Slot 1",
+    //         startTime: "7:30",
+    //         endTime: "9:15",
+    //     },
+    //     {
+    //         no: 2,
+    //         name: "Slot 2",
+    //         startTime: "9:30",
+    //         endTime: "11:45",
+    //     },
+    //     {
+    //         no: 3,
+    //         name: "Slot 3",
+    //         startTime: "12:30",
+    //         endTime: "14:15",
+    //     },
+    // ];
 
     const options = [
         {
@@ -139,6 +141,31 @@ const SlotTable = () => {
             label: "Summer 2022",
         },
     ];
+
+    const fetchData = () => {
+        // setLoading(true);
+        instance
+            .get("timeSlots")
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item) => ({
+                    ...item,
+                    key: item.id,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <St.DivSlot>
