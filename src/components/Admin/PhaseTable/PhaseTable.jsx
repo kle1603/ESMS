@@ -167,8 +167,9 @@ const PhaseTable = () => {
     const fetchData = () => {
         // setLoading(true);
         instance
-            .get("timeSlots")
+            .get("examPhases")
             .then((res) => {
+                console.log(res)
                 const formattedData = res.data.data.map((item) => ({
                     ...item,
                     key: item.id,
@@ -195,7 +196,7 @@ const PhaseTable = () => {
     const handleDelete = (e) => {
         setLoading(true);
         instance
-            .delete("timeSlots", { data: { id: e } })
+            .delete("examPhases", { data: { id: e } })
             .then(() => {
                 toast.success("Successfully deleted!");
                 fetchData();
