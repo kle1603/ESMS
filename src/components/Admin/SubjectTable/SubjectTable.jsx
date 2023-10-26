@@ -17,7 +17,7 @@ const SubjectTable = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                return <Typography>{record.id}</Typography>;
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
@@ -73,8 +73,9 @@ const SubjectTable = () => {
         instance
             .get("subjects")
             .then((res) => {
-                const formattedData = res.data.data.map((item) => ({
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
+                    no: index + 1,
                     key: item.id,
                 }));
                 setData(formattedData);

@@ -211,7 +211,7 @@ const UserTable = () => {
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
             <St.SpaceStyled>
-                <Search onSearch={handleSearch} />
+                <Search allowClear onSearch={handleSearch} />
             </St.SpaceStyled>
             <St.ButtonTable
                 onClick={handleAdd}
