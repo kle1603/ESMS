@@ -44,26 +44,34 @@ const UserTable = () => {
     const columns = [
         {
             title: "No",
-            dataIndex: "no",
-            key: "no",
+            // key: "no",
             width: "10%",
+            render: (record) => {
+                console.log(record);
+                return <Typography>{record.no}</Typography>;
+            },
         },
         {
             title: "Email",
-            dataIndex: "email",
-            key: "email",
+            // key: "email",
             width: "20%",
+            render: (record) => {
+                console.log(record);
+                return <Typography>{record.email}</Typography>;
+            },
         },
         {
             title: "Name",
-            dataIndex: "name",
-            key: "name",
+            // key: "name",
             width: "20%",
+            render: (record) => {
+                console.log(record);
+                return <Typography>{record.name}</Typography>;
+            },
         },
         {
             title: "Role",
             key: "role",
-            dataIndex: "role",
             width: "15%",
             render: (role) => {
                 let color = role.length > 5 ? "volcano" : "geekblue";
@@ -79,8 +87,7 @@ const UserTable = () => {
         },
         {
             title: "Status",
-            dataIndex: "status",
-            key: "status",
+            // key: "status",
             width: "15%",
             render: (role) => {
                 let color = "magenta";
@@ -96,7 +103,6 @@ const UserTable = () => {
         },
         {
             title: "Operation",
-            dataIndex: "operation",
             width: "20%",
             render: (_, record) =>
                 data.length >= 1 ? (

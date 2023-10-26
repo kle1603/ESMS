@@ -46,6 +46,11 @@ const items = [
                 icon: <EditOutlined />,
             },
             {
+                label: "Slots",
+                key: configs.routes.adminSlots,
+                icon: <EditOutlined />,
+            },
+            {
                 label: "Subjects",
                 key: configs.routes.adminSubjects,
                 icon: <BookOutlined />,
