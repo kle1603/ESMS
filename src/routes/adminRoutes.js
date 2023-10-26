@@ -20,8 +20,12 @@ import PageNotFound from "@/pages/PageNotFound";
 import LecturerExamSlots from "@/pages/LecturerExamSlots";
 import AdminPhases from "@/pages/AdminPhases";
 import AdminExaminers from "@/pages/AdminExaminers";
+<<<<<<< HEAD
+import AdminSlots from "@/pages/AdminSlots";
+=======
 import StaffExamPhaseDetail from "@/pages/StaffExamPhaseDetail";
 import StaffExaminer from "@/pages/StaffExaminer";
+>>>>>>> c73385042387958e40b65a1e45e1b87ce6325118
 
 const adminRoutes = [
     {
@@ -131,6 +135,12 @@ const adminRoutes = [
         path: configs.routes.pageNotFound,
         component: PageNotFound,
         layout: null,
+    },
+    {
+        id: 18,
+        path: configs.routes.adminSlots,
+        component: AdminSlots,
+        layout: AdminLayout,
     },
 ];
 

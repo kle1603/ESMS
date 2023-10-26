@@ -8,7 +8,7 @@ const routes = {
     adminCourses: "/admin/courses",
     adminRooms: "/admin/rooms",
     adminExaminers: "/admin/examiners",
-    adminSlot: "/admin/phases/:id",
+    adminSlots: "/admin/slots",
     staff: "/staff",
     staffExaminer: "/staff/examiners",
     staffExamPhase: "/staff/examPhase",
