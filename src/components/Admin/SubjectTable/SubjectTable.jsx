@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
 
 import * as St from "./SubjectTable.styled";
 import { useEffect, useState } from "react";
@@ -11,6 +11,59 @@ const SubjectTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+
+    const columns = [
+        {
+            title: "No",
+            width: "10%",
+            render: (record) => {
+                return <Typography>{record.id}</Typography>;
+            },
+        },
+        {
+            title: "Subject Name",
+            width: "25%",
+            render: (record) => {
+                return <Typography>{record.name}</Typography>;
+            },
+        },
+        {
+            title: "Subject Code",
+            width: "25%",
+            render: (record) => {
+                return <Typography>{record.code}</Typography>;
+            },
+        },
+        {
+            title: "Status",
+            width: "15%",
+            render: (record) => {
+                let color = "geekblue";
+                if (record.status === 1) {
+                    color = "magenta";
+                }
+                return (
+                    <Tag color={color} key={record.id}>
+                        {record.status === 1 ? "ACTIVE" : "INACTIVE"}
+                    </Tag>
+                );
+            },
+        },
+        {
+            title: "Operation",
+            width: "25%",
+            render: (record) => {
+                return (
+                    <Popconfirm
+                        title="Sure to delete?"
+                        onConfirm={() => handleDelete(record)}
+                    >
+                        <Typography.Link>Delete</Typography.Link>
+                    </Popconfirm>
+                );
+            },
+        },
+    ];
 
     const handleAdd = () => {
         setModalVisible(true);
@@ -77,55 +130,6 @@ const SubjectTable = () => {
         form.resetFields();
         setModalVisible(false);
     };
-
-    const columns = [
-        {
-            title: "No",
-            width: "10%",
-            render: (record) => {
-                return <div>{record.id}</div>;
-            },
-        },
-        {
-            title: "Subject Name",
-            width: "25%",
-            render: (record) => {
-                return <div>{record.name}</div>;
-            },
-        },
-        {
-            title: "Subject Code",
-            width: "25%",
-            render: (record) => {
-                return <div>{record.code}</div>;
-            },
-        },
-        {
-            title: "Status",
-            width: "15%",
-            render: (record) => {
-                if (record.status === 1) {
-                    return <div>Active</div>;
-                } else {
-                    return <div>Close</div>;
-                }
-            },
-        },
-        {
-            title: "Operation",
-            width: "25%",
-            render: (record) => {
-                return (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                );
-            },
-        },
-    ];
 
     return (
         <St.DivTable>

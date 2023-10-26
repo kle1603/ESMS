@@ -7,50 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            startTime: "1/10/2023",
-            endTime: "1/1/2024",
-            season: "Fall 2023",
-        },
-        {
-            key: 2,
-            no: 2,
-            startTime: "1/5/2023",
-            endTime: "1/9/2023",
-            season: "Summer 2023",
-        },
-        {
-            key: 3,
-            no: 3,
-            startTime: "20/10/2022",
-            endTime: "10/1/2023",
-            season: "Spring 2023",
-        },
-        {
-            key: 4,
-            no: 4,
-            startTime: "1/5/2022",
-            endTime: "1/9/2022",
-            season: "Fall 2022",
-        },
-        {
-            key: 5,
-            no: 5,
-            startTime: "20/10/2022",
-            endTime: "10/1/2022",
-            season: "Summer 2022",
-        },
-        {
-            key: 6,
-            no: 6,
-            startTime: "1/5/2022",
-            endTime: "1/9/2022",
-            season: "Spring 2022",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -58,35 +15,38 @@ const SemesterTable = () => {
         // Your columns
         {
             title: "No",
-            dataIndex: "no",
             width: "10%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
         },
         {
             title: "Start Time",
-            dataIndex: "startTime",
             width: "15%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.start}</Typography>;
+            },
         },
         {
             title: "End Time",
-            dataIndex: "endTime",
             width: "15%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.end}</Typography>;
+            },
         },
         {
             title: "Season",
-            dataIndex: "season",
             width: "20%",
-            editable: true,
+            render: (record) => {
+                return <Typography>{record.season}</Typography>;
+            },
         },
         {
             title: "Status",
-            dataIndex: "status",
             width: "15%",
-            render: (text, record) => {
+            render: (record) => {
                 const currentDate = new Date();
-                const endTime = new Date(record.endTime);
+                const endTime = new Date(record.end);
 
                 if (currentDate > endTime) {
                     return <Tag color="red">CLOSED</Tag>;
@@ -97,11 +57,10 @@ const SemesterTable = () => {
         },
         {
             title: "Operation",
-            dataIndex: "operation",
             width: "15%",
-            render: (_, record) => {
+            render: (record) => {
                 const currentDate = new Date();
-                const endTime = new Date(record.endTime);
+                const endTime = new Date(record.end);
 
                 if (currentDate > endTime) {
                     return (
@@ -127,13 +86,14 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                console.log(res)
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    season: item.season,
-                    no: index + 1,
-                    key: item.id,
-                }));
+                console.log(res);
+                const formattedData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item, index) => ({
+                        ...item,
+                        no: index + 1,
+                        key: item.id,
+                    }));
                 setData(formattedData);
             })
             .catch((error) => {

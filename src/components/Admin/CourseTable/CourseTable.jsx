@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, Modal, Popconfirm, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./CourseTable.styled";
@@ -6,131 +6,74 @@ import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
 
-const EditableCell = ({
-    editing,
-    dataIndex,
-    title,
-    inputType,
-    record,
-    index,
-    children,
-    ...restProps
-}) => {
-    const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-    return (
-        <td {...restProps}>
-            {editing ? (
-                <Form.Item
-                    name={dataIndex}
-                    style={{ margin: 0 }}
-                    rules={[
-                        {
-                            required: true,
-                            message: `Please Input ${title}!`,
-                        },
-                    ]}
-                >
-                    {inputNode}
-                </Form.Item>
-            ) : (
-                children
-            )}
-        </td>
-    );
-};
-
 const CourseTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            courseCode: "MAE101",
-            numOfStudents: 120,
-            status: "Active",
-        },
-        {
-            key: 2,
-            no: 2,
-            courseCode: "PRN301",
-            numOfStudents: 230,
-            status: "Active",
-        },
-        {
-            key: 3,
-            no: 3,
-            courseCode: "SWP301",
-            numOfStudents: 180,
-            status: "Active",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [search, setSearch] = useState("");
-    const [editingKey, setEditingKey] = useState("");
 
-    const isEditing = (record) => record.key === editingKey;
-
-    const edit = (record) => {
-        form.setFieldsValue({
-            numOfStudents: "",
-            ...record,
-        });
-        setEditingKey(record.key);
-    };
-
-    const cancel = () => {
-        setEditingKey("");
-    };
-
-    const save = async (key) => {
-        try {
-            const row = await form.validateFields();
-            const newData = [...data];
-            const index = newData.findIndex((item) => key === item.key);
-
-            console.log(newData);
-            console.log(row);
-
-            if (index > -1) {
-                const item = newData[index];
-                newData.splice(index, 1, { ...item, ...row });
-                setData(newData);
-                setEditingKey("");
-
-                instance
-                    .put("courses", {
-                        id: key,
-                        numOfStu: row.numOfStudents,
-                    })
-                    .then(() => {
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            } else {
-                newData.push(row);
-                setData(newData);
-                setEditingKey("");
-            }
-        } catch (errInfo) {
-            console.log("Validate Failed:", errInfo);
-        }
-    };
+    const columns = [
+        // Your columns
+        {
+            title: "No",
+            width: "10%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
+        },
+        {
+            title: "Course Code",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.subCode}</Typography>;
+            },
+        },
+        {
+            title: "Num of Students",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.numOfStu}</Typography>;
+            },
+        },
+        {
+            title: "Status",
+            width: "10%",
+            render: (record) => {
+                let color = "geekblue";
+                if (record.status === 1) {
+                    color = "magenta";
+                }
+                return (
+                    <Tag color={color} key={record.id}>
+                        {record.status === 1 ? "ACTIVE" : "INACTIVE"}
+                    </Tag>
+                );
+            },
+        },
+        {
+            title: "Operation",
+            width: "15%",
+            render: (_, record) =>
+                data.length >= 1 ? (
+                    <Popconfirm
+                        title="Sure to delete?"
+                        onConfirm={() => handleDelete(record.key)}
+                    >
+                        <Typography.Link>Delete</Typography.Link>
+                    </Popconfirm>
+                ) : null,
+        },
+    ];
 
     const fetchData = () => {
         instance
             .get("courses")
             .then((res) => {
-                console.log(res)
-                const formattedData = res.data.data.map((item) => ({
+                console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
-                    no: item.courseId,
-                    subjectCode: item.subCode,
-                    subjectName: item.subName,
-                    numOfStudents: item.numOfStu,
-                    key: item.courseId,
+                    no: index + 1,
                 }));
                 setData(formattedData);
             })
@@ -195,91 +138,6 @@ const CourseTable = () => {
         setSearch(e);
     };
 
-    const columns = [
-        // Your columns
-        {
-            title: "No",
-            dataIndex: "no",
-            width: "10%",
-        },
-        {
-            title: "Course Code",
-            dataIndex: "courseCode",
-            width: "20%",
-        },
-        {
-            title: "Num of Students",
-            dataIndex: "numOfStudents",
-            width: "20%",
-            editable: true,
-        },
-        {
-            title: "Status",
-            dataIndex: "status",
-            width: "10%",
-            editable: true,
-        },
-        {
-            title: "Operation",
-            dataIndex: "operation",
-            width: "15%",
-            render: (_, record) => {
-                const editable = isEditing(record);
-                return editable ? (
-                    <span>
-                        <Typography.Link
-                            onClick={() => save(record.key)}
-                            style={{
-                                marginRight: 8,
-                            }}
-                        >
-                            Save
-                        </Typography.Link>
-                        <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                            <Typography.Link>Cancel</Typography.Link>
-                        </Popconfirm>
-                    </span>
-                ) : (
-                    <span>
-                        <Typography.Link
-                            disabled={editingKey !== ""}
-                            onClick={() => edit(record)}
-                        >
-                            Edit
-                        </Typography.Link>
-                        <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
-                        >
-                            <Typography.Link
-                                style={{ marginLeft: 8, display: "inline" }}
-                            >
-                                Delete
-                            </Typography.Link>
-                        </Popconfirm>
-                    </span>
-                );
-            },
-        },
-    ];
-
-    const mergedColumns = columns.map((col) => {
-        if (!col.editable) {
-            return col;
-        }
-
-        return {
-            ...col,
-            onCell: (record) => ({
-                record,
-                inputType: "text",
-                dataIndex: col.dataIndex,
-                title: col.title,
-                editing: isEditing(record),
-            }),
-        };
-    });
-
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -337,14 +195,9 @@ const CourseTable = () => {
             </Modal>
             <Form form={form} component={false}>
                 <St.StyledTable
-                    components={{
-                        body: {
-                            cell: EditableCell,
-                        },
-                    }}
                     bordered
                     dataSource={data}
-                    columns={mergedColumns}
+                    columns={columns}
                     rowClassName="editable-row"
                     pagination={{
                         pageSize: 6,

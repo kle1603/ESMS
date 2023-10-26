@@ -1,246 +1,70 @@
 // import PropTypes from "prop-types";
-import {
-    Form,
-    Input,
-    InputNumber,
-    Modal,
-    Popconfirm,
-    Tag,
-    Typography,
-} from "antd";
+import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
 import * as St from "./RoomTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
 
-const EditableCell = ({
-    editing,
-    dataIndex,
-    title,
-    inputType,
-    record,
-    index,
-    children,
-    ...restProps
-}) => {
-    const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-    return (
-        <td {...restProps}>
-            {editing ? (
-                <Form.Item
-                    name={dataIndex}
-                    style={{ margin: 0 }}
-                    rules={[
-                        {
-                            required: true,
-                            message: `Please Input ${title}!`,
-                        },
-                    ]}
-                >
-                    {inputNode}
-                </Form.Item>
-            ) : (
-                children
-            )}
-        </td>
-    );
-};
-
 const RoomTable = () => {
     const [search, setSearch] = useState("");
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            roomNumber: 120,
-            location: "XAVALO",
-            status: "Active",
-        },
-        {
-            key: 2,
-            no: 2,
-            roomNumber: 220,
-            location: "XAVALO",
-            status: "Active",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
-    const [editingKey, setEditingKey] = useState("");
 
     const columns = [
         {
             title: "No",
-            dataIndex: "no",
-            key: "no",
             width: "10%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
         },
         {
             title: "Room Number",
-            dataIndex: "roomNumber",
-            key: "roomNumber",
             width: "20%",
-            editable: true,
-            sorter: (a, b) => a.roomNumber - b.roomNumber,
+            render: (record) => {
+                return <Typography>{record.roomNum}</Typography>;
+            },
+            sorter: (a, b) => a.roomNum - b.roomNum,
         },
         {
             title: "Location",
-            dataIndex: "location",
-            key: "location",
             width: "25%",
-            editable: true,
-            filters: [
-                {
-                    text: "XAVALO",
-                    value: "XAVALO",
-                },
-                {
-                    text: "NVH",
-                    value: "NVH",
-                },
-            ],
-            onFilter: (value, record) => record.location === value,
+            render: (record) => {
+                return <Typography>{record.location}</Typography>;
+            },
         },
         {
             title: "Status",
-            dataIndex: "status",
-            key: "status",
             width: "25%",
-            editable: true,
-            render: (text) => {
-                return text.length > 0 ? (
-                    <div
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        <St.TagStyled color="red">
-                            {text.toUpperCase()}
-                        </St.TagStyled>
-                    </div>
-                ) : (
-                    <Tag color="green">
-                        {"khong co note gi ca".toUpperCase()}
+            render: (record) => {
+                let color = "geekblue";
+                if (record.status === 1) {
+                    color = "magenta";
+                }
+                return (
+                    <Tag color={color} key={record.id}>
+                        {record.status === 1 ? "ACTIVE" : "INACTIVE"}
                     </Tag>
                 );
             },
         },
         {
             title: "Operation",
-            dataIndex: "operation",
             width: "20%",
-            render: (_, record) => {
-                const editable = isEditing(record);
-                return editable ? (
-                    <span>
-                        <Typography.Link
-                            onClick={() => save(record.key)}
-                            style={{
-                                marginRight: 8,
-                            }}
-                        >
-                            Save
-                        </Typography.Link>
-                        <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                            <Typography.Link>Cancel</Typography.Link>
-                        </Popconfirm>
-                    </span>
-                ) : (
-                    <span>
-                        <Typography.Link
-                            disabled={editingKey !== ""}
-                            onClick={() => edit(record)}
-                        >
-                            Edit
-                        </Typography.Link>
-                        <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
-                        >
-                            <Typography.Link
-                                style={{ marginLeft: 8, display: "inline" }}
-                            >
-                                Delete
-                            </Typography.Link>
-                        </Popconfirm>
-                    </span>
-                );
-            },
+            render: (_, record) =>
+                data.length >= 1 ? (
+                    <Popconfirm
+                        title="Sure to delete?"
+                        onConfirm={() => handleDelete(record.key)}
+                    >
+                        <Typography.Link>Delete</Typography.Link>
+                    </Popconfirm>
+                ) : null,
         },
     ];
-
-    const mergedColumns = columns.map((col) => {
-        if (!col.editable) {
-            return col;
-        }
-
-        return {
-            ...col,
-            onCell: (record) => ({
-                record,
-                inputType: "text",
-                dataIndex: col.dataIndex,
-                title: col.title,
-                editing: isEditing(record),
-            }),
-        };
-    });
-
-    const isEditing = (record) => record.key === editingKey;
-
-    const edit = (record) => {
-        form.setFieldsValue({
-            // note: "",
-            location: "",
-            roomNumber: "",
-            ...record,
-        });
-        setEditingKey(record.key);
-    };
-
-    const cancel = () => {
-        setEditingKey("");
-    };
-
-    const save = async (key) => {
-        try {
-            const row = await form.validateFields();
-            const newData = [...data];
-            const index = newData.findIndex((item) => key === item.key);
-
-            if (index > -1) {
-                const item = newData[index];
-                newData.splice(index, 1, { ...item, ...row });
-                setData(newData);
-                setEditingKey("");
-
-                instance
-                    .put("rooms", {
-                        id: key,
-                        // note: row.note,
-                        roomNum: row.roomNumber,
-                        location: row.location,
-                    })
-                    .then(() => {
-                        toast.success("Successfully updated!");
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        toast.error("This is an error!");
-                        console.log(error);
-                    });
-            } else {
-                newData.push(row);
-                setData(newData);
-                setEditingKey("");
-            }
-        } catch (errInfo) {
-            console.log("Validate Failed:", errInfo);
-        }
-    };
 
     const handleOk = () => {
         form.validateFields()
@@ -277,10 +101,10 @@ const RoomTable = () => {
         instance
             .get("rooms")
             .then((res) => {
-                const formattedData = res.data.data.map((item) => ({
+                console.log(res.data.data);
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
-                    no: item.id,
-                    roomNumber: item.roomNum,
+                    no: index + 1,
                     key: item.id,
                 }));
                 setData(formattedData);
@@ -368,14 +192,9 @@ const RoomTable = () => {
             </Modal>
             <Form form={form} component={false}>
                 <St.StyledTable
-                    components={{
-                        body: {
-                            cell: EditableCell,
-                        },
-                    }}
                     bordered
                     dataSource={data}
-                    columns={mergedColumns}
+                    columns={columns}
                     rowClassName="editable-row"
                     pagination={{
                         pageSize: 6,
