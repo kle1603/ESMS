@@ -1,7 +1,7 @@
 // import PropTypes from "prop-types";
 
 import SelectOption from "@/components/SelectOption";
-import { Form, Input, Modal, Table, Typography } from "antd";
+import { Button, Form, Input, Modal, Table, Typography } from "antd";
 
 import * as St from "./ExamPhaseTable.styled";
 import { useNavigate } from "react-router-dom";
@@ -11,40 +11,6 @@ const ExamPhaseTable = () => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const navigate = useNavigate();
-
-    // const [editingKey, setEditingKey] = useState("");
-    // const [changes, setChanges] = useState({});
-
-    // const handleInputChange = (e, key, field) => {
-    //     setChanges({
-    //         ...changes,
-    //         [key]: { ...changes[key], [field]: e.target.value.trim() },
-    //     });
-    // };
-
-    // const handleSelectChange = (value, key, field) => {
-    //     setChanges({
-    //         ...changes,
-    //         [key]: { ...changes[key], [field]: value },
-    //     });
-    // };
-
-    // const isEditing = (record) => record.key === editingKey;
-
-    // const edit = (record) => {
-    //     setEditingKey(record.key);
-    // };
-
-    // const save = async (key) => {
-    //     console.log(changes[key]);
-    //     console.log(key);
-    //     setEditingKey("");
-    //     setChanges({});
-    // };
-
-    // const cancel = () => {
-    //     setEditingKey("");
-    // };
 
     const semester = [
         {
@@ -75,7 +41,7 @@ const ExamPhaseTable = () => {
             day: "1/1/2023",
             startTime: "7:00",
             endTime: "8:30",
-            course: "MAE",
+            slot: "Slot 1",
             room: "120",
             lecturer: "HoangNT",
         },
@@ -83,29 +49,69 @@ const ExamPhaseTable = () => {
             key: 2,
             no: 2,
             day: "1/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            course: "PRJ",
+            startTime: "9:00",
+            endTime: "10:30",
+            slot: "Slot 2",
             room: "123",
             lecturer: "PhuongLNK",
         },
         {
             key: 3,
             no: 3,
-            day: "2/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            course: "FER",
+            day: "1/1/2023",
+            startTime: "11:00",
+            endTime: "12:30",
+            slot: "Slot 3",
             room: "120",
             lecturer: "HoangNT",
         },
         {
             key: 4,
             no: 4,
+            day: "1/1/2023",
+            startTime: "13:00",
+            endTime: "14:30",
+            slot: "Slot 4",
+            room: "123",
+            lecturer: "PhuongLNK",
+        },
+        {
+            key: 5,
+            no: 5,
             day: "2/1/2023",
             startTime: "7:00",
             endTime: "8:30",
-            course: "SWP",
+            slot: "Slot 1",
+            room: "120",
+            lecturer: "HoangNT",
+        },
+        {
+            key: 6,
+            no: 6,
+            day: "2/1/2023",
+            startTime: "9:00",
+            endTime: "10:30",
+            slot: "Slot 2",
+            room: "123",
+            lecturer: "PhuongLNK",
+        },
+        {
+            key: 7,
+            no: 7,
+            day: "2/1/2023",
+            startTime: "11:00",
+            endTime: "12:30",
+            slot: "Slot 3",
+            room: "120",
+            lecturer: "HoangNT",
+        },
+        {
+            key: 8,
+            no: 8,
+            day: "2/1/2023",
+            startTime: "13:00",
+            endTime: "14:30",
+            slot: "Slot 4",
             room: "123",
             lecturer: "PhuongLNK",
         },
@@ -122,125 +128,67 @@ const ExamPhaseTable = () => {
         },
         {
             title: "Day",
-            width: "15%",
+            width: "20%",
             render: (record) => {
                 return <div>{record.day}</div>;
             },
-            onCell: (record, rowIndex) => {
-                let rowSpan = 1;
-                if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
-                    rowSpan = 0;
-                } else {
-                    let count = 0;
-                    while (
-                        rowIndex + count < data.length &&
-                        data[rowIndex + count].day === record.day
-                    ) {
-                        count++;
-                    }
-                    rowSpan = count;
-                }
-                return {
-                    rowSpan: rowSpan,
-                };
+            // onCell: (record, rowIndex) => {
+            //     let rowSpan = 1;
+            //     if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
+            //         rowSpan = 0;
+            //     } else {
+            //         let count = 0;
+            //         while (
+            //             rowIndex + count < data.length &&
+            //             data[rowIndex + count].day === record.day
+            //         ) {
+            //             count++;
+            //         }
+            //         rowSpan = count;
+            //     }
+            //     return {
+            //         rowSpan: rowSpan,
+            //     };
+            // },
+        },
+        {
+            title: "Slot",
+            width: "15%",
+            render: (record) => {
+                return <div>{record.slot}</div>;
             },
         },
         {
             title: "Start Time",
-            width: "10%",
+            width: "20%",
             render: (record) => {
                 return <div>{record.startTime}</div>;
             },
         },
         {
             title: "End Time",
-            width: "10%",
+            width: "20%",
             render: (record) => {
                 return <div>{record.endTime}</div>;
             },
         },
         {
-            title: "Course",
-            width: "15%",
-            render: (record) => {
-                return <div>{record.course}</div>;
-            },
-        },
-        {
-            title: "Room",
-            width: "15%",
-            render: (record) => {
-                return <div>{record.room}</div>;
-            },
-            // render: (record) => {
-            //     return isEditing(record) ? (
-            //         <Input
-            //             defaultValue={record.room}
-            //             onChange={(e) =>
-            //                 handleInputChange(e, record.key, "room")
-            //             }
-            //         />
-            //     ) : (
-            //         <div>{record.room}</div>
-            //     );
-            // },
-        },
-        {
-            title: "Lecturer",
-            width: "15%",
-            render: (record) => {
-                return <div>{record.lecturer}</div>;
-            },
-            // render: (record) => {
-            //     return isEditing(record) ? (
-            //         // <Input
-            //         //     defaultValue={record.lecturer}
-            //         //     onChange={(e) => handleInputChange(e, record.key, "lecturer")}
-            //         // />
-            //         <Select
-            //             style={{ width: "100%" }}
-            //             defaultValue={"Room"}
-            //             options={phase}
-            //             onChange={(value) =>
-            //                 handleSelectChange(value, record.key, "lecturer")
-            //             }
-            //         />
-            //     ) : (
-            //         <div>{record.lecturer}</div>
-            //     );
-            // },
-        },
-        {
             title: "Operation",
-            width: "15%",
+            width: "20%",
             render: (record) => {
                 return (
-                    <Typography.Link onClick={() => handleEdit(record)}>
-                        Edit
-                    </Typography.Link>
+                    // <Typography.Link onClick={() => handleEdit(record)}>
+                    //     Detail
+                    // </Typography.Link>
+                    <Button
+                        type="primary"
+                        style={{ background: "#5194f2" }}
+                        onClick={() => handleEdit(record)}
+                    >
+                        Detail
+                    </Button>
                 );
             },
-            // render: (_, record) => {
-            //     const editable = isEditing(record);
-            //     return editable ? (
-            //         <span>
-            //             <a
-            //                 onClick={() => save(record.key)}
-            //                 style={{ marginRight: 8 }}
-            //             >
-            //                 Save
-            //             </a>
-            //             <a onClick={cancel}>Cancel</a>
-            //         </span>
-            //     ) : (
-            //         <Typography.Link
-            //             disabled={editingKey !== ""}
-            //             onClick={() => edit(record)}
-            //         >
-            //             Edit
-            //         </Typography.Link>
-            //     );
-            // },
         },
     ];
 
@@ -270,6 +218,9 @@ const ExamPhaseTable = () => {
                 />
                 <Typography className="title">Phase: </Typography>
                 <SelectOption defaultValue={phase[0].value} options={phase} />
+                <Typography className="title">
+                    Range: 1/10/2023 - 8/10/2023
+                </Typography>
             </St.StyledLeft>
             <St.ButtonTable
                 type="primary"
