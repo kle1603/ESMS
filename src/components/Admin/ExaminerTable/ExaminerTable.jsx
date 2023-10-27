@@ -74,7 +74,7 @@ const ExaminerTable = () => {
                 }
                 return (
                     <Tag color={color} key={role}>
-                        {role.toUpperCase()}
+                        {/* {role.toUpperCase()} */}
                     </Tag>
                 );
             },
@@ -91,7 +91,7 @@ const ExaminerTable = () => {
                 }
                 return (
                     <Tag color={color} key={role}>
-                        {role.toUpperCase()}
+                        {/* {role.toUpperCase()} */}
                     </Tag>
                 );
             },
