@@ -70,6 +70,7 @@ const SubjectTable = () => {
     };
 
     const fetchData = () => {
+        setLoading(true)
         instance
             .get("subjects")
             .then((res) => {
@@ -79,6 +80,7 @@ const SubjectTable = () => {
                     key: item.id,
                 }));
                 setData(formattedData);
+                setLoading(false)
             })
             .catch((error) => {
                 console.log(error);

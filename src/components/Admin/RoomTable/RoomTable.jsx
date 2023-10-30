@@ -98,6 +98,7 @@ const RoomTable = () => {
     };
 
     const fetchData = () => {
+        setLoading(true);
         instance
             .get("rooms")
             .then((res) => {
@@ -108,6 +109,7 @@ const RoomTable = () => {
                     key: item.id,
                 }));
                 setData(formattedData);
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);

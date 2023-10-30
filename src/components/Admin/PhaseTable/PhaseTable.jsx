@@ -18,32 +18,7 @@ const { RangePicker } = DatePicker;
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            name: "Dot 1 mua ha",
-            startTime: "1/10/2023",
-            endTime: "2/10/2023",
-            status: "Close",
-        },
-        {
-            key: 2,
-            no: 2,
-            name: "Dot bo sung lan 1",
-            startTime: "3/10/2023",
-            endTime: "10/10/2023",
-            status: "Active",
-        },
-        {
-            key: 3,
-            no: 3,
-            name: "Dot bo sung lan 2",
-            startTime: "11/10/2023",
-            endTime: "16/10/2023",
-            status: "Active",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -53,7 +28,7 @@ const PhaseTable = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                return <Typography>{record.id}</Typography>;
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
@@ -85,9 +60,9 @@ const PhaseTable = () => {
                 const endTime = new Date(record);
 
                 if (currentDate > endTime) {
-                    return <Tag color="red">CLOSED</Tag>;
+                    return <Tag color="red">FINISHED</Tag>;
                 } else {
-                    return <Tag color="green">ON GOING</Tag>;
+                    return <Tag color="green">PENDING</Tag>;
                 }
             },
         },
@@ -152,9 +127,10 @@ const PhaseTable = () => {
             .get("examPhases")
             .then((res) => {
                 console.log(res);
-                const formattedData = res.data.data.map((item) => ({
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: item.id,
+                    no: index + 1,
                 }));
                 setData(formattedData);
                 setLoading(false);
