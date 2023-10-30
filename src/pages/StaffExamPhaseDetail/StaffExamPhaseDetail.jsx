@@ -1,7 +1,8 @@
 // import PropTypes from "prop-types";
 
-import { Divider, Table, Tabs, Tag, Typography } from "antd";
+import { Divider, Table, Typography } from "antd";
 import { useParams } from "react-router-dom";
+import * as St from "./StaffExamPhaseDetail.styled";
 
 const StaffExamPhaseDetail = () => {
     const param = useParams();
@@ -70,21 +71,21 @@ const StaffExamPhaseDetail = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                return <div>{record.no}</div>;
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Course",
             width: "20%",
             render: (record) => {
-                return <div>{record.course}</div>;
+                return <Typography>{record.course}</Typography>;
             },
         },
         {
             title: "Number of Students",
             width: "20%",
             render: (record) => {
-                return <div>{record.nOS}</div>;
+                return <Typography>{record.nOS}</Typography>;
             },
         },
     ];
@@ -95,21 +96,21 @@ const StaffExamPhaseDetail = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                return <div>{record.no}</div>;
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Room",
             width: "20%",
             render: (record) => {
-                return <div>{record.room}</div>;
+                return <Typography>{record.room}</Typography>;
             },
         },
         {
             title: "Location",
             width: "20%",
             render: (record) => {
-                return <div>{record.location}</div>;
+                return <Typography>{record.location}</Typography>;
             },
         },
     ];
@@ -120,21 +121,60 @@ const StaffExamPhaseDetail = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                return <div>{record.no}</div>;
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Examiner",
             width: "20%",
             render: (record) => {
-                return <div>{record.examiner}</div>;
+                return <Typography>{record.examiner}</Typography>;
             },
         },
         {
             title: "Email",
             width: "20%",
             render: (record) => {
-                return <div>{record.email}</div>;
+                return <Typography>{record.email}</Typography>;
+            },
+        },
+    ];
+
+    const columns4 = [
+        // Your columns
+        {
+            title: "No",
+            width: "10%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
+        },
+        {
+            title: "Course",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.course}</Typography>;
+            },
+        },
+        {
+            title: "Room",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.room}</Typography>;
+            },
+        },
+        {
+            title: "Examiner",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.examiner}</Typography>;
+            },
+        },
+        {
+            title: "Operation",
+            width: "20%",
+            render: () => {
+                return <Typography.Link>Edit</Typography.Link>;
             },
         },
     ];
@@ -155,15 +195,20 @@ const StaffExamPhaseDetail = () => {
             label: "Examiner",
             children: <Table bordered columns={columns3} dataSource={data} />,
         },
+        {
+            key: "4",
+            label: "Slot",
+            children: <Table bordered columns={columns4} dataSource={data} />,
+        },
     ];
 
     return (
-        <div>
+        <Typography>
             <Divider orientation="left">
                 Fall 2023 - Dot 1 - 1/1/2023 - Slot 1
             </Divider>
-            <Tabs defaultActiveKey="1" items={items} />
-        </div>
+            <St.TabsStyled  defaultActiveKey="1" items={items} />
+        </Typography>
     );
 };
 

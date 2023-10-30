@@ -9,6 +9,7 @@ import { useState } from "react";
 import * as St from "./StaffLayout.styled";
 import logo from "@/assets/images/Logo.svg";
 import FooterContent from "@/components/FooterContent/FooterContent";
+import configs from "@/configs";
 
 const { Content } = Layout;
 
@@ -24,6 +25,11 @@ const StaffLayout = ({ children }) => {
     const handleClickLogo = () => {
         navigate("/staff");
         setActiveKey("/staff");
+    };
+
+    const handleLogout = () => {
+        document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        navigate(configs.routes.login);
     };
 
     return (
@@ -53,6 +59,7 @@ const StaffLayout = ({ children }) => {
                 </div>
                 <div className="bottom__wrapper">
                     <Menu
+                        onClick={handleLogout}
                         style={{ borderInlineEnd: "none", marginBottom: "2px" }}
                         // defaultSelectedKeys={[window.location.pathname]}
                         selectedKeys={[activeKey]}
