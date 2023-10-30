@@ -177,9 +177,6 @@ const ExamPhaseTable = () => {
             width: "20%",
             render: (record) => {
                 return (
-                    // <Typography.Link onClick={() => handleEdit(record)}>
-                    //     Detail
-                    // </Typography.Link>
                     <Button
                         type="primary"
                         style={{ background: "#5194f2" }}

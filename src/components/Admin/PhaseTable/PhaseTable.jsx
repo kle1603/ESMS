@@ -21,6 +21,9 @@ const PhaseTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
 
     const columns = [
         // Your columns
@@ -28,12 +31,13 @@ const PhaseTable = () => {
             title: "No",
             width: "10%",
             render: (record) => {
+                console.log(record);
                 return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Name",
-            width: "25%",
+            width: "15%",
             render: (record) => {
                 return <Typography>{record.ePName}</Typography>;
             },
@@ -42,20 +46,31 @@ const PhaseTable = () => {
             title: "Start Time",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.sDay}</Typography>;
+                return <Typography>{record.startDay}</Typography>;
             },
         },
         {
             title: "End Time",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.eDay}</Typography>;
+                return <Typography>{record.endDay}</Typography>;
+            },
+        },
+        {
+            title: "Type",
+            width: "15%",
+            render: (record) => {
+                if (record.des === 0) {
+                    return <Tag color="red">NORMAL</Tag>;
+                } else {
+                    return <Tag color="green">COURSERA</Tag>;
+                }
             },
         },
         {
             title: "Status",
             width: "15%",
-            render: (text, record) => {
+            render: (record) => {
                 const currentDate = new Date();
                 const endTime = new Date(record);
 
@@ -68,8 +83,8 @@ const PhaseTable = () => {
         },
         {
             title: "Operation",
-            width: "20%",
-            render: (_, record) => {
+            width: "15%",
+            render: (record) => {
                 const currentDate = new Date();
                 const endTime = new Date(record);
 
@@ -93,38 +108,14 @@ const PhaseTable = () => {
         },
     ];
 
-    const options = [
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-        {
-            value: "Spring 2023",
-            label: "Spring 2023",
-        },
-        {
-            value: "Fall 2022",
-            label: "Fall 2022",
-        },
-        {
-            value: "Summer 2022",
-            label: "Summer 2022",
-        },
-    ];
-
     const option = [
         { value: "Coursera", label: "Coursera" },
         { value: "Normal", label: "Normal" },
     ];
 
     const fetchData = () => {
-        // setLoading(true);
         instance
-            .get("examPhases")
+            .get(`examPhases/${semesterId}`)
             .then((res) => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
@@ -143,9 +134,35 @@ const PhaseTable = () => {
             });
     };
 
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [semesterId]);
 
     const handleDelete = (e) => {
         setLoading(true);
@@ -193,11 +210,6 @@ const PhaseTable = () => {
         setModalVisible(false);
     };
 
-    const initialValues = {
-        // name: "Phase 1",
-        // date: dayjs(),
-    };
-
     const layout = {
         labelCol: {
             // offset: 0,
@@ -209,16 +221,23 @@ const PhaseTable = () => {
         },
     };
 
+    const handleSelect = (id, option) => {
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
     return (
         <St.DivTable>
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select
+                    onChange={handleSelect}
+                    value={selectSemester}
                     className="select"
-                    defaultValue={options[0].value}
-                    options={options}
+                    options={semesters}
                 />
             </St.StyledLeft>
+
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"
@@ -238,7 +257,6 @@ const PhaseTable = () => {
                     {...layout}
                     form={form}
                     name="add_row_form"
-                    initialValues={initialValues}
                 >
                     <div>
                         <Form.Item
