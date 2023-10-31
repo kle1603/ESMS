@@ -29,7 +29,7 @@ const UserTable = () => {
         {
             title: "Email",
             // key: "email",
-            width: "20%",
+            width: "25%",
             render: (record) => {
                 console.log(record);
                 return <Typography>{record.email}</Typography>;
@@ -78,7 +78,7 @@ const UserTable = () => {
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "15%",
             render: (_, record) =>
                 data.length >= 1 ? (
                     <Popconfirm

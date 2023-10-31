@@ -13,67 +13,14 @@ const CourseTable = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [search, setSearch] = useState("");
 
-    const columns = [
-        // Your columns
-        {
-            title: "No",
-            width: "10%",
-            render: (record) => {
-                return <Typography>{record.no}</Typography>;
-            },
-        },
-        {
-            title: "Course Code",
-            width: "20%",
-            render: (record) => {
-                return <Typography>{record.subCode}</Typography>;
-            },
-        },
-        {
-            title: "Num of Students",
-            width: "20%",
-            render: (record) => {
-                return <Typography>{record.numOfStu}</Typography>;
-            },
-        },
-        {
-            title: "Status",
-            width: "10%",
-            render: (record) => {
-                let color = "geekblue";
-                if (record.status === 1) {
-                    color = "magenta";
-                }
-                return (
-                    <Tag color={color} key={record.id}>
-                        {record.status === 1 ? "ACTIVE" : "INACTIVE"}
-                    </Tag>
-                );
-            },
-        },
-        {
-            title: "Operation",
-            width: "15%",
-            render: (_, record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
-        },
-    ];
-
     const fetchData = () => {
         instance
             .get("courses")
             .then((res) => {
-                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
+                    key: item.courseId,
                 }));
                 setData(formattedData);
             })
@@ -137,6 +84,59 @@ const CourseTable = () => {
     const handleSearch = (e) => {
         setSearch(e);
     };
+
+    const columns = [
+        // Your columns
+        {
+            title: "No",
+            width: "10%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
+        },
+        {
+            title: "Course Code",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.subCode}</Typography>;
+            },
+        },
+        {
+            title: "Num of Students",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.numOfStu}</Typography>;
+            },
+        },
+        {
+            title: "Status",
+            width: "10%",
+            render: (record) => {
+                let color = "geekblue";
+                if (record.status === 1) {
+                    color = "magenta";
+                }
+                return (
+                    <Tag color={color} key={record.id}>
+                        {record.status === 1 ? "ACTIVE" : "INACTIVE"}
+                    </Tag>
+                );
+            },
+        },
+        {
+            title: "Operation",
+            width: "15%",
+            render: (_, record) =>
+                data.length >= 1 ? (
+                    <Popconfirm
+                        title="Sure to delete?"
+                        onConfirm={() => handleDelete(record.key)}
+                    >
+                        <Typography.Link>Delete</Typography.Link>
+                    </Popconfirm>
+                ) : null,
+        },
+    ];
 
     return (
         <St.DivTable>

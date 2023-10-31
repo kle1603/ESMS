@@ -1,5 +1,14 @@
 // import PropTypes from 'prop-types'
-import { Form, Input, Modal, Select, Tag, TimePicker, Typography } from "antd";
+import {
+    Form,
+    Input,
+    Modal,
+    Popconfirm,
+    Select,
+    Tag,
+    TimePicker,
+    Typography,
+} from "antd";
 import * as St from "./SlotTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
@@ -26,10 +35,60 @@ const SlotTable = () => {
         setModalVisible(false);
     };
 
+    const handleDelete = () => {}
+
     const format = "HH:mm";
     const handleOnChange = (time, timeString) => {
         console.log(time.format("HH:mm"), timeString);
     };
+
+    const options = [
+        {
+            value: "Fall 2023",
+            label: "Fall 2023",
+        },
+        {
+            value: "Summer 2023",
+            label: "Summer 2023",
+        },
+        {
+            value: "Spring 2023",
+            label: "Spring 2023",
+        },
+        {
+            value: "Fall 2022",
+            label: "Fall 2022",
+        },
+        {
+            value: "Summer 2022",
+            label: "Summer 2022",
+        },
+    ];
+
+    const fetchData = () => {
+        // setLoading(true);
+        instance
+            .get("examSlots/?semID=9&ePId=1")
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item) => ({
+                    ...item,
+                    key: item.id,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const columns = [
         {
@@ -78,94 +137,17 @@ const SlotTable = () => {
         {
             title: "Operation",
             width: "15%",
-            // render: (record) => {
-            //     const currentTime = new Date();
-            //     const endTime = new Date(record.endTime);
-
-            //     if (currentTime > endTime) {
-            //         return (
-            //             <Flex
-            //                 style={{
-            //                     width: "100%",
-            //                     display: "flex",
-            //                     alignItems: "center",
-            //                     justifyContent: "space-between",
-            //                 }}
-            //             ></Flex>
-            //         );
-            //     }
-            // },
+            render: (_, record) =>
+                data.length >= 1 ? (
+                    <Popconfirm
+                        title="Sure to delete?"
+                        onConfirm={() => handleDelete(record.key)}
+                    >
+                        <Typography.Link>Delete</Typography.Link>
+                    </Popconfirm>
+                ) : null,
         },
     ];
-
-    // const data = [
-    //     {
-    //         no: 1,
-    //         name: "Slot 1",
-    //         startTime: "7:30",
-    //         endTime: "9:15",
-    //     },
-    //     {
-    //         no: 2,
-    //         name: "Slot 2",
-    //         startTime: "9:30",
-    //         endTime: "11:45",
-    //     },
-    //     {
-    //         no: 3,
-    //         name: "Slot 3",
-    //         startTime: "12:30",
-    //         endTime: "14:15",
-    //     },
-    // ];
-
-    const options = [
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-        {
-            value: "Spring 2023",
-            label: "Spring 2023",
-        },
-        {
-            value: "Fall 2022",
-            label: "Fall 2022",
-        },
-        {
-            value: "Summer 2022",
-            label: "Summer 2022",
-        },
-    ];
-
-    const fetchData = () => {
-        // setLoading(true);
-        instance
-            .get("timeSlots")
-            .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data.map((item) => ({
-                    ...item,
-                    key: item.id,
-                }));
-                setData(formattedData);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     return (
         <St.DivSlot>
