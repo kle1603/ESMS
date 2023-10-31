@@ -63,7 +63,7 @@ export const SideDiv = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 35px;
+        width: 30px;
 
         .image {
             border-radius: 10px;
