@@ -203,25 +203,25 @@ const PhaseTable = () => {
             });
     };
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
+    // const handleAdd = () => {
+    //     setModalVisible(true);
+    // };
 
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
     };
 
-    const layout = {
-        labelCol: {
-            // offset: 0,
-            // span: 7,
-        },
-        wrapperCol: {
-            span: 12,
-            offset: 3,
-        },
-    };
+    // const layout = {
+    //     labelCol: {
+    //         // offset: 0,
+    //         // span: 7,
+    //     },
+    //     wrapperCol: {
+    //         span: 12,
+    //         offset: 3,
+    //     },
+    // };
 
     const handleSelect = (id, option) => {
         setSelectSemester(option.label);
