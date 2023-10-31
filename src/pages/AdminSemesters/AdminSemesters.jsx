@@ -2,11 +2,10 @@
 
 import SemesterTable from "@/components/Admin/SemesterTable";
 import { Divider } from "antd";
-
 const AdminSemesters = () => {
     return (
         <div>
-            <Divider orientation="left" style={{ fontFamily: "Roboto Slab" }}>
+            <Divider orientation="left" style={{ fontFamily: "Inter", fontSize:"1.8rem" }}>
                 Semester
             </Divider>
             <SemesterTable />

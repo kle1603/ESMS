@@ -10,6 +10,7 @@ import {
 
 import { SiGoogleclassroom } from "react-icons/si";
 import { MdLogout } from "react-icons/md";
+import { TbChalkboard } from "react-icons/tb";
 
 const items = [
     {
@@ -48,7 +49,7 @@ const items = [
             {
                 label: "Slots",
                 key: configs.routes.adminSlots,
-                icon: <EditOutlined />,
+                icon: <TbChalkboard />,
             },
             {
                 label: "Subjects",

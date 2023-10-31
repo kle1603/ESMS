@@ -30,7 +30,8 @@ export const DivAvatar = styled.div`
         .avatar__title {
             margin: 4px;
             line-height: 1rem;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+            font-weight: 600;
             font-family: ${Theme.font.primary_font};
             color: ${Theme.color.secondary_color};
         }
