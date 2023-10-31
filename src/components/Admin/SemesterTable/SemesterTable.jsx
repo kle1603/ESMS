@@ -60,7 +60,7 @@ const SemesterTable = () => {
                 if (currentDate > endTime) {
                     return <Tag color="red">CLOSED</Tag>;
                 } else {
-                    return <Tag color="green">ON GOING</Tag>;
+                    return <Tag color="green">ON-GOING</Tag>;
                 }
             },
         },

@@ -9,7 +9,11 @@ const AdminSlots = () => {
             <Col xs={24} sm={24} md={24} lg={24}>
                 <Divider
                     orientation="left"
-                    style={{ fontFamily: "Inter", fontSize: "1.8rem" }}
+                    style={{
+                        fontFamily: "Inter",
+                        fontSize: "1.8rem",
+                        marginBottom: "40px",
+                    }}
                 >
                     Phase
                 </Divider>
