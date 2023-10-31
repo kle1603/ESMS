@@ -5,7 +5,10 @@ import { Divider } from "antd";
 const AdminSemesters = () => {
     return (
         <div>
-            <Divider orientation="left" style={{ fontFamily: "Inter", fontSize:"1.8rem" }}>
+            <Divider
+                orientation="left"
+                style={{ fontFamily: "Inter", fontSize: "1.8rem" }}
+            >
                 Semester
             </Divider>
             <SemesterTable />

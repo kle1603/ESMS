@@ -24,14 +24,16 @@ export const StyledTable = styled(Table)`
         height: 65px;
         font-family: ${Theme.font.primary_font};
         font-size: 1.5rem;
-        font-weight: 700;
     }
 
     .ant-typography {
         font-family: ${Theme.font.primary_font};
-        font-size: 1.5rem;
-        font-weight: 400;
+        font-size: 1.4rem;
     }  
+
+    .ant-tag {
+        font-family: ${Theme.font.primary_font};
+    }
 `;
 
 export const StyledLeft = styled(Flex)`

@@ -6,7 +6,14 @@ import { Divider } from "antd";
 const AdminSlots = () => {
     return (
         <div>
-            <Divider orientation="left" style={{ fontFamily: "Roboto Slab" }}>
+            <Divider
+                orientation="left"
+                style={{
+                    fontFamily: "Inter",
+                    fontSize: "1.8rem",
+                    marginBottom: "40px",
+                }}
+            >
                 Slot
             </Divider>
             <SlotTable />

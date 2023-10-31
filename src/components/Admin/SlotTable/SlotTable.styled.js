@@ -1,3 +1,4 @@
+import Theme from "@/Theme";
 import { Button, Flex, Table } from "antd";
 import styled from "styled-components";
 
@@ -7,20 +8,19 @@ export const DivSlot = styled.div`
     position: relative;
 
     .ant-btn-default {
-        font-family: Roboto Slab;
+        font-family: ${Theme.font.primary_font};
     }
 
     .ant-btn-primary {
-        font-family: Roboto Slab;
+        font-family: ${Theme.font.primary_font};
     }
 
-    .ant-form-item .ant-form-item-explain-error{
-        font-family: Roboto Slab;
+    .ant-form-item .ant-form-item-explain-error {
+        font-family: ${Theme.font.primary_font};
     }
 
     .ant-picker-dropdown .ant-picker-ranges {
-        font-family: Roboto Slab;
-
+        font-family: ${Theme.font.primary_font};
     }
 `;
 
@@ -34,11 +34,19 @@ export const StyledLeft = styled(Flex)`
 
     .title {
         margin-right: 10px;
-        font-family: Roboto Slab;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 1.6rem;
+        line-height: 1;
+        font-weight: 500;
+        font-family: ${Theme.font.primary_font};
     }
 
     .ant-select-selection-item {
-        font-family: Roboto Slab;
+        font-family: ${Theme.font.primary_font};
     }
 `;
 
@@ -52,22 +60,22 @@ export const ButtonRight = styled(Button)`
 export const SlotTable = styled(Table)`
     margin-top: 10px;
     .ant-table-cell {
-        font-family: Roboto Slab;
+        font-family: ${Theme.font.primary_font};
     }
 
     .ant-typography {
-        font-family: Roboto Slab;
+        font-family: ${Theme.font.primary_font};
     }
 
     .ant-picker {
         width: 100%;
     }
 
-    .ant-tag-green{
-        font-family: Roboto Slab;
+    .ant-tag-green {
+        font-family: ${Theme.font.primary_font};
     }
 
-    .ant-tag-red{
-        font-family: Roboto Slab;
+    .ant-tag-red {
+        font-family: ${Theme.font.primary_font};
     }
 `;

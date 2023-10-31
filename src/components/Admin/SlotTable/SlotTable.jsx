@@ -12,6 +12,7 @@ import {
 import * as St from "./SlotTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
+import ButtonAdd from "@/components/ButtonAdd";
 // import moment from "moment";
 // import moment from "moment";
 
@@ -163,13 +164,11 @@ const SlotTable = () => {
                     style={{ minWidth: "140px" }}
                 />
             </St.StyledLeft>
-            <St.ButtonRight
-                onClick={handleAdd}
-                style={{ fontFamily: "Roboto Slab" }}
-                type="primary"
-            >
-                Add a row
-            </St.ButtonRight>
+
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new slot"
+            />
 
             <Modal
                 title="Add new slot"
