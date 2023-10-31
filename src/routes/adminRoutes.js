@@ -22,8 +22,8 @@ import AdminPhases from "@/pages/AdminPhases";
 import AdminExaminers from "@/pages/AdminExaminers";
 import AdminSlots from "@/pages/AdminSlots";
 import StaffExaminer from "@/pages/StaffExaminer";
-import StaffExamPhaseDetail from "@/pages/StaffExamPhaseDetail";
 import StaffExamSlotDetail from "@/pages/StaffExamSlotDetail";
+import StaffExamSlot from "@/pages/StaffExamSlot";
 
 const adminRoutes = [
     {
@@ -101,13 +101,13 @@ const adminRoutes = [
     {
         id: 13,
         path: configs.routes.staffExamSlotDetail,
-        component: StaffExamPhaseDetail,
+        component: StaffExamSlotDetail,
         layout: StaffLayout,
     },
     {
         id: 14,
         path: configs.routes.staffExamPhaseDetail,
-        component: StaffExamSlotDetail,
+        component: StaffExamSlot,
         layout: StaffLayout,
     },
     {

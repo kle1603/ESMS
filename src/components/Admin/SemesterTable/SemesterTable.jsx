@@ -16,13 +16,7 @@ import ButtonAdd from "@/components/ButtonAdd";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([
-        {
-            no: 1,
-            start: "20-04",
-            end: "25-04",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -141,11 +135,12 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { season } = values;
+                const { season, start, end } = values;
                 // console.log(values);
                 instance
-                    .post("semesters", { season })
-                    .then(() => {
+                    .post("semesters", { season, start, end })
+                    .then((res) => {
+                        console.log(res);
                         toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
@@ -217,7 +212,7 @@ const SemesterTable = () => {
                     </Form.Item>
 
                     <Form.Item
-                        name="startTime"
+                        name="start"
                         rules={[
                             {
                                 required: true,
@@ -239,7 +234,7 @@ const SemesterTable = () => {
                     </Form.Item>
 
                     <Form.Item
-                        name="endTime"
+                        name="end"
                         rules={[
                             {
                                 required: true,

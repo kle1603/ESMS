@@ -116,24 +116,25 @@ const PhaseTable = () => {
     const fetchData = () => {
         console.log(semesterId);
 
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                console.log(res.data.data);
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: item.id,
-                    no: index + 1,
-                }));
-                setLoading(false);
-                setData(formattedData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
+                    console.log(res);
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: item.id,
+                        no: index + 1,
+                    }));
+                    setData(formattedData);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
     };
 
     const fetchSemester = () => {
@@ -203,25 +204,10 @@ const PhaseTable = () => {
             });
     };
 
-    // const handleAdd = () => {
-    //     setModalVisible(true);
-    // };
-
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
     };
-
-    // const layout = {
-    //     labelCol: {
-    //         // offset: 0,
-    //         // span: 7,
-    //     },
-    //     wrapperCol: {
-    //         span: 12,
-    //         offset: 3,
-    //     },
-    // };
 
     const handleSelect = (id, option) => {
         setSelectSemester(option.label);
