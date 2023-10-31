@@ -4,132 +4,72 @@ import { Button, Divider, Form, Input, Modal, Table } from "antd";
 
 import * as St from "./ExamSlotTable.styled";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import configs from "@/configs";
+import instance from "@/utils/instance";
 
 const ExamSlotTable = () => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    const data = [
-        {
-            key: 1,
-            no: 1,
-            day: "1/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            slot: "Slot 1",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 2,
-            no: 2,
-            day: "1/1/2023",
-            startTime: "9:00",
-            endTime: "10:30",
-            slot: "Slot 2",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 3,
-            no: 3,
-            day: "1/1/2023",
-            startTime: "11:00",
-            endTime: "12:30",
-            slot: "Slot 3",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 4,
-            no: 4,
-            day: "1/1/2023",
-            startTime: "13:00",
-            endTime: "14:30",
-            slot: "Slot 4",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 5,
-            no: 5,
-            day: "2/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            slot: "Slot 1",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 6,
-            no: 6,
-            day: "2/1/2023",
-            startTime: "9:00",
-            endTime: "10:30",
-            slot: "Slot 2",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 7,
-            no: 7,
-            day: "2/1/2023",
-            startTime: "11:00",
-            endTime: "12:30",
-            slot: "Slot 3",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 8,
-            no: 8,
-            day: "2/1/2023",
-            startTime: "13:00",
-            endTime: "14:30",
-            slot: "Slot 4",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-    ];
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = () => {
+        instance
+            .get(`examSlots/1`)
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: item.id,
+                    no: index + 1,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
     const columns = [
         // Your columns
         {
             title: "No",
-            width: "5%",
+            width: "10%",
             render: (record) => {
                 return <div>{record.no}</div>;
             },
         },
         {
             title: "Day",
-            width: "20%",
+            width: "30%",
             render: (record) => {
                 return <div>{record.day}</div>;
-            },
-        },
-        {
-            title: "Slot",
-            width: "15%",
-            render: (record) => {
-                return <div>{record.slot}</div>;
             },
         },
         {
             title: "Start Time",
             width: "20%",
             render: (record) => {
-                return <div>{record.startTime}</div>;
+                console.log(record.timeSlot.startTime);
+
+                return <div>{record.timeSlot.startTime}</div>;
             },
         },
         {
             title: "End Time",
             width: "20%",
             render: (record) => {
-                return <div>{record.endTime}</div>;
+                return <div>{record.timeSlot.endTime}</div>;
             },
         },
         {

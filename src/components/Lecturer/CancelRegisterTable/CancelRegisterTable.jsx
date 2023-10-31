@@ -1,61 +1,76 @@
 // import PropTypes from "prop-types";
 
-import { Cascader, Popconfirm, Table, Typography } from "antd";
-import { useState } from "react";
+import { Cascader, Popconfirm, Select, Table, Typography } from "antd";
+import { useEffect, useState } from "react";
 
 import * as St from "./CancelRegisterTable.styled";
 import { useNavigate } from "react-router-dom";
+import instance from "@/utils/instance";
 
 const CancelRegisterTable = () => {
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            day: "17/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-        },
-        {
-            key: 2,
-            no: 2,
-            day: "18/10/2023",
-            startTime: "8:00",
-            endTime: "10:00",
-        },
-        {
-            key: 3,
-            no: 3,
-            day: "18/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-        },
-        {
-            key: 4,
-            no: 4,
-            day: "18/10/2023",
-            startTime: "15:00",
-            endTime: "17:00",
-        },
-        {
-            key: 5,
-            no: 5,
-            day: "19/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-        },
-        {
-            key: 6,
-            no: 6,
-            day: "19/10/2023",
-            startTime: "8:00",
-            endTime: "10:00",
-        },
-    ]);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
     const navigate = useNavigate();
 
-    const handleRegister = (e) => {
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = () => {
+        instance
+            .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: item.id,
+                    no: index + 1,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
+    const handleRegister = () => {
         navigate("/lecturer/register");
     };
+
+    const handleDelete = () => {};
 
     const columns = [
         {
@@ -116,21 +131,6 @@ const CancelRegisterTable = () => {
         },
     ];
 
-    const options = [
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-        {
-            value: "Spring 2023",
-            label: "Spring 2023",
-        },
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-    ];
-
     const option = [
         {
             value: "Dot 1",
@@ -158,14 +158,30 @@ const CancelRegisterTable = () => {
         },
     ];
 
+    const handleSelect = (id, option) => {
+        setLoading(true);
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
     return (
         <St.DivTable>
-            <St.SpaceStyled>
-                SEMESTER: 
-                <Cascader style={{ width: 130 }} options={options} />
-                PHASE: 
-                <Cascader style={{ width: 80 }} options={option} />
-            </St.SpaceStyled>
+            <St.StyledLeft>
+                <Typography className="title">Semester: </Typography>
+                <Select
+                    onChange={handleSelect}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
+                />
+                <Typography className="title">Phase: </Typography>
+                <Select
+                    onChange={handleSelect}
+                    value="Dot 1"
+                    className="select"
+                    options={option}
+                />
+            </St.StyledLeft>
             <St.ButtonTable
                 type="primary"
                 style={{ marginBottom: 16 }}

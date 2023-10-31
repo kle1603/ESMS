@@ -1,174 +1,142 @@
 // import PropTypes from "prop-types";
 
-import SelectOption from "@/components/SelectOption";
-import { Button, Form, Input, Modal, Table, Typography } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Select,
+    Table,
+    Tag,
+    Typography,
+} from "antd";
 
 import * as St from "./ExamPhaseTable.styled";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import configs from "@/configs";
+import instance from "@/utils/instance";
 
 const ExamPhaseTable = () => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
     const navigate = useNavigate();
 
-    const semester = [
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-    ];
+    const fetchData = () => {
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                // console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: item.id,
+                    no: index + 1,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
-    const data = [
-        {
-            key: 1,
-            no: 1,
-            name: "Dot 1",
-            startTime: "7:00",
-            endTime: "8:30",
-            status: true,
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 2,
-            no: 2,
-            name: "Dot 2",
-            startTime: "9:00",
-            endTime: "10:30",
-            status: false,
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 3,
-            no: 3,
-            name: "Dot 3",
-            startTime: "11:00",
-            endTime: "12:30",
-            status: false,
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 4,
-            no: 4,
-            name: "Dot 4",
-            startTime: "13:00",
-            endTime: "14:30",
-            status: false,
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 5,
-            no: 5,
-            name: "Dot 5",
-            startTime: "7:00",
-            endTime: "8:30",
-            status: false,
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 6,
-            no: 6,
-            name: "Dot 6",
-            startTime: "9:00",
-            endTime: "10:30",
-            status: false,
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 7,
-            no: 7,
-            name: "Dot 7",
-            startTime: "11:00",
-            endTime: "12:30",
-            status: false,
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 8,
-            no: 8,
-            name: "Dot 8",
-            startTime: "13:00",
-            endTime: "14:30",
-            status: false,
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-    ];
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [semesterId]);
 
     const columns = [
         // Your columns
         {
             title: "No",
-            width: "5%",
+            width: "10%",
             render: (record) => {
-                return <div>{record.no}</div>;
+                console.log(record);
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Name",
-            width: "20%",
+            width: "15%",
             render: (record) => {
-                return <div>{record.name}</div>;
+                return <Typography>{record.ePName}</Typography>;
             },
-            // onCell: (record, rowIndex) => {
-            //     let rowSpan = 1;
-            //     if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
-            //         rowSpan = 0;
-            //     } else {
-            //         let count = 0;
-            //         while (
-            //             rowIndex + count < data.length &&
-            //             data[rowIndex + count].day === record.day
-            //         ) {
-            //             count++;
-            //         }
-            //         rowSpan = count;
-            //     }
-            //     return {
-            //         rowSpan: rowSpan,
-            //     };
-            // },
         },
         {
             title: "Start Time",
-            width: "20%",
+            width: "15%",
             render: (record) => {
-                return <div>{record.startTime}</div>;
+                return <Typography>{record.startDay}</Typography>;
             },
         },
         {
             title: "End Time",
-            width: "20%",
+            width: "15%",
             render: (record) => {
-                return <div>{record.endTime}</div>;
+                return <Typography>{record.endDay}</Typography>;
+            },
+        },
+        {
+            title: "Type",
+            width: "15%",
+            render: (record) => {
+                if (record.des === 0) {
+                    return <Tag color="red">NORMAL</Tag>;
+                } else {
+                    return <Tag color="green">COURSERA</Tag>;
+                }
             },
         },
         {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if (record.status === true) {
-                    return <div>On going</div>;
+                const currentDate = new Date();
+                const endTime = new Date(record);
+
+                if (currentDate > endTime) {
+                    return <Tag color="red">FINISHED</Tag>;
                 } else {
-                    return <div>Close</div>;
+                    return <Tag color="green">PENDING</Tag>;
                 }
             },
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "15%",
             render: (record) => {
                 return (
                     <Button
@@ -199,13 +167,21 @@ const ExamPhaseTable = () => {
         console.log(e);
     };
 
+    const handleSelect = (id, option) => {
+        setLoading(true);
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
     return (
         <St.DivTable>
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
-                <SelectOption
-                    defaultValue={semester[0].value}
-                    options={semester}
+                <Select
+                    onChange={handleSelect}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
                 />
             </St.StyledLeft>
             <St.ButtonTable
@@ -262,7 +238,16 @@ const ExamPhaseTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table bordered columns={columns} dataSource={data} />
+            <Table
+                columns={columns}
+                dataSource={data}
+                bordered
+                loading={loading}
+                pagination={{
+                    pageSize: 6,
+                    hideOnSinglePage: data.length <= 6,
+                }}
+            />
         </St.DivTable>
     );
 };

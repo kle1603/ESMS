@@ -1,4 +1,4 @@
-import { Button, Space, Tag } from "antd";
+import { Button, Flex, Space, Tag } from "antd";
 import styled from "styled-components";
 
 export const DivTable = styled.div`
@@ -36,5 +36,31 @@ export const SpaceStyled = styled(Space)`
 
     .ant-space-item {
         width: 100%;
+    }
+`;
+
+export const StyledLeft = styled(Flex)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+        margin-right: 10px;
+        margin-left: 20px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 1.6rem;
+        line-height: 1;
+        font-weight: 600;
+    }
+
+    .select {
+        min-width: 120px;
     }
 `;
