@@ -3,7 +3,7 @@ import { Button, Flex, Table } from "antd";
 import Theme from "@/Theme";
 
 export const DivTable = styled.div`
-    margin-top: 20px;
+    margin-top: 20px;4
     padding-top: 50px;
     position: relative;
 
@@ -22,6 +22,9 @@ export const ButtonTable = styled(Button)`
 export const StyledTable = styled(Table)`
     .ant-table-cell {
         height: 65px;
+        font-family: ${Theme.font.primary_font};
+        font-size: 1.5rem;
+        font-weight: 700;
     }
 `;
 
