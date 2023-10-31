@@ -1,180 +1,142 @@
 // import PropTypes from "prop-types";
 
-import SelectOption from "@/components/SelectOption";
-import { Button, Form, Input, Modal, Table, Typography } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Select,
+    Table,
+    Tag,
+    Typography,
+} from "antd";
 
 import * as St from "./ExamPhaseTable.styled";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import configs from "@/configs";
+import instance from "@/utils/instance";
 
 const ExamPhaseTable = () => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
     const navigate = useNavigate();
 
-    const semester = [
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-    ];
+    const fetchData = () => {
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                // console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: item.id,
+                    no: index + 1,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
-    const phase = [
-        {
-            value: "Dot 1",
-            label: "Dot 1",
-        },
-        {
-            value: "Dot 2",
-            label: "Dot 2",
-        },
-    ];
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
-    const data = [
-        {
-            key: 1,
-            no: 1,
-            day: "1/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            slot: "Slot 1",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 2,
-            no: 2,
-            day: "1/1/2023",
-            startTime: "9:00",
-            endTime: "10:30",
-            slot: "Slot 2",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 3,
-            no: 3,
-            day: "1/1/2023",
-            startTime: "11:00",
-            endTime: "12:30",
-            slot: "Slot 3",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 4,
-            no: 4,
-            day: "1/1/2023",
-            startTime: "13:00",
-            endTime: "14:30",
-            slot: "Slot 4",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 5,
-            no: 5,
-            day: "2/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            slot: "Slot 1",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 6,
-            no: 6,
-            day: "2/1/2023",
-            startTime: "9:00",
-            endTime: "10:30",
-            slot: "Slot 2",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 7,
-            no: 7,
-            day: "2/1/2023",
-            startTime: "11:00",
-            endTime: "12:30",
-            slot: "Slot 3",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 8,
-            no: 8,
-            day: "2/1/2023",
-            startTime: "13:00",
-            endTime: "14:30",
-            slot: "Slot 4",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-    ];
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [semesterId]);
 
     const columns = [
         // Your columns
         {
             title: "No",
-            width: "5%",
+            width: "10%",
             render: (record) => {
-                return <div>{record.no}</div>;
+                console.log(record);
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
-            title: "Day",
-            width: "20%",
-            render: (record) => {
-                return <div>{record.day}</div>;
-            },
-            // onCell: (record, rowIndex) => {
-            //     let rowSpan = 1;
-            //     if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
-            //         rowSpan = 0;
-            //     } else {
-            //         let count = 0;
-            //         while (
-            //             rowIndex + count < data.length &&
-            //             data[rowIndex + count].day === record.day
-            //         ) {
-            //             count++;
-            //         }
-            //         rowSpan = count;
-            //     }
-            //     return {
-            //         rowSpan: rowSpan,
-            //     };
-            // },
-        },
-        {
-            title: "Slot",
+            title: "Name",
             width: "15%",
             render: (record) => {
-                return <div>{record.slot}</div>;
+                return <Typography>{record.ePName}</Typography>;
             },
         },
         {
             title: "Start Time",
-            width: "20%",
+            width: "15%",
             render: (record) => {
-                return <div>{record.startTime}</div>;
+                return <Typography>{record.startDay}</Typography>;
             },
         },
         {
             title: "End Time",
-            width: "20%",
+            width: "15%",
             render: (record) => {
-                return <div>{record.endTime}</div>;
+                return <Typography>{record.endDay}</Typography>;
+            },
+        },
+        {
+            title: "Type",
+            width: "15%",
+            render: (record) => {
+                if (record.des === 0) {
+                    return <Tag color="red">NORMAL</Tag>;
+                } else {
+                    return <Tag color="green">COURSERA</Tag>;
+                }
+            },
+        },
+        {
+            title: "Status",
+            width: "15%",
+            render: (record) => {
+                const currentDate = new Date();
+                const endTime = new Date(record);
+
+                if (currentDate > endTime) {
+                    return <Tag color="red">FINISHED</Tag>;
+                } else {
+                    return <Tag color="green">PENDING</Tag>;
+                }
             },
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "15%",
             render: (record) => {
                 return (
                     <Button
@@ -201,23 +163,26 @@ const ExamPhaseTable = () => {
     };
 
     const handleEdit = (e) => {
-        navigate(`${e.no}`);
+        navigate(configs.routes.staff + `/examPhase/${e.no}`);
         console.log(e);
+    };
+
+    const handleSelect = (id, option) => {
+        setLoading(true);
+        setSelectSemester(option.label);
+        setSemesterId(id);
     };
 
     return (
         <St.DivTable>
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
-                <SelectOption
-                    defaultValue={semester[0].value}
-                    options={semester}
+                <Select
+                    onChange={handleSelect}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
                 />
-                <Typography className="title">Phase: </Typography>
-                <SelectOption defaultValue={phase[0].value} options={phase} />
-                <Typography className="title">
-                    Range: 1/10/2023 - 8/10/2023
-                </Typography>
             </St.StyledLeft>
             <St.ButtonTable
                 type="primary"
@@ -273,7 +238,16 @@ const ExamPhaseTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table bordered columns={columns} dataSource={data} />
+            <Table
+                columns={columns}
+                dataSource={data}
+                bordered
+                loading={loading}
+                pagination={{
+                    pageSize: 6,
+                    hideOnSinglePage: data.length <= 6,
+                }}
+            />
         </St.DivTable>
     );
 };

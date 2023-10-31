@@ -3,7 +3,7 @@
 import { Card, Divider, Table, Typography } from "antd";
 import { useParams } from "react-router-dom";
 import * as St from "./StaffExamPhaseDetail.styled";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 
 const StaffExamPhaseDetail = () => {
@@ -19,7 +19,7 @@ const StaffExamPhaseDetail = () => {
 
     const fetchData = () => {
         instance
-            .get("examRooms/getCourseOneSlot?exSlotID=19")
+            .get("examRooms/getCourseOneSlot")
             .then((res) => {
                 console.log(res);
             })
@@ -52,6 +52,7 @@ const StaffExamPhaseDetail = () => {
 
     const data = [
         {
+            key: 1,
             no: 1,
             course: "MAE",
             room: "610",
@@ -61,6 +62,7 @@ const StaffExamPhaseDetail = () => {
             email: "Hahaha@gmail.com",
         },
         {
+            key: 2,
             no: 2,
             course: "MAE",
             room: "611",
@@ -70,6 +72,7 @@ const StaffExamPhaseDetail = () => {
             email: "Hahaha@gmail.com",
         },
         {
+            key: 3,
             no: 3,
             course: "MAE",
             room: "612",
@@ -79,6 +82,7 @@ const StaffExamPhaseDetail = () => {
             email: "Hahaha@gmail.com",
         },
         {
+            key: 4,
             no: 4,
             course: "SWP",
             room: "614",
@@ -88,6 +92,7 @@ const StaffExamPhaseDetail = () => {
             email: "Hahaha@gmail.com",
         },
         {
+            key: 5,
             no: 5,
             course: "SWP",
             room: "615",
@@ -97,6 +102,7 @@ const StaffExamPhaseDetail = () => {
             email: "Hahaha@gmail.com",
         },
         {
+            key: 6,
             no: 6,
             course: "SWP",
             room: "616",
