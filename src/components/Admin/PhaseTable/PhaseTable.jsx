@@ -43,14 +43,14 @@ const PhaseTable = () => {
             },
         },
         {
-            title: "Start Time",
+            title: "Start Day",
             width: "15%",
             render: (record) => {
                 return <Typography>{record.startDay}</Typography>;
             },
         },
         {
-            title: "End Time",
+            title: "End Day",
             width: "15%",
             render: (record) => {
                 return <Typography>{record.endDay}</Typography>;

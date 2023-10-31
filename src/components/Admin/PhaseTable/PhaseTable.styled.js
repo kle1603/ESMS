@@ -3,7 +3,7 @@ import { Button, Flex, Table } from "antd";
 import Theme from "@/Theme";
 
 export const DivTable = styled.div`
-    margin-top: 20px;4
+    margin-top: 20px;
     padding-top: 50px;
     position: relative;
 
@@ -26,6 +26,12 @@ export const StyledTable = styled(Table)`
         font-size: 1.5rem;
         font-weight: 700;
     }
+
+    .ant-typography {
+        font-family: ${Theme.font.primary_font};
+        font-size: 1.5rem;
+        font-weight: 400;
+    }  
 `;
 
 export const StyledLeft = styled(Flex)`
@@ -45,7 +51,7 @@ export const StyledLeft = styled(Flex)`
 
         font-size: 1.6rem;
         line-height: 1;
-        font-weight: 600;
+        font-weight: 500;
         font-family: ${Theme.font.primary_font};
     }
 
@@ -53,6 +59,11 @@ export const StyledLeft = styled(Flex)`
         min-width: 120px;
         font-family: ${Theme.font.primary_font};
         font-weight: ;
+    }
+
+
+    .ant-select-item-option-content {
+        font-family: ${Theme.font.primary_font} !important;
     }
 `;
 
