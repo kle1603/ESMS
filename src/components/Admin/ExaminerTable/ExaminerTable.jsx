@@ -8,99 +8,57 @@ import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 
 const ExaminerTable = () => {
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            email: "khang@gmail.com",
-            name: "khang",
-            role: "lecturer",
-            status: "Active",
-        },
-        {
-            key: 2,
-            no: 2,
-            email: "hahaha@gmail.com",
-            name: "hahaha",
-            role: "staff",
-            status: "Active",
-        },
-        {
-            key: 3,
-            no: 3,
-            email: "hihihihihia@gmail.com",
-            name: "haghahasfsa",
-            role: "ctv",
-            status: "Active",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const [search, setSearch] = useState("");
-    const [total, setTotal] = useState();
     const [page, setPage] = useState();
 
     const columns = [
         {
             title: "No",
-            dataIndex: "no",
-            key: "no",
             width: "10%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
         },
         {
             title: "Email",
-            dataIndex: "email",
-            key: "email",
             width: "20%",
+            render: (record) => {
+                return <Typography>{record.exEmail}</Typography>;
+            },
         },
         {
             title: "Name",
-            dataIndex: "name",
-            key: "name",
             width: "20%",
+            render: (record) => {
+                return <Typography>{record.exName}</Typography>;
+            },
         },
         {
             title: "Role",
-            key: "role",
-            dataIndex: "role",
             width: "15%",
-            render: (role) => {
-                let color = role.length > 5 ? "volcano" : "geekblue";
-                if (role === "admin") {
-                    color = "volcano";
-                } else if (role === "ctv") {
-                    color = "green";
-                }
-                return (
-                    <Tag color={color} key={role}>
-                        {/* {role.toUpperCase()} */}
-                    </Tag>
-                );
+            render: (record) => {
+                return <Typography>{record.role}</Typography>;
             },
         },
         {
             title: "Status",
-            dataIndex: "status",
-            key: "status",
             width: "15%",
-            render: (role) => {
-                let color = "magenta";
-                if (role === "active") {
-                    color = "geekblue";
+            render: (record) => {
+                if(record.status) {
+                    return <Tag color="red">INACTIVE</Tag>;
+                } else {
+                    return <Tag color="blue">ACTIVE</Tag>;
                 }
-                return (
-                    <Tag color={color} key={role}>
-                        {/* {role.toUpperCase()} */}
-                    </Tag>
-                );
             },
         },
         {
             title: "Operation",
-            dataIndex: "operation",
             width: "20%",
-            render: (_, record) =>
+            render: (record) =>
                 data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"
@@ -115,28 +73,15 @@ const ExaminerTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`users/${search}`, {
-                params: { page_no: page, limit: 5 },
-            })
+            .get(`examiners/getExaminerByPhase?exPhaseId=1`)
             .then((res) => {
                 console.log(res);
-                if (res.data.data.Data) {
-                    setTotal(res.data.data.Total);
-                    const formattedData = res.data.data.Data.map((item) => ({
-                        ...item,
-                        key: item.email,
-                        no: item.id,
-                    }));
-                    setData(formattedData);
-                } else {
-                    const formattedData = res.data.data.map((item) => ({
-                        ...item,
-                        key: item.email,
-                        no: item.id,
-                    }));
-                    setData(formattedData);
-                    setTotal(formattedData.length);
-                }
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: item.email,
+                    no: index + 1,
+                }));
+                setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
@@ -272,7 +217,6 @@ const ExaminerTable = () => {
                     pageSize: 5,
                     hideOnSinglePage: data.length <= 5,
                     showSizeChanger: false,
-                    total: total,
                     showQuickJumper: true,
                     onChange: handleChange,
                 }}
