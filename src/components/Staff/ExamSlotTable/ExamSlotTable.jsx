@@ -3,12 +3,14 @@
 import { Button, Divider, Form, Input, Modal, Table } from "antd";
 
 import * as St from "./ExamSlotTable.styled";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import configs from "@/configs";
 import instance from "@/utils/instance";
 
-const ExamSlotTable = () => {
+const ExamPhaseTable = () => {
+    const { id } = useParams();
+    const { state } = useLocation();
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const [data, setData] = useState([]);
@@ -21,13 +23,15 @@ const ExamSlotTable = () => {
 
     const fetchData = () => {
         instance
-            .get(`examSlots/1`)
+            .get(`examSlots/${id}`)
             .then((res) => {
-                console.log(res);
+                console.log(res.data.data);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: item.id,
                     no: index + 1,
+                    startTime: item.timeSlot.startTime.slice(0, -3),
+                    endTime: item.timeSlot.endTime.slice(0, -3),
                 }));
                 setData(formattedData);
                 setLoading(false);
@@ -60,16 +64,14 @@ const ExamSlotTable = () => {
             title: "Start Time",
             width: "20%",
             render: (record) => {
-                console.log(record.timeSlot.startTime);
-
-                return <div>{record.timeSlot.startTime}</div>;
+                return <div>{record.startTime}</div>;
             },
         },
         {
             title: "End Time",
             width: "20%",
             render: (record) => {
-                return <div>{record.timeSlot.endTime}</div>;
+                return <div>{record.endTime}</div>;
             },
         },
         {
@@ -107,7 +109,13 @@ const ExamSlotTable = () => {
 
     return (
         <div>
-            <Divider orientation="left">Range: 1/10/2023 - 8/10/2023</Divider>
+            <Divider orientation="left">
+                {state.data.ePName +
+                    " - " +
+                    state.data.startDay +
+                    " - " +
+                    state.data.endDay}
+            </Divider>
 
             <St.DivTable>
                 <St.ButtonTable
@@ -130,11 +138,6 @@ const ExamSlotTable = () => {
                                 {
                                     required: true,
                                     message: "Please choose role!",
-                                },
-                                {
-                                    pattern:
-                                        /^(Admin|admin|ADMIN|Staff|staff|Lecturer|lecturer)$/,
-                                    message: "Invalid role!",
                                 },
                             ]}
                         >
@@ -170,6 +173,6 @@ const ExamSlotTable = () => {
     );
 };
 
-ExamSlotTable.propTypes = {};
+ExamPhaseTable.propTypes = {};
 
-export default ExamSlotTable;
+export default ExamPhaseTable;

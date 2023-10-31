@@ -30,23 +30,26 @@ const ExamPhaseTable = () => {
     const fetchData = () => {
         console.log(semesterId);
 
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: item.id,
-                    no: index + 1,
-                }));
-                setData(formattedData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
+                    console.log(res);
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: item.id,
+                        no: index + 1,
+                    }));
+                    console.log(formattedData);
+                    setData(formattedData);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
     };
 
     const fetchSemester = () => {
@@ -85,6 +88,7 @@ const ExamPhaseTable = () => {
             title: "No",
             width: "10%",
             render: (record) => {
+                // console.log(record);
                 return <Typography>{record.no}</Typography>;
             },
         },
@@ -96,14 +100,14 @@ const ExamPhaseTable = () => {
             },
         },
         {
-            title: "Start Time",
+            title: "Start Day",
             width: "15%",
             render: (record) => {
                 return <Typography>{record.startDay}</Typography>;
             },
         },
         {
-            title: "End Time",
+            title: "End Day",
             width: "15%",
             render: (record) => {
                 return <Typography>{record.endDay}</Typography>;
@@ -163,8 +167,13 @@ const ExamPhaseTable = () => {
     };
 
     const handleEdit = (e) => {
-        navigate(configs.routes.staff + `/examPhase/${e.no}`);
         console.log(e);
+        // navigate(configs.routes.staff + `/examPhase/${e.no}`);
+        navigate(configs.routes.staff + `/examPhase/${e.no}`, {
+            state: {
+                data: e,
+            },
+        });
     };
 
     const handleSelect = (id, option) => {

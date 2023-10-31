@@ -101,7 +101,7 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
@@ -141,11 +141,12 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { season } = values;
+                const { season, start, end } = values;
                 // console.log(values);
                 instance
-                    .post("semesters", { season })
-                    .then(() => {
+                    .post("semesters", { season, start, end })
+                    .then((res) => {
+                        console.log(res);
                         toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
@@ -217,7 +218,7 @@ const SemesterTable = () => {
                     </Form.Item>
 
                     <Form.Item
-                        name="startTime"
+                        name="start"
                         rules={[
                             {
                                 required: true,
@@ -239,7 +240,7 @@ const SemesterTable = () => {
                     </Form.Item>
 
                     <Form.Item
-                        name="endTime"
+                        name="end"
                         rules={[
                             {
                                 required: true,
