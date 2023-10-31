@@ -115,24 +115,25 @@ const PhaseTable = () => {
     const fetchData = () => {
         console.log(semesterId);
 
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                console.log(res.data.data);
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: item.id,
-                    no: index + 1,
-                }));
-                setLoading(false);
-                setData(formattedData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
+                    console.log(res);
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: item.id,
+                        no: index + 1,
+                    }));
+                    setData(formattedData);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
     };
 
     const fetchSemester = () => {

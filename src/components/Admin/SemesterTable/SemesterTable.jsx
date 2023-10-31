@@ -86,7 +86,7 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
@@ -126,11 +126,12 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { season } = values;
+                const { season, start, end } = values;
                 // console.log(values);
                 instance
-                    .post("semesters", { season })
-                    .then(() => {
+                    .post("semesters", { season, start, end })
+                    .then((res) => {
+                        console.log(res);
                         toast.success("Successfully created!");
                         form.resetFields();
                         setModalVisible(false);
@@ -163,7 +164,7 @@ const SemesterTable = () => {
                 type="primary"
                 style={{ marginBottom: 16 }}
             >
-                Add a row
+                Add a semester
             </St.ButtonTable>
             <Modal
                 title="Add new Semester"
@@ -184,7 +185,7 @@ const SemesterTable = () => {
                         <Input placeholder="Season" />
                     </Form.Item>
                     <Form.Item
-                        name="startTime"
+                        name="start"
                         rules={[
                             {
                                 required: true,
@@ -195,7 +196,7 @@ const SemesterTable = () => {
                         <Input placeholder="Start Time" />
                     </Form.Item>
                     <Form.Item
-                        name="endTime"
+                        name="end"
                         rules={[
                             {
                                 required: true,
