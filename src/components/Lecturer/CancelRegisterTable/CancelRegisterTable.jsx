@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import { Cascader, Popconfirm, Select, Table, Typography } from "antd";
+import { Flex, Popconfirm, Select, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./CancelRegisterTable.styled";
@@ -13,32 +13,34 @@ const CancelRegisterTable = () => {
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
+    const [selectPhase, setSelectPhase] = useState();
+    const [phases, setPhases] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
-    const fetchData = () => {
-        instance
-            .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
-            .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: item.id,
-                    no: index + 1,
-                }));
-                setData(formattedData);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
+    // const fetchData = () => {
+    //     instance
+    //         .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
+    //         .then((res) => {
+    //             console.log(res);
+    //             const formattedData = res.data.data.map((item, index) => ({
+    //                 ...item,
+    //                 key: item.id,
+    //                 no: index + 1,
+    //             }));
+    //             setData(formattedData);
+    //             setLoading(false);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    //         .finally(() => {
+    //             setLoading(false);
+    //         });
+    // };
 
     const fetchSemester = () => {
         instance
@@ -62,15 +64,58 @@ const CancelRegisterTable = () => {
             });
     };
 
+    const fetchPhase = () => {
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                if (semesterId !== 0) {
+                    if (res.data.data.length !== 0) {
+                        const phaseData = res.data.data
+                            .sort((a, b) => b.id - a.id)
+                            .map((item) => ({
+                                label: item.ePName,
+                                value: item.id,
+                            }));
+                        setSelectPhase(phaseData[0].label);
+                        setPhases(phaseData);
+                    } else {
+                        setSelectPhase("");
+                        setPhases([]);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log("Phase: " + error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
     useEffect(() => {
         fetchSemester();
     }, []);
+
+    useEffect(() => {
+        fetchPhase();
+    }, [semesterId]);
 
     const handleRegister = () => {
         navigate("/lecturer/register");
     };
 
     const handleDelete = () => {};
+
+    const handleSelectSemester = (id, option) => {
+        setLoading(true);
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
+    const handleSelectPhase = (id, option) => {
+        setLoading(true);
+        setSelectPhase(option.label);
+    };
 
     const columns = [
         {
@@ -131,56 +176,29 @@ const CancelRegisterTable = () => {
         },
     ];
 
-    const option = [
-        {
-            value: "Dot 1",
-            label: "Dot 1",
-        },
-        {
-            value: "Dot 2",
-            label: "Dot 2",
-        },
-        {
-            value: "Dot 3",
-            label: "Dot 3",
-        },
-        {
-            value: "Dot 4",
-            label: "Dot 4",
-        },
-        {
-            value: "Dot 5",
-            label: "Dot 5",
-        },
-        {
-            value: "Dot 6",
-            label: "Dot 6",
-        },
-    ];
-
-    const handleSelect = (id, option) => {
-        setLoading(true);
-        setSelectSemester(option.label);
-        setSemesterId(id);
-    };
-
     return (
         <St.DivTable>
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select
-                    onChange={handleSelect}
+                    onChange={handleSelectSemester}
                     value={selectSemester}
                     className="select"
                     options={semesters}
                 />
-                <Typography className="title">Phase: </Typography>
-                <Select
-                    onChange={handleSelect}
-                    value="Dot 1"
-                    className="select"
-                    options={option}
-                />
+                {phases.length !== 0 ? (
+                    <Flex>
+                        <Typography className="title">Phase: </Typography>
+                        <Select
+                            onChange={handleSelectPhase}
+                            value={selectPhase}
+                            className="select"
+                            options={phases}
+                        />
+                    </Flex>
+                ) : (
+                    <div></div>
+                )}
             </St.StyledLeft>
             <St.ButtonTable
                 type="primary"

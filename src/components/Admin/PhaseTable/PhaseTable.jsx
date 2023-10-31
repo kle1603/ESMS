@@ -31,7 +31,6 @@ const PhaseTable = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                console.log(record);
                 return <Typography>{record.no}</Typography>;
             },
         },
@@ -114,17 +113,19 @@ const PhaseTable = () => {
     ];
 
     const fetchData = () => {
+        console.log(semesterId);
+
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
-                console.log(res);
+                console.log(res.data.data);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: item.id,
                     no: index + 1,
                 }));
-                setData(formattedData);
                 setLoading(false);
+                setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
@@ -281,10 +282,7 @@ const PhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Select
-                                options={option}
-                                defaultValue={option[1].value}
-                            />
+                            <Select options={option} />
                         </Form.Item>
                         <Form.Item
                             name="date"
