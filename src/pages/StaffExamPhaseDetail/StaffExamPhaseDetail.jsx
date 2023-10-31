@@ -1,12 +1,54 @@
 // import PropTypes from "prop-types";
 
-import { Divider, Table, Typography } from "antd";
+import { Card, Divider, Table, Typography } from "antd";
 import { useParams } from "react-router-dom";
 import * as St from "./StaffExamPhaseDetail.styled";
+import { useEffect } from "react";
+import instance from "@/utils/instance";
 
 const StaffExamPhaseDetail = () => {
+    const [semester, setSemester] = useState([]);
     const param = useParams();
     console.log(param.id);
+
+    useEffect(() => {
+        // call api here
+        fetchData();
+        fetchSemester();
+    }, []);
+
+    const fetchData = () => {
+        instance
+            .get("examRooms/getCourseOneSlot?exSlotID=19")
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item, index) => ({
+                        ...item,
+                        no: index + 1,
+                        key: item.id,
+                        season: item.season + " " + item.year,
+                    }));
+                setSemester(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
 
     const data = [
         {
@@ -183,22 +225,46 @@ const StaffExamPhaseDetail = () => {
         {
             key: "1",
             label: "Course",
-            children: <Table bordered columns={columns1} dataSource={data} />,
+            children: (
+                <Card>
+                    <Table bordered columns={columns1} dataSource={data} />
+                </Card>
+            ),
         },
         {
             key: "2",
             label: "Room",
-            children: <Table bordered columns={columns2} dataSource={data} />,
+            children: (
+                <Card>
+                    <Table bordered columns={columns2} dataSource={data} />
+                </Card>
+            ),
         },
         {
             key: "3",
             label: "Examiner",
-            children: <Table bordered columns={columns3} dataSource={data} />,
+            children: (
+                <Card>
+                    <Table bordered columns={columns3} dataSource={data} />
+                </Card>
+            ),
         },
         {
             key: "4",
             label: "Slot",
-            children: <Table bordered columns={columns4} dataSource={data} />,
+            children: (
+                <Card>
+                    <Table
+                        columns={columns4}
+                        dataSource={data}
+                        bordered
+                        pagination={{
+                            pageSize: 5,
+                            hideOnSinglePage: data.length <= 5,
+                        }}
+                    />
+                </Card>
+            ),
         },
     ];
 
@@ -207,7 +273,7 @@ const StaffExamPhaseDetail = () => {
             <Divider orientation="left">
                 Fall 2023 - Dot 1 - 1/1/2023 - Slot 1
             </Divider>
-            <St.TabsStyled  defaultActiveKey="1" items={items} />
+            <St.TabsStyled defaultActiveKey="1" items={items} />
         </Typography>
     );
 };

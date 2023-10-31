@@ -6,7 +6,6 @@ export const TabsStyled = styled(Tabs)`
         padding: 12px 20px;
 
         .ant-tabs-tab-btn {
-            /* min-width: 100px; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,7 +18,18 @@ export const TabsStyled = styled(Tabs)`
         justify-content: space-around;
     }
 
-    /* .ant-tabs-ink-bar {
-        left: 0;
-    } */
+    .ant-pagination-item {
+        margin: 0 8px 0 0;
+        padding: 0;
+    }
+
+    .ant-pagination-prev {
+        margin: 0 8px 0 0;
+        padding: 0;
+    }
+
+    .ant-pagination-next {
+        margin: 0;
+        padding: 0;
+    }
 `;
