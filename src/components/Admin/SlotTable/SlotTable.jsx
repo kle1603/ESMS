@@ -35,7 +35,7 @@ const SlotTable = () => {
         setModalVisible(false);
     };
 
-    const handleDelete = () => {}
+    const handleDelete = () => {};
 
     const format = "HH:mm";
     const handleOnChange = (time, timeString) => {
@@ -68,12 +68,15 @@ const SlotTable = () => {
     const fetchData = () => {
         // setLoading(true);
         instance
-            .get("examSlots/?semID=9&ePId=1")
+            .get("examSlots/1")
             .then((res) => {
                 console.log(res);
-                const formattedData = res.data.data.map((item) => ({
+                const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: item.id,
+                    no: index + 1,
+                    startTime: item.timeSlot.startTime.slice(0, 5),
+                    endTime: item.timeSlot.endTime.slice(0, 5),
                 }));
                 setData(formattedData);
                 setLoading(false);
@@ -103,7 +106,7 @@ const SlotTable = () => {
             title: "Name",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.name}</Typography>;
+                return <Typography>Slot {record.timeSlotId}</Typography>;
             },
         },
         {

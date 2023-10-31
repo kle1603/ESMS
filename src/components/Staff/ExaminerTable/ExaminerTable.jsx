@@ -8,32 +8,7 @@ import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 
 const ExaminerTable = () => {
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            email: "khang@gmail.com",
-            name: "khang",
-            role: "lecturer",
-            status: "Active",
-        },
-        {
-            key: 2,
-            no: 2,
-            email: "hahaha@gmail.com",
-            name: "hahaha",
-            role: "staff",
-            status: "Active",
-        },
-        {
-            key: 3,
-            no: 3,
-            email: "hihihihihia@gmail.com",
-            name: "haghahasfsa",
-            role: "ctv",
-            status: "Active",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
@@ -44,36 +19,37 @@ const ExaminerTable = () => {
     const columns = [
         {
             title: "No",
-            dataIndex: "no",
-            key: "no",
             width: "10%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            }
         },
         {
             title: "Email",
-            dataIndex: "email",
-            key: "email",
-            width: "20%",
+            width: "25%",
+            render: (record) => {
+                return <Typography>{record.email}</Typography>;
+            }
         },
         {
             title: "Name",
-            dataIndex: "name",
-            key: "name",
             width: "20%",
+            render: (record) => {
+                return <Typography>{record.name}</Typography>;
+            }
         },
         {
             title: "Role",
-            key: "role",
-            dataIndex: "role",
             width: "15%",
-            render: (role) => {
-                let color = role.length > 5 ? "volcano" : "geekblue";
-                if (role === "admin") {
+            render: (record) => {
+                let color = record.length > 5 ? "volcano" : "geekblue";
+                if (record.role === "admin") {
                     color = "volcano";
-                } else if (role === "ctv") {
+                } else if (record.role === "ctv") {
                     color = "green";
                 }
                 return (
-                    <Tag color={color} key={role}>
+                    <Tag color={color} key={record.id}>
                         {/* {role.toUpperCase()} */}
                     </Tag>
                 );
@@ -81,8 +57,6 @@ const ExaminerTable = () => {
         },
         {
             title: "Status",
-            dataIndex: "status",
-            key: "status",
             width: "15%",
             render: (role) => {
                 let color = "magenta";
@@ -98,9 +72,8 @@ const ExaminerTable = () => {
         },
         {
             title: "Operation",
-            dataIndex: "operation",
-            width: "20%",
-            render: (_, record) =>
+            width: "15%",
+            render: (record) =>
                 data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"

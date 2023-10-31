@@ -18,29 +18,32 @@ const CancelRegisterTable = () => {
     const navigate = useNavigate();
 
     // useEffect(() => {
-    //     fetchData();
     // }, []);
 
-    // const fetchData = () => {
-    //     instance
-    //         .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
-    //         .then((res) => {
-    //             console.log(res);
-    //             const formattedData = res.data.data.map((item, index) => ({
-    //                 ...item,
-    //                 key: item.id,
-    //                 no: index + 1,
-    //             }));
-    //             setData(formattedData);
-    //             setLoading(false);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         })
-    //         .finally(() => {
-    //             setLoading(false);
-    //         });
-    // };
+    const fetchData = () => {
+        // console.log("fetch");
+        setLoading(true);
+        instance
+            .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
+            .then((res) => {
+                // console.log("fetch2");
+                // console.log(res);
+                // console.log(res.data.data);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: index + 1,
+                    no: index + 1,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
     const fetchSemester = () => {
         instance
@@ -60,7 +63,6 @@ const CancelRegisterTable = () => {
                 console.log(error);
             })
             .finally(() => {
-                setLoading(false);
             });
     };
 
@@ -88,12 +90,12 @@ const CancelRegisterTable = () => {
                 console.log("Phase: " + error);
             })
             .finally(() => {
-                setLoading(false);
             });
     };
 
     useEffect(() => {
         fetchSemester();
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -213,7 +215,7 @@ const CancelRegisterTable = () => {
                 columns={columns}
                 dataSource={data}
                 bordered
-                loading={false}
+                loading={loading}
                 pagination={{
                     pageSize: 6,
                     hideOnSinglePage: data.length <= 6,

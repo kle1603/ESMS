@@ -28,17 +28,18 @@ const ExamPhaseTable = () => {
     const navigate = useNavigate();
 
     const fetchData = () => {
+        console.log(semesterId);
+
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
-                // console.log(res);
+                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: item.id,
                     no: index + 1,
                 }));
                 setData(formattedData);
-                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -84,7 +85,6 @@ const ExamPhaseTable = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                console.log(record);
                 return <Typography>{record.no}</Typography>;
             },
         },
