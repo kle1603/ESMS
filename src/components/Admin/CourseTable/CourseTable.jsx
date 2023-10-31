@@ -11,11 +11,11 @@ const CourseTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
 
     const fetchData = () => {
         instance
-            .get("courses")
+            .get("courses/?ePId=1")
             .then((res) => {
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
@@ -81,8 +81,8 @@ const CourseTable = () => {
         setModalVisible(false);
     };
 
-    const handleSearch = (e) => {
-        setSearch(e);
+    const handleSearch = () => {
+        // setSearch(e);
     };
 
     const columns = [
