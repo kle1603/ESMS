@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
 import toast from "react-hot-toast";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const { RangePicker } = DatePicker;
 
@@ -239,13 +240,10 @@ const PhaseTable = () => {
                 />
             </St.StyledLeft>
 
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new phase"
+            />
 
             <Modal
                 title="Add new phase"
@@ -254,15 +252,13 @@ const PhaseTable = () => {
                 onCancel={handleCancel}
             >
                 <Form
-                    style={{ marginTop: 40 }}
-                    {...layout}
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
                     form={form}
                     name="add_row_form"
                 >
                     <div>
                         <Form.Item
                             name="name"
-                            label="Phase Name"
                             rules={[
                                 {
                                     required: true,
@@ -270,11 +266,21 @@ const PhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Input allowClear placeholder="Name" />
+                            <St.FlexStyled>
+                                <Typography className="form__title">
+                                    Name
+                                </Typography>
+                                <Input
+                                    allowClear
+                                    placeholder="Name"
+                                    className="form__input"
+                                    // style={{ fontFamily: "Signika !important"}}
+                                />
+                            </St.FlexStyled>
                         </Form.Item>
+
                         <Form.Item
                             name="option"
-                            label="Option"
                             rules={[
                                 {
                                     required: true,
@@ -282,11 +288,19 @@ const PhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Select options={option} />
+                            <St.FlexStyled>
+                                <Typography className="form__title">
+                                    Option
+                                </Typography>
+                                <Select
+                                    className="form__input"
+                                    options={option}
+                                    defaultValue={option[1].value}
+                                />
+                            </St.FlexStyled>
                         </Form.Item>
                         <Form.Item
                             name="date"
-                            label="Range"
                             rules={[
                                 {
                                     required: true,
@@ -294,7 +308,12 @@ const PhaseTable = () => {
                                 },
                             ]}
                         >
-                            <RangePicker />
+                            <St.FlexStyled>
+                                <Typography className="form__title">
+                                    Range
+                                </Typography>
+                                <RangePicker className="form__input" />
+                            </St.FlexStyled>
                         </Form.Item>
                     </div>
                 </Form>
