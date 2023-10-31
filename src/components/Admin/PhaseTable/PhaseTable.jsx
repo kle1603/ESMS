@@ -22,26 +22,26 @@ const PhaseTable = () => {
     const [data, setData] = useState([
         {
             key: 1,
-            id: 1,
-            ePName: "Dot 1 mua ha",
-            sDay: "1/10/2023",
-            eDay: "2/10/2023",
+            no: 1,
+            name: "Dot 1 mua ha",
+            startTime: "1/10/2023",
+            endTime: "2/10/2023",
             status: "Close",
         },
         {
             key: 2,
-            id: 2,
-            ePName: "Dot bo sung lan 1",
-            sDay: "3/10/2023",
-            eDay: "10/10/2023",
+            no: 2,
+            name: "Dot bo sung lan 1",
+            startTime: "3/10/2023",
+            endTime: "10/10/2023",
             status: "Active",
         },
         {
             key: 3,
-            id: 3,
-            ePName: "Dot bo sung lan 2",
-            sDay: "11/10/2023",
-            eDay: "16/10/2023",
+            no: 3,
+            name: "Dot bo sung lan 2",
+            startTime: "11/10/2023",
+            endTime: "16/10/2023",
             status: "Active",
         },
     ]);
@@ -218,10 +218,10 @@ const PhaseTable = () => {
         setModalVisible(false);
     };
 
-    const initialValues = {
-        // name: "Phase 1",
-        // date: dayjs(),
-    };
+    // const initialValues = {
+    //     // name: "Phase 1",
+    //     // date: dayjs(),
+    // };
 
     // const layout = {
     //     labelCol: {
@@ -234,11 +234,6 @@ const PhaseTable = () => {
     //     },
     // };
 
-    const layout = {
-        wrapperCol: {
-            // offset
-        }
-    }
     return (
         <St.DivTable>
             <St.StyledLeft>
@@ -262,10 +257,10 @@ const PhaseTable = () => {
                 onCancel={handleCancel}
             >
                 <Form
-                    style={{ marginTop: "30px", marginBottom:"30px"}}
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
                     form={form}
                     name="add_row_form"
-                    initialValues={initialValues}
+                    // initialValues={initialValues}
                 >
                     <div>
                         <Form.Item
