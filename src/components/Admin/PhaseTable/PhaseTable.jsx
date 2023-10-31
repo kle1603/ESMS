@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
 import toast from "react-hot-toast";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const { RangePicker } = DatePicker;
 
@@ -21,26 +22,26 @@ const PhaseTable = () => {
     const [data, setData] = useState([
         {
             key: 1,
-            no: 1,
-            name: "Dot 1 mua ha",
-            startTime: "1/10/2023",
-            endTime: "2/10/2023",
+            id: 1,
+            ePName: "Dot 1 mua ha",
+            sDay: "1/10/2023",
+            eDay: "2/10/2023",
             status: "Close",
         },
         {
             key: 2,
-            no: 2,
-            name: "Dot bo sung lan 1",
-            startTime: "3/10/2023",
-            endTime: "10/10/2023",
+            id: 2,
+            ePName: "Dot bo sung lan 1",
+            sDay: "3/10/2023",
+            eDay: "10/10/2023",
             status: "Active",
         },
         {
             key: 3,
-            no: 3,
-            name: "Dot bo sung lan 2",
-            startTime: "11/10/2023",
-            endTime: "16/10/2023",
+            id: 3,
+            ePName: "Dot bo sung lan 2",
+            sDay: "11/10/2023",
+            eDay: "16/10/2023",
             status: "Active",
         },
     ]);
@@ -222,17 +223,22 @@ const PhaseTable = () => {
         // date: dayjs(),
     };
 
-    const layout = {
-        labelCol: {
-            // offset: 0,
-            // span: 7,
-        },
-        wrapperCol: {
-            span: 12,
-            offset: 3,
-        },
-    };
+    // const layout = {
+    //     labelCol: {
+    //         // offset: 0,
+    //         // span: 7,
+    //     },
+    //     wrapperCol: {
+    //         span: 12,
+    //         offset: 3,
+    //     },
+    // };
 
+    const layout = {
+        wrapperCol: {
+            // offset
+        }
+    }
     return (
         <St.DivTable>
             <St.StyledLeft>
@@ -243,13 +249,11 @@ const PhaseTable = () => {
                     options={options}
                 />
             </St.StyledLeft>
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
+
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new phase"
+            />
 
             <Modal
                 title="Add new phase"
@@ -258,8 +262,7 @@ const PhaseTable = () => {
                 onCancel={handleCancel}
             >
                 <Form
-                    style={{ marginTop: 40 }}
-                    {...layout}
+                    style={{ marginTop: "30px", marginBottom:"30px"}}
                     form={form}
                     name="add_row_form"
                     initialValues={initialValues}
@@ -267,7 +270,6 @@ const PhaseTable = () => {
                     <div>
                         <Form.Item
                             name="name"
-                            label="Phase Name"
                             rules={[
                                 {
                                     required: true,
@@ -275,11 +277,21 @@ const PhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Input allowClear placeholder="Name" />
+                            <St.FlexStyled>
+                                <Typography className="form__title">
+                                    Name
+                                </Typography>
+                                <Input
+                                    allowClear
+                                    placeholder="Name"
+                                    className="form__input"
+                                    // style={{ fontFamily: "Signika !important"}}
+                                />
+                            </St.FlexStyled>
                         </Form.Item>
+
                         <Form.Item
                             name="option"
-                            label="Option"
                             rules={[
                                 {
                                     required: true,
@@ -287,14 +299,19 @@ const PhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Select
-                                options={option}
-                                defaultValue={option[1].value}
-                            />
+                            <St.FlexStyled>
+                                <Typography className="form__title">
+                                    Option
+                                </Typography>
+                                <Select
+                                    className="form__input"
+                                    options={option}
+                                    defaultValue={option[1].value}
+                                />
+                            </St.FlexStyled>
                         </Form.Item>
                         <Form.Item
                             name="date"
-                            label="Range"
                             rules={[
                                 {
                                     required: true,
@@ -302,7 +319,12 @@ const PhaseTable = () => {
                                 },
                             ]}
                         >
-                            <RangePicker />
+                            <St.FlexStyled>
+                                <Typography className="form__title">
+                                    Range
+                                </Typography>
+                                <RangePicker className="form__input" />
+                            </St.FlexStyled>
                         </Form.Item>
                     </div>
                 </Form>

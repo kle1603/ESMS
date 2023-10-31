@@ -1,13 +1,28 @@
-import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import {
+    Form,
+    Input,
+    Modal,
+    Popconfirm,
+    Tag,
+    TimePicker,
+    Typography,
+} from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./SemesterTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([
+        {
+            no: 1,
+            start: "20-04",
+            end: "25-04",
+        },
+    ]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -145,33 +160,42 @@ const SemesterTable = () => {
             });
     };
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
-
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
     };
 
+    const format = "HH:mm";
+    const handleOnChange = (time, timeString) => {
+        console.log(time.format("HH:mm"), timeString);
+    };
+
+    // const layout = {
+    //     labelCol: { span: 6 },
+    //     wrapperCol: { offset: 0, span: 18 },
+    // };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new Semester"
+            />
             <Modal
                 title="Add new Semester"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                >
                     <Form.Item
+                        className="form__item"
+                        style={{ width: "100%" }}
                         name="season"
                         rules={[
                             {
@@ -180,8 +204,17 @@ const SemesterTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Season" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Season
+                            </Typography>
+                            <Input
+                                className="form__input"
+                                placeholder="Season"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
+
                     <Form.Item
                         name="startTime"
                         rules={[
@@ -191,8 +224,19 @@ const SemesterTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Start Time" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Start Time
+                            </Typography>
+                            <TimePicker
+                                className="form__input"
+                                format={format}
+                                minuteStep={15}
+                                onChange={handleOnChange}
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
+
                     <Form.Item
                         name="endTime"
                         rules={[
@@ -202,7 +246,17 @@ const SemesterTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="End Time" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                End Time
+                            </Typography>
+                            <TimePicker
+                                className="form__input"
+                                format={format}
+                                minuteStep={15}
+                                onChange={handleOnChange}
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                 </Form>
             </Modal>

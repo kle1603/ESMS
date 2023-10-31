@@ -37,6 +37,8 @@ export const StyleSider = styled(Sider)`
 
         .ant-menu-title-content {
             font-family: ${Theme.font.primary_font};
+            font-size: 1.5rem;
+            font-weight: 500;
         }
 
         .ant-menu-light .ant-menu-item-selected {
@@ -61,7 +63,7 @@ export const SideDiv = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 30px;
+        width: 35px;
 
         .image {
             border-radius: 10px;
@@ -71,7 +73,7 @@ export const SideDiv = styled.div`
     }
 
     .sidebar__heading {
-        font-size: 1.8rem;
+        font-size: 2rem;
         color: ${Theme.primary_color_background};
 
         font-family: ${Theme.font.primary_font};

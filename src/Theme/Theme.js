@@ -23,7 +23,7 @@ const theme = {
         gray_3: "#f5f5f5",
     },
     font: {
-        primary_font: "Roboto Slab",
+        primary_font: "Inter",
     },
 };
 
