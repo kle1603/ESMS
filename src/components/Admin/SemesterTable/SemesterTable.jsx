@@ -36,6 +36,13 @@ const SemesterTable = () => {
             },
         },
         {
+            title: "Season",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.season}</Typography>;
+            },
+        },
+        {
             title: "Start Time",
             width: "15%",
             render: (record) => {
@@ -47,13 +54,6 @@ const SemesterTable = () => {
             width: "15%",
             render: (record) => {
                 return <Typography>{record.end}</Typography>;
-            },
-        },
-        {
-            title: "Season",
-            width: "20%",
-            render: (record) => {
-                return <Typography>{record.season}</Typography>;
             },
         },
         {
@@ -108,6 +108,7 @@ const SemesterTable = () => {
                         ...item,
                         no: index + 1,
                         key: item.id,
+                        season: item.season + " " + item.year,
                     }));
                 setData(formattedData);
             })

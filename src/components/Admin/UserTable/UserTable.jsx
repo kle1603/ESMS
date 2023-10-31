@@ -8,32 +8,7 @@ import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 
 const UserTable = () => {
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            email: "khang@gmail.com",
-            name: "khang",
-            role: "admin",
-            status: "Active",
-        },
-        {
-            key: 2,
-            no: 2,
-            email: "hahaha@gmail.com",
-            name: "hahaha",
-            role: "USER",
-            status: "Active",
-        },
-        {
-            key: 3,
-            no: 3,
-            email: "hihihihihia@gmail.com",
-            name: "haghahasfsa",
-            role: "USER",
-            status: "Nghi viec roi",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
@@ -54,7 +29,7 @@ const UserTable = () => {
         {
             title: "Email",
             // key: "email",
-            width: "20%",
+            width: "25%",
             render: (record) => {
                 console.log(record);
                 return <Typography>{record.email}</Typography>;
@@ -103,7 +78,7 @@ const UserTable = () => {
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "15%",
             render: (_, record) =>
                 data.length >= 1 ? (
                     <Popconfirm

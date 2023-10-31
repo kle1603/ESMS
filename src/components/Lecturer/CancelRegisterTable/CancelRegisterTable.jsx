@@ -1,60 +1,122 @@
 // import PropTypes from "prop-types";
 
-import { Cascader, Popconfirm, Table, Typography } from "antd";
-import { useState } from "react";
+import { Flex, Popconfirm, Select, Table, Typography } from "antd";
+import { useEffect, useState } from "react";
 
 import * as St from "./CancelRegisterTable.styled";
 import { useNavigate } from "react-router-dom";
+import instance from "@/utils/instance";
 
 const CancelRegisterTable = () => {
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            day: "17/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-        },
-        {
-            key: 2,
-            no: 2,
-            day: "18/10/2023",
-            startTime: "8:00",
-            endTime: "10:00",
-        },
-        {
-            key: 3,
-            no: 3,
-            day: "18/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-        },
-        {
-            key: 4,
-            no: 4,
-            day: "18/10/2023",
-            startTime: "15:00",
-            endTime: "17:00",
-        },
-        {
-            key: 5,
-            no: 5,
-            day: "19/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-        },
-        {
-            key: 6,
-            no: 6,
-            day: "19/10/2023",
-            startTime: "8:00",
-            endTime: "10:00",
-        },
-    ]);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
+    const [selectPhase, setSelectPhase] = useState();
+    const [phases, setPhases] = useState([]);
     const navigate = useNavigate();
 
-    const handleRegister = (e) => {
+    // useEffect(() => {
+    // }, []);
+
+    const fetchData = () => {
+        // console.log("fetch");
+        setLoading(true);
+        instance
+            .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
+            .then((res) => {
+                // console.log("fetch2");
+                // console.log(res);
+                // console.log(res.data.data);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: index + 1,
+                    no: index + 1,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+            });
+    };
+
+    const fetchPhase = () => {
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                if (semesterId !== 0) {
+                    if (res.data.data.length !== 0) {
+                        const phaseData = res.data.data
+                            .sort((a, b) => b.id - a.id)
+                            .map((item) => ({
+                                label: item.ePName,
+                                value: item.id,
+                            }));
+                        setSelectPhase(phaseData[0].label);
+                        setPhases(phaseData);
+                    } else {
+                        setSelectPhase("");
+                        setPhases([]);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log("Phase: " + error);
+            })
+            .finally(() => {
+            });
+    };
+
+    useEffect(() => {
+        fetchSemester();
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        fetchPhase();
+    }, [semesterId]);
+
+    const handleRegister = () => {
         navigate("/lecturer/register");
+    };
+
+    const handleDelete = () => {};
+
+    const handleSelectSemester = (id, option) => {
+        setLoading(true);
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
+    const handleSelectPhase = (id, option) => {
+        setLoading(true);
+        setSelectPhase(option.label);
     };
 
     const columns = [
@@ -116,56 +178,30 @@ const CancelRegisterTable = () => {
         },
     ];
 
-    const options = [
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-        {
-            value: "Spring 2023",
-            label: "Spring 2023",
-        },
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-    ];
-
-    const option = [
-        {
-            value: "Dot 1",
-            label: "Dot 1",
-        },
-        {
-            value: "Dot 2",
-            label: "Dot 2",
-        },
-        {
-            value: "Dot 3",
-            label: "Dot 3",
-        },
-        {
-            value: "Dot 4",
-            label: "Dot 4",
-        },
-        {
-            value: "Dot 5",
-            label: "Dot 5",
-        },
-        {
-            value: "Dot 6",
-            label: "Dot 6",
-        },
-    ];
-
     return (
         <St.DivTable>
-            <St.SpaceStyled>
-                SEMESTER: 
-                <Cascader style={{ width: 130 }} options={options} />
-                PHASE: 
-                <Cascader style={{ width: 80 }} options={option} />
-            </St.SpaceStyled>
+            <St.StyledLeft>
+                <Typography className="title">Semester: </Typography>
+                <Select
+                    onChange={handleSelectSemester}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
+                />
+                {phases.length !== 0 ? (
+                    <Flex>
+                        <Typography className="title">Phase: </Typography>
+                        <Select
+                            onChange={handleSelectPhase}
+                            value={selectPhase}
+                            className="select"
+                            options={phases}
+                        />
+                    </Flex>
+                ) : (
+                    <div></div>
+                )}
+            </St.StyledLeft>
             <St.ButtonTable
                 type="primary"
                 style={{ marginBottom: 16 }}
@@ -179,7 +215,7 @@ const CancelRegisterTable = () => {
                 columns={columns}
                 dataSource={data}
                 bordered
-                loading={false}
+                loading={loading}
                 pagination={{
                     pageSize: 6,
                     hideOnSinglePage: data.length <= 6,

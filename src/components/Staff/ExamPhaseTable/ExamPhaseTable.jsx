@@ -1,246 +1,153 @@
 // import PropTypes from "prop-types";
 
-import SelectOption from "@/components/SelectOption";
-import { Form, Input, Modal, Table, Typography } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Select,
+    Table,
+    Tag,
+    Typography,
+} from "antd";
 
 import * as St from "./ExamPhaseTable.styled";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import configs from "@/configs";
+import instance from "@/utils/instance";
 
 const ExamPhaseTable = () => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
     const navigate = useNavigate();
 
-    // const [editingKey, setEditingKey] = useState("");
-    // const [changes, setChanges] = useState({});
+    const fetchData = () => {
+        console.log(semesterId);
 
-    // const handleInputChange = (e, key, field) => {
-    //     setChanges({
-    //         ...changes,
-    //         [key]: { ...changes[key], [field]: e.target.value.trim() },
-    //     });
-    // };
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: item.id,
+                    no: index + 1,
+                }));
+                setData(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
-    // const handleSelectChange = (value, key, field) => {
-    //     setChanges({
-    //         ...changes,
-    //         [key]: { ...changes[key], [field]: value },
-    //     });
-    // };
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
-    // const isEditing = (record) => record.key === editingKey;
+    useEffect(() => {
+        fetchSemester();
+    }, []);
 
-    // const edit = (record) => {
-    //     setEditingKey(record.key);
-    // };
-
-    // const save = async (key) => {
-    //     console.log(changes[key]);
-    //     console.log(key);
-    //     setEditingKey("");
-    //     setChanges({});
-    // };
-
-    // const cancel = () => {
-    //     setEditingKey("");
-    // };
-
-    const semester = [
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-    ];
-
-    const phase = [
-        {
-            value: "Dot 1",
-            label: "Dot 1",
-        },
-        {
-            value: "Dot 2",
-            label: "Dot 2",
-        },
-    ];
-
-    const data = [
-        {
-            key: 1,
-            no: 1,
-            day: "1/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            course: "MAE",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 2,
-            no: 2,
-            day: "1/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            course: "PRJ",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-        {
-            key: 3,
-            no: 3,
-            day: "2/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            course: "FER",
-            room: "120",
-            lecturer: "HoangNT",
-        },
-        {
-            key: 4,
-            no: 4,
-            day: "2/1/2023",
-            startTime: "7:00",
-            endTime: "8:30",
-            course: "SWP",
-            room: "123",
-            lecturer: "PhuongLNK",
-        },
-    ];
+    useEffect(() => {
+        fetchData();
+    }, [semesterId]);
 
     const columns = [
         // Your columns
         {
             title: "No",
-            width: "5%",
+            width: "10%",
             render: (record) => {
-                return <div>{record.no}</div>;
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
-            title: "Day",
+            title: "Name",
             width: "15%",
             render: (record) => {
-                return <div>{record.day}</div>;
-            },
-            onCell: (record, rowIndex) => {
-                let rowSpan = 1;
-                if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
-                    rowSpan = 0;
-                } else {
-                    let count = 0;
-                    while (
-                        rowIndex + count < data.length &&
-                        data[rowIndex + count].day === record.day
-                    ) {
-                        count++;
-                    }
-                    rowSpan = count;
-                }
-                return {
-                    rowSpan: rowSpan,
-                };
+                return <Typography>{record.ePName}</Typography>;
             },
         },
         {
             title: "Start Time",
-            width: "10%",
+            width: "15%",
             render: (record) => {
-                return <div>{record.startTime}</div>;
+                return <Typography>{record.startDay}</Typography>;
             },
         },
         {
             title: "End Time",
-            width: "10%",
+            width: "15%",
             render: (record) => {
-                return <div>{record.endTime}</div>;
+                return <Typography>{record.endDay}</Typography>;
             },
         },
         {
-            title: "Course",
+            title: "Type",
             width: "15%",
             render: (record) => {
-                return <div>{record.course}</div>;
+                if (record.des === 0) {
+                    return <Tag color="red">NORMAL</Tag>;
+                } else {
+                    return <Tag color="green">COURSERA</Tag>;
+                }
             },
         },
         {
-            title: "Room",
+            title: "Status",
             width: "15%",
             render: (record) => {
-                return <div>{record.room}</div>;
+                const currentDate = new Date();
+                const endTime = new Date(record);
+
+                if (currentDate > endTime) {
+                    return <Tag color="red">FINISHED</Tag>;
+                } else {
+                    return <Tag color="green">PENDING</Tag>;
+                }
             },
-            // render: (record) => {
-            //     return isEditing(record) ? (
-            //         <Input
-            //             defaultValue={record.room}
-            //             onChange={(e) =>
-            //                 handleInputChange(e, record.key, "room")
-            //             }
-            //         />
-            //     ) : (
-            //         <div>{record.room}</div>
-            //     );
-            // },
-        },
-        {
-            title: "Lecturer",
-            width: "15%",
-            render: (record) => {
-                return <div>{record.lecturer}</div>;
-            },
-            // render: (record) => {
-            //     return isEditing(record) ? (
-            //         // <Input
-            //         //     defaultValue={record.lecturer}
-            //         //     onChange={(e) => handleInputChange(e, record.key, "lecturer")}
-            //         // />
-            //         <Select
-            //             style={{ width: "100%" }}
-            //             defaultValue={"Room"}
-            //             options={phase}
-            //             onChange={(value) =>
-            //                 handleSelectChange(value, record.key, "lecturer")
-            //             }
-            //         />
-            //     ) : (
-            //         <div>{record.lecturer}</div>
-            //     );
-            // },
         },
         {
             title: "Operation",
             width: "15%",
             render: (record) => {
                 return (
-                    <Typography.Link onClick={() => handleEdit(record)}>
-                        Edit
-                    </Typography.Link>
+                    <Button
+                        type="primary"
+                        style={{ background: "#5194f2" }}
+                        onClick={() => handleEdit(record)}
+                    >
+                        Detail
+                    </Button>
                 );
             },
-            // render: (_, record) => {
-            //     const editable = isEditing(record);
-            //     return editable ? (
-            //         <span>
-            //             <a
-            //                 onClick={() => save(record.key)}
-            //                 style={{ marginRight: 8 }}
-            //             >
-            //                 Save
-            //             </a>
-            //             <a onClick={cancel}>Cancel</a>
-            //         </span>
-            //     ) : (
-            //         <Typography.Link
-            //             disabled={editingKey !== ""}
-            //             onClick={() => edit(record)}
-            //         >
-            //             Edit
-            //         </Typography.Link>
-            //     );
-            // },
         },
     ];
 
@@ -256,20 +163,26 @@ const ExamPhaseTable = () => {
     };
 
     const handleEdit = (e) => {
-        navigate(`${e.no}`);
+        navigate(configs.routes.staff + `/examPhase/${e.no}`);
         console.log(e);
+    };
+
+    const handleSelect = (id, option) => {
+        setLoading(true);
+        setSelectSemester(option.label);
+        setSemesterId(id);
     };
 
     return (
         <St.DivTable>
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
-                <SelectOption
-                    defaultValue={semester[0].value}
-                    options={semester}
+                <Select
+                    onChange={handleSelect}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
                 />
-                <Typography className="title">Phase: </Typography>
-                <SelectOption defaultValue={phase[0].value} options={phase} />
             </St.StyledLeft>
             <St.ButtonTable
                 type="primary"
@@ -325,7 +238,16 @@ const ExamPhaseTable = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <Table bordered columns={columns} dataSource={data} />
+            <Table
+                columns={columns}
+                dataSource={data}
+                bordered
+                loading={loading}
+                pagination={{
+                    pageSize: 6,
+                    hideOnSinglePage: data.length <= 6,
+                }}
+            />
         </St.DivTable>
     );
 };
