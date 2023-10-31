@@ -16,13 +16,7 @@ import ButtonAdd from "@/components/ButtonAdd";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState([
-        {
-            no: 1,
-            start: "20-04",
-            end: "25-04",
-        },
-    ]);
+    const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -101,7 +95,7 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                // console.log(res);
+                console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
