@@ -13,6 +13,7 @@ const routes = {
     staffExaminer: "/staff/examiners",
     staffExamPhase: "/staff/examPhase",
     staffExamPhaseDetail: "/staff/examPhase/:id",
+    staffExamSlotDetail: "/staff/examSlot/:id",
     lecturer: "/lecturer",
     lecturerRegister: "/lecturer/register",
     lecturerExamSlots: "/lecturer/examSlots",

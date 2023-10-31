@@ -6,6 +6,7 @@ import { Button, Form, Input, Modal, Table, Typography } from "antd";
 import * as St from "./ExamPhaseTable.styled";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import configs from "@/configs";
 
 const ExamPhaseTable = () => {
     const [form] = Form.useForm();
@@ -23,95 +24,84 @@ const ExamPhaseTable = () => {
         },
     ];
 
-    const phase = [
-        {
-            value: "Dot 1",
-            label: "Dot 1",
-        },
-        {
-            value: "Dot 2",
-            label: "Dot 2",
-        },
-    ];
-
     const data = [
         {
             key: 1,
             no: 1,
-            day: "1/1/2023",
+            name: "Dot 1",
             startTime: "7:00",
             endTime: "8:30",
-            slot: "Slot 1",
+            status: true,
             room: "120",
             lecturer: "HoangNT",
         },
         {
             key: 2,
             no: 2,
-            day: "1/1/2023",
+            name: "Dot 2",
             startTime: "9:00",
             endTime: "10:30",
-            slot: "Slot 2",
+            status: false,
             room: "123",
             lecturer: "PhuongLNK",
         },
         {
             key: 3,
             no: 3,
-            day: "1/1/2023",
+            name: "Dot 3",
             startTime: "11:00",
             endTime: "12:30",
-            slot: "Slot 3",
+            status: false,
             room: "120",
             lecturer: "HoangNT",
         },
         {
             key: 4,
             no: 4,
-            day: "1/1/2023",
+            name: "Dot 4",
             startTime: "13:00",
             endTime: "14:30",
-            slot: "Slot 4",
+            status: false,
             room: "123",
             lecturer: "PhuongLNK",
         },
         {
             key: 5,
             no: 5,
-            day: "2/1/2023",
+            name: "Dot 5",
             startTime: "7:00",
             endTime: "8:30",
-            slot: "Slot 1",
+            status: false,
             room: "120",
             lecturer: "HoangNT",
         },
         {
             key: 6,
             no: 6,
-            day: "2/1/2023",
+            name: "Dot 6",
             startTime: "9:00",
             endTime: "10:30",
-            slot: "Slot 2",
+            status: false,
             room: "123",
             lecturer: "PhuongLNK",
         },
         {
             key: 7,
             no: 7,
-            day: "2/1/2023",
+            name: "Dot 7",
             startTime: "11:00",
             endTime: "12:30",
-            slot: "Slot 3",
+            status: false,
             room: "120",
             lecturer: "HoangNT",
         },
         {
             key: 8,
             no: 8,
-            day: "2/1/2023",
+            name: "Dot 8",
             startTime: "13:00",
             endTime: "14:30",
-            slot: "Slot 4",
+            status: false,
             room: "123",
             lecturer: "PhuongLNK",
         },
@@ -127,10 +117,10 @@ const ExamPhaseTable = () => {
             },
         },
         {
-            title: "Day",
+            title: "Name",
             width: "20%",
             render: (record) => {
-                return <div>{record.day}</div>;
+                return <div>{record.name}</div>;
             },
             // onCell: (record, rowIndex) => {
             //     let rowSpan = 1;
@@ -152,13 +142,6 @@ const ExamPhaseTable = () => {
             // },
         },
         {
-            title: "Slot",
-            width: "15%",
-            render: (record) => {
-                return <div>{record.slot}</div>;
-            },
-        },
-        {
             title: "Start Time",
             width: "20%",
             render: (record) => {
@@ -173,13 +156,21 @@ const ExamPhaseTable = () => {
             },
         },
         {
+            title: "Status",
+            width: "15%",
+            render: (record) => {
+                if (record.status === true) {
+                    return <div>On going</div>;
+                } else {
+                    return <div>Close</div>;
+                }
+            },
+        },
+        {
             title: "Operation",
             width: "20%",
             render: (record) => {
                 return (
-                    // <Typography.Link onClick={() => handleEdit(record)}>
-                    //     Detail
-                    // </Typography.Link>
                     <Button
                         type="primary"
                         style={{ background: "#5194f2" }}
@@ -204,7 +195,7 @@ const ExamPhaseTable = () => {
     };
 
     const handleEdit = (e) => {
-        navigate(`${e.no}`);
+        navigate(configs.routes.staff + `/examPhase/${e.no}`);
         console.log(e);
     };
 
@@ -216,11 +207,6 @@ const ExamPhaseTable = () => {
                     defaultValue={semester[0].value}
                     options={semester}
                 />
-                <Typography className="title">Phase: </Typography>
-                <SelectOption defaultValue={phase[0].value} options={phase} />
-                <Typography className="title">
-                    Range: 1/10/2023 - 8/10/2023
-                </Typography>
             </St.StyledLeft>
             <St.ButtonTable
                 type="primary"

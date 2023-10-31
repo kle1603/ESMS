@@ -1,6 +1,7 @@
 // import PropTypes from "prop-types";
 
 import ExamPhaseTable from "@/components/Staff/ExamPhaseTable";
+// import ExamSlotTable from "@/components/Staff/ExamSlotTable";
 import { Col, Divider, Row } from "antd";
 
 const StaffExamPhase = () => {
@@ -8,7 +9,7 @@ const StaffExamPhase = () => {
         <Row gutter={16}>
             <Col span={24}>
                 <Divider orientation="left">Exam Phase</Divider>
-                <ExamPhaseTable/>
+                <ExamPhaseTable />
             </Col>
         </Row>
     );
