@@ -141,14 +141,14 @@ const PhaseTable = () => {
         // Your columns
         {
             title: "No",
-            width: "10%",
+            width: "5%",
             render: (record) => {
                 return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Name",
-            width: "15%",
+            width: "20%",
             render: (record) => {
                 return <Typography>{record.ePName}</Typography>;
             },

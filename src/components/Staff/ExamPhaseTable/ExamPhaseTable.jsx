@@ -18,8 +18,6 @@ import configs from "@/configs";
 import instance from "@/utils/instance";
 
 const ExamPhaseTable = () => {
-    const [form] = Form.useForm();
-    const [modalVisible, setModalVisible] = useState(false);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [semesters, setSemesters] = useState([]);
@@ -82,6 +80,24 @@ const ExamPhaseTable = () => {
         fetchData();
     }, [semesterId]);
 
+    const handleEdit = (e) => {
+        console.log(e);
+        // navigate(configs.routes.staff + `/examPhase/${e.no}`);
+        navigate(configs.routes.staff + `/examPhase/${e.no}`, {
+            state: {
+                data: e,
+            },
+        });
+    };
+
+    const handleSelect = (id, option) => {
+        if (semesterId !== id) {
+            setLoading(true);
+            setSelectSemester(option.label);
+            setSemesterId(id);
+        }
+    };
+
     const columns = [
         // Your columns
         {
@@ -128,11 +144,8 @@ const ExamPhaseTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record);
-
-                if (currentDate > endTime) {
-                    return <Tag color="red">FINISHED</Tag>;
+                if (record.status === false) {
+                    return <Tag color="default">CLOSED</Tag>;
                 } else {
                     return <Tag color="green">PENDING</Tag>;
                 }
@@ -155,33 +168,6 @@ const ExamPhaseTable = () => {
         },
     ];
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
-
-    const handleOk = () => {};
-
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
-
-    const handleEdit = (e) => {
-        console.log(e);
-        // navigate(configs.routes.staff + `/examPhase/${e.no}`);
-        navigate(configs.routes.staff + `/examPhase/${e.no}`, {
-            state: {
-                data: e,
-            },
-        });
-    };
-
-    const handleSelect = (id, option) => {
-        setLoading(true);
-        setSelectSemester(option.label);
-        setSemesterId(id);
-    };
-
     return (
         <St.DivTable>
             <St.StyledLeft>
@@ -193,60 +179,6 @@ const ExamPhaseTable = () => {
                     options={semesters}
                 />
             </St.StyledLeft>
-            <St.ButtonTable
-                type="primary"
-                style={{ marginBottom: 16 }}
-                onClick={handleAdd}
-            >
-                Add a row
-            </St.ButtonTable>
-            <Modal
-                title="Add a row"
-                open={modalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <Form form={form} name="add_row_form">
-                    <Form.Item
-                        name="role"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please choose role!",
-                            },
-                            {
-                                pattern:
-                                    /^(Admin|admin|ADMIN|Staff|staff|Lecturer|lecturer)$/,
-                                message: "Invalid role!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Role" />
-                    </Form.Item>
-                    <Form.Item
-                        name="email"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the email!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Email" />
-                    </Form.Item>
-                    <Form.Item
-                        name="name"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the name!",
-                            },
-                        ]}
-                    >
-                        <Input placeholder="Name" />
-                    </Form.Item>
-                </Form>
-            </Modal>
             <Table
                 columns={columns}
                 dataSource={data}

@@ -17,7 +17,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const ExaminerTable = () => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const [semesters, setSemesters] = useState([]);
@@ -25,6 +25,7 @@ const ExaminerTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
+    const [phaseId, setPhaseId] = useState(0);
 
     const columns = [
         {
@@ -112,6 +113,7 @@ const ExaminerTable = () => {
                         }));
                         const newData = phaseData.reverse();
                         setSelectPhase(newData[0].label);
+                        setPhaseId(newData[0].value);
                         setPhases(newData);
                     } else {
                         setSelectPhase("");
@@ -125,33 +127,28 @@ const ExaminerTable = () => {
             .finally(() => {});
     };
 
-    useEffect(() => {
-        fetchSemester();
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        fetchPhase();
-    }, [semesterId]);
-
     const fetchData = () => {
         setLoading(true);
-        instance
-            .get(`examiners/getExaminerByPhase?exPhaseId=1`)
-            .then((res) => {
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: index + 1,
-                    no: index + 1,
-                }));
-                setData(formattedData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        if (phaseId !== 0) {
+            instance
+                .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`)
+                .then((res) => {
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        no: index + 1,
+                        key: index + 1,
+                    }));
+                    setData(formattedData);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        } else {
+            setData([]);
+            // setLoading(false);
+        }
     };
 
     // useEffect(() => {
@@ -160,7 +157,15 @@ const ExaminerTable = () => {
 
     useEffect(() => {
         fetchData();
+    }, [phaseId]);
+
+    useEffect(() => {
+        fetchSemester();
     }, []);
+
+    useEffect(() => {
+        fetchPhase();
+    }, [semesterId]);
 
     const handleDelete = (e) => {
         setLoading(true);
@@ -208,16 +213,15 @@ const ExaminerTable = () => {
     };
 
     const handleSelectSemester = (id, option) => {
-        setLoading(true);
-        // setData([]);
         setSelectSemester(option.label);
         setSemesterId(id);
+        setPhaseId(0);
+        setPhases([]);
     };
 
     const handleSelectPhase = (id, option) => {
-        setLoading(true);
-        // setData([]);
         setSelectPhase(option.label);
+        setPhaseId(id);
     };
 
     return (

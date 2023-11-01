@@ -9,16 +9,14 @@ import { useEffect, useState } from "react";
 
 const { Header } = Layout;
 
-const AdminHeader = () => {
-    const token = document.cookie;
-    const [decode, setDecode] = useState([]);
+const HeaderLayout = () => {
+    // const token = document.cookie;
+    // const [decode, setDecode] = useState([]);
 
-    useEffect(() => {
-        const result = jwtDecode(token);
-        setDecode(result);
-    }, []);
-
-    console.log(decode);
+    // useEffect(() => {
+    //     const result = jwtDecode(token);
+    //     setDecode(result);
+    // }, []);
 
     return (
         <Header
@@ -48,8 +46,12 @@ const AdminHeader = () => {
                     <St.DivAvatar>
                         <div className="avatar__wrapper">
                             <div className="avatar__content">
-                                <h3 className="avatar__title">{decode.name}</h3>
-                                <p className="avatar__desc">{decode.email}</p>
+                                <h3 className="avatar__title">
+                                    {/* {decode ? decode.name : "Nane"} */}
+                                </h3>
+                                <p className="avatar__desc">
+                                    {/* {decode ? decode.email : "Nane@gmail.com"} */}
+                                </p>
                             </div>
                             <Avatar
                                 className="avatar__icon"
@@ -65,6 +67,6 @@ const AdminHeader = () => {
     );
 };
 
-AdminHeader.propTypes = {};
+HeaderLayout.propTypes = {};
 
-export default AdminHeader;
+export default HeaderLayout;

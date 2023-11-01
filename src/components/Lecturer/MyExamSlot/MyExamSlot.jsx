@@ -25,7 +25,6 @@ const CancelRegisterTable = () => {
         instance
             .get(`examiners/scheduledByPhase?examinerId=1&examphaseId=1`)
             .then((res) => {
-                // console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: index + 1,
@@ -64,11 +63,9 @@ const CancelRegisterTable = () => {
     };
 
     const fetchPhase = () => {
-        console.log("fetch phase:" + semesterId);
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
-                // console.log(res);
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({

@@ -9,9 +9,31 @@ import Search from "antd/es/input/Search";
 const RoomTable = () => {
     const [search, setSearch] = useState("");
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+
+    const fetchData = () => {
+        instance
+            .get("rooms")
+            .then((res) => {
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    no: index + 1,
+                    key: item.id,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const columns = [
         {
@@ -96,31 +118,6 @@ const RoomTable = () => {
         form.resetFields();
         setModalVisible(false);
     };
-
-    const fetchData = () => {
-        setLoading(true);
-        instance
-            .get("rooms")
-            .then((res) => {
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    no: index + 1,
-                    key: item.id,
-                }));
-                setData(formattedData);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     const handleDelete = (e) => {
         instance
