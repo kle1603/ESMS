@@ -4,11 +4,15 @@ import instance from "@/utils/instance";
 import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import * as St from "./CourseTable.styled";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
     const param = useParams();
+    // console.log(param);
 
     useEffect(() => {
         // call api here
@@ -18,7 +22,7 @@ const CourseTable = () => {
     const fetchCourse = () => {
         setLoading(true);
         instance
-            .get(`examRooms/getCourseOneSlot?exSlotID=${param.id}}`)
+            .get(`examRooms/getCourseAndNumOfStuOneSlot?exSlotID=${param.id}`)
             .then((res) => {
                 // console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
@@ -61,7 +65,11 @@ const CourseTable = () => {
         },
     ];
     return (
-        <div>
+        <St.DivStyled>
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new course"
+            />
             <Table
                 columns={columns}
                 dataSource={data}
@@ -72,7 +80,7 @@ const CourseTable = () => {
                     hideOnSinglePage: data.length <= 5,
                 }}
             />
-        </div>
+        </St.DivStyled>
     );
 };
 
