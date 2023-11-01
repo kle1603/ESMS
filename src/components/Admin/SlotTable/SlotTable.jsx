@@ -72,7 +72,7 @@ const SlotTable = () => {
     ];
 
     const fetchData = () => {
-        // setLoading(true);
+        setLoading(true);
         instance
             .get("examSlots/1")
             .then((res) => {

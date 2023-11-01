@@ -23,12 +23,15 @@ const CancelRegisterTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
+            .get(`examiners/scheduledByPhase?examinerId=1&examphaseId=1`)
             .then((res) => {
+                // console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: index + 1,
                     no: index + 1,
+                    startTime: item.startTime.slice(0, 5),
+                    endTime: item.endTime.slice(0, 5),
                 }));
                 setData(formattedData);
                 setLoading(false);
@@ -65,7 +68,7 @@ const CancelRegisterTable = () => {
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
@@ -118,49 +121,52 @@ const CancelRegisterTable = () => {
     const columns = [
         {
             title: "No",
-            dataIndex: "no",
-            key: "no",
             width: "10%",
-        },
-        {
-            title: "Day",
-            dataIndex: "day",
-            key: "day",
-            width: "25%",
-            onCell: (record, rowIndex) => {
-                let rowSpan = 1;
-                if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
-                    rowSpan = 0;
-                } else {
-                    let count = 0;
-                    while (
-                        rowIndex + count < data.length &&
-                        data[rowIndex + count].day === record.day
-                    ) {
-                        count++;
-                    }
-                    rowSpan = count;
-                }
-                return {
-                    rowSpan: rowSpan,
-                };
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
+            title: "Day",
+            width: "25%",
+            render: (record) => {
+                return <Typography>{record.day}</Typography>;
+            },
+            // onCell: (record, rowIndex) => {
+            //     let rowSpan = 1;
+            //     if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
+            //         rowSpan = 0;
+            //     } else {
+            //         let count = 0;
+            //         while (
+            //             rowIndex + count < data.length &&
+            //             data[rowIndex + count].day === record.day
+            //         ) {
+            //             count++;
+            //         }
+            //         rowSpan = count;
+            //     }
+            //     return {
+            //         rowSpan: rowSpan,
+            //     };
+            // },
+        },
+        {
             title: "Start Time",
-            dataIndex: "startTime",
-            key: "startTime",
             width: "20%",
+            render: (record) => {
+                return <Typography>{record.startTime}</Typography>;
+            },
         },
         {
             title: "End Time",
-            dataIndex: "endTime",
-            key: "endTime",
             width: "20%",
+            render: (record) => {
+                return <Typography>{record.endTime}</Typography>;
+            },
         },
         {
             title: "Operation",
-            dataIndex: "operation",
             width: "25%",
             render: (_, record) =>
                 data.length >= 1 ? (

@@ -1,10 +1,9 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import { Flex, Form, Input, Modal, Popconfirm, Select, Tag, Typography } from "antd";
 import * as St from "./ExaminerTable.styled";
 
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
-import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 
 const ExaminerTable = () => {
@@ -12,9 +11,12 @@ const ExaminerTable = () => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
-    const [search, setSearch] = useState("");
-    const [total, setTotal] = useState();
-    const [page, setPage] = useState();
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
+    const [selectPhase, setSelectPhase] = useState();
+    const [phases, setPhases] = useState([]);
+    // const [page, setPage] = useState();
 
     const columns = [
         {
@@ -22,57 +24,43 @@ const ExaminerTable = () => {
             width: "10%",
             render: (record) => {
                 return <Typography>{record.no}</Typography>;
-            }
+            },
         },
         {
             title: "Email",
-            width: "25%",
+            width: "20%",
             render: (record) => {
-                return <Typography>{record.email}</Typography>;
-            }
+                return <Typography>{record.exEmail}</Typography>;
+            },
         },
         {
             title: "Name",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.name}</Typography>;
-            }
+                return <Typography>{record.exName}</Typography>;
+            },
         },
         {
             title: "Role",
             width: "15%",
             render: (record) => {
-                let color = record.length > 5 ? "volcano" : "geekblue";
-                if (record.role === "admin") {
-                    color = "volcano";
-                } else if (record.role === "ctv") {
-                    color = "green";
-                }
-                return (
-                    <Tag color={color} key={record.id}>
-                        {/* {role.toUpperCase()} */}
-                    </Tag>
-                );
+                return <Typography>{record.role}</Typography>;
             },
         },
         {
             title: "Status",
             width: "15%",
-            render: (role) => {
-                let color = "magenta";
-                if (role === "active") {
-                    color = "geekblue";
+            render: (record) => {
+                if (record.status) {
+                    return <Tag color="red">INACTIVE</Tag>;
+                } else {
+                    return <Tag color="blue">ACTIVE</Tag>;
                 }
-                return (
-                    <Tag color={color} key={role}>
-                        {/* {role.toUpperCase()} */}
-                    </Tag>
-                );
             },
         },
         {
             title: "Operation",
-            width: "15%",
+            width: "20%",
             render: (record) =>
                 data.length >= 1 ? (
                     <Popconfirm
@@ -85,31 +73,73 @@ const ExaminerTable = () => {
         },
     ];
 
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data.map((item) => ({
+                    label: item.season + " " + item.year,
+                    value: item.id,
+                }));
+                const newData = semestersData.reverse();
+                setSemesterId(newData[0].value);
+                setSelectSemester(newData[0].label);
+                setSemesters(newData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchPhase = () => {
+        console.log("fetch phase:" + semesterId);
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                console.log(res);
+                if (semesterId !== 0) {
+                    if (res.data.data.length !== 0) {
+                        const phaseData = res.data.data.map((item) => ({
+                            label: item.ePName,
+                            value: item.id,
+                        }));
+                        const newData = phaseData.reverse();
+                        setSelectPhase(newData[0].label);
+                        setPhases(newData);
+                    } else {
+                        setSelectPhase("");
+                        setPhases([]);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log("Phase: " + error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchSemester();
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        fetchPhase();
+    }, [semesterId]);
+
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`users/${search}`, {
-                params: { page_no: page, limit: 5 },
-            })
+            .get(`examiners/getExaminerByPhase?exPhaseId=1`)
             .then((res) => {
                 console.log(res);
-                if (res.data.data.Data) {
-                    setTotal(res.data.data.Total);
-                    const formattedData = res.data.data.Data.map((item) => ({
-                        ...item,
-                        key: item.email,
-                        no: item.id,
-                    }));
-                    setData(formattedData);
-                } else {
-                    const formattedData = res.data.data.map((item) => ({
-                        ...item,
-                        key: item.email,
-                        no: item.id,
-                    }));
-                    setData(formattedData);
-                    setTotal(formattedData.length);
-                }
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: index + 1,
+                    no: index + 1,
+                }));
+                setData(formattedData);
             })
             .catch((error) => {
                 console.log(error);
@@ -119,9 +149,13 @@ const ExaminerTable = () => {
             });
     };
 
+    // useEffect(() => {
+    //     fetchData();
+    // }, [page]);
+
     useEffect(() => {
         fetchData();
-    }, [search, page]);
+    }, []);
 
     const handleDelete = (e) => {
         setLoading(true);
@@ -168,20 +202,44 @@ const ExaminerTable = () => {
         setModalVisible(false);
     };
 
-    const handleSearch = (e) => {
-        setSearch(e);
+    const handleSelectSemester = (id, option) => {
+        setLoading(true);
+        // setData([]);
+        setSelectSemester(option.label);
+        setSemesterId(id);
     };
 
-    const handleChange = (page) => {
-        setPage(page);
+    const handleSelectPhase = (id, option) => {
+        setLoading(true);
+        // setData([]);
+        setSelectPhase(option.label);
     };
 
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
-            <St.SpaceStyled>
-                <Search onSearch={handleSearch} />
-            </St.SpaceStyled>
+            <St.StyledLeft>
+                <Typography className="title">Semester: </Typography>
+                <Select
+                    onChange={handleSelectSemester}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
+                />
+                {phases.length !== 0 ? (
+                    <Flex>
+                        <Typography className="title">Phase: </Typography>
+                        <Select
+                            onChange={handleSelectPhase}
+                            value={selectPhase}
+                            className="select"
+                            options={phases}
+                        />
+                    </Flex>
+                ) : (
+                    <div></div>
+                )}
+            </St.StyledLeft>
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"
@@ -245,9 +303,8 @@ const ExaminerTable = () => {
                     pageSize: 5,
                     hideOnSinglePage: data.length <= 5,
                     showSizeChanger: false,
-                    total: total,
                     showQuickJumper: true,
-                    onChange: handleChange,
+                    // onChange: handleChange,
                 }}
             />
         </St.DivTable>

@@ -3,12 +3,11 @@ import { momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import { myEventsList } from "./ScheduleEvents";
 import Event from "./Event";
 import * as St from "./Schedule.styled";
-import Theme from "@/Theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalSchedule from "./ModalSchedule";
+import instance from "@/utils/instance";
 
 const localizer = momentLocalizer(moment);
 // localizer.formats.timeGutterFormat = "H:mm";
@@ -16,6 +15,7 @@ const localizer = momentLocalizer(moment);
 const Schedule = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [event, setEvent] = useState({});
+    const [data, setData] = useState([]);
     const start = new Date(0, 0, 0, 7, 0, 0);
     const end = new Date(0, 0, 0, 19, 0, 0);
 
@@ -25,23 +25,51 @@ const Schedule = () => {
     };
 
     const eventPropGetter = ({ start }) => {
-        const isPastEvent = start < new Date(); // Kiểm tra nếu start là quá khứ
-        // let color_now = Theme.color.main_color;
-        // let color_past = "#386a20";
+        const isPastEvent = start < new Date();
 
-        // Kết hợp style cho sự kiện
-        // const style = {
-        //     backgroundColor: isPastEvent ? color_past : color_now,
-        // };
-
-        // Thêm className dựa trên thời gian
         const className = isPastEvent ? "past-event" : "future-event";
 
         return {
-            // style,
             className,
         };
     };
+
+    const fetchData = () => {
+        instance
+            .get("examiners/allScheduled?examinerId=1")
+            .then((res) => {
+                // console.log(res);
+                // const formattedData = res.data.data.map((item, index) => ({
+                //     ...item,
+                //     id: index + 1,
+                //     key: index + 1,
+                // }));
+
+                const formattedData = res.data.data.map((item, index) => {
+                    item.startTime = new Date(item.startTime);
+                    item.endTime = new Date(item.endTime);
+
+                    return {
+                        ...item,
+                        id: index + 1,
+                        key: index + 1,
+                        start: item.startTime,
+                        end: item.endTime,
+                        title: item.roomLocation,
+                    };
+                });
+                // console.log(formattedData);
+                setData(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <div>
@@ -57,7 +85,7 @@ const Schedule = () => {
                 }}
                 enableAutoScroll
                 localizer={localizer}
-                events={myEventsList}
+                events={data}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 578 }}
