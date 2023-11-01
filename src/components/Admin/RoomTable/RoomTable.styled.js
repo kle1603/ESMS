@@ -1,3 +1,4 @@
+import Theme from "@/Theme";
 import { Button, Space, Table, Tag } from "antd";
 import styled from "styled-components";
 
@@ -33,7 +34,20 @@ export const TagStyled = styled(Tag)`
 `;
 
 export const StyledTable = styled(Table)`
+    margin-top: 30px;
+
     .ant-table-cell {
         height: 65px;
+        font-family: ${Theme.font.primary_font};
+        font-size: 1.5rem;
+    }
+
+    .ant-typography {
+        font-family: ${Theme.font.primary_font};
+        font-size: 1.4rem;
+    }
+
+    .ant-tag {
+        font-family: ${Theme.font.primary_font};
     }
 `;
