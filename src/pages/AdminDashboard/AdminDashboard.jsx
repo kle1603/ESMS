@@ -1,23 +1,23 @@
 // import PropTypes from "prop-types";
 
-import { Col, Divider, Row } from "antd";
+import DashboardTable from "@/components/Admin/DashboardTable/DashboardTable";
+import { Divider } from "antd";
 
 const Dashboard = () => {
     return (
-        <Row gutter={16}>
-            <Col xs={24} sm={24} md={24} lg={24}>
-                <Divider
-                    orientation="left"
-                    style={{
-                        fontFamily: "Inter",
-                        fontSize: "1.8rem",
-                        marginBottom: "40px",
-                    }}
-                >
-                    Dashboard
-                </Divider>
-            </Col>
-        </Row>
+        <div>
+            <Divider
+                orientation="left"
+                style={{
+                    fontFamily: "Inter",
+                    fontSize: "1.8rem",
+                    marginBottom: "40px",
+                }}
+            >
+                Dashboard
+            </Divider>
+            <DashboardTable />
+        </div>
     );
 };
 
