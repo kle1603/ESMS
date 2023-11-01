@@ -103,8 +103,21 @@ const ExamPhaseTable = () => {
     };
 
     const handleEdit = (e) => {
-        navigate(configs.routes.staff + `/examSlot/${e.no}`);
+        // navigate(configs.routes.staff + `/examSlot/${e.id}`);
+        console.log(state.data);
         console.log(e);
+
+        navigate(configs.routes.staff + `/examSlot/${e.id}`, {
+            state: {
+                item:
+                    "Day: " +
+                    e.day +
+                    " Time: " +
+                    e.timeSlot.startTime.slice(0, 5) +
+                    "-" +
+                    e.timeSlot.endTime.slice(0, 5),
+            },
+        });
     };
 
     return (

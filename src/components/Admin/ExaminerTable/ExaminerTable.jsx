@@ -145,7 +145,7 @@ const ExaminerTable = () => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
-                    key: item.email,
+                    key: index + 1,
                     no: index + 1,
                 }));
                 setData(formattedData);
@@ -213,14 +213,14 @@ const ExaminerTable = () => {
 
     const handleSelectSemester = (id, option) => {
         setLoading(true);
-        setData([]);
+        // setData([]);
         setSelectSemester(option.label);
         setSemesterId(id);
     };
 
     const handleSelectPhase = (id, option) => {
         setLoading(true);
-        setData([]);
+        // setData([]);
         setSelectPhase(option.label);
     };
 

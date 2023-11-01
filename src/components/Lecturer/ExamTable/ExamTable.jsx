@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import { Divider, Dropdown, Popconfirm, Table, Typography } from "antd";
+import { Divider, Popconfirm, Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./ExamTable.styled";
@@ -17,9 +17,9 @@ const ExamTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`examiners/examPhaseId?userId=256&examPhaseId=1&semId=9`)
+            .get(`examiners/examPhaseId?userId=256&examPhaseId=1`)
             .then((res) => {
-                // console.log(res);
+                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: index + 1,

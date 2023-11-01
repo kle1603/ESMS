@@ -22,9 +22,9 @@ const SlotTable = () => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
+    // const handleAdd = () => {
+    //     setModalVisible(true);
+    // };
     const handleOk = () => {
         form.validateFields().then((values) => {
             console.log(values.startTime.format("HH:mm"));
@@ -67,7 +67,7 @@ const SlotTable = () => {
     ];
 
     const fetchData = () => {
-        // setLoading(true);
+        setLoading(true);
         instance
             .get("examSlots/1")
             .then((res) => {
@@ -165,10 +165,7 @@ const SlotTable = () => {
                 />
             </St.StyledLeft>
 
-            <ButtonAdd
-                setModalVisible={setModalVisible}
-                title="Add new slot"
-            />
+            <ButtonAdd setModalVisible={setModalVisible} title="Add new slot" />
 
             <Modal
                 title="Add new slot"

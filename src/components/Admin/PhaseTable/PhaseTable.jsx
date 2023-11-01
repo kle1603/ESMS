@@ -114,7 +114,8 @@ const PhaseTable = () => {
     ];
 
     const fetchData = () => {
-        console.log(semesterId);
+        // setLoading(true);
+        // console.log(semesterId);
 
         if (semesterId !== 0) {
             instance
@@ -138,6 +139,7 @@ const PhaseTable = () => {
     };
 
     const fetchSemester = () => {
+        // setLoading(true);
         instance
             .get("semesters")
             .then((res) => {
@@ -210,6 +212,12 @@ const PhaseTable = () => {
     };
 
     const handleSelect = (id, option) => {
+        console.log(id);
+        console.log(semesterId);
+        if (id !== semesterId) {
+            setData([]);
+            setLoading(true);
+        }
         setSelectSemester(option.label);
         setSemesterId(id);
     };

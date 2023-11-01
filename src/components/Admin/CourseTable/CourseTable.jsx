@@ -150,14 +150,14 @@ const CourseTable = () => {
 
     const handleSelectSemester = (id, option) => {
         setLoading(true);
-        setData([]);
+        // setData([]);
         setSelectSemester(option.label);
         setSemesterId(id);
     };
 
     const handleSelectPhase = (id, option) => {
         setLoading(true);
-        setData([]);
+        // setData([]);
         setSelectPhase(option.label);
     };
 

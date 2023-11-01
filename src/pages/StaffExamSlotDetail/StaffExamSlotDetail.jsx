@@ -1,27 +1,41 @@
 // import PropTypes from "prop-types";
 
-import { Card, Divider, Table, Typography } from "antd";
-import { useParams } from "react-router-dom";
+import { Divider, Table, Typography } from "antd";
+import { useLocation, useParams } from "react-router-dom";
 import * as St from "./StaffExamSlotDetail.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 
 const StaffExamPhaseDetail = () => {
-    const [semester, setSemester] = useState([]);
+    const [data_1, setData_1] = useState([]);
+    const [data_2, setData_2] = useState([]);
+    const [data_3, setData_3] = useState([]);
+    const [data_4, setData_4] = useState([]);
     const param = useParams();
-    console.log(param.id);
+    const location = useLocation();
+    // console.log(location.state.item);
+    // console.log(param);
 
     useEffect(() => {
         // call api here
-        fetchData();
-        fetchSemester();
+        fetchCourse();
+        fetchRoom();
+        fetchExaminer();
+        fetchScheduleDetail();
     }, []);
 
-    const fetchData = () => {
+    const fetchCourse = () => {
         instance
-            .get("examRooms/getCourseOneSlot?exSlotID=22")
+            .get(`examRooms/getCourseOneSlot?exSlotID=${param.id}}`)
             .then((res) => {
-                console.log(res);
+                // console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    no: index + 1,
+                    key: index + 1,
+                }));
+                // console.log(formattedData);
+                setData_1(formattedData);
             })
             .catch((error) => {
                 console.log(error);
@@ -29,20 +43,18 @@ const StaffExamPhaseDetail = () => {
             .finally(() => {});
     };
 
-    const fetchSemester = () => {
+    const fetchRoom = () => {
         instance
-            .get("semesters")
+            .get(`examRooms/getRoomOneSlot?exSlotID=${param.id}`)
             .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data
-                    .sort((a, b) => b.id - a.id)
-                    .map((item, index) => ({
-                        ...item,
-                        no: index + 1,
-                        key: item.id,
-                        season: item.season + " " + item.year,
-                    }));
-                setSemester(formattedData);
+                // console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    no: index + 1,
+                    key: index + 1,
+                }));
+                // console.log(formattedData);
+                setData_2(formattedData);
             })
             .catch((error) => {
                 console.log(error);
@@ -50,70 +62,45 @@ const StaffExamPhaseDetail = () => {
             .finally(() => {});
     };
 
-    const data = [
-        {
-            key: 1,
-            no: 1,
-            course: "MAE",
-            room: "610",
-            examiner: "PhuongLHK real",
-            nOS: 200,
-            location: "XAVALO",
-            email: "Hahaha@gmail.com",
-        },
-        {
-            key: 2,
-            no: 2,
-            course: "MAE",
-            room: "611",
-            examiner: "PhuongLHK clone 1",
-            nOS: 200,
-            location: "XAVALO",
-            email: "Hahaha@gmail.com",
-        },
-        {
-            key: 3,
-            no: 3,
-            course: "MAE",
-            room: "612",
-            examiner: "PhuongLHK clone 2",
-            nOS: 200,
-            location: "XAVALO",
-            email: "Hahaha@gmail.com",
-        },
-        {
-            key: 4,
-            no: 4,
-            course: "SWP",
-            room: "614",
-            examiner: "PhuongLHK clone 3",
-            nOS: 200,
-            location: "XAVALO",
-            email: "Hahaha@gmail.com",
-        },
-        {
-            key: 5,
-            no: 5,
-            course: "SWP",
-            room: "615",
-            examiner: "PhuongLHK clone 4",
-            nOS: 200,
-            location: "XAVALO",
-            email: "Hahaha@gmail.com",
-        },
-        {
-            key: 6,
-            no: 6,
-            course: "SWP",
-            room: "616",
-            examiner: "PhuongLHK clone 5",
-            nOS: 200,
-            location: "XAVALO",
-            email: "Hahaha@gmail.com",
-        },
-    ];
+    const fetchExaminer = () => {
+        instance
+            .get(`examRooms/getExaminerOneSlot?exSlotID=${param.id}`)
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    no: index + 1,
+                    key: index + 1,
+                }));
+                // console.log(formattedData);
+                setData_3(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
 
-    const columns1 = [
+    const fetchScheduleDetail = () => {
+        instance
+            .get(`examRooms/getExamRoomDetailByPhase?examSlotId=${param.id}`)
+            .then((res) => {
+                console.log(res);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    no: index + 1,
+                    key: index + 1,
+                }));
+                // console.log(formattedData);
+                setData_4(formattedData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const columns_1 = [
         // Your columns
         {
             title: "No",
@@ -126,19 +113,19 @@ const StaffExamPhaseDetail = () => {
             title: "Course",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.course}</Typography>;
+                return <Typography>{record.subCode}</Typography>;
             },
         },
         {
             title: "Number of Students",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.nOS}</Typography>;
+                return <Typography>{record.numOfStu}</Typography>;
             },
         },
     ];
 
-    const columns2 = [
+    const columns_2 = [
         // Your columns
         {
             title: "No",
@@ -151,7 +138,7 @@ const StaffExamPhaseDetail = () => {
             title: "Room",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.room}</Typography>;
+                return <Typography>{record.roomNum}</Typography>;
             },
         },
         {
@@ -163,7 +150,7 @@ const StaffExamPhaseDetail = () => {
         },
     ];
 
-    const columns3 = [
+    const columns_3 = [
         // Your columns
         {
             title: "No",
@@ -176,19 +163,19 @@ const StaffExamPhaseDetail = () => {
             title: "Examiner",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.examiner}</Typography>;
+                return <Typography>{record.examinerName}</Typography>;
             },
         },
         {
             title: "Email",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.email}</Typography>;
+                return <Typography>{record.examinerEmail}</Typography>;
             },
         },
     ];
 
-    const columns4 = [
+    const columns_4 = [
         // Your columns
         {
             title: "No",
@@ -201,14 +188,14 @@ const StaffExamPhaseDetail = () => {
             title: "Course",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.course}</Typography>;
+                return <Typography>{record.subCode}</Typography>;
             },
         },
         {
             title: "Room",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.room}</Typography>;
+                return <Typography>{record.roomNum}</Typography>;
             },
         },
         {
@@ -232,54 +219,68 @@ const StaffExamPhaseDetail = () => {
             key: "1",
             label: "Course",
             children: (
-                <Card>
-                    <Table bordered columns={columns1} dataSource={data} />
-                </Card>
+                <Table
+                    columns={columns_1}
+                    dataSource={data_1}
+                    bordered
+                    pagination={{
+                        pageSize: 5,
+                        hideOnSinglePage: data_1.length <= 5,
+                    }}
+                />
             ),
         },
         {
             key: "2",
             label: "Room",
             children: (
-                <Card>
-                    <Table bordered columns={columns2} dataSource={data} />
-                </Card>
+                <Table
+                    columns={columns_2}
+                    dataSource={data_2}
+                    bordered
+                    pagination={{
+                        pageSize: 5,
+                        hideOnSinglePage: data_2.length <= 5,
+                    }}
+                />
             ),
         },
         {
             key: "3",
             label: "Examiner",
             children: (
-                <Card>
-                    <Table bordered columns={columns3} dataSource={data} />
-                </Card>
+                <Table
+                    columns={columns_3}
+                    dataSource={data_3}
+                    bordered
+                    pagination={{
+                        pageSize: 5,
+                        hideOnSinglePage: data_3.length <= 5,
+                    }}
+                />
             ),
         },
         {
             key: "4",
-            label: "Slot",
+            label: "Schedule Detail",
             children: (
-                <Card>
-                    <Table
-                        columns={columns4}
-                        dataSource={data}
-                        bordered
-                        pagination={{
-                            pageSize: 5,
-                            hideOnSinglePage: data.length <= 5,
-                        }}
-                    />
-                </Card>
+                <Table
+                    columns={columns_4}
+                    dataSource={data_4}
+                    bordered
+                    pagination={{
+                        pageSize: 5,
+                        hideOnSinglePage: data_4.length <= 5,
+                    }}
+                />
             ),
         },
     ];
 
     return (
         <Typography>
-            <Divider orientation="left">
-                Fall 2023 - Dot 1 - 1/1/2023 - Slot 1
-            </Divider>
-            <St.TabsStyled defaultActiveKey="1" items={items} />
+            <Divider orientation="left">{location.state.item}</Divider>
+            <St.TabsStyled defaultActiveKey="4" items={items} />
         </Typography>
     );
 };
