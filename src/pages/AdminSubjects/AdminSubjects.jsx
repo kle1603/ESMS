@@ -7,7 +7,15 @@ const AdminSubjects = () => {
     return (
         <Row gutter={16}>
             <Col xs={24} sm={24} md={24} lg={24}>
-                <Divider orientation="left">Subject</Divider>
+                <Divider
+                    orientation="left"
+                    style={{
+                        fontFamily: "Inter",
+                        fontSize: "1.8rem",
+                    }}
+                >
+                    Subject
+                </Divider>
                 <SubjectTable />
             </Col>
         </Row>
