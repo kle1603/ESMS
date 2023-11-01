@@ -25,6 +25,9 @@ const CourseTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
+    const [phaseId, setPhaseId] = useState(0);
+
+    console.log(loading);
 
     const fetchSemester = () => {
         instance
@@ -57,6 +60,7 @@ const CourseTable = () => {
                         }));
                         const newData = phaseData.reverse();
                         setSelectPhase(newData[0].label);
+                        setPhaseId(newData[0].value);
                         setPhases(newData);
                     } else {
                         setSelectPhase("");
@@ -65,42 +69,46 @@ const CourseTable = () => {
                 }
             })
             .catch((error) => {
-                console.log("Phase: " + error);
+                console.log(error);
             })
             .finally(() => {});
     };
 
+    const fetchData = () => {
+        setLoading(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`courses/?ePId=${phaseId}`)
+                .then((res) => {
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        no: index + 1,
+                        key: item.courseId,
+                    }));
+                    setData(formattedData);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        } else {
+            setData([]);
+            // setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [phaseId]);
+
     useEffect(() => {
         fetchSemester();
-        fetchData();
     }, []);
 
     useEffect(() => {
         fetchPhase();
     }, [semesterId]);
-
-    const fetchData = () => {
-        instance
-            .get("courses/?ePId=1")
-            .then((res) => {
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    no: index + 1,
-                    key: item.courseId,
-                }));
-                setData(formattedData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     const handleDelete = (e) => {
         instance
@@ -144,16 +152,18 @@ const CourseTable = () => {
     };
 
     const handleSelectSemester = (id, option) => {
-        setLoading(true);
-        // setData([]);
-        setSelectSemester(option.label);
-        setSemesterId(id);
+        if (id !== semesterId) {
+            setSelectSemester(option.label);
+            setSemesterId(id);
+            setPhaseId(0);
+        }
     };
 
     const handleSelectPhase = (id, option) => {
-        setLoading(true);
-        // setData([]);
-        setSelectPhase(option.label);
+        if (id !== phaseId) {
+            setSelectPhase(option.label);
+            setPhaseId(id);
+        }
     };
 
     const columns = [

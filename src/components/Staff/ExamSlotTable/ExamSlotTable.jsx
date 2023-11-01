@@ -1,6 +1,7 @@
 // import PropTypes from "prop-types";
 
-import { Button, Divider, Form, Input, Modal, Table } from "antd";
+import { Button, Divider, Form, Input, Modal, Select, Table } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import * as St from "./ExamSlotTable.styled";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -16,9 +17,13 @@ const ExamPhaseTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const [timeSlots, setTimeSlots] = useState([]);
+    const [selectTimeSlot, setSelectTimeSlot] = useState();
+    const [defaultValue, setDefaultValue] = useState();
 
     useEffect(() => {
         fetchData();
+        fetchTimeSlot();
     }, []);
 
     const fetchData = () => {
@@ -42,6 +47,30 @@ const ExamPhaseTable = () => {
             .finally(() => {
                 setLoading(false);
             });
+    };
+
+    const fetchTimeSlot = () => {
+        instance
+            .get(`timeSlots/des?examphaseId=1`)
+            .then((res) => {
+                console.log(res);
+                if (id !== 0) {
+                    const formattedData = res.data.data.map((item) => ({
+                        value: item.id,
+                        label:
+                            item.startTime.slice(0, -3) +
+                            "-" +
+                            item.endTime.slice(0, -3),
+                    }));
+                    setSelectTimeSlot(formattedData[0].label);
+                    setDefaultValue(formattedData[0].value);
+                    setTimeSlots(formattedData);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
     };
 
     const columns = [
@@ -95,7 +124,19 @@ const ExamPhaseTable = () => {
         setModalVisible(true);
     };
 
-    const handleOk = () => {};
+    const handleOk = () => {
+        form.validateFields()
+            .then((values) => {
+                const { day, slot } = values;
+                if (values.slot === selectTimeSlot) {
+                    values.slot = defaultValue;
+                }
+                console.log(values);
+            })
+            .catch((info) => {
+                console.log("Validate Failed:", info);
+            });
+    };
 
     const handleCancel = () => {
         form.resetFields();
@@ -120,9 +161,18 @@ const ExamPhaseTable = () => {
         });
     };
 
+    const handleBack = () => {
+        window.history.back();
+    };
+
+    const handleSelect = (id, option) => {};
+
     return (
-        <div>
+        <>
             <Divider orientation="left">
+                <Button onClick={handleBack} style={{ marginRight: 10 }}>
+                    <ArrowLeftOutlined />
+                </Button>
                 {state.data.ePName +
                     " - " +
                     state.data.startDay +
@@ -136,7 +186,7 @@ const ExamPhaseTable = () => {
                     style={{ marginBottom: 16 }}
                     onClick={handleAdd}
                 >
-                    Add a row
+                    Add a exam slot
                 </St.ButtonTable>
                 <Modal
                     title="Add a row"
@@ -146,43 +196,47 @@ const ExamPhaseTable = () => {
                 >
                     <Form form={form} name="add_row_form">
                         <Form.Item
-                            name="role"
+                            name="day"
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please choose role!",
+                                    message: "Please input the day!",
                                 },
                             ]}
                         >
-                            <Input placeholder="Role" />
+                            <Input placeholder="Day" />
                         </Form.Item>
                         <Form.Item
-                            name="email"
+                            name="slot"
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input the email!",
+                                    message: "Please choose the slot!",
                                 },
                             ]}
+                            initialValue={selectTimeSlot}
                         >
-                            <Input placeholder="Email" />
-                        </Form.Item>
-                        <Form.Item
-                            name="name"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input the name!",
-                                },
-                            ]}
-                        >
-                            <Input placeholder="Name" />
+                            <Select
+                                onChange={handleSelect}
+                                // value={selectTimeSlot}
+                                className="select"
+                                options={timeSlots}
+                            />
                         </Form.Item>
                     </Form>
                 </Modal>
-                <Table bordered columns={columns} dataSource={data} />
+                <Table
+                    columns={columns}
+                    dataSource={data}
+                    bordered
+                    loading={loading}
+                    pagination={{
+                        pageSize: 6,
+                        hideOnSinglePage: data.length <= 6,
+                    }}
+                />
             </St.DivTable>
-        </div>
+        </>
     );
 };
 

@@ -26,88 +26,6 @@ const SlotTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const format = "HH:mm";
 
-    // console.log(semesterId);
-
-    // const handleAdd = () => {
-    //     setModalVisible(true);
-    // };
-    const handleOk = () => {
-        form.validateFields().then((values) => {
-            console.log(values.startTime.format("HH:mm"));
-        });
-    };
-
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
-
-    const handleDelete = () => {};
-
-    const handleOnChange = (time, timeString) => {
-        console.log(time.format("HH:mm"), timeString);
-    };
-
-    const fetchData = () => {
-        setLoading(true);
-        instance
-            .get(`timeSlots/semId?semId=${semesterId}`)
-            .then((res) => {
-                if (semesterId !== 0) {
-                    const formattedData = res.data.data.map((item, index) => ({
-                        ...item,
-                        key: item.id,
-                        no: index + 1,
-                        startTime: item.startTime.slice(0, 5),
-                        endTime: item.endTime.slice(0, 5),
-                    }));
-                    setData(formattedData);
-                    setLoading(false);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {});
-    };
-
-    const fetchSemester = () => {
-        instance
-            .get("semesters")
-            .then((res) => {
-                const semestersData = res.data.data
-                    .sort((a, b) => b.id - a.id)
-                    .map((item) => ({
-                        label: item.season + " " + item.year,
-                        value: item.id,
-                    }));
-                setSemesterId(semestersData[0].value);
-                setSelectSemester(semestersData[0].label);
-                setSemesters(semestersData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {});
-    };
-
-    const handleSelect = (id, option) => {
-        if (id !== semesterId) {
-            setData([]);
-            setLoading(true);
-        }
-        setSelectSemester(option.label);
-        setSemesterId(id);
-    };
-
-    useEffect(() => {
-        fetchSemester();
-    }, []);
-
-    useEffect(() => {
-        fetchData();
-    }, [semesterId]);
-
     const columns = [
         {
             title: "No",
@@ -162,6 +80,83 @@ const SlotTable = () => {
                 ) : null,
         },
     ];
+
+    const fetchData = () => {
+        setLoading(true);
+        instance
+            .get(`timeSlots/semId?semId=${semesterId}`)
+            .then((res) => {
+                if (semesterId !== 0) {
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: item.id,
+                        no: index + 1,
+                        startTime: item.startTime.slice(0, 5),
+                        endTime: item.endTime.slice(0, 5),
+                    }));
+                    setData(formattedData);
+                    setLoading(false);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [semesterId]);
+
+    const handleOk = () => {
+        form.validateFields().then((values) => {
+            console.log(values.startTime.format("HH:mm"));
+        });
+    };
+
+    const handleCancel = () => {
+        form.resetFields();
+        setModalVisible(false);
+    };
+
+    const handleDelete = () => {};
+
+    const handleOnChange = (time, timeString) => {
+        console.log(time.format("HH:mm"), timeString);
+    };
+
+    const handleSelect = (id, option) => {
+        if (id !== semesterId) {
+            setData([]);
+            setLoading(true);
+        }
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
 
     return (
         <St.DivSlot>
