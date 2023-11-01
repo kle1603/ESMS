@@ -164,6 +164,7 @@ const SubjectTable = () => {
                                 Semester
                             </Typography>
                             <Input
+                                allowClear
                                 className="form__input"
                                 placeholder="Semester"
                             />
@@ -184,6 +185,7 @@ const SubjectTable = () => {
                                 Subject Name
                             </Typography>
                             <Input
+                                allowClear
                                 className="form__input"
                                 placeholder="Subject Name"
                             />
@@ -203,6 +205,7 @@ const SubjectTable = () => {
                                 Subject Code
                             </Typography>
                             <Input
+                                allowClear
                                 className="form__input"
                                 placeholder="Subject Code"
                             />

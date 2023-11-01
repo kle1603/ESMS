@@ -16,7 +16,6 @@ import ButtonAdd from "@/components/ButtonAdd";
 
 const { RangePicker } = DatePicker;
 
-
 const SemesterTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
@@ -164,10 +163,10 @@ const SemesterTable = () => {
         setModalVisible(false);
     };
 
-    const format = "HH:mm";
-    const handleOnChange = (time, timeString) => {
-        console.log(time.format("HH:mm"), timeString);
-    };
+    // const format = "HH:mm";
+    // const handleOnChange = (time, timeString) => {
+    //     console.log(time.format("HH:mm"), timeString);
+    // };
 
     // const layout = {
     //     labelCol: { span: 6 },
@@ -208,6 +207,7 @@ const SemesterTable = () => {
                                 Season
                             </Typography>
                             <Input
+                                allowClear
                                 className="form__input"
                                 placeholder="Season"
                             />
