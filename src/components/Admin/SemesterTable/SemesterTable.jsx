@@ -97,7 +97,6 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
@@ -163,16 +162,6 @@ const SemesterTable = () => {
         setModalVisible(false);
     };
 
-    // const format = "HH:mm";
-    // const handleOnChange = (time, timeString) => {
-    //     console.log(time.format("HH:mm"), timeString);
-    // };
-
-    // const layout = {
-    //     labelCol: { span: 6 },
-    //     wrapperCol: { offset: 0, span: 18 },
-    // };
-
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -213,50 +202,6 @@ const SemesterTable = () => {
                             />
                         </St.FlexStyled>
                     </Form.Item>
-
-                    {/* <Form.Item
-                        name="start"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the Start Time!",
-                            },
-                        ]}
-                    >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Start Time
-                            </Typography>
-                            <TimePicker
-                                className="form__input"
-                                format={format}
-                                minuteStep={15}
-                                onChange={handleOnChange}
-                            />
-                        </St.FlexStyled>
-                    </Form.Item>
-
-                    <Form.Item
-                        name="end"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the End Time!",
-                            },
-                        ]}
-                    >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                End Time
-                            </Typography>
-                            <TimePicker
-                                className="form__input"
-                                format={format}
-                                minuteStep={15}
-                                onChange={handleOnChange}
-                            />
-                        </St.FlexStyled>
-                    </Form.Item> */}
 
                     <Form.Item
                         name="date"

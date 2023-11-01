@@ -22,7 +22,6 @@ const UserTable = () => {
             // key: "no",
             width: "10%",
             render: (record) => {
-                console.log(record);
                 return <Typography>{record.no}</Typography>;
             },
         },
@@ -31,7 +30,6 @@ const UserTable = () => {
             // key: "email",
             width: "25%",
             render: (record) => {
-                console.log(record);
                 return <Typography>{record.email}</Typography>;
             },
         },
@@ -40,7 +38,6 @@ const UserTable = () => {
             // key: "name",
             width: "20%",
             render: (record) => {
-                console.log(record);
                 return <Typography>{record.name}</Typography>;
             },
         },
@@ -79,11 +76,11 @@ const UserTable = () => {
         {
             title: "Operation",
             width: "15%",
-            render: (_, record) =>
+            render: (record) =>
                 data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
+                        onConfirm={() => handleDelete(record.id)}
                     >
                         <Typography.Link>Delete</Typography.Link>
                     </Popconfirm>
@@ -98,7 +95,6 @@ const UserTable = () => {
                 params: { page_no: page, limit: 5 },
             })
             .then((res) => {
-                console.log(res);
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);
                     const formattedData = res.data.data.Data.map((item) => ({
