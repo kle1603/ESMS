@@ -46,11 +46,9 @@ const CourseTable = () => {
     };
 
     const fetchPhase = () => {
-        console.log("fetch phase:" + semesterId);
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
-                console.log(res);
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
@@ -140,10 +138,6 @@ const CourseTable = () => {
             });
     };
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
-
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
@@ -163,7 +157,6 @@ const CourseTable = () => {
     };
 
     const columns = [
-        // Your columns
         {
             title: "No",
             width: "10%",

@@ -54,7 +54,7 @@ const RoomTable = () => {
         {
             title: "Operation",
             width: "20%",
-            render: (_, record) =>
+            render: (record) =>
                 data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"
@@ -102,7 +102,6 @@ const RoomTable = () => {
         instance
             .get("rooms")
             .then((res) => {
-                console.log(res.data.data);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,

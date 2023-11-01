@@ -48,33 +48,30 @@ const SlotTable = () => {
         console.log(time.format("HH:mm"), timeString);
     };
 
-
     const fetchData = () => {
         setLoading(true);
         instance
             .get(`timeSlots/semId?semId=${semesterId}`)
             .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: item.id,
-                    no: index + 1,
-                    startTime: item.startTime.slice(0, 5),
-                    endTime: item.endTime.slice(0, 5),
-                }));
-                setData(formattedData);
-                setLoading(false);
+                if (semesterId !== 0) {
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: item.id,
+                        no: index + 1,
+                        startTime: item.startTime.slice(0, 5),
+                        endTime: item.endTime.slice(0, 5),
+                    }));
+                    setData(formattedData);
+                    setLoading(false);
+                }
             })
             .catch((error) => {
                 console.log(error);
             })
-            .finally(() => {
-                setLoading(false);
-            });
+            .finally(() => {});
     };
 
     const fetchSemester = () => {
-        // setLoading(true);
         instance
             .get("semesters")
             .then((res) => {
@@ -91,14 +88,10 @@ const SlotTable = () => {
             .catch((error) => {
                 console.log(error);
             })
-            .finally(() => {
-                setLoading(false);
-            });
+            .finally(() => {});
     };
 
     const handleSelect = (id, option) => {
-        console.log(id);
-        console.log(semesterId);
         if (id !== semesterId) {
             setData([]);
             setLoading(true);
@@ -120,7 +113,6 @@ const SlotTable = () => {
             title: "No",
             width: "10%",
             render: (record) => {
-                // console.log(record);
                 return <Typography>{record.no}</Typography>;
             },
         },
@@ -159,7 +151,7 @@ const SlotTable = () => {
         {
             title: "Operation",
             width: "15%",
-            render: (_, record) =>
+            render: (record) =>
                 data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"

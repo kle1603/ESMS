@@ -25,7 +25,6 @@ const ExaminerTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
-    // const [page, setPage] = useState();
 
     const columns = [
         {
@@ -102,11 +101,9 @@ const ExaminerTable = () => {
     };
 
     const fetchPhase = () => {
-        console.log("fetch phase:" + semesterId);
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
-                console.log(res);
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
@@ -142,7 +139,6 @@ const ExaminerTable = () => {
         instance
             .get(`examiners/getExaminerByPhase?exPhaseId=1`)
             .then((res) => {
-                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: index + 1,
@@ -223,10 +219,6 @@ const ExaminerTable = () => {
         // setData([]);
         setSelectPhase(option.label);
     };
-
-    // const handleChange = (page) => {
-    //     setPage(page);
-    // };
 
     return (
         <St.DivTable>

@@ -26,6 +26,117 @@ const PhaseTable = () => {
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
 
+    const option = [
+        { value: "Coursera", label: "Coursera" },
+        { value: "Normal", label: "Normal" },
+    ];
+
+    const fetchData = () => {
+        setLoading(true);
+        // console.log(semesterId);
+
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: item.id,
+                        no: index + 1,
+                    }));
+                    setData(formattedData);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
+
+    const fetchSemester = () => {
+        // setLoading(true);
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [semesterId]);
+
+    const handleDelete = (e) => {
+        setLoading(true);
+        instance
+            .delete("examPhases", { data: { id: e } })
+            .then(() => {
+                toast.success("Successfully deleted!");
+                fetchData();
+            })
+            .catch((error) => {
+                toast.error("Error deleted!");
+                console.log(error);
+            });
+    };
+
+    const handleOk = () => {
+        form.validateFields()
+            .then((values) => {
+                console.log(values);
+                // const { startTime, endTime } = values;
+                // instance
+                //     .post("timeSlots", { startTime, endTime })
+                //     .then(() => {
+                //         toast.success("Successfully created!");
+                //         form.resetFields();
+                //         setModalVisible(false);
+                //         fetchData();
+                //     })
+                //     .catch((error) => {
+                //         console.log(error);
+                //         toast.error("Error created!");
+                //     });
+            })
+            .catch((info) => {
+                console.log("Validate Failed:", info);
+            });
+    };
+
+    const handleCancel = () => {
+        form.resetFields();
+        setModalVisible(false);
+    };
+
+    const handleSelect = (id, option) => {
+        console.log(id);
+        console.log(semesterId);
+        if (id !== semesterId) {
+            setData([]);
+            setLoading(true);
+        }
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
     const columns = [
         // Your columns
         {
@@ -107,120 +218,6 @@ const PhaseTable = () => {
             },
         },
     ];
-
-    const option = [
-        { value: "Coursera", label: "Coursera" },
-        { value: "Normal", label: "Normal" },
-    ];
-
-    const fetchData = () => {
-        // setLoading(true);
-        // console.log(semesterId);
-
-        if (semesterId !== 0) {
-            instance
-                .get(`examPhases/${semesterId}`)
-                .then((res) => {
-                    console.log(res);
-                    const formattedData = res.data.data.map((item, index) => ({
-                        ...item,
-                        key: item.id,
-                        no: index + 1,
-                    }));
-                    setData(formattedData);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
-
-    const fetchSemester = () => {
-        // setLoading(true);
-        instance
-            .get("semesters")
-            .then((res) => {
-                const semestersData = res.data.data
-                    .sort((a, b) => b.id - a.id)
-                    .map((item) => ({
-                        label: item.season + " " + item.year,
-                        value: item.id,
-                    }));
-                setSemesterId(semestersData[0].value);
-                setSelectSemester(semestersData[0].label);
-                setSemesters(semestersData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
-    useEffect(() => {
-        fetchSemester();
-    }, []);
-
-    useEffect(() => {
-        fetchData();
-    }, [semesterId]);
-
-    const handleDelete = (e) => {
-        setLoading(true);
-        instance
-            .delete("examPhases", { data: { id: e } })
-            .then(() => {
-                toast.success("Successfully deleted!");
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("Error deleted!");
-                console.log(error);
-            });
-    };
-
-    const handleOk = () => {
-        form.validateFields()
-            .then((values) => {
-                console.log(values);
-                // const { startTime, endTime } = values;
-                // instance
-                //     .post("timeSlots", { startTime, endTime })
-                //     .then(() => {
-                //         toast.success("Successfully created!");
-                //         form.resetFields();
-                //         setModalVisible(false);
-                //         fetchData();
-                //     })
-                //     .catch((error) => {
-                //         console.log(error);
-                //         toast.error("Error created!");
-                //     });
-            })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
-            });
-    };
-
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
-
-    const handleSelect = (id, option) => {
-        console.log(id);
-        console.log(semesterId);
-        if (id !== semesterId) {
-            setData([]);
-            setLoading(true);
-        }
-        setSelectSemester(option.label);
-        setSemesterId(id);
-    };
 
     return (
         <St.DivTable>
