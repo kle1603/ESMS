@@ -249,13 +249,6 @@ const ExaminerTable = () => {
                     <div></div>
                 )}
             </St.StyledLeft>
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
             <Modal
                 title="Add a row"
                 open={modalVisible}

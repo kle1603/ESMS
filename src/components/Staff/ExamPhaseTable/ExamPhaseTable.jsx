@@ -83,7 +83,7 @@ const ExamPhaseTable = () => {
     const handleEdit = (e) => {
         console.log(e);
         // navigate(configs.routes.staff + `/examPhase/${e.no}`);
-        navigate(configs.routes.staff + `/examPhase/${e.no}`, {
+        navigate(configs.routes.staff + `/examPhase/${e.id}`, {
             state: {
                 data: e,
             },

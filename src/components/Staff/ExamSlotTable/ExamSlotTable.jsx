@@ -20,6 +20,8 @@ const ExamPhaseTable = () => {
     const [timeSlots, setTimeSlots] = useState([]);
     const [selectTimeSlot, setSelectTimeSlot] = useState();
     const [defaultValue, setDefaultValue] = useState();
+    const [semesterId, setSemesterId] = useState(state.data.semId);
+    const [buttonStatus, setButtonStatus] = useState(true);
 
     useEffect(() => {
         fetchData();
@@ -51,9 +53,8 @@ const ExamPhaseTable = () => {
 
     const fetchTimeSlot = () => {
         instance
-            .get(`timeSlots/des?examphaseId=1`)
+            .get(`timeSlots/des?examphaseId=${id}&semesterId=${semesterId}`)
             .then((res) => {
-                console.log(res);
                 if (id !== 0) {
                     const formattedData = res.data.data.map((item) => ({
                         value: item.id,
@@ -65,6 +66,7 @@ const ExamPhaseTable = () => {
                     setSelectTimeSlot(formattedData[0].label);
                     setDefaultValue(formattedData[0].value);
                     setTimeSlots(formattedData);
+                    setButtonStatus(false);
                 }
             })
             .catch((error) => {
@@ -127,14 +129,28 @@ const ExamPhaseTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { day, slot } = values;
                 if (values.slot === selectTimeSlot) {
                     values.slot = defaultValue;
                 }
-                console.log(values);
+                console.log(id, values.day, values.slot);
+                instance
+                    .post(`examSlots`, {
+                        ePId: id,
+                        timeSlotId: values.slot,
+                        day: values.day,
+                    })
+                    .then((res) => {
+                        console.log(res);
+                        fetchData();
+                        setModalVisible(false);
+                        form.resetFields();
+                    })
+                    .catch((error) => {
+                        console.log(error.response.data.message);
+                    });
             })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
+            .catch((error) => {
+                console.log("Validate Failed:", error);
             });
     };
 
@@ -182,6 +198,7 @@ const ExamPhaseTable = () => {
 
             <St.DivTable>
                 <St.ButtonTable
+                    loading={buttonStatus}
                     type="primary"
                     style={{ marginBottom: 16 }}
                     onClick={handleAdd}
