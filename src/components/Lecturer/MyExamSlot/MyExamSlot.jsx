@@ -23,8 +23,9 @@ const CancelRegisterTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`examiners/scheduledByPhase?examinerId=1&examphaseId=1`)
+            .get(`examiners/examPhaseId?userId=256&examPhaseId=3`)
             .then((res) => {
+                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: index + 1,

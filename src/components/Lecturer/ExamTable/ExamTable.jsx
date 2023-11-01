@@ -17,7 +17,7 @@ const ExamTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`examiners/examPhaseId?userId=256&examPhaseId=1`)
+            .get(`examiners/examPhaseId?userId=256&examPhaseId=3`)
             .then((res) => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
