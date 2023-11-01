@@ -20,6 +20,7 @@ export const FlexStyled = styled(Flex)`
     .form__title {
         min-width: 100px;
         font-family: ${Theme.font.primary_font};
+        font-weight: 500;
     }
     .form__input {
         font-family: ${Theme.font.primary_font};

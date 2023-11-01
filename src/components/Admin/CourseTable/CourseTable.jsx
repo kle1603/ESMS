@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
     const [form] = Form.useForm();
@@ -239,13 +240,10 @@ const CourseTable = () => {
                     <div></div>
                 )}
             </St.StyledLeft>
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new course"
+            />
             <Modal
                 title="Add a row"
                 open={modalVisible}
@@ -262,7 +260,16 @@ const CourseTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Subject code" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Subject Code
+                            </Typography>
+                            <Input
+                                allowClear
+                                className="form__input"
+                                placeholder="Subject code"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                     <Form.Item
                         name="subjectName"
@@ -273,7 +280,16 @@ const CourseTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Subject Name" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Subject Name
+                            </Typography>
+                            <Input
+                                allowClear
+                                className="form__input"
+                                placeholder="Subject Name"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>{" "}
                     <Form.Item
                         name="numOfStudents"
@@ -284,7 +300,16 @@ const CourseTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Num of Students" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Num of Students
+                            </Typography>
+                            <Input
+                                allowClear
+                                className="form__input"
+                                placeholder="Num of Students"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                 </Form>
             </Modal>

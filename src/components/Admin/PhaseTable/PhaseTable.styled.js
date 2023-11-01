@@ -29,7 +29,7 @@ export const StyledTable = styled(Table)`
     .ant-typography {
         font-family: ${Theme.font.primary_font};
         font-size: 1.4rem;
-    }  
+    }
 
     .ant-tag {
         font-family: ${Theme.font.primary_font};
@@ -60,9 +60,8 @@ export const StyledLeft = styled(Flex)`
     .select {
         min-width: 120px;
         font-family: ${Theme.font.primary_font};
-        font-weight: ;
+        /* font-weight: ; */
     }
-
 
     .ant-select-item-option-content {
         font-family: ${Theme.font.primary_font} !important;
@@ -77,6 +76,7 @@ export const FlexStyled = styled(Flex)`
     .form__title {
         min-width: 100px;
         font-family: ${Theme.font.primary_font};
+        font-weight: 500;
     }
     .form__input {
         width: 100%;

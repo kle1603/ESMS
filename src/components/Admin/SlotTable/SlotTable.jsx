@@ -48,6 +48,7 @@ const SlotTable = () => {
         console.log(time.format("HH:mm"), timeString);
     };
 
+
     const fetchData = () => {
         setLoading(true);
         instance
@@ -189,17 +190,12 @@ const SlotTable = () => {
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
-                style={{ fontFamily: "Roboto Slab" }}
+                style={{ fontFamily: "Inter" }}
                 form={form}
             >
                 <Form form={form} name="add_row_form">
                     <Form.Item
                         name="name"
-                        label={
-                            <span style={{ fontFamily: "Roboto Slab" }}>
-                                Slot Name
-                            </span>
-                        }
                         rules={[
                             {
                                 required: true,
@@ -207,19 +203,20 @@ const SlotTable = () => {
                             },
                         ]}
                     >
-                        <Input
-                            placeholder="Input your slot name"
-                            style={{ fontFamily: "Roboto Slab" }}
-                        />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Slot Name
+                            </Typography>
+                            <Input
+                                allowClear
+                                placeholder="Input your slot name"
+                                className="form__input"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
 
                     <Form.Item
                         name="startTime"
-                        label={
-                            <span style={{ fontFamily: "Roboto Slab" }}>
-                                Start Time
-                            </span>
-                        }
                         rules={[
                             {
                                 required: true,
@@ -227,21 +224,21 @@ const SlotTable = () => {
                             },
                         ]}
                     >
-                        <TimePicker
-                            format={format}
-                            minuteStep={15}
-                            onChange={handleOnChange}
-                            style={{ fontFamily: "Roboto Slab" }}
-                        />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Start Time
+                            </Typography>
+                            <TimePicker
+                                format={format}
+                                minuteStep={15}
+                                onChange={handleOnChange}
+                                className="form__input"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
 
                     <Form.Item
                         name="endTime"
-                        label={
-                            <span style={{ fontFamily: "Roboto Slab" }}>
-                                End Time
-                            </span>
-                        }
                         rules={[
                             {
                                 required: true,
@@ -249,12 +246,17 @@ const SlotTable = () => {
                             },
                         ]}
                     >
-                        <TimePicker
-                            format={format}
-                            minuteStep={15}
-                            onChange={handleOnChange}
-                            style={{ fontFamily: "Roboto Slab" }}
-                        />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                End Time
+                            </Typography>
+                            <TimePicker
+                                format={format}
+                                minuteStep={15}
+                                onChange={handleOnChange}
+                                className="form__input"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                 </Form>
             </Modal>

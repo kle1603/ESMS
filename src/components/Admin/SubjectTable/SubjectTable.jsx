@@ -5,6 +5,7 @@ import * as St from "./SubjectTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const SubjectTable = () => {
     const [form] = Form.useForm();
@@ -22,7 +23,7 @@ const SubjectTable = () => {
         },
         {
             title: "Subject Name",
-            width: "25%",
+            width: "30%",
             render: (record) => {
                 return <Typography>{record.name}</Typography>;
             },
@@ -36,7 +37,7 @@ const SubjectTable = () => {
         },
         {
             title: "Status",
-            width: "15%",
+            width: "20%",
             render: (record) => {
                 let color = "geekblue";
                 if (record.status === 1) {
@@ -51,7 +52,7 @@ const SubjectTable = () => {
         },
         {
             title: "Operation",
-            width: "25%",
+            width: "15%",
             render: (record) => {
                 return (
                     <Popconfirm
@@ -65,12 +66,12 @@ const SubjectTable = () => {
         },
     ];
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
+    // const handleAdd = () => {
+    //     setModalVisible(true);
+    // };
 
     const fetchData = () => {
-        setLoading(true)
+        setLoading(true);
         instance
             .get("subjects")
             .then((res) => {
@@ -80,7 +81,7 @@ const SubjectTable = () => {
                     key: item.id,
                 }));
                 setData(formattedData);
-                setLoading(false)
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -137,15 +138,10 @@ const SubjectTable = () => {
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{
-                    marginBottom: 16,
-                }}
-            >
-                Add a row
-            </St.ButtonTable>
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new subject"
+            />
 
             <Modal
                 title="Add a row"
@@ -163,8 +159,18 @@ const SubjectTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Semester" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Semester
+                            </Typography>
+                            <Input
+                                allowClear
+                                className="form__input"
+                                placeholder="Semester"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
+
                     <Form.Item
                         name="subjectName"
                         rules={[
@@ -174,7 +180,16 @@ const SubjectTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Subject Name" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Subject Name
+                            </Typography>
+                            <Input
+                                allowClear
+                                className="form__input"
+                                placeholder="Subject Name"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                     <Form.Item
                         name="subjectCode"
@@ -185,7 +200,16 @@ const SubjectTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Subject Code" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Subject Code
+                            </Typography>
+                            <Input
+                                allowClear
+                                className="form__input"
+                                placeholder="Subject Code"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                 </Form>
             </Modal>
