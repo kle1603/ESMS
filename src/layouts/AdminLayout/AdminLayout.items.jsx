@@ -31,41 +31,65 @@ const items = [
         type: "divider",
     },
     {
-        label: "Data",
+        label: "Group 1",
         key: "title2",
-        icon: null,
+        icon: "null",
         type: "group",
         children: [
-            {
-                label: "Semesters",
-                key: configs.routes.adminSemesters,
-                icon: <CalendarOutlined />,
-            },
             {
                 label: "Phase",
                 key: configs.routes.adminPhases,
                 icon: <EditOutlined />,
             },
             {
-                label: "Slots",
+                label: "Time Slots",
                 key: configs.routes.adminSlots,
                 icon: <TbChalkboard />,
-            },
-            {
-                label: "Subjects",
-                key: configs.routes.adminSubjects,
-                icon: <BookOutlined />,
             },
             {
                 label: "Courses",
                 key: configs.routes.adminCourses,
                 icon: <ProfileOutlined />,
             },
+        ],
+    },
+
+    {
+        type: "divider",
+    },
+    {
+        label: "Group 2",
+        title: "title3",
+        icon: "null",
+        type: "group",
+        children: [
+            {
+                label: "Subjects",
+                key: configs.routes.adminSubjects,
+                icon: <BookOutlined />,
+            },
             {
                 label: "Rooms",
                 key: configs.routes.adminRooms,
                 icon: <SiGoogleclassroom />,
             },
+            {
+                label: "Semesters",
+                key: configs.routes.adminSemesters,
+                icon: <CalendarOutlined />,
+            },
+        ],
+    },
+
+    {
+        type: "divider",
+    },
+    {
+        label: "Group 3",
+        title: "title4",
+        icon: "null",
+        type: "group",
+        children: [
             {
                 label: "Users",
                 key: configs.routes.adminUsers,
@@ -78,6 +102,7 @@ const items = [
             },
         ],
     },
+
     {
         type: "divider",
     },

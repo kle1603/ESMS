@@ -14,7 +14,7 @@ const AdminSlots = () => {
                     marginBottom: "40px",
                 }}
             >
-                Slot
+                Time Slot
             </Divider>
             <SlotTable />
         </div>
