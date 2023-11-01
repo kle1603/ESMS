@@ -1,17 +1,84 @@
-import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import {
+    Flex,
+    Form,
+    Input,
+    Modal,
+    Popconfirm,
+    Select,
+    Tag,
+    Typography,
+} from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
-import Search from "antd/es/input/Search";
 
 const CourseTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    // const [search, setSearch] = useState("");
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
+    const [selectPhase, setSelectPhase] = useState();
+    const [phases, setPhases] = useState([]);
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data.map((item) => ({
+                    label: item.season + " " + item.year,
+                    value: item.id,
+                }));
+                const newData = semestersData.reverse();
+                setSemesterId(newData[0].value);
+                setSelectSemester(newData[0].label);
+                setSemesters(newData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchPhase = () => {
+        console.log("fetch phase:" + semesterId);
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                console.log(res);
+                if (semesterId !== 0) {
+                    if (res.data.data.length !== 0) {
+                        const phaseData = res.data.data.map((item) => ({
+                            label: item.ePName,
+                            value: item.id,
+                        }));
+                        const newData = phaseData.reverse();
+                        setSelectPhase(newData[0].label);
+                        setPhases(newData);
+                    } else {
+                        setSelectPhase("");
+                        setPhases([]);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log("Phase: " + error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchSemester();
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        fetchPhase();
+    }, [semesterId]);
 
     const fetchData = () => {
         instance
@@ -81,8 +148,17 @@ const CourseTable = () => {
         setModalVisible(false);
     };
 
-    const handleSearch = () => {
-        // setSearch(e);
+    const handleSelectSemester = (id, option) => {
+        setLoading(true);
+        setData([]);
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
+    const handleSelectPhase = (id, option) => {
+        setLoading(true);
+        setData([]);
+        setSelectPhase(option.label);
     };
 
     const columns = [
@@ -141,9 +217,28 @@ const CourseTable = () => {
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
-            <St.SpaceStyled>
-                <Search onSearch={handleSearch} />
-            </St.SpaceStyled>
+            <St.StyledLeft>
+                <Typography className="title">Semester: </Typography>
+                <Select
+                    onChange={handleSelectSemester}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
+                />
+                {phases.length !== 0 ? (
+                    <Flex>
+                        <Typography className="title">Phase: </Typography>
+                        <Select
+                            onChange={handleSelectPhase}
+                            value={selectPhase}
+                            className="select"
+                            options={phases}
+                        />
+                    </Flex>
+                ) : (
+                    <div></div>
+                )}
+            </St.StyledLeft>
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"

@@ -1,10 +1,18 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import {
+    Flex,
+    Form,
+    Input,
+    Modal,
+    Popconfirm,
+    Select,
+    Tag,
+    Typography,
+} from "antd";
 import * as St from "./ExaminerTable.styled";
 
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
-import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 
 const ExaminerTable = () => {
@@ -12,8 +20,12 @@ const ExaminerTable = () => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
-    const [search, setSearch] = useState("");
-    const [page, setPage] = useState();
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
+    const [selectPhase, setSelectPhase] = useState();
+    const [phases, setPhases] = useState([]);
+    // const [page, setPage] = useState();
 
     const columns = [
         {
@@ -48,7 +60,7 @@ const ExaminerTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if(record.status) {
+                if (record.status) {
                     return <Tag color="red">INACTIVE</Tag>;
                 } else {
                     return <Tag color="blue">ACTIVE</Tag>;
@@ -69,6 +81,61 @@ const ExaminerTable = () => {
                 ) : null,
         },
     ];
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data.map((item) => ({
+                    label: item.season + " " + item.year,
+                    value: item.id,
+                }));
+                const newData = semestersData.reverse();
+                setSemesterId(newData[0].value);
+                setSelectSemester(newData[0].label);
+                setSemesters(newData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchPhase = () => {
+        console.log("fetch phase:" + semesterId);
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                console.log(res);
+                if (semesterId !== 0) {
+                    if (res.data.data.length !== 0) {
+                        const phaseData = res.data.data.map((item) => ({
+                            label: item.ePName,
+                            value: item.id,
+                        }));
+                        const newData = phaseData.reverse();
+                        setSelectPhase(newData[0].label);
+                        setPhases(newData);
+                    } else {
+                        setSelectPhase("");
+                        setPhases([]);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log("Phase: " + error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchSemester();
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        fetchPhase();
+    }, [semesterId]);
 
     const fetchData = () => {
         setLoading(true);
@@ -91,9 +158,13 @@ const ExaminerTable = () => {
             });
     };
 
+    // useEffect(() => {
+    //     fetchData();
+    // }, [page]);
+
     useEffect(() => {
         fetchData();
-    }, [search, page]);
+    }, []);
 
     const handleDelete = (e) => {
         setLoading(true);
@@ -140,20 +211,48 @@ const ExaminerTable = () => {
         setModalVisible(false);
     };
 
-    const handleSearch = (e) => {
-        setSearch(e);
+    const handleSelectSemester = (id, option) => {
+        setLoading(true);
+        setData([]);
+        setSelectSemester(option.label);
+        setSemesterId(id);
     };
 
-    const handleChange = (page) => {
-        setPage(page);
+    const handleSelectPhase = (id, option) => {
+        setLoading(true);
+        setData([]);
+        setSelectPhase(option.label);
     };
+
+    // const handleChange = (page) => {
+    //     setPage(page);
+    // };
 
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
-            <St.SpaceStyled>
-                <Search onSearch={handleSearch} />
-            </St.SpaceStyled>
+            <St.StyledLeft>
+                <Typography className="title">Semester: </Typography>
+                <Select
+                    onChange={handleSelectSemester}
+                    value={selectSemester}
+                    className="select"
+                    options={semesters}
+                />
+                {phases.length !== 0 ? (
+                    <Flex>
+                        <Typography className="title">Phase: </Typography>
+                        <Select
+                            onChange={handleSelectPhase}
+                            value={selectPhase}
+                            className="select"
+                            options={phases}
+                        />
+                    </Flex>
+                ) : (
+                    <div></div>
+                )}
+            </St.StyledLeft>
             <St.ButtonTable
                 onClick={handleAdd}
                 type="primary"
@@ -218,7 +317,7 @@ const ExaminerTable = () => {
                     hideOnSinglePage: data.length <= 5,
                     showSizeChanger: false,
                     showQuickJumper: true,
-                    onChange: handleChange,
+                    // onChange: handleChange,
                 }}
             />
         </St.DivTable>

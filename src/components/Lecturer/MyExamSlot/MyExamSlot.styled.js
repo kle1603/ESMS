@@ -49,7 +49,7 @@ export const StyledLeft = styled(Flex)`
 
     .title {
         margin-right: 10px;
-        margin-left: 20px;
+        /* margin-left: 20px; */
 
         display: flex;
         justify-content: center;
@@ -61,6 +61,7 @@ export const StyledLeft = styled(Flex)`
     }
 
     .select {
+        margin-right: 20px;
         min-width: 120px;
     }
 `;
