@@ -13,8 +13,12 @@ export const Calender = styled(Calendar)`
     }
 
     & .rbc-day-slot .rbc-event {
-        border-left: 5px solid #1b5500;
-        border-top: 3px solid #ccc;
+        /* border-left: 5px solid #1b5500;
+        border-top: 3px solid #ccc; */
+    }
+
+    & .rbc-event-content {
+        text-align: center;
     }
 
     & .ant-typography {

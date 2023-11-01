@@ -36,7 +36,7 @@ const Schedule = () => {
 
     const fetchData = () => {
         instance
-            .get("examiners/allScheduled?examinerId=1")
+            .get("examiners/allScheduled?userId=256")
             .then((res) => {
                 // console.log(res);
                 // const formattedData = res.data.data.map((item, index) => ({

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Modal } from "antd";
+import { Modal, Typography } from "antd";
 
 const ModalSchedule = ({ event, isModalOpen, setIsModalOpen }) => {
     const handleOk = () => {
@@ -18,9 +18,7 @@ const ModalSchedule = ({ event, isModalOpen, setIsModalOpen }) => {
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <p>{event.title}</p>
-                <p>{event.staff}</p>
-                <p>{event.phone}</p>
+                <Typography>Location: {event.title}</Typography>
             </Modal>
         </div>
     );
