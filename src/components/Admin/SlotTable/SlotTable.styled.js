@@ -45,8 +45,14 @@ export const StyledLeft = styled(Flex)`
         font-family: ${Theme.font.primary_font};
     }
 
-    .ant-select-selection-item {
+    .select {
+        min-width: 120px;
         font-family: ${Theme.font.primary_font};
+        font-weight: ;
+    }
+
+    .ant-select-item-option-content {
+        font-family: ${Theme.font.primary_font} !important;
     }
 `;
 

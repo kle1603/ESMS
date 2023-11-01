@@ -21,6 +21,12 @@ const SlotTable = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
+    const format = "HH:mm";
+
+    // console.log(semesterId);
 
     // const handleAdd = () => {
     //     setModalVisible(true);
@@ -38,46 +44,22 @@ const SlotTable = () => {
 
     const handleDelete = () => {};
 
-    const format = "HH:mm";
     const handleOnChange = (time, timeString) => {
         console.log(time.format("HH:mm"), timeString);
     };
 
-    const options = [
-        {
-            value: "Fall 2023",
-            label: "Fall 2023",
-        },
-        {
-            value: "Summer 2023",
-            label: "Summer 2023",
-        },
-        {
-            value: "Spring 2023",
-            label: "Spring 2023",
-        },
-        {
-            value: "Fall 2022",
-            label: "Fall 2022",
-        },
-        {
-            value: "Summer 2022",
-            label: "Summer 2022",
-        },
-    ];
-
     const fetchData = () => {
         setLoading(true);
         instance
-            .get("examSlots/1")
+            .get(`timeSlots/semId?semId=${semesterId}`)
             .then((res) => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: item.id,
                     no: index + 1,
-                    startTime: item.timeSlot.startTime.slice(0, 5),
-                    endTime: item.timeSlot.endTime.slice(0, 5),
+                    startTime: item.startTime.slice(0, 5),
+                    endTime: item.endTime.slice(0, 5),
                 }));
                 setData(formattedData);
                 setLoading(false);
@@ -90,16 +72,54 @@ const SlotTable = () => {
             });
     };
 
+    const fetchSemester = () => {
+        // setLoading(true);
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const handleSelect = (id, option) => {
+        console.log(id);
+        console.log(semesterId);
+        if (id !== semesterId) {
+            setData([]);
+            setLoading(true);
+        }
+        setSelectSemester(option.label);
+        setSemesterId(id);
+    };
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [semesterId]);
 
     const columns = [
         {
             title: "No",
             width: "10%",
             render: (record) => {
-                console.log(record);
+                // console.log(record);
                 return <Typography>{record.no}</Typography>;
             },
         },
@@ -107,7 +127,7 @@ const SlotTable = () => {
             title: "Name",
             width: "20%",
             render: (record) => {
-                return <Typography>Slot {record.timeSlotId}</Typography>;
+                return <Typography>Slot {record.id}</Typography>;
             },
         },
         {
@@ -125,16 +145,13 @@ const SlotTable = () => {
             },
         },
         {
-            title: "Status",
+            title: "Type",
             width: "15%",
             render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record.endTime);
-
-                if (currentDate > endTime) {
-                    return <Tag color="red">CLOSED</Tag>;
+                if (record.des === 0) {
+                    return <Tag color="red">NORMAL</Tag>;
                 } else {
-                    return <Tag color="green">ON-GOING</Tag>;
+                    return <Tag color="green">COURSERA</Tag>;
                 }
             },
         },
@@ -158,10 +175,10 @@ const SlotTable = () => {
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select
+                    onChange={handleSelect}
+                    value={selectSemester}
                     className="select"
-                    defaultValue={options[0].value}
-                    options={options}
-                    style={{ minWidth: "140px" }}
+                    options={semesters}
                 />
             </St.StyledLeft>
 
@@ -247,6 +264,10 @@ const SlotTable = () => {
                 dataSource={data}
                 bordered
                 loading={loading}
+                pagination={{
+                    pageSize: 6,
+                    hideOnSinglePage: data.length <= 6,
+                }}
             />
         </St.DivSlot>
     );
