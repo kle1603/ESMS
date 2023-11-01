@@ -22,6 +22,32 @@ export const DivSlot = styled.div`
     .ant-picker-dropdown .ant-picker-ranges {
         font-family: ${Theme.font.primary_font};
     }
+
+    .ant-form-item {
+        color: green;   
+    }
+
+    /* .ant-form-item-explain-error {
+        position: absolute;
+        right: 0;
+    } */
+`;
+
+export const FlexStyled = styled(Flex)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form__title {
+        min-width: 100px;
+        font-family: ${Theme.font.primary_font};
+        font-weight: 500;
+    }
+    .form__input {
+        width: 100%;
+        font-family: ${Theme.font.primary_font} !important;
+        font-weight: 300;
+    }
 `;
 
 export const StyledLeft = styled(Flex)`
@@ -60,22 +86,21 @@ export const ButtonRight = styled(Button)`
 export const SlotTable = styled(Table)`
     margin-top: 10px;
     .ant-table-cell {
+        height: 65px;
         font-family: ${Theme.font.primary_font};
+        font-size: 1.5rem;
     }
 
     .ant-typography {
         font-family: ${Theme.font.primary_font};
+        font-size: 1.4rem;
     }
 
     .ant-picker {
         width: 100%;
     }
 
-    .ant-tag-green {
-        font-family: ${Theme.font.primary_font};
-    }
-
-    .ant-tag-red {
+    .ant-tag {
         font-family: ${Theme.font.primary_font};
     }
 `;
