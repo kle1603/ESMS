@@ -3,8 +3,8 @@ import {
     Input,
     Modal,
     Popconfirm,
+    DatePicker,
     Tag,
-    TimePicker,
     Typography,
 } from "antd";
 import { useEffect, useState } from "react";
@@ -13,6 +13,9 @@ import * as St from "./SemesterTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
+
+const { RangePicker } = DatePicker;
+
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
@@ -37,14 +40,14 @@ const SemesterTable = () => {
             },
         },
         {
-            title: "Start Time",
+            title: "Start Day",
             width: "15%",
             render: (record) => {
                 return <Typography>{record.start}</Typography>;
             },
         },
         {
-            title: "End Time",
+            title: "End Day",
             width: "15%",
             render: (record) => {
                 return <Typography>{record.end}</Typography>;
@@ -211,7 +214,7 @@ const SemesterTable = () => {
                         </St.FlexStyled>
                     </Form.Item>
 
-                    <Form.Item
+                    {/* <Form.Item
                         name="start"
                         rules={[
                             {
@@ -252,6 +255,23 @@ const SemesterTable = () => {
                                 minuteStep={15}
                                 onChange={handleOnChange}
                             />
+                        </St.FlexStyled>
+                    </Form.Item> */}
+
+                    <Form.Item
+                        name="date"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please select the Range Time!",
+                            },
+                        ]}
+                    >
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Range
+                            </Typography>
+                            <RangePicker className="form__input" />
                         </St.FlexStyled>
                     </Form.Item>
                 </Form>

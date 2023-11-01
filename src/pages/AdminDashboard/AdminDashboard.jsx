@@ -8,7 +8,11 @@ const Dashboard = () => {
             <Col xs={24} sm={24} md={24} lg={24}>
                 <Divider
                     orientation="left"
-                    style={{ fontFamily: "Roboto Slab" }}
+                    style={{
+                        fontFamily: "Inter",
+                        fontSize: "1.8rem",
+                        marginBottom: "40px",
+                    }}
                 >
                     Dashboard
                 </Divider>

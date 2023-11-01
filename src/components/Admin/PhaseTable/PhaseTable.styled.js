@@ -60,7 +60,7 @@ export const StyledLeft = styled(Flex)`
     .select {
         min-width: 120px;
         font-family: ${Theme.font.primary_font};
-        font-weight: ;
+        /* font-weight: ; */
     }
 
 
