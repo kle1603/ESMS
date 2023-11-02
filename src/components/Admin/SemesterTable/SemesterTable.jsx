@@ -141,7 +141,7 @@ const SemesterTable = () => {
                 console.log(endDay);
 
                 instance
-                    .post("semesters", {
+                    .post("semesters/whenCreateSemester", {
                         season: values.season,
                         start: startDay,
                         end: endDay,

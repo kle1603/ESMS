@@ -17,6 +17,7 @@ const MyExamSlot = () => {
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
     const [statusSemester, setStatusSemester] = useState(false);
+    const [statusPhase, setStatusPhase] = useState(false);
     const navigate = useNavigate();
 
     const fetchData = () => {
@@ -39,7 +40,10 @@ const MyExamSlot = () => {
                     setLoading(false);
                 })
                 .catch((error) => {
+                    setData([]);
+                    setLoading(false);
                     console.log(error);
+                    // console.log("error");
                 })
                 .finally(() => {});
         } else {
@@ -82,11 +86,17 @@ const MyExamSlot = () => {
                         const phaseData = res.data.data.map((item) => ({
                             label: item.ePName,
                             value: item.id,
+                            status: item.status,
                         }));
                         const newData = phaseData.reverse();
                         setSelectPhase(newData[0].label);
                         setPhaseId(newData[0].value);
                         setPhases(newData);
+                        if (newData[0].status === false) {
+                            setStatusPhase(false);
+                        } else {
+                            setStatusPhase(true);
+                        }
                     } else {
                         setSelectPhase("");
                         setPhases([]);
@@ -124,6 +134,7 @@ const MyExamSlot = () => {
                 day: e.day,
             })
             .then((res) => {
+                setLoading(true);
                 console.log(res);
                 fetchData();
             })
@@ -149,8 +160,20 @@ const MyExamSlot = () => {
     };
 
     const handleSelectPhase = (id, option) => {
-        setSelectPhase(option.label);
-        setPhaseId(id);
+        // setSelectPhase(option.label);
+        // setPhaseId(id);
+
+        if (id !== phaseId) {
+            if (option.status === false) {
+                // console.log("false");
+                setStatusPhase(false);
+            } else {
+                // console.log("true");
+                setStatusPhase(true);
+            }
+            setSelectPhase(option.label);
+            setPhaseId(id);
+        }
     };
 
     const columns = [
@@ -267,7 +290,7 @@ const MyExamSlot = () => {
                 )}
             </St.StyledLeft>
 
-            {statusSemester === false ? null : (
+            {statusPhase === false ? null : (
                 <St.ButtonTable
                     type="primary"
                     style={{ marginBottom: 16 }}

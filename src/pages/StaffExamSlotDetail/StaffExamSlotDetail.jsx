@@ -23,6 +23,7 @@ const StaffExamPhaseDetail = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [buttonOk, setButtonOk] = useState(false);
     const [phaseId, setPhaseId] = useState(0);
+    const [message, setMessage] = useState(true);
 
     const [noti, setNoti] = useState(false);
     // console.log(state);
@@ -31,22 +32,22 @@ const StaffExamPhaseDetail = () => {
         {
             key: "1",
             label: "Course",
-            children: <CourseTable noti={noti}/>,
+            children: <CourseTable noti={noti} />,
         },
         {
             key: "2",
             label: "Room",
-            children: <ExamRoomTable noti={noti}/>,
+            children: <ExamRoomTable noti={noti} />,
         },
         {
             key: "3",
             label: "Examiner",
-            children: <ExaminerTable noti={noti}/>,
+            children: <ExaminerTable noti={noti} />,
         },
         {
             key: "4",
             label: "Schedule Detail",
-            children: <ScheduleDetail noti={noti}/>,
+            children: <ScheduleDetail noti={noti} />,
         },
     ];
 
@@ -64,16 +65,19 @@ const StaffExamPhaseDetail = () => {
         instance
             .get(`studentExams?ePId=${phaseId}`)
             .then((res) => {
-                console.log(res);
-                if (phaseId !== 0) {
-                    const formattedData = res.data.data.map((item) => ({
-                        value: item.courId,
-                        label: item.subCode + " - " + item.numOfStu,
-                    }));
-                    setSelectCourses(formattedData[0].label);
-                    setDefaultValue(formattedData[0].value);
-                    setCourses(formattedData);
-                    setButtonStatus(false);
+                if (res.data.message) {
+                    setMessage(false);
+                } else {
+                    if (phaseId !== 0) {
+                        const formattedData = res.data.data.map((item) => ({
+                            value: item.courId,
+                            label: item.subCode + " - " + item.numOfStu,
+                        }));
+                        setSelectCourses(formattedData[0].label);
+                        setDefaultValue(formattedData[0].value);
+                        setCourses(formattedData);
+                        setButtonStatus(false);
+                    }
                 }
             })
             .catch((error) => {
@@ -133,9 +137,17 @@ const StaffExamPhaseDetail = () => {
     };
 
     const operations = (
-        <Button loading={buttonStatus} onClick={handleAdd} type="primary">
-            Add new course
-        </Button>
+        <div>
+            {message ? (
+                <Button
+                    loading={buttonStatus}
+                    onClick={handleAdd}
+                    type="primary"
+                >
+                    Add new course
+                </Button>
+            ) : null}
+        </div>
     );
 
     const modalFooter = () => {

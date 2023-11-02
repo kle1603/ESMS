@@ -6,7 +6,9 @@ export const DivStyled = styled.div`
     }
 
     label {
-        padding: 5px 10px 6px;
+        position: relative;
+        top: -0px;
+        padding: 5.5px 10px;
         border: 1px solid #d9d9d9;
         border-radius: 6px;
         background-color: #ffffff;
@@ -22,10 +24,10 @@ export const DivStyled = styled.div`
     }
 
     .input {
-        margin-right: 10px;
+        margin-left: 20px;
     }
 
-    .download {
-        margin-right: 10px;
+    .upload {
+        margin-left: 10px;
     }
 `;

@@ -42,22 +42,23 @@ const ExamTable = () => {
     };
 
     const handleAdd = (e) => {
-        console.log(e);
-        // instance
-        //     .post("examRooms/lecturer", {
-        //         userId: 256,
-        //         startTime: e.startTime,
-        //         endTime: e.endTime,
-        //         day: e.day,
-        //         examPhaseId: id,
-        //     })
-        //     .then((res) => {
-        //         console.log(res);
-        //         fetchData();
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
+        // console.log(e);
+        instance
+            .put("examRooms/lecturer", {
+                userId: 256,
+                startTime: e.startTime,
+                endTime: e.endTime,
+                day: e.day,
+                exPhaseId: id,
+            })
+            .then(() => {
+                // console.log(res);
+                setLoading(true);
+                fetchData();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
 
     const columns = [

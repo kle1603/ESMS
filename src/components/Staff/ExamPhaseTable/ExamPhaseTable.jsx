@@ -93,7 +93,6 @@ const ExamPhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
-                    console.log(res);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
@@ -144,7 +143,6 @@ const ExamPhaseTable = () => {
     }, [semesterId]);
 
     const handleEdit = (e) => {
-        console.log(e);
         // navigate(configs.routes.staff + `/examPhase/${e.no}`);
         navigate(configs.routes.staff + `/examSlot/${e.id}`, {
             state: {

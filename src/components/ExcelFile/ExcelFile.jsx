@@ -1,7 +1,7 @@
 import instance from "@/utils/instance";
 import { Button } from "antd";
 import { useState } from "react";
-import { DownloadOutlined } from "@ant-design/icons";
+// import { DownloadOutlined } from "@ant-design/icons";
 import * as St from "./ExcelFile.styled";
 // import * as XLSX from "xlsx";
 
@@ -27,29 +27,39 @@ function ExcelFile() {
         setFileLabel(e.target.files[0].name);
     };
 
-    const formFile = "/src/assets/fileExcel/test.xlsx";
+    // const formFile = "/src/assets/fileExcel/test.xlsx";
 
-    const handleDownload = () => {
-        const link = document.createElement("a");
-        link.href = formFile;
-        link.download = "test.xlsx";
-        link.click();
-    };
+    // const handleDownload = () => {
+    //     const link = document.createElement("a");
+    //     link.href = formFile;
+    //     link.download = "test.xlsx";
+    //     link.click();
+    // };
 
     return (
         <St.DivStyled>
             {/* <input type="file" onChange={(e) => setFile(e.target.files[0])} /> */}
-            <Button className="download" onClick={handleDownload}>
+            {/* <Button className="download" onClick={handleDownload}>
                 <DownloadOutlined />
                 Download
-            </Button>
-            <input id="upload" type="file" onChange={handleChange} />
+            </Button> */}
+            <input
+                accept=".xlsx"
+                id="upload"
+                type="file"
+                onChange={handleChange}
+            />
             <label className="input" htmlFor="upload">
                 {fileLabel}
             </label>
-            <Button className="upload" onClick={upload}>
+            {/* <Button className="upload" onClick={upload}>
                 Upload
-            </Button>
+            </Button> */}
+            {file && (
+                <Button className="upload" onClick={upload}>
+                    Upload
+                </Button>
+            )}
         </St.DivStyled>
     );
 }

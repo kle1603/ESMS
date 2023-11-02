@@ -10,13 +10,23 @@ import { useEffect, useState } from "react";
 const { Header } = Layout;
 
 const HeaderLayout = () => {
-    // const token = document.cookie;
-    // const [decode, setDecode] = useState([]);
+    const token = document.cookie;
+    if (!token) {
+        window.location.href = "/";
+    }
 
-    // useEffect(() => {
-    //     const result = jwtDecode(token);
-    //     setDecode(result);
-    // }, []);
+    const [decode, setDecode] = useState([
+        {
+            name: "Lam Huu Khanh Phuong",
+            email: "Phuong@gmail.com",
+            image_url: avatar,
+        }
+    ]);
+
+    useEffect(() => {
+        const result = jwtDecode(token);
+        setDecode(result);
+    }, []);
 
     return (
         <Header
@@ -47,17 +57,17 @@ const HeaderLayout = () => {
                         <div className="avatar__wrapper">
                             <div className="avatar__content">
                                 <h3 className="avatar__title">
-                                    {/* {decode ? decode.name : "Nane"} */}
+                                    {decode ? decode.name : "Nane"}
                                 </h3>
                                 <p className="avatar__desc">
-                                    {/* {decode ? decode.email : "Nane@gmail.com"} */}
+                                    {decode ? decode.email : "Nane@gmail.com"}
                                 </p>
                             </div>
                             <Avatar
                                 className="avatar__icon"
                                 size="large"
                                 // icon={<UserOutlined />}
-                                src={avatar}
+                                src={decode.image_url}
                             />
                         </div>
                     </St.DivAvatar>

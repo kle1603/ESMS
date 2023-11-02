@@ -12,8 +12,9 @@ import { useEffect, useState } from "react";
 
 import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
+import ExcelFile from "@/components/ExcelFile";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -27,8 +28,8 @@ const PhaseTable = () => {
     const [endDay, setEndDay] = useState("");
 
     const option = [
-        { value: 1, label: "Normal" },
-        { value: 2, label: "Coursera" },
+        { value: 0, label: "Normal" },
+        { value: 1, label: "Coursera" },
     ];
 
     const columns = [
@@ -189,11 +190,11 @@ const PhaseTable = () => {
                 console.log(endDay);
 
                 instance
-                    .post("timeSlots", {
-                        name: values.name,
-                        option: values.option,
-                        start: startDay,
-                        end: endDay,
+                    .post("examPhases", {
+                        ePName: values.name,
+                        des: values.option,
+                        startDay: startDay,
+                        endDay: endDay,
                     })
                     .then(() => {
                         toast.success("Successfully created!");
@@ -247,6 +248,7 @@ const PhaseTable = () => {
 
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select
@@ -255,6 +257,7 @@ const PhaseTable = () => {
                     className="select"
                     options={semesters}
                 />
+                <ExcelFile />
             </St.StyledLeft>
 
             <ButtonAdd
