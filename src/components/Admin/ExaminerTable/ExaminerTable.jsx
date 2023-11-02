@@ -1,26 +1,16 @@
 // import PropTypes from "prop-types";
-import {
-    Flex,
-    Form,
-    Input,
-    Modal,
-    Popconfirm,
-    Select,
-    Tag,
-    Typography,
-} from "antd";
+import { Flex, Popconfirm, Select, Tag, Typography } from "antd";
 import * as St from "./ExaminerTable.styled";
 
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
-import ButtonAdd from "@/components/ButtonAdd";
 
 const ExaminerTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [form] = Form.useForm();
-    const [modalVisible, setModalVisible] = useState(false);
+    // const [form] = Form.useForm();
+    // const [modalVisible, setModalVisible] = useState(false);
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
@@ -182,36 +172,36 @@ const ExaminerTable = () => {
             });
     };
 
-    const handleOk = () => {
-        form.validateFields()
-            .then((values) => {
-                const { role, email, name } = values;
-                instance
-                    .post("users", { role, email, name })
-                    .then(() => {
-                        toast.success("Successfully created!");
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        toast.error("This is an error!");
-                        console.log(error);
-                    });
-            })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
-            });
-    };
+    // const handleOk = () => {
+    //     form.validateFields()
+    //         .then((values) => {
+    //             const { role, email, name } = values;
+    //             instance
+    //                 .post("users", { role, email, name })
+    //                 .then(() => {
+    //                     toast.success("Successfully created!");
+    //                     form.resetFields();
+    //                     setModalVisible(false);
+    //                     fetchData();
+    //                 })
+    //                 .catch((error) => {
+    //                     toast.error("This is an error!");
+    //                     console.log(error);
+    //                 });
+    //         })
+    //         .catch((info) => {
+    //             console.log("Validate Failed:", info);
+    //         });
+    // };
 
     // const handleAdd = () => {
     //     setModalVisible(true);
     // };
 
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
+    // const handleCancel = () => {
+    //     form.resetFields();
+    //     setModalVisible(false);
+    // };
 
     const handleSelectSemester = (id, option) => {
         setSelectSemester(option.label);
@@ -250,7 +240,7 @@ const ExaminerTable = () => {
                     <div></div>
                 )}
             </St.StyledLeft>
-            <ButtonAdd
+            {/* <ButtonAdd
                 setModalVisible={setModalVisible}
                 title="Add new examiner"
             />
@@ -322,7 +312,7 @@ const ExaminerTable = () => {
                         </St.FlexStyled>
                     </Form.Item>
                 </Form>
-            </Modal>
+            </Modal> */}
             <St.StyledTable
                 columns={columns}
                 dataSource={data}

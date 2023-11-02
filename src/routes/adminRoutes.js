@@ -24,6 +24,7 @@ import AdminSlots from "@/pages/AdminSlots";
 import StaffExaminer from "@/pages/StaffExaminer";
 import StaffExamSlotDetail from "@/pages/StaffExamSlotDetail";
 import StaffExamSlot from "@/pages/StaffExamSlot";
+import AdminTest from "@/pages/AdminTest";
 
 const adminRoutes = [
     {
@@ -144,6 +145,12 @@ const adminRoutes = [
         id: 20,
         path: configs.routes.adminSlots,
         component: AdminSlots,
+        layout: AdminLayout,
+    },
+    {
+        id: 21,
+        path: configs.routes.adminTest,
+        component: AdminTest,
         layout: AdminLayout,
     },
 ];

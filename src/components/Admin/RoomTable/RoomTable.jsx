@@ -1,11 +1,12 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Select, Tag, Typography } from "antd";
 import * as St from "./RoomTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
 import ButtonAdd from "@/components/ButtonAdd";
+// import { item } from "@/layouts/AdminLayout/AdminLayout.items";
 
 const RoomTable = () => {
     const [search, setSearch] = useState("");
@@ -111,10 +112,6 @@ const RoomTable = () => {
             });
     };
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
-
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
@@ -137,6 +134,28 @@ const RoomTable = () => {
         setSearch(e);
     };
 
+    const onChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+
+    const handleSearchLocation = (value) => {
+        const filteredData = data.filter((item) => {
+            return item.location.toLowerCase().includes(value);
+        });
+        setSearch(value);
+        setData(filteredData);
+    };
+
+    const onSearchLocation = (value) => {
+        handleSearchLocation(value);
+    };
+
+    const filterOption = (input, option) => {
+        return (option?.label ?? "")
+            .toLowerCase()
+            .includes(input.toLowerCase());
+    };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -151,7 +170,11 @@ const RoomTable = () => {
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                >
                     <Form.Item
                         name="roomNumber"
                         rules={[
@@ -183,19 +206,34 @@ const RoomTable = () => {
                                 required: true,
                                 message: "Please input a location!",
                             },
-                            {
-                                pattern: /^(NVH|XAVALO)$/,
-                                message: "Invalid location!",
-                            },
+                            // {
+                            //     pattern: /^(NVH|XAVALO)$/,
+                            //     message: "Invalid location!",
+                            // },
                         ]}
                     >
                         <St.FlexStyled>
                             <Typography className="form__title">
                                 Location
                             </Typography>
-                            <Input
-                                placeholder="Location"
+                            <Select
+                                showSearch
+                                placeholder="Select a location"
                                 className="form__input"
+                                optionFilterProp="children"
+                                onChange={onChange}
+                                onSearch={onSearchLocation}
+                                filterOption={filterOption}
+                                options={[
+                                    {
+                                        value: "xavalo",
+                                        label: "XAVALO",
+                                    },
+                                    {
+                                        value: "nvh",
+                                        label: "NVH",
+                                    },
+                                ]}
                             />
                         </St.FlexStyled>
                     </Form.Item>

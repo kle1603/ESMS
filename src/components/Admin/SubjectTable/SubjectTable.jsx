@@ -154,7 +154,7 @@ const SubjectTable = () => {
                     name="add_row_form"
                     style={{ marginTop: "30px", marginBottom: "30px" }}
                 >
-                    <Form.Item
+                    {/* <Form.Item
                         name="semester"
                         rules={[
                             {
@@ -173,7 +173,7 @@ const SubjectTable = () => {
                                 placeholder="Semester"
                             />
                         </St.FlexStyled>
-                    </Form.Item>
+                    </Form.Item> */}
 
                     <Form.Item
                         name="subjectName"
