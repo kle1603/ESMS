@@ -19,6 +19,7 @@ const routes = {
     lecturerExamSlots: "/lecturer/examSlots",
     lecturerSchedule: "/lecturer/schedule",
     pageNotFound: "/*",
+    adminTest: "/admin/test",
 };
 
 export default routes;
