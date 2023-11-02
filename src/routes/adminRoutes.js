@@ -106,7 +106,7 @@ const adminRoutes = [
     },
     {
         id: 14,
-        path: configs.routes.staffExamPhaseDetail,
+        path: configs.routes.staffExamSlot,
         component: StaffExamSlot,
         layout: StaffLayout,
     },

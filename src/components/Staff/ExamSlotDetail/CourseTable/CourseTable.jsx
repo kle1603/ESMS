@@ -5,7 +5,6 @@ import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as St from "./CourseTable.styled";
-import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
     const [data, setData] = useState([]);
@@ -66,10 +65,6 @@ const CourseTable = () => {
     ];
     return (
         <St.DivStyled>
-            <ButtonAdd
-                setModalVisible={setModalVisible}
-                title="Add new course"
-            />
             <Table
                 columns={columns}
                 dataSource={data}
