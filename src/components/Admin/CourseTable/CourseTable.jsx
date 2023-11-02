@@ -1,25 +1,16 @@
-import {
-    Flex,
-    Form,
-    Input,
-    Modal,
-    Popconfirm,
-    Select,
-    Tag,
-    Typography,
-} from "antd";
+import { Flex, Form, Popconfirm, Select, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
-
+import * as XLSX from "xlsx";
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
-import ButtonAdd from "@/components/ButtonAdd";
+// import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [modalVisible, setModalVisible] = useState(false);
+    // const [modalVisible, setModalVisible] = useState(false);
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
@@ -124,32 +115,32 @@ const CourseTable = () => {
             });
     };
 
-    const handleOk = () => {
-        form.validateFields()
-            .then((values) => {
-                const { startTime, endTime } = values;
-                instance
-                    .post("courses", { startTime, endTime })
-                    .then(() => {
-                        toast.success("Successfully created!");
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        toast.error("Error created!");
-                    });
-            })
-            .catch((info) => {
-                console.log("Validate Failed:", info);
-            });
-    };
+    // const handleOk = () => {
+    //     form.validateFields()
+    //         .then((values) => {
+    //             const { startTime, endTime } = values;
+    //             instance
+    //                 .post("courses", { startTime, endTime })
+    //                 .then(() => {
+    //                     toast.success("Successfully created!");
+    //                     form.resetFields();
+    //                     setModalVisible(false);
+    //                     fetchData();
+    //                 })
+    //                 .catch((error) => {
+    //                     console.log(error);
+    //                     toast.error("Error created!");
+    //                 });
+    //         })
+    //         .catch((info) => {
+    //             console.log("Validate Failed:", info);
+    //         });
+    // };
 
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
+    // const handleCancel = () => {
+    //     form.resetFields();
+    //     setModalVisible(false);
+    // };
 
     const handleSelectSemester = (id, option) => {
         if (id !== semesterId) {
@@ -243,83 +234,7 @@ const CourseTable = () => {
                     <div></div>
                 )}
             </St.StyledLeft>
-            <ButtonAdd
-                setModalVisible={setModalVisible}
-                title="Add new course"
-            />
-            <Modal
-                title="Add a course"
-                open={modalVisible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <Form
-                    form={form}
-                    name="add_row_form"
-                    style={{ marginTop: "30px", marginBottom: "30px" }}
-                >
-                    <Form.Item
-                        name="subjectCode"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the subject code!",
-                            },
-                        ]}
-                    >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Subject Code
-                            </Typography>
-                            <Input
-                                allowClear
-                                className="form__input"
-                                placeholder="Subject code"
-                            />
-                        </St.FlexStyled>
-                    </Form.Item>
-                    <Form.Item
-                        name="subjectName"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the subject name!",
-                            },
-                        ]}
-                    >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Subject Name
-                            </Typography>
-                            <Input
-                                allowClear
-                                className="form__input"
-                                placeholder="Subject Name"
-                            />
-                        </St.FlexStyled>
-                    </Form.Item>{" "}
-                    <Form.Item
-                        name="numOfStudents"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the Num of Students!",
-                            },
-                        ]}
-                    >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Num of Students
-                            </Typography>
-                            <Input
-                                allowClear
-                                className="form__input"
-                                placeholder="Num of Students"
-                            />
-                        </St.FlexStyled>
-                    </Form.Item>
-                </Form>
-            </Modal>
+
             <Form form={form} component={false}>
                 <St.StyledTable
                     bordered
