@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import Test from "@/components/Admin/Test";
+import Test from "@/components/Admin/ExcelFile";
 import { Divider } from "antd";
 
 const AdminTest = () => {

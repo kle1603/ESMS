@@ -15,7 +15,7 @@ const routes = {
     staffExamSlot: "/staff/examSlot/:id",
     staffExamSlotDetail: "/staff/examSlotDetail/:id",
     lecturer: "/lecturer",
-    lecturerRegister: "/lecturer/register",
+    lecturerRegister: "/lecturer/register/:id",
     lecturerExamSlots: "/lecturer/examSlots",
     lecturerSchedule: "/lecturer/schedule",
     pageNotFound: "/*",

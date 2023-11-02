@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import { Flex, Popconfirm, Select, Table, Typography } from "antd";
+import { Flex, Popconfirm, Select, Table, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 
 import * as St from "./MyExamSlot.styled";
@@ -16,6 +16,7 @@ const CancelRegisterTable = () => {
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
+    const [statusSemester, setStatusSemester] = useState(false);
     const navigate = useNavigate();
 
     // useEffect(() => {
@@ -23,12 +24,13 @@ const CancelRegisterTable = () => {
 
     const fetchData = () => {
         setLoading(true);
-        console.log(phaseId);
         if (phaseId !== 0) {
+            setLoading(true);
             instance
-                .get(`examiners/examPhaseId?userId=256&examPhaseId=${phaseId}`)
+                .get(
+                    `examiners/scheduledByPhase?userId=256&examphaseId=${phaseId}`
+                )
                 .then((res) => {
-                    console.log(res);
                     const formattedData = res.data.data.map((item, index) => ({
                         ...item,
                         key: index + 1,
@@ -43,6 +45,9 @@ const CancelRegisterTable = () => {
                     console.log(error);
                 })
                 .finally(() => {});
+        } else {
+            setData([]);
+            setLoading(false);
         }
     };
 
@@ -53,11 +58,17 @@ const CancelRegisterTable = () => {
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
                     value: item.id,
+                    status: item.status,
                 }));
                 const newData = semestersData.reverse();
                 setSemesterId(newData[0].value);
                 setSelectSemester(newData[0].label);
                 setSemesters(newData);
+                if (newData[0].status === 0) {
+                    setStatusSemester(false);
+                } else {
+                    setStatusSemester(true);
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -77,7 +88,6 @@ const CancelRegisterTable = () => {
                             value: item.id,
                         }));
                         const newData = phaseData.reverse();
-                        console.log(newData);
                         setSelectPhase(newData[0].label);
                         setPhaseId(newData[0].value);
                         setPhases(newData);
@@ -106,22 +116,32 @@ const CancelRegisterTable = () => {
     }, [phaseId]);
 
     const handleRegister = () => {
-        navigate("/lecturer/register");
+        navigate(`/lecturer/register/${phaseId}`);
     };
 
     const handleDelete = () => {};
 
     const handleSelectSemester = (id, option) => {
-        setSelectSemester(option.label);
-        setSemesterId(id);
-        setPhaseId(0);
-        setPhases([]);
+        if (id !== semesterId) {
+            if (option.status === 0) {
+                // console.log("false");
+                setStatusSemester(false);
+            } else {
+                // console.log("true");
+                setStatusSemester(true);
+            }
+            setSelectSemester(option.label);
+            setSemesterId(id);
+            setPhaseId(0);
+            setPhases([]);
+        }
     };
 
     const handleSelectPhase = (id, option) => {
         setSelectPhase(option.label);
         setPhaseId(id);
     };
+
     const columns = [
         {
             title: "No",
@@ -132,7 +152,7 @@ const CancelRegisterTable = () => {
         },
         {
             title: "Day",
-            width: "25%",
+            width: "15%",
             render: (record) => {
                 return <Typography>{record.day}</Typography>;
             },
@@ -157,30 +177,57 @@ const CancelRegisterTable = () => {
         },
         {
             title: "Start Time",
-            width: "20%",
+            width: "15%",
             render: (record) => {
                 return <Typography>{record.startTime}</Typography>;
             },
         },
         {
             title: "End Time",
-            width: "20%",
+            width: "15%",
             render: (record) => {
                 return <Typography>{record.endTime}</Typography>;
             },
         },
         {
+            title: "Room",
+            width: "15%",
+            render: (record) => {
+                if (record.roomCode === "N/A") {
+                    return <Tag color="default">COMING SOON</Tag>;
+                } else {
+                    return <Typography>{record.roomCode}</Typography>;
+                }
+            },
+        },
+        {
+            title: "Location",
+            width: "15%",
+            render: (record) => {
+                return <Typography>{record.roomLocation}</Typography>;
+            },
+        },
+        {
             title: "Operation",
-            width: "25%",
-            render: (_, record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to register?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
+            width: "15%",
+            render: (record) => {
+                if (record.register === false) {
+                    return (
+                        <Typography.Link disabled>
+                            Can not unregister
+                        </Typography.Link>
+                    );
+                } else {
+                    return (
+                        <Popconfirm
+                            title="Sure to register?"
+                            onConfirm={() => handleDelete(record.key)}
+                        >
+                            <Typography.Link>Unregister</Typography.Link>
+                        </Popconfirm>
+                    );
+                }
+            },
         },
     ];
 
@@ -208,13 +255,16 @@ const CancelRegisterTable = () => {
                     <div></div>
                 )}
             </St.StyledLeft>
-            <St.ButtonTable
-                type="primary"
-                style={{ marginBottom: 16 }}
-                onClick={handleRegister}
-            >
-                Register
-            </St.ButtonTable>
+
+            {statusSemester === false ? null : (
+                <St.ButtonTable
+                    type="primary"
+                    style={{ marginBottom: 16 }}
+                    onClick={handleRegister}
+                >
+                    Register
+                </St.ButtonTable>
+            )}
 
             <Table
                 scroll={{ x: true }}
