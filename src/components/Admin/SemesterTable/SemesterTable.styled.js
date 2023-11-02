@@ -10,6 +10,10 @@ export const DivTable = styled.div`
     .ant-modal-title {
         font-family: ${Theme.font.primary_font};
     }
+
+    .ant-picker-input {
+        width: 100%;
+    }
 `;
 
 export const FlexStyled = styled(Flex)`

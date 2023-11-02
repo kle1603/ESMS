@@ -6,6 +6,12 @@ export const DivTable = styled.div`
     margin-top: 20px;
     padding-top: 50px;
     position: relative;
+
+    .form-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `;
 
 export const ButtonTable = styled(Button)`
@@ -49,21 +55,3 @@ export const StyledTable = styled(Table)`
         font-family: ${Theme.font.primary_font};
     }
 `;
-
-export const FlexStyled = styled(Flex)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .form__title {
-        min-width: 130px;
-        font-family: ${Theme.font.primary_font};
-        font-weight: 500;
-    }
-    .form__input {
-        width: 100%;
-        font-family: ${Theme.font.primary_font} !important;
-        font-weight: 300;
-    }
-`;
-
