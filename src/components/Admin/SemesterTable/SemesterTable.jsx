@@ -21,6 +21,8 @@ const SemesterTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [startDay, setStartDay] = useState("");
+    const [endDay, setEndDay] = useState("");
 
     const columns = [
         // Your columns
@@ -136,10 +138,16 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { season, start, end } = values;
-                // console.log(values);
+                console.log(values.season);
+                console.log(startDay);
+                console.log(endDay);
+
                 instance
-                    .post("semesters", { season, start, end })
+                    .post("semesters", {
+                        season: values.season,
+                        start: startDay,
+                        end: endDay,
+                    })
                     .then((res) => {
                         console.log(res);
                         toast.success("Successfully created!");
@@ -162,6 +170,21 @@ const SemesterTable = () => {
         setModalVisible(false);
     };
 
+    const layout = {
+        labelAlign: "left",
+        labelCol: {
+            span: 7,
+        },
+        wrapperCol: {
+            span: 24,
+        },
+    };
+    const onChangeStart = (_, date) => {
+        setStartDay(date);
+    };
+    const onChangeEnd = (_, date) => {
+        setEndDay(date);
+    };
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -181,8 +204,8 @@ const SemesterTable = () => {
                     style={{ marginTop: "30px", marginBottom: "30px" }}
                 >
                     <Form.Item
-                        className="form__item"
-                        style={{ width: "100%" }}
+                        {...layout}
+                        label="Season"
                         name="season"
                         rules={[
                             {
@@ -191,33 +214,41 @@ const SemesterTable = () => {
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Season
-                            </Typography>
-                            <Input
-                                allowClear
-                                className="form__input"
-                                placeholder="Season"
-                            />
-                        </St.FlexStyled>
+                        <Input allowClear placeholder="Season" />
                     </Form.Item>
 
                     <Form.Item
-                        name="date"
+                        {...layout}
+                        name="start"
+                        label="Start Day"
                         rules={[
                             {
                                 required: true,
-                                message: "Please select the Range Time!",
+                                message: "Please select the start day!",
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Range
-                            </Typography>
-                            <RangePicker className="form__input" />
-                        </St.FlexStyled>
+                        <DatePicker
+                            onChange={onChangeStart}
+                            style={{ width: "100%" }}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        {...layout}
+                        label="End Day"
+                        name="end"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please select the end day!",
+                            },
+                        ]}
+                    >
+                        <DatePicker
+                            onChange={onChangeEnd}
+                            style={{ width: "100%" }}
+                        />
                     </Form.Item>
                 </Form>
             </Modal>

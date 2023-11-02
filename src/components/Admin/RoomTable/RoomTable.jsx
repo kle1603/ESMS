@@ -94,18 +94,19 @@ const RoomTable = () => {
         form.validateFields()
             .then((values) => {
                 const { roomNumber, location } = values;
-                instance
-                    .post("rooms", { roomNum: roomNumber, location })
-                    .then(() => {
-                        toast.success("Successfully created!");
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        toast.error("Error created!");
-                        console.log(error);
-                    });
+                console.log(values);
+                // instance
+                //     .post("rooms", { roomNum: roomNumber, location })
+                //     .then(() => {
+                //         toast.success("Successfully created!");
+                //         form.resetFields();
+                //         setModalVisible(false);
+                //         fetchData();
+                //     })
+                //     .catch((error) => {
+                //         toast.error("Error created!");
+                //         console.log(error);
+                //     });
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
@@ -134,26 +135,27 @@ const RoomTable = () => {
         setSearch(e);
     };
 
-    const onChange = (value) => {
-        console.log(`selected ${value}`);
-    };
+    const location = [
+        {
+            value: 1,
+            label: "XAVALO",
+        },
+        {
+            value: 2,
+            label: "NVH",
+        },
+    ];
 
-    const handleSearchLocation = (value) => {
-        const filteredData = data.filter((item) => {
-            return item.location.toLowerCase().includes(value);
-        });
-        setSearch(value);
-        setData(filteredData);
-    };
+    const layout = {
+        labelCol: {
+            span: 7,
+        },
 
-    const onSearchLocation = (value) => {
-        handleSearchLocation(value);
-    };
+        labelAlign: "left",
 
-    const filterOption = (input, option) => {
-        return (option?.label ?? "")
-            .toLowerCase()
-            .includes(input.toLowerCase());
+        wrapperCol: {
+            span: 24,
+        },
     };
 
     return (
@@ -176,7 +178,9 @@ const RoomTable = () => {
                     style={{ marginTop: "30px", marginBottom: "30px" }}
                 >
                     <Form.Item
+                        {...layout}
                         name="roomNumber"
+                        label="Room Number"
                         rules={[
                             {
                                 required: true,
@@ -188,54 +192,21 @@ const RoomTable = () => {
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Room Number
-                            </Typography>
-                            <Input
-                                placeholder="Room Number"
-                                className="form__input"
-                            />
-                        </St.FlexStyled>
+                        <Input placeholder="Room Number" allowClear />
                     </Form.Item>
 
                     <Form.Item
                         name="location"
+                        label="Location"
+                        {...layout}
                         rules={[
                             {
                                 required: true,
-                                message: "Please input a location!",
+                                message: "Please chose a location",
                             },
-                            // {
-                            //     pattern: /^(NVH|XAVALO)$/,
-                            //     message: "Invalid location!",
-                            // },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Location
-                            </Typography>
-                            <Select
-                                showSearch
-                                placeholder="Select a location"
-                                className="form__input"
-                                optionFilterProp="children"
-                                onChange={onChange}
-                                onSearch={onSearchLocation}
-                                filterOption={filterOption}
-                                options={[
-                                    {
-                                        value: "xavalo",
-                                        label: "XAVALO",
-                                    },
-                                    {
-                                        value: "nvh",
-                                        label: "NVH",
-                                    },
-                                ]}
-                            />
-                        </St.FlexStyled>
+                        <Select options={location} />
                     </Form.Item>
                 </Form>
             </Modal>
