@@ -12,8 +12,9 @@ import { useEffect, useState } from "react";
 
 import * as St from "./PhaseTable.styled";
 import instance from "@/utils/instance";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
+import ExcelFile from "@/components/ExcelFile";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -27,8 +28,8 @@ const PhaseTable = () => {
     const [endDay, setEndDay] = useState("");
 
     const option = [
+        { value: 0, label: "Normal" },
         { value: 1, label: "Coursera" },
-        { value: 2, label: "Normal" },
     ];
 
     const columns = [
@@ -76,13 +77,10 @@ const PhaseTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record);
-
-                if (currentDate > endTime) {
-                    return <Tag color="red">FINISHED</Tag>;
-                } else {
+                if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
+                } else {
+                    return <Tag color="default">CLOSED</Tag>;
                 }
             },
         },
@@ -121,11 +119,14 @@ const PhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
-                    const formattedData = res.data.data.map((item, index) => ({
-                        ...item,
-                        key: item.id,
-                        no: index + 1,
-                    }));
+                    const formattedData = res.data.data
+                        .sort((a, b) => b.id - a.id)
+                        .map((item, index) => ({
+                            ...item,
+                            key: item.id,
+                            no: index + 1,
+                        }));
+
                     setData(formattedData);
                 })
                 .catch((error) => {
@@ -187,13 +188,13 @@ const PhaseTable = () => {
                 console.log(values.option);
                 console.log(startDay);
                 console.log(endDay);
-                
+
                 instance
-                    .post("timeSlots", {
-                        name: values.name,
-                        option: values.option,
-                        start: startDay,
-                        end: endDay,
+                    .post("examPhases", {
+                        ePName: values.name,
+                        des: values.option,
+                        startDay: startDay,
+                        endDay: endDay,
                     })
                     .then(() => {
                         toast.success("Successfully created!");
@@ -247,6 +248,7 @@ const PhaseTable = () => {
 
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select
@@ -255,6 +257,7 @@ const PhaseTable = () => {
                     className="select"
                     options={semesters}
                 />
+                <ExcelFile />
             </St.StyledLeft>
 
             <ButtonAdd
@@ -297,6 +300,7 @@ const PhaseTable = () => {
                                 message: "Please select a option!",
                             },
                         ]}
+                        initialValue={option[0].value}
                     >
                         <Select options={option} />
                     </Form.Item>

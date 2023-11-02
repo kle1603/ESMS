@@ -76,7 +76,7 @@ const ExaminerTable = () => {
                         title="Sure to delete?"
                         onConfirm={() => handleDelete(record.key)}
                     >
-                        <Typography.Link>Delete</Typography.Link>
+                        <Typography.Link>Detail</Typography.Link>
                     </Popconfirm>
                 ) : null,
         },
@@ -201,10 +201,6 @@ const ExaminerTable = () => {
             .catch((info) => {
                 console.log("Validate Failed:", info);
             });
-    };
-
-    const handleAdd = () => {
-        setModalVisible(true);
     };
 
     const handleCancel = () => {

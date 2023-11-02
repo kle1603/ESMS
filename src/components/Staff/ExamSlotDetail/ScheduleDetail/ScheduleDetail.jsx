@@ -5,7 +5,7 @@ import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const ScheduleDetail = () => {
+const ScheduleDetail = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
@@ -51,7 +51,7 @@ const ScheduleDetail = () => {
     useEffect(() => {
         // call api here
         fetchScheduleDetail();
-    }, []);
+    }, [noti]);
 
     const fetchScheduleDetail = () => {
         setLoading(true);

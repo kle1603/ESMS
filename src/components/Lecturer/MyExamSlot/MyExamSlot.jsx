@@ -7,9 +7,9 @@ import * as St from "./MyExamSlot.styled";
 import { useNavigate } from "react-router-dom";
 import instance from "@/utils/instance";
 
-const CancelRegisterTable = () => {
-    const [data, setData] = useState([]);
+const MyExamSlot = () => {
     const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
@@ -17,10 +17,8 @@ const CancelRegisterTable = () => {
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
     const [statusSemester, setStatusSemester] = useState(false);
+    const [statusPhase, setStatusPhase] = useState(false);
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    // }, []);
 
     const fetchData = () => {
         setLoading(true);
@@ -42,7 +40,10 @@ const CancelRegisterTable = () => {
                     setLoading(false);
                 })
                 .catch((error) => {
+                    setData([]);
+                    setLoading(false);
                     console.log(error);
+                    // console.log("error");
                 })
                 .finally(() => {});
         } else {
@@ -77,7 +78,6 @@ const CancelRegisterTable = () => {
     };
 
     const fetchPhase = () => {
-        // console.log(semesterId);
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
@@ -86,11 +86,17 @@ const CancelRegisterTable = () => {
                         const phaseData = res.data.data.map((item) => ({
                             label: item.ePName,
                             value: item.id,
+                            status: item.status,
                         }));
                         const newData = phaseData.reverse();
                         setSelectPhase(newData[0].label);
                         setPhaseId(newData[0].value);
                         setPhases(newData);
+                        if (newData[0].status === false) {
+                            setStatusPhase(false);
+                        } else {
+                            setStatusPhase(true);
+                        }
                     } else {
                         setSelectPhase("");
                         setPhases([]);
@@ -119,7 +125,23 @@ const CancelRegisterTable = () => {
         navigate(`/lecturer/register/${phaseId}`);
     };
 
-    const handleDelete = () => {};
+    const handleDelete = (e) => {
+        instance
+            .put("examRooms/delLecturer", {
+                userId: 256,
+                startTime: e.startTime,
+                endTime: e.endTime,
+                day: e.day,
+            })
+            .then((res) => {
+                setLoading(true);
+                console.log(res);
+                fetchData();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleSelectSemester = (id, option) => {
         if (id !== semesterId) {
@@ -138,8 +160,20 @@ const CancelRegisterTable = () => {
     };
 
     const handleSelectPhase = (id, option) => {
-        setSelectPhase(option.label);
-        setPhaseId(id);
+        // setSelectPhase(option.label);
+        // setPhaseId(id);
+
+        if (id !== phaseId) {
+            if (option.status === false) {
+                // console.log("false");
+                setStatusPhase(false);
+            } else {
+                // console.log("true");
+                setStatusPhase(true);
+            }
+            setSelectPhase(option.label);
+            setPhaseId(id);
+        }
     };
 
     const columns = [
@@ -221,7 +255,7 @@ const CancelRegisterTable = () => {
                     return (
                         <Popconfirm
                             title="Sure to register?"
-                            onConfirm={() => handleDelete(record.key)}
+                            onConfirm={() => handleDelete(record)}
                         >
                             <Typography.Link>Unregister</Typography.Link>
                         </Popconfirm>
@@ -256,7 +290,7 @@ const CancelRegisterTable = () => {
                 )}
             </St.StyledLeft>
 
-            {statusSemester === false ? null : (
+            {statusPhase === false ? null : (
                 <St.ButtonTable
                     type="primary"
                     style={{ marginBottom: 16 }}
@@ -282,6 +316,6 @@ const CancelRegisterTable = () => {
     );
 };
 
-CancelRegisterTable.propTypes = {};
+MyExamSlot.propTypes = {};
 
-export default CancelRegisterTable;
+export default MyExamSlot;
