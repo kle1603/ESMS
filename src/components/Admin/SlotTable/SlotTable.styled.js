@@ -24,13 +24,8 @@ export const DivSlot = styled.div`
     }
 
     .ant-form-item {
-        color: green;   
+        color: green;
     }
-
-    /* .ant-form-item-explain-error {
-        position: absolute;
-        right: 0;
-    } */
 `;
 
 export const FlexStyled = styled(Flex)`
