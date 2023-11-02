@@ -1,12 +1,16 @@
 // import PropTypes from "prop-types";
 
-import { Divider, Popconfirm, Table, Typography } from "antd";
+import { Button, Divider, Popconfirm, Table, Typography } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
 import * as St from "./ExamTable.styled";
 import instance from "@/utils/instance";
+import { useParams } from "react-router-dom";
 
 const ExamTable = () => {
+    const { id } = useParams();
+    console.log(id);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -17,13 +21,15 @@ const ExamTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`examiners/examPhaseId?userId=256&examPhaseId=3`)
+            .get(`examiners/examPhaseId?userId=256&examPhaseId=${id}`)
             .then((res) => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: index + 1,
                     no: index + 1,
+                    startTime: item.startTime.slice(0, 5),
+                    endTime: item.endTime.slice(0, 5),
                 }));
                 setData(formattedData);
             })
@@ -90,9 +96,18 @@ const ExamTable = () => {
         },
     ];
 
+    const handleBack = () => {
+        window.history.back();
+    };
+
     return (
         <St.DivTable>
-            <Divider orientation="left">hihi</Divider>
+            <Divider orientation="left">
+                <Button onClick={handleBack} style={{ marginRight: 10 }}>
+                    <ArrowLeftOutlined />
+                </Button>
+                Register
+            </Divider>
             <Table
                 scroll={{ x: true }}
                 columns={columns}

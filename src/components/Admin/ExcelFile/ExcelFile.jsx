@@ -1,9 +1,11 @@
 import instance from "@/utils/instance";
 import { Button } from "antd";
 import { useState } from "react";
+import { DownloadOutlined } from "@ant-design/icons";
+import * as St from "./ExcelFile.styled";
 // import * as XLSX from "xlsx";
 
-function ExcelImport() {
+function ExcelFile() {
     const [file, setFile] = useState();
 
     const upload = () => {
@@ -29,13 +31,14 @@ function ExcelImport() {
     };
 
     return (
-        <div>
-            <Button onClick={handleDownload}>Download file</Button>
-
+        <St.DivStyled>
             <input type="file" onChange={(e) => setFile(e.target.files[0])} />
+            <Button onClick={handleDownload}>
+                <DownloadOutlined />
+            </Button>
             <Button onClick={upload}>Upload</Button>
-        </div>
+        </St.DivStyled>
     );
 }
 
-export default ExcelImport;
+export default ExcelFile;
