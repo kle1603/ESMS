@@ -111,9 +111,11 @@ const SubjectTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { startTime, endTime } = values;
+                const { subjectName, subjectCode } = values;
+                console.log(subjectName);
+                console.log(subjectCode);
                 instance
-                    .post("subjects", { startTime, endTime })
+                    .post("subjects", { name: subjectName, code: subjectCode })
                     .then(() => {
                         toast.success("Successfully created!");
                         form.resetFields();
@@ -133,6 +135,16 @@ const SubjectTable = () => {
     const handleCancel = () => {
         form.resetFields();
         setModalVisible(false);
+    };
+
+    const layout = {
+        labelAlign: "left",
+        labelCol: {
+            span: 7,
+        },
+        wrapperCol: {
+            span: 24,
+        },
     };
 
     return (
@@ -176,7 +188,9 @@ const SubjectTable = () => {
                     </Form.Item> */}
 
                     <Form.Item
+                        {...layout}
                         name="subjectName"
+                        label="Subject Name"
                         rules={[
                             {
                                 required: true,
@@ -184,18 +198,12 @@ const SubjectTable = () => {
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Subject Name
-                            </Typography>
-                            <Input
-                                allowClear
-                                className="form__input"
-                                placeholder="Subject Name"
-                            />
-                        </St.FlexStyled>
+                        <Input allowClear placeholder="Subject Name" />
                     </Form.Item>
+
                     <Form.Item
+                        {...layout}
+                        label="Subject Code"
                         name="subjectCode"
                         rules={[
                             {
@@ -204,16 +212,7 @@ const SubjectTable = () => {
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Subject Code
-                            </Typography>
-                            <Input
-                                allowClear
-                                className="form__input"
-                                placeholder="Subject Code"
-                            />
-                        </St.FlexStyled>
+                        <Input allowClear placeholder="Subject Code" />
                     </Form.Item>
                 </Form>
             </Modal>

@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import { Form, Input, Modal, Popconfirm, Select, Tag, Typography } from "antd";
 import * as St from "./UserTable.styled";
 
 import { useEffect, useState } from "react";
@@ -144,6 +144,10 @@ const UserTable = () => {
         form.validateFields()
             .then((values) => {
                 const { role, email, name } = values;
+                // console.log(values.role);
+                // console.log(values.email);
+                // console.log(values.name);
+                // console.log(values);
                 instance
                     .post("users", { role, email, name })
                     .then(() => {
@@ -179,6 +183,31 @@ const UserTable = () => {
         setPage(page);
     };
 
+    const layout = {
+        labelAlign: "left",
+        labelCol: {
+            span: 7,
+        },
+        wrapperCol: {
+            span: 24,
+        },
+    };
+
+    const role = [
+        {
+            value: 1,
+            label: "Admin",
+        },
+        {
+            value: 2,
+            label: "Staff",
+        },
+        {
+            value: 3,
+            label: "Lecturer",
+        },
+    ];
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -199,28 +228,22 @@ const UserTable = () => {
                     style={{ marginTop: "30px", marginBottom: "30px" }}
                 >
                     <Form.Item
+                        {...layout}
+                        label="Role"
                         name="role"
                         rules={[
                             {
                                 required: true,
                                 message: "Please choose role!",
                             },
-                            {
-                                pattern:
-                                    /^(Admin|admin|ADMIN|Staff|staff|Lecturer|lecturer)$/,
-                                message: "Invalid role!",
-                            },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Role
-                            </Typography>
-                            <Input placeholder="Role" className="form__input" />
-                        </St.FlexStyled>
+                        <Select options={role} />
                     </Form.Item>
                     <Form.Item
+                        {...layout}
                         name="email"
+                        label="Email"
                         rules={[
                             {
                                 required: true,
@@ -228,17 +251,11 @@ const UserTable = () => {
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Email
-                            </Typography>
-                            <Input
-                                placeholder="Email"
-                                className="form__input"
-                            />
-                        </St.FlexStyled>
+                        <Input allowClear placeholder="Email" />
                     </Form.Item>
                     <Form.Item
+                        {...layout}
+                        label="Name"
                         name="name"
                         rules={[
                             {
@@ -247,12 +264,7 @@ const UserTable = () => {
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Name
-                            </Typography>
-                            <Input placeholder="Name" className="form__input" />
-                        </St.FlexStyled>
+                        <Input placeholder="Name" allowClear />
                     </Form.Item>
                 </Form>
             </Modal>

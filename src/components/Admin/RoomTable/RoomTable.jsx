@@ -93,20 +93,20 @@ const RoomTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                // const { roomNumber, location } = values;
+                const { roomNumber, location } = values;
                 console.log(values);
-                // instance
-                //     .post("rooms", { roomNum: roomNumber, location })
-                //     .then(() => {
-                //         toast.success("Successfully created!");
-                //         form.resetFields();
-                //         setModalVisible(false);
-                //         fetchData();
-                //     })
-                //     .catch((error) => {
-                //         toast.error("Error created!");
-                //         console.log(error);
-                //     });
+                instance
+                    .post("rooms", { roomNum: roomNumber, location })
+                    .then(() => {
+                        toast.success("Successfully created!");
+                        form.resetFields();
+                        setModalVisible(false);
+                        fetchData();
+                    })
+                    .catch((error) => {
+                        toast.error("Error created!");
+                        console.log(error);
+                    });
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
