@@ -248,12 +248,16 @@ const CourseTable = () => {
                 title="Add new course"
             />
             <Modal
-                title="Add a row"
+                title="Add a course"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                >
                     <Form.Item
                         name="subjectCode"
                         rules={[

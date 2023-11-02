@@ -6,7 +6,15 @@ import { Divider } from "antd";
 const AdminExaminers = () => {
     return (
         <div>
-            <Divider orientation="left">User</Divider>
+            <Divider
+                orientation="left"
+                style={{
+                    fontFamily: "Inter",
+                    fontSize: "1.8rem",
+                }}
+            >
+                Examiner
+            </Divider>
             <ExaminerTable />
         </div>
     );

@@ -6,7 +6,15 @@ import { Divider } from "antd";
 const AdminUser = () => {
     return (
         <div>
-            <Divider orientation="left">User</Divider>
+            <Divider
+                orientation="left"
+                style={{
+                    fontFamily: "Inter",
+                    fontSize: "1.8rem",
+                }}
+            >
+                User
+            </Divider>
             <UserTable />
         </div>
     );

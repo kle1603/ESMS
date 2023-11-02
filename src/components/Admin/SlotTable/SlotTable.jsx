@@ -170,17 +170,24 @@ const SlotTable = () => {
                 />
             </St.StyledLeft>
 
-            <ButtonAdd setModalVisible={setModalVisible} title="Add new slot" />
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new time slot"
+            />
 
             <Modal
-                title="Add new slot"
+                title="Add new time slot"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
                 style={{ fontFamily: "Inter" }}
                 form={form}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                >
                     <Form.Item
                         name="name"
                         rules={[

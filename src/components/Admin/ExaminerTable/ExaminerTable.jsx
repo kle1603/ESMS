@@ -14,6 +14,7 @@ import * as St from "./ExaminerTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const ExaminerTable = () => {
     const [data, setData] = useState([]);
@@ -203,9 +204,9 @@ const ExaminerTable = () => {
             });
     };
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
+    // const handleAdd = () => {
+    //     setModalVisible(true);
+    // };
 
     const handleCancel = () => {
         form.resetFields();
@@ -249,20 +250,21 @@ const ExaminerTable = () => {
                     <div></div>
                 )}
             </St.StyledLeft>
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
+            <ButtonAdd
+                setModalVisible={setModalVisible}
+                title="Add new examiner"
+            />
             <Modal
-                title="Add a row"
+                title="Add new examiner"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                >
                     <Form.Item
                         name="role"
                         rules={[
@@ -277,7 +279,12 @@ const ExaminerTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Role" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Role
+                            </Typography>
+                            <Input placeholder="Role" className="form__input" />
+                        </St.FlexStyled>
                     </Form.Item>
                     <Form.Item
                         name="email"
@@ -288,7 +295,15 @@ const ExaminerTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Email" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Email
+                            </Typography>
+                            <Input
+                                placeholder="Email"
+                                className="form__input"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                     <Form.Item
                         name="name"
@@ -299,7 +314,12 @@ const ExaminerTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Name" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Name
+                            </Typography>
+                            <Input placeholder="Name" className="form__input" />
+                        </St.FlexStyled>
                     </Form.Item>
                 </Form>
             </Modal>
