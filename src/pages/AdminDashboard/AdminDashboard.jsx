@@ -1,20 +1,9 @@
 // import PropTypes from "prop-types";
-
 import DashboardTable from "@/components/Admin/DashboardTable/DashboardTable";
-import { Divider } from "antd";
 
 const Dashboard = () => {
     return (
         <div>
-            <Divider
-                orientation="left"
-                style={{
-                    fontFamily: "Inter",
-                    fontSize: "1.8rem",
-                }}
-            >
-                Dashboard
-            </Divider>
             <DashboardTable />
         </div>
     );

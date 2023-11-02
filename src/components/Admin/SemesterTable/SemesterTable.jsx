@@ -97,6 +97,7 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
+                console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
@@ -140,9 +141,11 @@ const SemesterTable = () => {
                 console.log(startDay);
                 console.log(endDay);
 
+                const { season } = values;
+
                 instance
                     .post("semesters", {
-                        season: values.season,
+                        season: season,
                         start: startDay,
                         end: endDay,
                     })
