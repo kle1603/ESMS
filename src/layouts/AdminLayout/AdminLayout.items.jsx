@@ -88,11 +88,6 @@ const items = [
                 key: configs.routes.adminExaminers,
                 icon: <UserOutlined />,
             },
-            {
-                label: "Test",
-                key: configs.routes.adminTest,
-                icon: <UserOutlined />,
-            },
         ],
     },
     {

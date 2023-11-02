@@ -7,6 +7,7 @@ import * as St from "./ExcelFile.styled";
 
 function ExcelFile() {
     const [file, setFile] = useState();
+    const [fileLabel, setFileLabel] = useState("Import File");
 
     const upload = () => {
         const formData = new FormData();
@@ -21,6 +22,11 @@ function ExcelFile() {
             });
     };
 
+    const handleChange = (e) => {
+        setFile(e.target.files[0]);
+        setFileLabel(e.target.files[0].name);
+    };
+
     const formFile = "/src/assets/fileExcel/test.xlsx";
 
     const handleDownload = () => {
@@ -32,11 +38,18 @@ function ExcelFile() {
 
     return (
         <St.DivStyled>
-            <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-            <Button onClick={handleDownload}>
+            {/* <input type="file" onChange={(e) => setFile(e.target.files[0])} /> */}
+            <Button className="download" onClick={handleDownload}>
                 <DownloadOutlined />
+                Download
             </Button>
-            <Button onClick={upload}>Upload</Button>
+            <input id="upload" type="file" onChange={handleChange} />
+            <label className="input" htmlFor="upload">
+                {fileLabel}
+            </label>
+            <Button className="upload" onClick={upload}>
+                Upload
+            </Button>
         </St.DivStyled>
     );
 }

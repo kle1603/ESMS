@@ -87,18 +87,20 @@ const ExamPhaseTable = () => {
     ];
 
     const fetchData = () => {
-        console.log(semesterId);
+        // console.log(semesterId);
 
         if (semesterId !== 0) {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
                     console.log(res);
-                    const formattedData = res.data.data.map((item, index) => ({
-                        ...item,
-                        key: item.id,
-                        no: index + 1,
-                    }));
+                    const formattedData = res.data.data
+                        .sort((a, b) => b.id - a.id)
+                        .map((item, index) => ({
+                            ...item,
+                            key: item.id,
+                            no: index + 1,
+                        }));
                     console.log(formattedData);
                     setData(formattedData);
                 })

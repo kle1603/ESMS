@@ -23,28 +23,30 @@ const StaffExamPhaseDetail = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [buttonOk, setButtonOk] = useState(false);
     const [phaseId, setPhaseId] = useState(0);
+
+    const [noti, setNoti] = useState(false);
     // console.log(state);
 
     const items = [
         {
             key: "1",
             label: "Course",
-            children: <CourseTable />,
+            children: <CourseTable noti={noti}/>,
         },
         {
             key: "2",
             label: "Room",
-            children: <ExamRoomTable />,
+            children: <ExamRoomTable noti={noti}/>,
         },
         {
             key: "3",
             label: "Examiner",
-            children: <ExaminerTable />,
+            children: <ExaminerTable noti={noti}/>,
         },
         {
             key: "4",
             label: "Schedule Detail",
-            children: <ScheduleDetail />,
+            children: <ScheduleDetail noti={noti}/>,
         },
     ];
 
@@ -57,10 +59,12 @@ const StaffExamPhaseDetail = () => {
     }, [phaseId]);
 
     const fetchCourse = () => {
+        // console.log(phaseId);
+        // setButtonStatus(true);
         instance
             .get(`studentExams?ePId=${phaseId}`)
             .then((res) => {
-                // console.log(res);
+                console.log(res);
                 if (phaseId !== 0) {
                     const formattedData = res.data.data.map((item) => ({
                         value: item.courId,
@@ -83,6 +87,7 @@ const StaffExamPhaseDetail = () => {
     };
 
     const handleOk = () => {
+        console.log(phaseId);
         setButtonOk(true);
         form.validateFields()
             .then((values) => {
@@ -97,15 +102,19 @@ const StaffExamPhaseDetail = () => {
                         examSlotId: param.id,
                         numStu: values.numOfStu,
                     })
-                    .then((res) => {
-                        console.log(res);
-                        setButtonOk(false);
+                    .then(() => {
                         fetchCourse();
+                        setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
+                        setNoti(!noti);
                     })
                     .catch((error) => {
                         console.log(error);
+                        fetchCourse();
+                        setButtonOk(false);
+                        setModalVisible(false);
+                        form.resetFields();
                     })
                     .finally(() => {});
             })
@@ -124,7 +133,7 @@ const StaffExamPhaseDetail = () => {
     };
 
     const operations = (
-        <Button loading={buttonStatus} onClick={handleAdd}>
+        <Button loading={buttonStatus} onClick={handleAdd} type="primary">
             Add new course
         </Button>
     );
@@ -153,7 +162,7 @@ const StaffExamPhaseDetail = () => {
                 title="Add new course"
                 open={modalVisible}
                 // onOk={handleOk}
-                // onCancel={handleCancel}
+                onCancel={handleCancel}
                 footer={modalFooter()}
             >
                 <Form form={form} name="add_row_form">
@@ -179,7 +188,12 @@ const StaffExamPhaseDetail = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please input number of students!",
+                                message: "Please input number of student!",
+                            },
+                            {
+                                pattern: /^1[5-9]|[2-9]\d+$/,
+                                message:
+                                    "Number of students must be greater than or equal to 15",
                             },
                         ]}
                     >

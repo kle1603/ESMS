@@ -1,9 +1,9 @@
 import { Flex, Form, Popconfirm, Select, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
-import * as XLSX from "xlsx";
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
+import ExcelFile from "@/components/ExcelFile";
 // import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
@@ -17,8 +17,6 @@ const CourseTable = () => {
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
-
-    console.log(loading);
 
     const fetchSemester = () => {
         instance
@@ -71,11 +69,13 @@ const CourseTable = () => {
             instance
                 .get(`courses/?ePId=${phaseId}`)
                 .then((res) => {
-                    const formattedData = res.data.data.map((item, index) => ({
-                        ...item,
-                        no: index + 1,
-                        key: item.courseId,
-                    }));
+                    const formattedData = res.data.data
+                        .sort((a, b) => b.courseId - a.courseId)
+                        .map((item, index) => ({
+                            ...item,
+                            no: index + 1,
+                            key: item.courseId,
+                        }));
                     setData(formattedData);
                     setLoading(false);
                 })

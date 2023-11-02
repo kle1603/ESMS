@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 const ExamTable = () => {
     const { id } = useParams();
-    console.log(id);
+    // console.log(id);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -43,6 +43,21 @@ const ExamTable = () => {
 
     const handleAdd = (e) => {
         console.log(e);
+        // instance
+        //     .post("examRooms/lecturer", {
+        //         userId: 256,
+        //         startTime: e.startTime,
+        //         endTime: e.endTime,
+        //         day: e.day,
+        //         examPhaseId: id,
+        //     })
+        //     .then((res) => {
+        //         console.log(res);
+        //         fetchData();
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
     };
 
     const columns = [
@@ -84,15 +99,32 @@ const ExamTable = () => {
         {
             title: "Operation",
             width: "20%",
-            render: (_, record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to register?"
-                        onConfirm={() => handleAdd(record.key)}
-                    >
-                        <Typography.Link>Register</Typography.Link>
-                    </Popconfirm>
-                ) : null,
+            render: (record) => {
+                if (record.register === 1) {
+                    return (
+                        <Popconfirm
+                            title="Sure to register?"
+                            onConfirm={() => handleAdd(record)}
+                        >
+                            <Typography.Link>Register</Typography.Link>
+                        </Popconfirm>
+                    );
+                } else {
+                    return (
+                        <Typography.Link disabled>
+                            Can not register
+                        </Typography.Link>
+                    );
+                }
+            },
+            // data.length >= 1 ? (
+            //     <Popconfirm
+            //         title="Sure to register?"
+            //         onConfirm={() => handleAdd(record.key)}
+            //     >
+            //         <Typography.Link>Register</Typography.Link>
+            //     </Popconfirm>
+            // ) : null,
         },
     ];
 

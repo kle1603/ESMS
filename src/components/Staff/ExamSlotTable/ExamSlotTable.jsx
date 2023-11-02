@@ -22,6 +22,7 @@ const ExamPhaseTable = () => {
     const [defaultValue, setDefaultValue] = useState();
     const [semesterId, setSemesterId] = useState(0);
     const [buttonStatus, setButtonStatus] = useState(true);
+    const [statusButton, setStatusButton] = useState(false);
 
     const columns = [
         // Your columns
@@ -79,6 +80,9 @@ const ExamPhaseTable = () => {
     }, [semesterId]);
 
     const fetchData = () => {
+        if (state.data.status === true) {
+            setStatusButton(true);
+        }
         setSemesterId(state.data.semId);
         instance
             .get(`examSlots/${id}`)
@@ -204,14 +208,16 @@ const ExamPhaseTable = () => {
             </Divider>
 
             <St.DivTable>
-                <St.ButtonTable
-                    loading={buttonStatus}
-                    type="primary"
-                    style={{ marginBottom: 16 }}
-                    onClick={handleAdd}
-                >
-                    Add a exam slot
-                </St.ButtonTable>
+                {statusButton ? (
+                    <St.ButtonTable
+                        loading={buttonStatus}
+                        type="primary"
+                        style={{ marginBottom: 16 }}
+                        onClick={handleAdd}
+                    >
+                        Add a exam slot
+                    </St.ButtonTable>
+                ) : null}
                 <Modal
                     title="Add a slot"
                     open={modalVisible}

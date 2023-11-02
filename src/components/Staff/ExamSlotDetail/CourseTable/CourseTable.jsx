@@ -1,22 +1,19 @@
-// import PropTypes from "prop-types";
-
 import instance from "@/utils/instance";
 import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as St from "./CourseTable.styled";
 
-const CourseTable = () => {
+const CourseTable = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [modalVisible, setModalVisible] = useState(false);
     const param = useParams();
     // console.log(param);
 
     useEffect(() => {
         // call api here
         fetchCourse();
-    }, []);
+    }, [noti]);
 
     const fetchCourse = () => {
         setLoading(true);

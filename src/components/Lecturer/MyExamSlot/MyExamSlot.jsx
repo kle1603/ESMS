@@ -7,9 +7,9 @@ import * as St from "./MyExamSlot.styled";
 import { useNavigate } from "react-router-dom";
 import instance from "@/utils/instance";
 
-const CancelRegisterTable = () => {
-    const [data, setData] = useState([]);
+const MyExamSlot = () => {
     const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
@@ -18,9 +18,6 @@ const CancelRegisterTable = () => {
     const [phaseId, setPhaseId] = useState(0);
     const [statusSemester, setStatusSemester] = useState(false);
     const navigate = useNavigate();
-
-    // useEffect(() => {
-    // }, []);
 
     const fetchData = () => {
         setLoading(true);
@@ -77,7 +74,6 @@ const CancelRegisterTable = () => {
     };
 
     const fetchPhase = () => {
-        // console.log(semesterId);
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
@@ -119,7 +115,22 @@ const CancelRegisterTable = () => {
         navigate(`/lecturer/register/${phaseId}`);
     };
 
-    const handleDelete = () => {};
+    const handleDelete = (e) => {
+        instance
+            .put("examRooms/delLecturer", {
+                userId: 256,
+                startTime: e.startTime,
+                endTime: e.endTime,
+                day: e.day,
+            })
+            .then((res) => {
+                console.log(res);
+                fetchData();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const handleSelectSemester = (id, option) => {
         if (id !== semesterId) {
@@ -221,7 +232,7 @@ const CancelRegisterTable = () => {
                     return (
                         <Popconfirm
                             title="Sure to register?"
-                            onConfirm={() => handleDelete(record.key)}
+                            onConfirm={() => handleDelete(record)}
                         >
                             <Typography.Link>Unregister</Typography.Link>
                         </Popconfirm>
@@ -282,6 +293,6 @@ const CancelRegisterTable = () => {
     );
 };
 
-CancelRegisterTable.propTypes = {};
+MyExamSlot.propTypes = {};
 
-export default CancelRegisterTable;
+export default MyExamSlot;

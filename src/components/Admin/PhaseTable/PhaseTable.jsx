@@ -27,8 +27,8 @@ const PhaseTable = () => {
     const [endDay, setEndDay] = useState("");
 
     const option = [
-        { value: 1, label: "Coursera" },
-        { value: 2, label: "Normal" },
+        { value: 1, label: "Normal" },
+        { value: 2, label: "Coursera" },
     ];
 
     const columns = [
@@ -76,13 +76,10 @@ const PhaseTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record);
-
-                if (currentDate > endTime) {
-                    return <Tag color="red">FINISHED</Tag>;
-                } else {
+                if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
+                } else {
+                    return <Tag color="default">CLOSED</Tag>;
                 }
             },
         },
@@ -121,11 +118,14 @@ const PhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
-                    const formattedData = res.data.data.map((item, index) => ({
-                        ...item,
-                        key: item.id,
-                        no: index + 1,
-                    }));
+                    const formattedData = res.data.data
+                        .sort((a, b) => b.id - a.id)
+                        .map((item, index) => ({
+                            ...item,
+                            key: item.id,
+                            no: index + 1,
+                        }));
+
                     setData(formattedData);
                 })
                 .catch((error) => {
@@ -187,7 +187,7 @@ const PhaseTable = () => {
                 console.log(values.option);
                 console.log(startDay);
                 console.log(endDay);
-                
+
                 instance
                     .post("timeSlots", {
                         name: values.name,
@@ -297,6 +297,7 @@ const PhaseTable = () => {
                                 message: "Please select a option!",
                             },
                         ]}
+                        initialValue={option[0].value}
                     >
                         <Select options={option} />
                     </Form.Item>

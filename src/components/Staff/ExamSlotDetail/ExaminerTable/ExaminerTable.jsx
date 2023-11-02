@@ -5,7 +5,7 @@ import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const Examiner = () => {
+const Examiner = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
@@ -38,7 +38,7 @@ const Examiner = () => {
     useEffect(() => {
         // call api here
         fetchExaminer();
-    }, []);
+    }, [noti]);
 
     const fetchExaminer = () => {
         setLoading(true);

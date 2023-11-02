@@ -5,7 +5,7 @@ import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const ExamRoomTable = () => {
+const ExamRoomTable = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
@@ -38,7 +38,7 @@ const ExamRoomTable = () => {
     useEffect(() => {
         // call api here
         fetchRoom();
-    }, []);
+    }, [noti]);
 
     const fetchRoom = () => {
         setLoading(true);
