@@ -2,9 +2,9 @@ import { Button } from "antd";
 import styled from "styled-components";
 
 export const DivStyled = styled.div`
-    margin-top: 20px;
+    /* margin-top: 20px;
     padding-top: 50px;
-    position: relative;
+    position: relative; */
 `;
 
 export const ButtonTable = styled(Button)`

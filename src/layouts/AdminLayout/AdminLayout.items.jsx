@@ -78,18 +78,6 @@ const items = [
                 key: configs.routes.adminSemesters,
                 icon: <CalendarOutlined />,
             },
-        ],
-    },
-
-    {
-        type: "divider",
-    },
-    {
-        label: "Group 3",
-        title: "title4",
-        icon: "null",
-        type: "group",
-        children: [
             {
                 label: "Users",
                 key: configs.routes.adminUsers,
@@ -102,7 +90,6 @@ const items = [
             },
         ],
     },
-
     {
         type: "divider",
     },

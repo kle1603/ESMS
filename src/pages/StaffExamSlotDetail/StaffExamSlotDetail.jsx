@@ -12,8 +12,6 @@ import ScheduleDetail from "@/components/Staff/ExamSlotDetail/ScheduleDetail";
 
 const StaffExamPhaseDetail = () => {
     const location = useLocation();
-    // console.log(location.state.item);
-    // console.log(param);
 
     const items = [
         {
@@ -42,6 +40,8 @@ const StaffExamPhaseDetail = () => {
         window.history.back();
     };
 
+    const operations = <Button>Add new course</Button>;
+
     return (
         <>
             <Divider orientation="left">
@@ -50,7 +50,11 @@ const StaffExamPhaseDetail = () => {
                 </Button>
                 {location.state.item}
             </Divider>
-            <St.TabsStyled defaultActiveKey="1" items={items} />
+            <St.TabsStyled
+                tabBarExtraContent={operations}
+                defaultActiveKey="1"
+                items={items}
+            />
         </>
     );
 };
