@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Flex, Table } from "antd";
+import { Button, Flex, Form, Table } from "antd";
 import Theme from "@/Theme";
 
 export const DivTable = styled.div`
@@ -8,8 +8,12 @@ export const DivTable = styled.div`
     position: relative;
 
     .ant-form-item-explain-error {
-        position: absolute;
+        /* position: absolute; */
         /* color: green; */
+    }
+
+    .ant-form-item-explain {
+        margin-left: 100px;
     }
 `;
 
@@ -82,5 +86,14 @@ export const FlexStyled = styled(Flex)`
         width: 100%;
         font-family: ${Theme.font.primary_font} !important;
         font-weight: 300;
+    }
+`;
+
+export const FormItemStyled = styled(Form.Item)`
+    position: relative;
+
+    .form__title {
+        position: absolute;
+        left: -100px;
     }
 `;

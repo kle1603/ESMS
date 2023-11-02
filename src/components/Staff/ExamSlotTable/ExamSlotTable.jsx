@@ -20,60 +20,8 @@ const ExamPhaseTable = () => {
     const [timeSlots, setTimeSlots] = useState([]);
     const [selectTimeSlot, setSelectTimeSlot] = useState();
     const [defaultValue, setDefaultValue] = useState();
-    const [semesterId, setSemesterId] = useState(state.data.semId);
+    const [semesterId, setSemesterId] = useState(0);
     const [buttonStatus, setButtonStatus] = useState(true);
-
-    useEffect(() => {
-        fetchData();
-        fetchTimeSlot();
-    }, []);
-
-    const fetchData = () => {
-        instance
-            .get(`examSlots/${id}`)
-            .then((res) => {
-                console.log(res.data.data);
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: item.id,
-                    no: index + 1,
-                    startTime: item.timeSlot.startTime.slice(0, -3),
-                    endTime: item.timeSlot.endTime.slice(0, -3),
-                }));
-                setData(formattedData);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
-    const fetchTimeSlot = () => {
-        instance
-            .get(`timeSlots/des?examphaseId=${id}&semesterId=${semesterId}`)
-            .then((res) => {
-                if (id !== 0) {
-                    const formattedData = res.data.data.map((item) => ({
-                        value: item.id,
-                        label:
-                            item.startTime.slice(0, -3) +
-                            "-" +
-                            item.endTime.slice(0, -3),
-                    }));
-                    setSelectTimeSlot(formattedData[0].label);
-                    setDefaultValue(formattedData[0].value);
-                    setTimeSlots(formattedData);
-                    setButtonStatus(false);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {});
-    };
 
     const columns = [
         // Your columns
@@ -122,6 +70,64 @@ const ExamPhaseTable = () => {
         },
     ];
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        fetchTimeSlot();
+    }, [semesterId]);
+
+    const fetchData = () => {
+        setSemesterId(state.data.semId);
+        instance
+            .get(`examSlots/${id}`)
+            .then((res) => {
+                // console.log(res.data.data);
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    key: item.id,
+                    no: index + 1,
+                    startTime: item.timeSlot.startTime.slice(0, -3),
+                    endTime: item.timeSlot.endTime.slice(0, -3),
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    const fetchTimeSlot = () => {
+        if (semesterId !== 0) {
+            instance
+                .get(`timeSlots/des?examphaseId=${id}&semesterId=${semesterId}`)
+                .then((res) => {
+                    if (id !== 0) {
+                        const formattedData = res.data.data.map((item) => ({
+                            value: item.id,
+                            label:
+                                item.startTime.slice(0, -3) +
+                                "-" +
+                                item.endTime.slice(0, -3),
+                        }));
+                        setSelectTimeSlot(formattedData[0].label);
+                        setDefaultValue(formattedData[0].value);
+                        setTimeSlots(formattedData);
+                        setButtonStatus(false);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        }
+    };
+
     const handleAdd = () => {
         setModalVisible(true);
     };
@@ -164,7 +170,7 @@ const ExamPhaseTable = () => {
         console.log(state.data);
         console.log(e);
 
-        navigate(configs.routes.staff + `/examSlot/${e.id}`, {
+        navigate(configs.routes.staff + `/examSlotDetail/${e.id}`, {
             state: {
                 item:
                     "Day: " +
@@ -173,6 +179,7 @@ const ExamPhaseTable = () => {
                     e.timeSlot.startTime.slice(0, 5) +
                     "-" +
                     e.timeSlot.endTime.slice(0, 5),
+                phaseId: id,
             },
         });
     };
@@ -181,7 +188,7 @@ const ExamPhaseTable = () => {
         window.history.back();
     };
 
-    const handleSelect = (id, option) => {};
+    // const handleSelect = (id, option) => {};
 
     return (
         <>
@@ -206,7 +213,7 @@ const ExamPhaseTable = () => {
                     Add a exam slot
                 </St.ButtonTable>
                 <Modal
-                    title="Add a row"
+                    title="Add a slot"
                     open={modalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}
@@ -234,7 +241,7 @@ const ExamPhaseTable = () => {
                             initialValue={selectTimeSlot}
                         >
                             <Select
-                                onChange={handleSelect}
+                                // onChange={handleSelect}
                                 // value={selectTimeSlot}
                                 className="select"
                                 options={timeSlots}
