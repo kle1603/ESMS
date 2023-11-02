@@ -15,8 +15,6 @@ import instance from "@/utils/instance";
 import toast from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 
-const { RangePicker } = DatePicker;
-
 const PhaseTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
@@ -25,10 +23,12 @@ const PhaseTable = () => {
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
+    const [startDay, setStartDay] = useState("");
+    const [endDay, setEndDay] = useState("");
 
     const option = [
-        { value: "Coursera", label: "Coursera" },
-        { value: "Normal", label: "Normal" },
+        { value: 1, label: "Coursera" },
+        { value: 2, label: "Normal" },
     ];
 
     const columns = [
@@ -183,20 +183,28 @@ const PhaseTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                console.log(values);
-                // const { startTime, endTime } = values;
-                // instance
-                //     .post("timeSlots", { startTime, endTime })
-                //     .then(() => {
-                //         toast.success("Successfully created!");
-                //         form.resetFields();
-                //         setModalVisible(false);
-                //         fetchData();
-                //     })
-                //     .catch((error) => {
-                //         console.log(error);
-                //         toast.error("Error created!");
-                //     });
+                console.log(values.name);
+                console.log(values.option);
+                console.log(startDay);
+                console.log(endDay);
+                
+                instance
+                    .post("timeSlots", {
+                        name: values.name,
+                        option: values.option,
+                        start: startDay,
+                        end: endDay,
+                    })
+                    .then(() => {
+                        toast.success("Successfully created!");
+                        form.resetFields();
+                        setModalVisible(false);
+                        fetchData();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        toast.error("Error created!");
+                    });
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
@@ -220,10 +228,21 @@ const PhaseTable = () => {
     };
 
     const layout = {
-        wrapperCol: {
-            offset: 5,
-            span: 19,
+        labelAlign: "left",
+        labelCol: {
+            span: 7,
         },
+        wrapperCol: {
+            span: 24,
+        },
+    };
+
+    const onChangeStart = (_, date) => {
+        setStartDay(date);
+    };
+
+    const onChangeEnd = (_, date) => {
+        setEndDay(date);
     };
 
     return (
@@ -250,68 +269,71 @@ const PhaseTable = () => {
                 onCancel={handleCancel}
             >
                 <Form
-                    {...layout}
                     style={{ marginTop: "30px", marginBottom: "30px" }}
                     form={form}
                     name="add_row_form"
                 >
-                    <St.FormItemStyled
+                    <Form.Item
+                        {...layout}
+                        label="Name"
                         name="name"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input the Name!",
+                                message: "Please input the name!",
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Name
-                            </Typography>
-                            <Input
-                                allowClear
-                                placeholder="Name"
-                                className="form__input"
-                                // style={{ fontFamily: "Signika !important"}}
-                            />
-                        </St.FlexStyled>
-                    </St.FormItemStyled>
-                    <St.FormItemStyled
+                        <Input placeholder="Name" allowClear />
+                    </Form.Item>
+
+                    <Form.Item
+                        {...layout}
+                        label="Option"
                         name="option"
                         rules={[
                             {
                                 required: true,
-                                message: "Please select the option!",
+                                message: "Please select a option!",
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Option
-                            </Typography>
-                            <Select
-                                className="form__input"
-                                options={option}
-                                defaultValue={option[1].value}
-                            />
-                        </St.FlexStyled>
-                    </St.FormItemStyled>
-                    <St.FormItemStyled
-                        name="date"
+                        <Select options={option} />
+                    </Form.Item>
+
+                    <Form.Item
+                        {...layout}
+                        name="start"
+                        label="Start Day"
                         rules={[
                             {
                                 required: true,
-                                message: "Please select the Range Time!",
+                                message: "Please select the start day!",
                             },
                         ]}
                     >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Range
-                            </Typography>
-                            <RangePicker className="form__input" />
-                        </St.FlexStyled>
-                    </St.FormItemStyled>
+                        <DatePicker
+                            onChange={onChangeStart}
+                            style={{ width: "100%" }}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        {...layout}
+                        name="end"
+                        label="End Day"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please select the end day!",
+                            },
+                        ]}
+                    >
+                        <DatePicker
+                            onChange={onChangeEnd}
+                            style={{ width: "100%" }}
+                        />
+                    </Form.Item>
                 </Form>
             </Modal>
 
