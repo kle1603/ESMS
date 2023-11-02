@@ -1,30 +1,25 @@
 // import PropTypes from 'prop-types'
 import {
-    Form,
-    Input,
-    Modal,
     Popconfirm,
     Select,
     Tag,
-    TimePicker,
     Typography,
 } from "antd";
 import * as St from "./SlotTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
-import ButtonAdd from "@/components/ButtonAdd";
 // import moment from "moment";
 // import moment from "moment";
 
 const SlotTable = () => {
-    const [form] = Form.useForm();
-    const [modalVisible, setModalVisible] = useState(false);
+    // const [form] = Form.useForm();
+    // const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
-    const format = "HH:mm";
+    // const format = "HH:mm";
 
     const columns = [
         {
@@ -132,22 +127,22 @@ const SlotTable = () => {
         fetchData();
     }, [semesterId]);
 
-    const handleOk = () => {
-        form.validateFields().then((values) => {
-            console.log(values.startTime.format("HH:mm"));
-        });
-    };
+    // const handleOk = () => {
+    //     form.validateFields().then((values) => {
+    //         console.log(values.startTime.format("HH:mm"));
+    //     });
+    // };
 
-    const handleCancel = () => {
-        form.resetFields();
-        setModalVisible(false);
-    };
+    // const handleCancel = () => {
+    //     form.resetFields();
+    //     setModalVisible(false);
+    // };
 
     const handleDelete = () => {};
 
-    const handleOnChange = (time, timeString) => {
-        console.log(time.format("HH:mm"), timeString);
-    };
+    // const handleOnChange = (time, timeString) => {
+    //     console.log(time.format("HH:mm"), timeString);
+    // };
 
     const handleSelect = (id, option) => {
         if (id !== semesterId) {
@@ -170,12 +165,12 @@ const SlotTable = () => {
                 />
             </St.StyledLeft>
 
-            <ButtonAdd
+            {/* <ButtonAdd
                 setModalVisible={setModalVisible}
                 title="Add new time slot"
-            />
+            /> */}
 
-            <Modal
+            {/* <Modal
                 title="Add new time slot"
                 open={modalVisible}
                 onOk={handleOk}
@@ -253,7 +248,7 @@ const SlotTable = () => {
                         </St.FlexStyled>
                     </Form.Item>
                 </Form>
-            </Modal>
+            </Modal> */}
 
             <St.SlotTable
                 columns={columns}

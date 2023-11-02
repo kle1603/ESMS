@@ -111,9 +111,9 @@ const RoomTable = () => {
             });
     };
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
+    // const handleAdd = () => {
+    //     setModalVisible(true);
+    // };
 
     const handleCancel = () => {
         form.resetFields();
@@ -151,7 +151,11 @@ const RoomTable = () => {
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                >
                     <Form.Item
                         name="roomNumber"
                         rules={[
