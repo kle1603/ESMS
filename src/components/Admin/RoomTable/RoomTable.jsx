@@ -93,7 +93,7 @@ const RoomTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { roomNumber, location } = values;
+                // const { roomNumber, location } = values;
                 console.log(values);
                 // instance
                 //     .post("rooms", { roomNum: roomNumber, location })

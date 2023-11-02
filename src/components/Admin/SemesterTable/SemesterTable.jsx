@@ -14,8 +14,6 @@ import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 
-const { RangePicker } = DatePicker;
-
 const SemesterTable = () => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);

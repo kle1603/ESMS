@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Flex, Table } from "antd";
+import { Table } from "antd";
 import Theme from "@/Theme";
 
 export const DivTable = styled.div`
@@ -12,22 +12,6 @@ export const DivTable = styled.div`
     }
 
     .ant-picker-input {
-        width: 100%;
-    }
-`;
-
-export const FlexStyled = styled(Flex)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .form__title {
-        min-width: 100px;
-        font-family: ${Theme.font.primary_font};
-        font-weight: 500;
-    }
-    .form__input {
-        font-family: ${Theme.font.primary_font};
         width: 100%;
     }
 `;
