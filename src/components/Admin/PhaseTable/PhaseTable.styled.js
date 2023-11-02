@@ -7,11 +7,6 @@ export const DivTable = styled.div`
     padding-top: 50px;
     position: relative;
 
-    .ant-form-item-explain-error {
-        /* position: absolute; */
-        /* color: green; */
-    }
-
     .ant-form-item-explain {
         margin-left: 100px;
     }

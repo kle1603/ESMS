@@ -57,9 +57,12 @@ const SemesterTable = () => {
             width: "15%",
             render: (record) => {
                 const currentDate = new Date();
-                const endTime = new Date(record.end);
+                const startDay = new Date(record.start);
+                const endDay = new Date(record.end);
 
-                if (currentDate > endTime) {
+                if (currentDate < startDay) {
+                    return <Tag color="blue">FUTURE</Tag>;
+                } else if (currentDate > endDay) {
                     return <Tag color="red">CLOSED</Tag>;
                 } else {
                     return <Tag color="green">ON-GOING</Tag>;
@@ -97,6 +100,7 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
+                console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({

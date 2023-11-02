@@ -1,5 +1,5 @@
 import Theme from "@/Theme";
-import { Button, Flex, Space, Table, Tag } from "antd";
+import { Button, Space, Table, Tag } from "antd";
 import styled from "styled-components";
 
 export const DivTable = styled.div`
