@@ -1,15 +1,6 @@
 // import PropTypes from "prop-types";
 
-import {
-    Button,
-    Form,
-    Input,
-    Modal,
-    Select,
-    Table,
-    Tag,
-    Typography,
-} from "antd";
+import { Button, Select, Table, Tag, Typography } from "antd";
 
 import * as St from "./ExamPhaseTable.styled";
 import { useNavigate } from "react-router-dom";
@@ -24,79 +15,6 @@ const ExamPhaseTable = () => {
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
     const navigate = useNavigate();
-
-    const fetchData = () => {
-        console.log(semesterId);
-
-        if (semesterId !== 0) {
-            instance
-                .get(`examPhases/${semesterId}`)
-                .then((res) => {
-                    console.log(res);
-                    const formattedData = res.data.data.map((item, index) => ({
-                        ...item,
-                        key: item.id,
-                        no: index + 1,
-                    }));
-                    console.log(formattedData);
-                    setData(formattedData);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    };
-
-    const fetchSemester = () => {
-        instance
-            .get("semesters")
-            .then((res) => {
-                const semestersData = res.data.data
-                    .sort((a, b) => b.id - a.id)
-                    .map((item) => ({
-                        label: item.season + " " + item.year,
-                        value: item.id,
-                    }));
-                setSemesterId(semestersData[0].value);
-                setSelectSemester(semestersData[0].label);
-                setSemesters(semestersData);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
-
-    useEffect(() => {
-        fetchSemester();
-    }, []);
-
-    useEffect(() => {
-        fetchData();
-    }, [semesterId]);
-
-    const handleEdit = (e) => {
-        console.log(e);
-        // navigate(configs.routes.staff + `/examPhase/${e.no}`);
-        navigate(configs.routes.staff + `/examPhase/${e.id}`, {
-            state: {
-                data: e,
-            },
-        });
-    };
-
-    const handleSelect = (id, option) => {
-        if (semesterId !== id) {
-            setLoading(true);
-            setSelectSemester(option.label);
-            setSemesterId(id);
-        }
-    };
 
     const columns = [
         // Your columns
@@ -167,6 +85,79 @@ const ExamPhaseTable = () => {
             },
         },
     ];
+
+    const fetchData = () => {
+        console.log(semesterId);
+
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
+                    console.log(res);
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: item.id,
+                        no: index + 1,
+                    }));
+                    console.log(formattedData);
+                    setData(formattedData);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    };
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data
+                    .sort((a, b) => b.id - a.id)
+                    .map((item) => ({
+                        label: item.season + " " + item.year,
+                        value: item.id,
+                    }));
+                setSemesterId(semestersData[0].value);
+                setSelectSemester(semestersData[0].label);
+                setSemesters(semestersData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
+    }, [semesterId]);
+
+    const handleEdit = (e) => {
+        console.log(e);
+        // navigate(configs.routes.staff + `/examPhase/${e.no}`);
+        navigate(configs.routes.staff + `/examSlot/${e.id}`, {
+            state: {
+                data: e,
+            },
+        });
+    };
+
+    const handleSelect = (id, option) => {
+        if (semesterId !== id) {
+            setLoading(true);
+            setSelectSemester(option.label);
+            setSemesterId(id);
+        }
+    };
 
     return (
         <St.DivTable>

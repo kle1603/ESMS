@@ -31,6 +31,88 @@ const PhaseTable = () => {
         { value: "Normal", label: "Normal" },
     ];
 
+    const columns = [
+        // Your columns
+        {
+            title: "No",
+            width: "5%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
+        },
+        {
+            title: "Name",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.ePName}</Typography>;
+            },
+        },
+        {
+            title: "Start Day",
+            width: "15%",
+            render: (record) => {
+                return <Typography>{record.startDay}</Typography>;
+            },
+        },
+        {
+            title: "End Day",
+            width: "15%",
+            render: (record) => {
+                return <Typography>{record.endDay}</Typography>;
+            },
+        },
+        {
+            title: "Type",
+            width: "15%",
+            render: (record) => {
+                if (record.des === 0) {
+                    return <Tag color="red">NORMAL</Tag>;
+                } else {
+                    return <Tag color="green">COURSERA</Tag>;
+                }
+            },
+        },
+        {
+            title: "Status",
+            width: "15%",
+            render: (record) => {
+                const currentDate = new Date();
+                const endTime = new Date(record);
+
+                if (currentDate > endTime) {
+                    return <Tag color="red">FINISHED</Tag>;
+                } else {
+                    return <Tag color="green">PENDING</Tag>;
+                }
+            },
+        },
+        {
+            title: "Operation",
+            width: "15%",
+            render: (record) => {
+                const currentDate = new Date();
+                const endTime = new Date(record);
+
+                if (currentDate > endTime) {
+                    return (
+                        <Typography.Link disabled>
+                            Can not delete
+                        </Typography.Link>
+                    );
+                } else {
+                    return (
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => handleDelete(record.key)}
+                        >
+                            <Typography.Link>Delete</Typography.Link>
+                        </Popconfirm>
+                    );
+                }
+            },
+        },
+    ];
+
     const fetchData = () => {
         setLoading(true);
         // console.log(semesterId);
@@ -137,87 +219,12 @@ const PhaseTable = () => {
         setSemesterId(id);
     };
 
-    const columns = [
-        // Your columns
-        {
-            title: "No",
-            width: "5%",
-            render: (record) => {
-                return <Typography>{record.no}</Typography>;
-            },
+    const layout = {
+        wrapperCol: {
+            offset: 5,
+            span: 19,
         },
-        {
-            title: "Name",
-            width: "20%",
-            render: (record) => {
-                return <Typography>{record.ePName}</Typography>;
-            },
-        },
-        {
-            title: "Start Day",
-            width: "15%",
-            render: (record) => {
-                return <Typography>{record.startDay}</Typography>;
-            },
-        },
-        {
-            title: "End Day",
-            width: "15%",
-            render: (record) => {
-                return <Typography>{record.endDay}</Typography>;
-            },
-        },
-        {
-            title: "Type",
-            width: "15%",
-            render: (record) => {
-                if (record.des === 0) {
-                    return <Tag color="red">NORMAL</Tag>;
-                } else {
-                    return <Tag color="green">COURSERA</Tag>;
-                }
-            },
-        },
-        {
-            title: "Status",
-            width: "15%",
-            render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record);
-
-                if (currentDate > endTime) {
-                    return <Tag color="red">FINISHED</Tag>;
-                } else {
-                    return <Tag color="green">PENDING</Tag>;
-                }
-            },
-        },
-        {
-            title: "Operation",
-            width: "15%",
-            render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record);
-
-                if (currentDate > endTime) {
-                    return (
-                        <Typography.Link disabled>
-                            Can not delete
-                        </Typography.Link>
-                    );
-                } else {
-                    return (
-                        <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
-                        >
-                            <Typography.Link>Delete</Typography.Link>
-                        </Popconfirm>
-                    );
-                }
-            },
-        },
-    ];
+    };
 
     return (
         <St.DivTable>
@@ -243,70 +250,68 @@ const PhaseTable = () => {
                 onCancel={handleCancel}
             >
                 <Form
+                    {...layout}
                     style={{ marginTop: "30px", marginBottom: "30px" }}
                     form={form}
                     name="add_row_form"
                 >
-                    <div>
-                        <Form.Item
-                            name="name"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input the Name!",
-                                },
-                            ]}
-                        >
-                            <St.FlexStyled>
-                                <Typography className="form__title">
-                                    Name
-                                </Typography>
-                                <Input
-                                    allowClear
-                                    placeholder="Name"
-                                    className="form__input"
-                                    // style={{ fontFamily: "Signika !important"}}
-                                />
-                            </St.FlexStyled>
-                        </Form.Item>
-
-                        <Form.Item
-                            name="option"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please select the option!",
-                                },
-                            ]}
-                        >
-                            <St.FlexStyled>
-                                <Typography className="form__title">
-                                    Option
-                                </Typography>
-                                <Select
-                                    className="form__input"
-                                    options={option}
-                                    defaultValue={option[1].value}
-                                />
-                            </St.FlexStyled>
-                        </Form.Item>
-                        <Form.Item
-                            name="date"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please select the Range Time!",
-                                },
-                            ]}
-                        >
-                            <St.FlexStyled>
-                                <Typography className="form__title">
-                                    Range
-                                </Typography>
-                                <RangePicker className="form__input" />
-                            </St.FlexStyled>
-                        </Form.Item>
-                    </div>
+                    <St.FormItemStyled
+                        name="name"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the Name!",
+                            },
+                        ]}
+                    >
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Name
+                            </Typography>
+                            <Input
+                                allowClear
+                                placeholder="Name"
+                                className="form__input"
+                                // style={{ fontFamily: "Signika !important"}}
+                            />
+                        </St.FlexStyled>
+                    </St.FormItemStyled>
+                    <St.FormItemStyled
+                        name="option"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please select the option!",
+                            },
+                        ]}
+                    >
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Option
+                            </Typography>
+                            <Select
+                                className="form__input"
+                                options={option}
+                                defaultValue={option[1].value}
+                            />
+                        </St.FlexStyled>
+                    </St.FormItemStyled>
+                    <St.FormItemStyled
+                        name="date"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please select the Range Time!",
+                            },
+                        ]}
+                    >
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Range
+                            </Typography>
+                            <RangePicker className="form__input" />
+                        </St.FlexStyled>
+                    </St.FormItemStyled>
                 </Form>
             </Modal>
 

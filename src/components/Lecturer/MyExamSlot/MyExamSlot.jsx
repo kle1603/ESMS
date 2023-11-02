@@ -15,6 +15,7 @@ const CancelRegisterTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
+    const [phaseId, setPhaseId] = useState(0);
     const navigate = useNavigate();
 
     // useEffect(() => {
@@ -22,26 +23,27 @@ const CancelRegisterTable = () => {
 
     const fetchData = () => {
         setLoading(true);
-        instance
-            .get(`examiners/examPhaseId?userId=256&examPhaseId=3`)
-            .then((res) => {
-                console.log(res);
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    key: index + 1,
-                    no: index + 1,
-                    startTime: item.startTime.slice(0, 5),
-                    endTime: item.endTime.slice(0, 5),
-                }));
-                setData(formattedData);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        console.log(phaseId);
+        if (phaseId !== 0) {
+            instance
+                .get(`examiners/examPhaseId?userId=256&examPhaseId=${phaseId}`)
+                .then((res) => {
+                    console.log(res);
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: index + 1,
+                        no: index + 1,
+                        startTime: item.startTime.slice(0, 5),
+                        endTime: item.endTime.slice(0, 5),
+                    }));
+                    setData(formattedData);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        }
     };
 
     const fetchSemester = () => {
@@ -64,6 +66,7 @@ const CancelRegisterTable = () => {
     };
 
     const fetchPhase = () => {
+        // console.log(semesterId);
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
@@ -74,7 +77,9 @@ const CancelRegisterTable = () => {
                             value: item.id,
                         }));
                         const newData = phaseData.reverse();
+                        console.log(newData);
                         setSelectPhase(newData[0].label);
+                        setPhaseId(newData[0].value);
                         setPhases(newData);
                     } else {
                         setSelectPhase("");
@@ -90,12 +95,15 @@ const CancelRegisterTable = () => {
 
     useEffect(() => {
         fetchSemester();
-        fetchData();
     }, []);
 
     useEffect(() => {
         fetchPhase();
     }, [semesterId]);
+
+    useEffect(() => {
+        fetchData();
+    }, [phaseId]);
 
     const handleRegister = () => {
         navigate("/lecturer/register");
@@ -104,18 +112,16 @@ const CancelRegisterTable = () => {
     const handleDelete = () => {};
 
     const handleSelectSemester = (id, option) => {
-        setLoading(true);
-        setData([]);
         setSelectSemester(option.label);
         setSemesterId(id);
+        setPhaseId(0);
+        setPhases([]);
     };
 
     const handleSelectPhase = (id, option) => {
-        setLoading(true);
-        setData([]);
         setSelectPhase(option.label);
+        setPhaseId(id);
     };
-
     const columns = [
         {
             title: "No",
