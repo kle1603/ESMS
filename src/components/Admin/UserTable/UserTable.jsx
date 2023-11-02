@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const UserTable = () => {
     const [data, setData] = useState([]);
@@ -161,9 +162,9 @@ const UserTable = () => {
             });
     };
 
-    const handleAdd = () => {
-        setModalVisible(true);
-    };
+    // const handleAdd = () => {
+    //     setModalVisible(true);
+    // };
 
     const handleCancel = () => {
         form.resetFields();
@@ -184,20 +185,19 @@ const UserTable = () => {
             <St.SpaceStyled>
                 <Search allowClear onSearch={handleSearch} />
             </St.SpaceStyled>
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
+
+            <ButtonAdd setModalVisible={setModalVisible} title="Add new user" />
             <Modal
-                title="Add a row"
+                title="Add new user"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                >
                     <Form.Item
                         name="role"
                         rules={[
@@ -212,7 +212,12 @@ const UserTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Role" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Role
+                            </Typography>
+                            <Input placeholder="Role" className="form__input" />
+                        </St.FlexStyled>
                     </Form.Item>
                     <Form.Item
                         name="email"
@@ -223,7 +228,15 @@ const UserTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Email" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Email
+                            </Typography>
+                            <Input
+                                placeholder="Email"
+                                className="form__input"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                     <Form.Item
                         name="name"
@@ -234,7 +247,12 @@ const UserTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Name" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Name
+                            </Typography>
+                            <Input placeholder="Name" className="form__input" />
+                        </St.FlexStyled>
                     </Form.Item>
                 </Form>
             </Modal>

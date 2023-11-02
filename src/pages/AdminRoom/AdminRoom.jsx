@@ -9,7 +9,6 @@ const AdminRoom = () => {
                 style={{
                     fontFamily: "Inter",
                     fontSize: "1.8rem",
-                    marginBottom: "40px",
                 }}
             >
                 Room

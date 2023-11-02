@@ -167,10 +167,10 @@ const SemesterTable = () => {
             <Toaster position="top-right" reverseOrder={false} />
             <ButtonAdd
                 setModalVisible={setModalVisible}
-                title="Add new Semester"
+                title="Add new semester"
             />
             <Modal
-                title="Add new Semester"
+                title="Add new semester"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}

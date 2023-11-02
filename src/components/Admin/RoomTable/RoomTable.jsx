@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
+import ButtonAdd from "@/components/ButtonAdd";
 
 const RoomTable = () => {
     const [search, setSearch] = useState("");
@@ -142,15 +143,10 @@ const RoomTable = () => {
             <St.SpaceStyled>
                 <Search onSearch={handleSearch} />
             </St.SpaceStyled>
-            <St.ButtonTable
-                onClick={handleAdd}
-                type="primary"
-                style={{ marginBottom: 16 }}
-            >
-                Add a row
-            </St.ButtonTable>
+
+            <ButtonAdd setModalVisible={setModalVisible} title="Add new room" />
             <Modal
-                title="Add a row"
+                title="Add a room"
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
@@ -169,8 +165,17 @@ const RoomTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Room Number" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Room Number
+                            </Typography>
+                            <Input
+                                placeholder="Room Number"
+                                className="form__input"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
+
                     <Form.Item
                         name="location"
                         rules={[
@@ -184,7 +189,15 @@ const RoomTable = () => {
                             },
                         ]}
                     >
-                        <Input placeholder="Location" />
+                        <St.FlexStyled>
+                            <Typography className="form__title">
+                                Location
+                            </Typography>
+                            <Input
+                                placeholder="Location"
+                                className="form__input"
+                            />
+                        </St.FlexStyled>
                     </Form.Item>
                 </Form>
             </Modal>
