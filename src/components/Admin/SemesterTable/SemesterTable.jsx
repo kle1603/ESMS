@@ -6,6 +6,7 @@ import {
     DatePicker,
     Tag,
     Typography,
+    Button,
 } from "antd";
 import { useEffect, useState } from "react";
 
@@ -187,6 +188,22 @@ const SemesterTable = () => {
     const onChangeEnd = (_, date) => {
         setEndDay(date);
     };
+
+    const modalFooter = () => {
+        return (
+            <>
+                <Button
+                    /*loading={buttonOk}*/ onClick={handleOk}
+                    type="primary"
+                >
+                    Submit
+                </Button>
+
+                <Button onClick={handleCancel}>Cancel</Button>
+            </>
+        );
+    };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -197,8 +214,9 @@ const SemesterTable = () => {
             <Modal
                 title="Add new semester"
                 open={modalVisible}
-                onOk={handleOk}
+                // onOk={handleOk}
                 onCancel={handleCancel}
+                footer={modalFooter()}
             >
                 <Form
                     form={form}

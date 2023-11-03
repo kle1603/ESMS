@@ -3,7 +3,7 @@ import { Avatar, Badge, Layout, Space } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 import * as St from "./HeaderLayout.styled";
 import PopUpOver from "../PopUpOver";
-import avatar from "../../assets/images/avatar.jpg";
+// import avatar from "../../assets/images/avatar.jpg";
 import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 
@@ -15,13 +15,7 @@ const HeaderLayout = () => {
         window.location.href = "/";
     }
 
-    const [decode, setDecode] = useState([
-        {
-            name: "Lam Huu Khanh Phuong",
-            email: "Phuong@gmail.com",
-            image_url: avatar,
-        }
-    ]);
+    const [decode, setDecode] = useState([]);
 
     useEffect(() => {
         const result = jwtDecode(token);

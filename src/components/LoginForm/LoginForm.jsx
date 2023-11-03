@@ -12,7 +12,7 @@ function Login() {
                     <h2 className="login-desc">
                         Join to create the future with us
                     </h2>
-                    <a      
+                    <a
                         href="http://localhost:8080/auth/google"
                         className="login-button"
                     >
