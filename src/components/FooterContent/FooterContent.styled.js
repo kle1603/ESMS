@@ -37,8 +37,8 @@ export const FooterStyled = styled.div`
             .title {
                 font-size: 1.4rem;
                 font-weight: 600;
-                font-family: Roboto Slab, sans-serif;
                 padding-bottom: 10px;
+                font-family: ${Theme.font.primary_font};
             }
 
             .copyright {
@@ -46,8 +46,8 @@ export const FooterStyled = styled.div`
                 justify-content: center;
                 align-items: center;
                 .desc {
+                    font-family: ${Theme.font.primary_font};
                     font-size: 1.2rem;
-                    font-family: Roboto Slab, sans-serif;
                 }
             }
         }
