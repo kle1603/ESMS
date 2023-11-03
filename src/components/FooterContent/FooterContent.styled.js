@@ -24,7 +24,7 @@ export const FooterStyled = styled.div`
                 font-size: 2rem;
                 font-weight: 700;
                 text-transform: uppercase;
-                font-family: Roboto Slab, sans-serif;
+                font-family: ${Theme.font.primary_font};
             }
         }
 
