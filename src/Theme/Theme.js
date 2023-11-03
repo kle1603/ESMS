@@ -21,6 +21,7 @@ const theme = {
         gray_1: "#ccc",
         gray_2: "#D9D9D9",
         gray_3: "#f5f5f5",
+        green_1: "green",
     },
     font: {
         primary_font: "Inter",

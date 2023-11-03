@@ -1,5 +1,14 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Select, Tag, Typography } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Popconfirm,
+    Select,
+    Tag,
+    Typography,
+} from "antd";
 import * as St from "./UserTable.styled";
 
 import { useEffect, useState } from "react";
@@ -216,6 +225,16 @@ const UserTable = () => {
         },
     ];
 
+    const modalFooter = () => {
+        return (
+            <>
+                <Button type="primary" onClick={handleOk}>
+                    Submit
+                </Button>
+                <Button onClick={handleCancel}>Cancel</Button>
+            </>
+        );
+    };
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -229,6 +248,7 @@ const UserTable = () => {
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
+                footer={modalFooter}
             >
                 <Form
                     form={form}

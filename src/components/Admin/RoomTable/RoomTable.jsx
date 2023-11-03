@@ -1,5 +1,14 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Select, Tag, Typography } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    Popconfirm,
+    Select,
+    Tag,
+    Typography,
+} from "antd";
 import * as St from "./RoomTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
@@ -158,6 +167,17 @@ const RoomTable = () => {
         },
     };
 
+    const modalFooter = () => {
+        return (
+            <>
+                <Button type="primary" onClick={handleOk}>
+                    Submit
+                </Button>
+                <Button onClick={handleCancel}>Cancel</Button>
+            </>
+        );
+    };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -171,6 +191,7 @@ const RoomTable = () => {
                 open={modalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
+                footer={modalFooter}
             >
                 <Form
                     form={form}

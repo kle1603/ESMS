@@ -24,7 +24,7 @@ export const DivSlot = styled.div`
     }
 
     .ant-form-item {
-        color: green;
+        color: ${Theme.color.green_1};
     }
 `;
 
@@ -81,7 +81,6 @@ export const ButtonRight = styled(Button)`
     position: absolute;
     right: 0;
     top: 0;
-    /* background-color: red; */
 `;
 
 export const SlotTable = styled(Table)`
