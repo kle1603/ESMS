@@ -10,17 +10,17 @@ import { useEffect, useState } from "react";
 const { Header } = Layout;
 
 const HeaderLayout = () => {
-    const token = document.cookie;
-    if (!token) {
-        window.location.href = "/";
-    }
+    // const token = document.cookie;
+    // if (!token) {
+    //     window.location.href = "/";
+    // }
 
     const [decode, setDecode] = useState([]);
 
-    useEffect(() => {
-        const result = jwtDecode(token);
-        setDecode(result);
-    }, []);
+    // useEffect(() => {
+    //     const result = jwtDecode(token);
+    //     setDecode(result);
+    // }, []);
 
     return (
         <Header

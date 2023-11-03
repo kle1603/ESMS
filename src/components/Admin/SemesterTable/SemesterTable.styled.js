@@ -14,6 +14,10 @@ export const DivTable = styled.div`
     .ant-picker-input {
         width: 100%;
     }
+
+    .ant-modal-close {
+        display: none;
+    }
 `;
 
 export const StyledTable = styled(Table)`
