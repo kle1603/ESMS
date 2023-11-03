@@ -81,7 +81,7 @@ const UserTable = () => {
                 data.length >= 1 ? (
                     <Popconfirm
                         title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.id)}
+                        onConfirm={() => handleDelete(record.email)}
                     >
                         <Typography.Link>Delete</Typography.Link>
                     </Popconfirm>
@@ -93,9 +93,10 @@ const UserTable = () => {
         setLoading(true);
         instance
             .get(`users/${search}`, {
-                params: { page_no: page, limit: 5 },
+                params: { page_no: page, limit: 10 },
             })
             .then((res) => {
+                console.log(res);
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);
                     const formattedData = res.data.data.Data.map((item) => ({
@@ -127,6 +128,7 @@ const UserTable = () => {
     }, [search, page]);
 
     const handleDelete = (e) => {
+        // console.log(e);
         setLoading(true);
         instance
             .delete("users", { data: { email: e } })
@@ -143,13 +145,19 @@ const UserTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                const { role, email, name } = values;
+                // const { role, email, name } = values;
                 // console.log(values.role);
                 // console.log(values.email);
                 // console.log(values.name);
                 // console.log(values);
+                const formatEmail = values.email.toLowerCase();
+                // console.log(formatEmail);
                 instance
-                    .post("users", { role, email, name })
+                    .post("users", {
+                        role: values.role,
+                        email: formatEmail,
+                        name: values.name,
+                    })
                     .then(() => {
                         toast.success("Successfully created!");
                         form.resetFields();
@@ -195,15 +203,15 @@ const UserTable = () => {
 
     const role = [
         {
-            value: 1,
+            value: "admin",
             label: "Admin",
         },
         {
-            value: 2,
+            value: "staff",
             label: "Staff",
         },
         {
-            value: 3,
+            value: "lecturer",
             label: "Lecturer",
         },
     ];
@@ -237,6 +245,7 @@ const UserTable = () => {
                                 message: "Please choose role!",
                             },
                         ]}
+                        initialValue={role[0].value}
                     >
                         <Select options={role} />
                     </Form.Item>
@@ -274,8 +283,8 @@ const UserTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 5,
-                    hideOnSinglePage: data.length <= 5,
+                    pageSize: 10,
+                    hideOnSinglePage: data.length <= 10,
                     showSizeChanger: false,
                     total: total,
                     showQuickJumper: true,
