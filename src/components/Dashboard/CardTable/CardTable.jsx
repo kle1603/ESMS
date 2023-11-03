@@ -1,6 +1,5 @@
 // import PropTypes from "prop-types";
-
-import { Card, Divider, Popconfirm, Table, Tag, Typography } from "antd";
+import { Card, Divider, Table, Tag } from "antd";
 import { useState } from "react";
 
 const CardTable = () => {

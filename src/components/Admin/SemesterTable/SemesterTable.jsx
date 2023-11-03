@@ -215,7 +215,7 @@ const SemesterTable = () => {
                 title="Add new semester"
                 open={modalVisible}
                 // onOk={handleOk}
-                // onCancel={handleCancel}
+                onCancel={handleCancel}
                 footer={modalFooter()}
             >
                 <Form

@@ -1,4 +1,5 @@
 import {
+    Button,
     DatePicker,
     Form,
     Input,
@@ -246,6 +247,17 @@ const PhaseTable = () => {
         setEndDay(date);
     };
 
+    const modalFooter = () => {
+        return (
+            <>
+                <Button type="primary" onClick={handleOk}>
+                    Submit
+                </Button>
+                <Button onClick={handleCancel}>Cancel</Button>
+            </>
+        );
+    };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -268,8 +280,9 @@ const PhaseTable = () => {
             <Modal
                 title="Add new phase"
                 open={modalVisible}
-                onOk={handleOk}
+                // onOk={handleOk}
                 onCancel={handleCancel}
+                footer={modalFooter}
             >
                 <Form
                     style={{ marginTop: "30px", marginBottom: "30px" }}

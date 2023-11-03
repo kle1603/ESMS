@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
 
 import * as St from "./SubjectTable.styled";
 import { useEffect, useState } from "react";
@@ -147,6 +147,17 @@ const SubjectTable = () => {
         },
     };
 
+    const modalFooter = () => {
+        return (
+            <>
+                <Button type="primary" onClick={handleOk}>
+                    Submit
+                </Button>
+
+                <Button onClick={handleCancel}>Cancel</Button>
+            </>
+        );
+    };
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -158,35 +169,15 @@ const SubjectTable = () => {
             <Modal
                 title="Add a subject"
                 open={modalVisible}
-                onOk={handleOk}
+                // onOk={handleOk}/
                 onCancel={handleCancel}
+                footer={modalFooter}
             >
                 <Form
                     form={form}
                     name="add_row_form"
                     style={{ marginTop: "30px", marginBottom: "30px" }}
                 >
-                    {/* <Form.Item
-                        name="semester"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input the semester!",
-                            },
-                        ]}
-                    >
-                        <St.FlexStyled>
-                            <Typography className="form__title">
-                                Semester
-                            </Typography>
-                            <Input
-                                allowClear
-                                className="form__input"
-                                placeholder="Semester"
-                            />
-                        </St.FlexStyled>
-                    </Form.Item> */}
-
                     <Form.Item
                         {...layout}
                         name="subjectName"
@@ -198,7 +189,7 @@ const SubjectTable = () => {
                             },
                         ]}
                     >
-                        <Input allowClear placeholder="Subject Name" />
+                        <Input allowClear placeholder="Subject Name"  />
                     </Form.Item>
 
                     <Form.Item
