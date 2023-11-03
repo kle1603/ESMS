@@ -16,12 +16,16 @@ const theme = {
         //màu xếp tùy hứng
         blue_1: "#0043BE",
         blue_2: "#1677ff",
+        blue_3: "#4096ff",
+        blue_4: "#5145e5",
         white_color: "#fff",
         white_matte: "rgba(255, 255, 255, 0.7)",
         gray_1: "#ccc",
         gray_2: "#D9D9D9",
         gray_3: "#f5f5f5",
+        gray_4: "#3d3d3da8",
         green_1: "green",
+        black_1: "#000",
     },
     font: {
         primary_font: "Inter",

@@ -10,7 +10,7 @@ export const DivAvatar = styled.div`
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        background-color: ${Theme.color.primary_color};
+        background-color: ${Theme.color.white_color};
         box-shadow: 0px 0px 8px 2px #dfdfdf;
         height: 40px;
         border-radius: 999px;
@@ -33,14 +33,14 @@ export const DivAvatar = styled.div`
             font-size: 1.6rem;
             font-weight: 600;
             font-family: ${Theme.font.primary_font};
-            color: ${Theme.color.secondary_color};
+            color: ${Theme.color.black_1};
         }
 
         .avatar__desc {
             line-height: 1.6rem;
             font-size: 1.2rem;
             font-family: ${Theme.font.primary_font};
-            color: ${Theme.color.third_color};
+            color: ${Theme.color.gray_4};
         }
     }
 
@@ -56,7 +56,7 @@ export const DivAvatar = styled.div`
 
 export const MenuLogo = styled(Menu)`
     color: red;
-    background-color: white;
+    background-color: ${Theme.color.white_color};
 `;
 
 export const SideDiv = styled.div`
@@ -85,7 +85,7 @@ export const SideDiv = styled.div`
 
     .sidebar__heading {
         font-size: 1.8rem;
-        color: ${Theme.primary_color_background};
+        color: ${Theme.color.blue_4};
 
         font-family: ${Theme.font.primary_font};
     }
