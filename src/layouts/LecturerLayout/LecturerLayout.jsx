@@ -1,6 +1,5 @@
 import { Layout, Menu } from "antd";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import items, { item } from "./LecturerLayout.items";
 
 import AdminHeader from "@/components/HeaderLayout/index.js";
@@ -9,11 +8,15 @@ import { useState } from "react";
 import * as St from "./LecturerLayout.styled";
 import logo from "@/assets/images/Logo.svg";
 import FooterContent from "@/components/FooterContent/FooterContent";
+import cookies from "@/utils/cookies";
+import useAuth from "@/hooks/useAuth";
+import { signOut } from "@/contexts/auth/actions";
 
 const { Content } = Layout;
 
-const LecturerLayout = ({ children }) => {
+const LecturerLayout = () => {
     // const [collapsed, setCollapsed] = useState(false);
+    const { dispatch } = useAuth();
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(window.location.pathname);
 
@@ -21,9 +24,15 @@ const LecturerLayout = ({ children }) => {
         navigate(e.key);
         setActiveKey(e.key);
     };
+
     const handleClickLogo = () => {
         navigate("/lecturer");
         setActiveKey("/lecturer");
+    };
+
+    const handleLogOut = () => {
+        cookies.removeToken();
+        dispatch(signOut());
     };
 
     return (
@@ -58,6 +67,7 @@ const LecturerLayout = ({ children }) => {
                         selectedKeys={[activeKey]}
                         mode="inline"
                         items={item}
+                        onClick={handleLogOut}
                     />
                 </div>
             </St.StyleSider>
@@ -73,17 +83,13 @@ const LecturerLayout = ({ children }) => {
                     }}
                 >
                     <div style={{ minHeight: "calc(100vh - 100px)" }}>
-                        {children}
+                        <Outlet />
                     </div>
                     <FooterContent />
                 </Content>
             </Layout>
         </Layout>
     );
-};
-
-LecturerLayout.propTypes = {
-    children: PropTypes.node.isRequired,
 };
 
 export default LecturerLayout;
