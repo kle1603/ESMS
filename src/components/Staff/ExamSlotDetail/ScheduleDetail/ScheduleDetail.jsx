@@ -1,7 +1,7 @@
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import instance from "@/utils/instance";
-import { Table, Typography } from "antd";
+import { Table, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -9,6 +9,7 @@ const ScheduleDetail = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
+    const pageSize = 10;
 
     const columns = [
         // Your columns
@@ -21,14 +22,21 @@ const ScheduleDetail = ({ noti }) => {
         },
         {
             title: "Course",
-            width: "20%",
+            width: "18%",
             render: (record) => {
                 return <Typography>{record.subCode}</Typography>;
             },
         },
         {
+            title: "Num of Students",
+            width: "18%",
+            render: (record) => {
+                return <Typography>{record.numOfStu}</Typography>;
+            },
+        },
+        {
             title: "Room",
-            width: "20%",
+            width: "15%",
             render: (record) => {
                 return <Typography>{record.roomNum}</Typography>;
             },
@@ -37,17 +45,22 @@ const ScheduleDetail = ({ noti }) => {
             title: "Examiner",
             width: "20%",
             render: (record) => {
-                return <Typography>{record.examiner}</Typography>;
+                if (record.examiner === "N/A") {
+                    return <Tag color="volcano">EMPTY</Tag>;
+                } else {
+                    return <Typography>{record.examiner}</Typography>;
+                }
             },
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "19%",
             render: () => {
                 return <Typography.Link>Edit</Typography.Link>;
             },
         },
     ];
+
     useEffect(() => {
         // call api here
         fetchScheduleDetail();
@@ -58,7 +71,6 @@ const ScheduleDetail = ({ noti }) => {
         instance
             .get(`examRooms/getExamRoomDetailByPhase?examSlotId=${param.id}`)
             .then((res) => {
-                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
@@ -82,14 +94,16 @@ const ScheduleDetail = ({ noti }) => {
                 loading={loading}
                 bordered
                 pagination={{
-                    pageSize: 5,
-                    hideOnSinglePage: data.length <= 5,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                 }}
             />
         </div>
     );
 };
 
-ScheduleDetail.propTypes = {};
+ScheduleDetail.propTypes = {
+    noti: PropTypes.bool,
+};
 
 export default ScheduleDetail;

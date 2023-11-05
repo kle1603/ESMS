@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
-import ExcelFile from "@/components/ExcelFile";
 // import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
@@ -17,6 +16,7 @@ const CourseTable = () => {
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
+    const pageSize = 10
 
     const fetchSemester = () => {
         instance
@@ -160,14 +160,14 @@ const CourseTable = () => {
     const columns = [
         {
             title: "No",
-            width: "10%",
+            width: "15%",
             render: (record) => {
                 return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Course Code",
-            width: "20%",
+            width: "25%",
             render: (record) => {
                 return <Typography>{record.subCode}</Typography>;
             },
@@ -181,7 +181,7 @@ const CourseTable = () => {
         },
         {
             title: "Status",
-            width: "10%",
+            width: "20%",
             render: (record) => {
                 let color = "geekblue";
                 if (record.status === 1) {
@@ -196,7 +196,7 @@ const CourseTable = () => {
         },
         {
             title: "Operation",
-            width: "15%",
+            width: "20%",
             render: (_, record) =>
                 data.length >= 1 ? (
                     <Popconfirm
@@ -242,8 +242,8 @@ const CourseTable = () => {
                     columns={columns}
                     rowClassName="editable-row"
                     pagination={{
-                        pageSize: 6,
-                        hideOnSinglePage: data.length <= 6,
+                        pageSize: pageSize,
+                        hideOnSinglePage: data.length <= pageSize,
                         showSizeChanger: false,
                     }}
                     loading={loading}

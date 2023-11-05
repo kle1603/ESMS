@@ -2,10 +2,10 @@ import configs from "@/configs";
 import AuthGuard from "@/guards/AuthGuard";
 import RoleBasedGuard from "@/guards/RoleBasedGuard";
 import LecturerLayout from "@/layouts/LecturerLayout";
-import LecturerDashboard from "@/pages/LecturerDashboard";
-import LecturerExamSlots from "@/pages/LecturerExamSlots";
-import LecturerRegister from "@/pages/LecturerRegister";
-import LecturerSchedule from "@/pages/LecturerSchedule";
+import LecturerDashboard from "@/pages/Lecturer/LecturerDashboard";
+import LecturerExamSlots from "@/pages/Lecturer/LecturerExamSlots";
+import LecturerRegister from "@/pages/Lecturer/LecturerRegister";
+import LecturerSchedule from "@/pages/Lecturer/LecturerSchedule";
 import PageNotFound from "@/pages/PageNotFound";
 import { LECTURER } from "@/utils/constants";
 

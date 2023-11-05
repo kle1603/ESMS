@@ -3,7 +3,6 @@ import {
     DatePicker,
     Form,
     Input,
-    Modal,
     Popconfirm,
     Select,
     Tag,
@@ -27,6 +26,7 @@ const PhaseTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
+    const pageSize = 10;
 
     const option = [
         { value: 0, label: "Normal" },
@@ -53,14 +53,14 @@ const PhaseTable = () => {
             title: "Start Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.startDay}</Typography>;
+                return <Typography>{record.sDay}</Typography>;
             },
         },
         {
             title: "End Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.endDay}</Typography>;
+                return <Typography>{record.eDay}</Typography>;
             },
         },
         {
@@ -120,6 +120,7 @@ const PhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
+                    console.log(res.data.data);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
@@ -250,10 +251,10 @@ const PhaseTable = () => {
     const modalFooter = () => {
         return (
             <>
+                <Button onClick={handleCancel}>Cancel</Button>
                 <Button type="primary" onClick={handleOk}>
                     Submit
                 </Button>
-                <Button onClick={handleCancel}>Cancel</Button>
             </>
         );
     };
@@ -277,11 +278,11 @@ const PhaseTable = () => {
                 title="Add new phase"
             />
 
-            <Modal
+            <St.ModalStyled
                 title="Add new phase"
                 open={modalVisible}
                 // onOk={handleOk}
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter}
             >
                 <Form
@@ -352,7 +353,7 @@ const PhaseTable = () => {
                         />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
 
             <St.StyledTable
                 columns={columns}
@@ -360,8 +361,8 @@ const PhaseTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                 }}
             />
         </St.DivTable>

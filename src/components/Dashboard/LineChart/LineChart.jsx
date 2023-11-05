@@ -23,13 +23,14 @@ ChartJS.register(
     Legend
 );
 
-const LineChart = () => {
-    const data = {
-        labels: ["Sep", "Oct", "Nov", "Dec"],
+const LineChart = ({ data, loading }) => {
+    const datas = {
+        // labels: ["Sep", "Oct", "Nov", "Dec"],
+        labels: data.map((item) => item.day),
         datasets: [
             {
-                label: "Fall",
-                data: [2, 8, 3, 9],
+                label: "Value",
+                data: data.map((item) => item.num),
                 // backgroundColor: "transparent",
                 backgroundColor: "rgb(75, 192, 192)",
                 borderColor: "rgb(75, 192, 192)",
@@ -47,7 +48,7 @@ const LineChart = () => {
             legend: false,
             title: {
                 display: true,
-                text: "Performance Fall 2023",
+                text: "Performance",
                 font: {
                     size: 16,
                     weight: "bold",
@@ -62,7 +63,7 @@ const LineChart = () => {
             },
             y: {
                 min: 0,
-                max: 10,
+                max: 20,
                 ticks: {
                     stepSize: 2,
                 },
@@ -71,8 +72,8 @@ const LineChart = () => {
     };
 
     return (
-        <St.CardStyled hoverable loading={false}>
-            <Line className="chart" data={data} options={option} />
+        <St.CardStyled hoverable loading={loading}>
+            <Line className="chart" data={datas} options={option} />
         </St.CardStyled>
     );
 };

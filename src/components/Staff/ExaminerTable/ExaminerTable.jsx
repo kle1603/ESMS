@@ -26,6 +26,7 @@ const ExaminerTable = () => {
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
+    const pageSize = 10;
 
     const columns = [
         {
@@ -298,8 +299,8 @@ const ExaminerTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 5,
-                    hideOnSinglePage: data.length <= 5,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                     showSizeChanger: false,
                     showQuickJumper: true,
                     // onChange: handleChange,

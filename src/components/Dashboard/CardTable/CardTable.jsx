@@ -1,116 +1,54 @@
 // import PropTypes from "prop-types";
-import { Card, Divider, Table, Tag } from "antd";
-import { useState } from "react";
+import { Card, Divider, Table, Typography } from "antd";
 
-const CardTable = () => {
-    const [data, setData] = useState([
-        {
-            key: 1,
-            no: 1,
-            day: "17/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-            status: "On going",
-        },
-        {
-            key: 2,
-            no: 2,
-            day: "18/10/2023",
-            startTime: "8:00",
-            endTime: "10:00",
-            status: "On going",
-        },
-        {
-            key: 3,
-            no: 3,
-            day: "18/10/2023",
-            startTime: "12:00",
-            endTime: "14:00",
-            status: "On going",
-        },
-        {
-            key: 4,
-            no: 4,
-            day: "18/10/2023",
-            startTime: "15:00",
-            endTime: "17:00",
-            status: "On going",
-        },
-    ]);
+const CardTable = ({ data, loading }) => {
+    const newData = data;
 
     const columns = [
         {
             title: "No",
-            dataIndex: "no",
-            key: "no",
-            width: "10%",
-        },
-        {
-            title: "Day",
-            dataIndex: "day",
-            key: "day",
-            width: "25%",
-            onCell: (record, rowIndex) => {
-                let rowSpan = 1;
-                if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
-                    rowSpan = 0;
-                } else {
-                    let count = 0;
-                    while (
-                        rowIndex + count < data.length &&
-                        data[rowIndex + count].day === record.day
-                    ) {
-                        count++;
-                    }
-                    rowSpan = count;
-                }
-                return {
-                    rowSpan: rowSpan,
-                };
+            width: "15%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
             },
         },
         {
-            title: "Start Time",
-            dataIndex: "startTime",
-            key: "startTime",
-            width: "20%",
+            title: "Name",
+            width: "35%",
+            render: (record) => {
+                return <Typography>{record.exName}</Typography>;
+            },
         },
         {
-            title: "End Time",
-            dataIndex: "endTime",
-            key: "endTime",
-            width: "20%",
-        },
-        {
-            title: "Status",
-            dataIndex: "status",
+            title: "Email",
             width: "25%",
-            render: (status) => {
-                let color = status.length > 5 ? "geekblue" : "volcano";
-                if (status === "lecturer") {
-                    color = "magenta";
-                }
-                return (
-                    <Tag color={color} key={status}>
-                        {status.toUpperCase()}
-                    </Tag>
-                );
+            render: (record) => {
+                return <Typography>{record.exEmail}</Typography>;
+            },
+        },
+        {
+            title: "Total Slot",
+            width: "25%",
+            render: (record) => {
+                return <Typography>{record.quantity}</Typography>;
             },
         },
     ];
     return (
         <div>
             <Card hoverable>
-                <Divider orientation="left">Schedule</Divider>
+                <Divider orientation="left">
+                    Top three examiner per phase
+                </Divider>
                 <Table
                     scroll={{ x: true }}
                     columns={columns}
-                    dataSource={data}
+                    dataSource={newData}
                     bordered
-                    loading={false}
+                    loading={loading}
                     pagination={{
                         pageSize: 6,
-                        hideOnSinglePage: data.length <= 6,
+                        hideOnSinglePage: newData.length <= 6,
                         showSizeChanger: false,
                     }}
                 />

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import instance from "@/utils/instance";
 import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
@@ -76,6 +77,8 @@ const CourseTable = ({ noti }) => {
     );
 };
 
-CourseTable.propTypes = {};
+CourseTable.propTypes = {
+    noti: PropTypes.bool,
+};
 
 export default CourseTable;

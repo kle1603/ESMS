@@ -23,6 +23,7 @@ const ExamPhaseTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [buttonStatus, setButtonStatus] = useState(true);
     const [statusButton, setStatusButton] = useState(false);
+    const pageSize = 10;
 
     const columns = [
         // Your columns
@@ -261,8 +262,8 @@ const ExamPhaseTable = () => {
                     bordered
                     loading={loading}
                     pagination={{
-                        pageSize: 6,
-                        hideOnSinglePage: data.length <= 6,
+                        pageSize: pageSize,
+                        hideOnSinglePage: data.length <= pageSize,
                     }}
                 />
             </St.DivTable>

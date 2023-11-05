@@ -1,14 +1,5 @@
 // import PropTypes from "prop-types";
-import {
-    Button,
-    Form,
-    Input,
-    Modal,
-    Popconfirm,
-    Select,
-    Tag,
-    Typography,
-} from "antd";
+import { Button, Form, Input, Popconfirm, Select, Tag, Typography } from "antd";
 import * as St from "./UserTable.styled";
 
 import { useEffect, useState } from "react";
@@ -25,6 +16,7 @@ const UserTable = () => {
     const [search, setSearch] = useState("");
     const [total, setTotal] = useState();
     const [page, setPage] = useState();
+    const pageSize = 10;
 
     const columns = [
         {
@@ -102,7 +94,7 @@ const UserTable = () => {
         setLoading(true);
         instance
             .get(`users/${search}`, {
-                params: { page_no: page, limit: 10 },
+                params: { page_no: page, limit: pageSize },
             })
             .then((res) => {
                 console.log(res);
@@ -213,25 +205,25 @@ const UserTable = () => {
     const role = [
         {
             value: "admin",
-            label: "Admin",
+            label: "ADMIN",
         },
         {
             value: "staff",
-            label: "Staff",
+            label: "STAFF",
         },
         {
             value: "lecturer",
-            label: "Lecturer",
+            label: "LECTURER",
         },
     ];
 
     const modalFooter = () => {
         return (
             <>
+                <Button onClick={handleCancel}>Cancel</Button>
                 <Button type="primary" onClick={handleOk}>
                     Submit
                 </Button>
-                <Button onClick={handleCancel}>Cancel</Button>
             </>
         );
     };
@@ -243,11 +235,11 @@ const UserTable = () => {
             </St.SpaceStyled>
 
             <ButtonAdd setModalVisible={setModalVisible} title="Add new user" />
-            <Modal
+            <St.ModalStyled
                 title="Add new user"
                 open={modalVisible}
                 onOk={handleOk}
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter}
             >
                 <Form
@@ -296,15 +288,15 @@ const UserTable = () => {
                         <Input placeholder="Name" allowClear />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
             <St.StyledTable
                 columns={columns}
                 dataSource={data}
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 10,
-                    hideOnSinglePage: data.length <= 10,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                     showSizeChanger: false,
                     total: total,
                     showQuickJumper: true,
