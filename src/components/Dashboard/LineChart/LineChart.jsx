@@ -10,6 +10,7 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
+import PropTypes from "prop-types";
 
 import * as St from "./LineChart.styled";
 
@@ -24,6 +25,10 @@ ChartJS.register(
 );
 
 const LineChart = ({ data, loading }) => {
+    if (!Array.isArray(data)) {
+        return null;
+    }
+
     const datas = {
         // labels: ["Sep", "Oct", "Nov", "Dec"],
         labels: data.map((item) => item.day),
@@ -78,6 +83,9 @@ const LineChart = ({ data, loading }) => {
     );
 };
 
-LineChart.propTypes = {};
+LineChart.propTypes = {
+    data: PropTypes.array,
+    loading: PropTypes.bool,
+};
 
 export default LineChart;
