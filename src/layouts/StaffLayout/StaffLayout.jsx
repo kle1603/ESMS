@@ -8,12 +8,15 @@ import { useState } from "react";
 import * as St from "./StaffLayout.styled";
 import logo from "@/assets/images/Logo.svg";
 import FooterContent from "@/components/FooterContent/FooterContent";
-import configs from "@/configs";
+import useAuth from "@/hooks/useAuth";
+import cookies from "@/utils/cookies";
+import { signOut } from "@/contexts/auth/actions";
 
 const { Content } = Layout;
 
 const StaffLayout = () => {
     // const [collapsed, setCollapsed] = useState(false);
+    const { dispatch } = useAuth();
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(window.location.pathname);
 
@@ -26,9 +29,9 @@ const StaffLayout = () => {
         setActiveKey("/staff");
     };
 
-    const handleLogout = () => {
-        document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        navigate(configs.routes.login);
+    const handleLogOut = () => {
+        cookies.removeToken();
+        dispatch(signOut());
     };
 
     return (
@@ -58,7 +61,7 @@ const StaffLayout = () => {
                 </div>
                 <div className="bottom__wrapper">
                     <Menu
-                        onClick={handleLogout}
+                        onClick={handleLogOut}
                         style={{ borderInlineEnd: "none", marginBottom: "2px" }}
                         // defaultSelectedKeys={[window.location.pathname]}
                         selectedKeys={[activeKey]}

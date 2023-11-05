@@ -33,6 +33,9 @@ const DashboardTable = () => {
     const [dataTop, setDataTop] = useState([]);
     const [loadingDataTop, setLoadingDataTop] = useState(true);
 
+    const [totalCourseAndStu, setTotalCourseAndStu] = useState([]);
+    const [loadingCourseAndStu, setLoadingCourseAndStu] = useState(true);
+
     const fetchSemester = () => {
         instance
             .get("semesters")
@@ -172,7 +175,6 @@ const DashboardTable = () => {
             instance
                 .get(`dashboard/topThreeExaminerDashBoard?ePId=${phaseId}`)
                 .then((res) => {
-                    console.log(res.data.data);
                     const formatData = res.data.data.map((item, index) => ({
                         ...item,
                         key: index + 1,
@@ -191,6 +193,26 @@ const DashboardTable = () => {
         }
     };
 
+    const fetchCourseAndStu = () => {
+        setLoadingCourseAndStu(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/courseAndNumOfStuDashBoard?ePId=${phaseId}`)
+                .then((res) => {
+                    const newData = res.data.data;
+                    setTotalCourseAndStu(newData);
+                    setLoadingCourseAndStu(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        } else {
+            setTotalCourseAndStu([]);
+            // setLoading(false);
+        }
+    };
+
     // useEffect(() => {
     //     fetchData();
     // }, [page]);
@@ -201,6 +223,7 @@ const DashboardTable = () => {
         fetchSlot();
         fetchTotalRegisterByDay();
         fetchTopExaminer();
+        fetchCourseAndStu();
     }, [phaseId]);
 
     useEffect(() => {
@@ -296,8 +319,13 @@ const DashboardTable = () => {
                     <LineChart loading={loadingRegister} data={totalRegister} />
                 </Col>
                 <Col xs={24}>
-                    <Divider orientation="left">Hello</Divider>
-                    <BarChart />
+                    <Divider orientation="left">
+                        Number of students per course
+                    </Divider>
+                    <BarChart
+                        data={totalCourseAndStu}
+                        loading={loadingCourseAndStu}
+                    />
                 </Col>
                 <Col xs={24}>
                     <Divider orientation="left">Top examiner</Divider>
