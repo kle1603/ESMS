@@ -1,6 +1,5 @@
 import { Layout, Menu } from "antd";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import items, { item } from "./AdminLayout.items";
 
 import AdminHeader from "@/components/HeaderLayout/index.js";
@@ -12,7 +11,7 @@ import FooterContent from "@/components/FooterContent/FooterContent";
 
 const { Content } = Layout;
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = () => {
     // const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(window.location.pathname);
@@ -73,17 +72,13 @@ const AdminLayout = ({ children }) => {
                     }}
                 >
                     <div style={{ minHeight: "calc(100vh - 100px)" }}>
-                        {children}
+                        <Outlet />
                     </div>
                     <FooterContent />
                 </Content>
             </Layout>
         </Layout>
     );
-};
-
-AdminLayout.propTypes = {
-    children: PropTypes.node.isRequired,
 };
 
 export default AdminLayout;

@@ -21,7 +21,7 @@ function Login() {
                     </a>
                     <div className="login-contact">
                         <p>
-                            Cannot login?{" "}
+                            Cannot login?
                             <a className="login-contact-link">Contact admin</a>
                         </p>
                     </div>
