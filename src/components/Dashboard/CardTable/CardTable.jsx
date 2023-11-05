@@ -1,4 +1,4 @@
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Card, Divider, Table, Typography } from "antd";
 
 const CardTable = ({ data, loading }) => {
@@ -61,6 +61,9 @@ const CardTable = ({ data, loading }) => {
     );
 };
 
-CardTable.propTypes = {};
+CardTable.propTypes = {
+    data: PropTypes.array,
+    loading: PropTypes.bool,
+};
 
 export default CardTable;

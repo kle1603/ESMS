@@ -8,11 +8,15 @@ import { useState } from "react";
 import * as St from "./AdminLayout.styled";
 import logo from "@/assets/images/Logo.svg";
 import FooterContent from "@/components/FooterContent/FooterContent";
+import cookies from "@/utils/cookies";
+import useAuth from "@/hooks/useAuth";
+import { signOut } from "@/contexts/auth/actions";
 
 const { Content } = Layout;
 
 const AdminLayout = () => {
     // const [collapsed, setCollapsed] = useState(false);
+    const { dispatch } = useAuth();
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(window.location.pathname);
 
@@ -23,6 +27,11 @@ const AdminLayout = () => {
     const handleClickLogo = () => {
         navigate("/admin");
         setActiveKey("/admin");
+    };
+
+    const handleLogOut = () => {
+        cookies.removeToken();
+        dispatch(signOut());
     };
 
     return (
@@ -56,7 +65,7 @@ const AdminLayout = () => {
                         selectedKeys={[activeKey]}
                         mode="inline"
                         items={item}
-                        onClick={handleClick}
+                        onClick={handleLogOut}
                     />
                 </div>
             </St.StyleSider>
