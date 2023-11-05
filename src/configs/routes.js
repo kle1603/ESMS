@@ -14,12 +14,16 @@ const routes = {
     staffExamPhase: "/staff/examPhase",
     staffExamSlot: "/staff/examSlot/:id",
     staffExamSlotDetail: "/staff/examSlotDetail/:id",
+    staffVolunteers: "/staff/volunteers",
     lecturer: "/lecturer",
     lecturerRegister: "/lecturer/register/:id",
     lecturerExamSlots: "/lecturer/examSlots",
     lecturerSchedule: "/lecturer/schedule",
     pageNotFound: "/*",
     adminTest: "/admin/test",
+    student: "/student",
+    studentExamSlots: "/student/examSlot",
+    studentSchedule: "/student/schedule",
 };
 
 export default routes;

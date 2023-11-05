@@ -1,8 +1,7 @@
-import { Flex, Form, Popconfirm, Select, Tag, Typography } from "antd";
+import { Flex, Form, Select, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
-import toast, { Toaster } from "react-hot-toast";
 // import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
@@ -16,7 +15,7 @@ const CourseTable = () => {
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
-    const pageSize = 10
+    const pageSize = 10;
 
     const fetchSemester = () => {
         instance
@@ -101,47 +100,6 @@ const CourseTable = () => {
         fetchPhase();
     }, [semesterId]);
 
-    const handleDelete = (e) => {
-        instance
-            .delete("courses", { data: { id: e } })
-            .then((res) => {
-                console.log(res);
-                toast.success("Successfully deleted!");
-                fetchData();
-            })
-            .catch((error) => {
-                console.log(error);
-                toast.error("Error deleted!");
-            });
-    };
-
-    // const handleOk = () => {
-    //     form.validateFields()
-    //         .then((values) => {
-    //             const { startTime, endTime } = values;
-    //             instance
-    //                 .post("courses", { startTime, endTime })
-    //                 .then(() => {
-    //                     toast.success("Successfully created!");
-    //                     form.resetFields();
-    //                     setModalVisible(false);
-    //                     fetchData();
-    //                 })
-    //                 .catch((error) => {
-    //                     console.log(error);
-    //                     toast.error("Error created!");
-    //                 });
-    //         })
-    //         .catch((info) => {
-    //             console.log("Validate Failed:", info);
-    //         });
-    // };
-
-    // const handleCancel = () => {
-    //     form.resetFields();
-    //     setModalVisible(false);
-    // };
-
     const handleSelectSemester = (id, option) => {
         if (id !== semesterId) {
             setSelectSemester(option.label);
@@ -160,28 +118,28 @@ const CourseTable = () => {
     const columns = [
         {
             title: "No",
-            width: "15%",
+            width: "20%",
             render: (record) => {
                 return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Course Code",
-            width: "25%",
+            width: "30%",
             render: (record) => {
                 return <Typography>{record.subCode}</Typography>;
             },
         },
         {
             title: "Num of Students",
-            width: "20%",
+            width: "25%",
             render: (record) => {
                 return <Typography>{record.numOfStu}</Typography>;
             },
         },
         {
             title: "Status",
-            width: "20%",
+            width: "25%",
             render: (record) => {
                 let color = "geekblue";
                 if (record.status === 1) {
@@ -189,29 +147,15 @@ const CourseTable = () => {
                 }
                 return (
                     <Tag color={color} key={record.id}>
-                        {record.status === 1 ? "ACTIVE" : "INACTIVE"}
+                        {record.status === 1 ? "DONE" : "PENDING"}
                     </Tag>
                 );
             },
-        },
-        {
-            title: "Operation",
-            width: "20%",
-            render: (_, record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
         },
     ];
 
     return (
         <St.DivTable>
-            <Toaster position="top-right" reverseOrder={false} />
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select

@@ -11,7 +11,7 @@ const items = [
         children: [
             {
                 label: "Dashboard",
-                key: configs.routes.staff,
+                key: configs.routes.student,
                 icon: <HomeOutlined />,
             },
         ],
@@ -21,24 +21,19 @@ const items = [
         type: "divider",
     },
     {
-        label: "Exam Phase",
+        label: "Exam Schedule",
         key: "title2",
         icon: null,
         type: "group",
         children: [
             {
-                label: "Exam Phase",
-                key: configs.routes.staffExamPhase,
+                label: "Exam Slot",
+                key: configs.routes.studentExamSlots,
                 icon: <EditOutlined />,
             },
             {
-                label: "Examiner",
-                key: configs.routes.staffExaminer,
-                icon: <UserOutlined />,
-            },
-            {
-                label: "Volunteer",
-                key: configs.routes.staffVolunteers,
+                label: "Schedule",
+                key: configs.routes.studentSchedule,
                 icon: <UserOutlined />,
             },
         ],

@@ -16,7 +16,6 @@ const MyExamSlot = () => {
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
-    const [statusSemester, setStatusSemester] = useState(false);
     const [statusPhase, setStatusPhase] = useState(false);
     const navigate = useNavigate();
 
@@ -65,11 +64,6 @@ const MyExamSlot = () => {
                 setSemesterId(newData[0].value);
                 setSelectSemester(newData[0].label);
                 setSemesters(newData);
-                if (newData[0].status === 0) {
-                    setStatusSemester(false);
-                } else {
-                    setStatusSemester(true);
-                }
             })
             .catch((error) => {
                 console.log(error);
@@ -146,13 +140,6 @@ const MyExamSlot = () => {
 
     const handleSelectSemester = (id, option) => {
         if (id !== semesterId) {
-            if (option.status === 0) {
-                // console.log("false");
-                setStatusSemester(false);
-            } else {
-                // console.log("true");
-                setStatusSemester(true);
-            }
             setSelectSemester(option.label);
             setSemesterId(id);
             setPhaseId(0);
