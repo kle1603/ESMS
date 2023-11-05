@@ -27,7 +27,8 @@ const DashboardTable = () => {
     const [totalSlot, setTotalSlot] = useState(0);
     const [loadingSlot, setLoadingSlot] = useState(true);
 
-    const [totalRegister, setTotalRegister] = useState([]);
+    const [totalRegisterLabels, setTotalRegisterLabels] = useState([]);
+    const [totalRegisterData, setTotalRegisterData] = useState([]);
     const [loadingRegister, setLoadingRegister] = useState(true);
 
     const [dataTop, setDataTop] = useState([]);
@@ -35,6 +36,9 @@ const DashboardTable = () => {
 
     const [totalCourseAndStu, setTotalCourseAndStu] = useState([]);
     const [loadingCourseAndStu, setLoadingCourseAndStu] = useState(true);
+
+    const [maxLine, setMaxLine] = useState(0);
+    const [maxBar, setMaxBar] = useState(0);
 
     const fetchSemester = () => {
         instance
@@ -155,8 +159,23 @@ const DashboardTable = () => {
                 .then((res) => {
                     // console.log(res.data.data);
                     const data = res.data.data;
-                    setTotalRegister(data);
-
+                    const numbers = data.map((item) => item.num);
+                    const maxNumber = Math.max(...numbers);
+                    if (maxNumber !== -Infinity) {
+                        if (maxNumber % 2 === 0) {
+                            // số chẵn
+                            setMaxLine(maxNumber + 2);
+                        } else {
+                            // số lẻ
+                            setMaxLine(maxNumber + 1);
+                        }
+                    } else {
+                        setMaxLine(0);
+                    }
+                    const labels = data.map((item) => item.day);
+                    setTotalRegisterLabels(labels);
+                    const dataNum = data.map((item) => item.num);
+                    setTotalRegisterData(dataNum);
                     setLoadingRegister(false);
                 })
                 .catch((error) => {
@@ -164,8 +183,9 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setTotalRegister([]);
             // setLoading(false);
+            setTotalRegisterLabels([]);
+            setTotalRegisterData([]);
         }
     };
 
@@ -201,6 +221,19 @@ const DashboardTable = () => {
                 .then((res) => {
                     const newData = res.data.data;
                     setTotalCourseAndStu(newData);
+                    const numbers = newData.map((item) => item.numOfStu);
+                    const maxNumber = Math.max(...numbers);
+                    if (maxNumber !== -Infinity) {
+                        if (maxNumber % 2 === 0) {
+                            // số chẵn
+                            setMaxBar(maxNumber + 20);
+                        } else {
+                            // số lẻ
+                            setMaxBar(maxNumber + 19);
+                        }
+                    } else {
+                        setMaxBar(0);
+                    }
                     setLoadingCourseAndStu(false);
                 })
                 .catch((error) => {
@@ -316,13 +349,19 @@ const DashboardTable = () => {
                 </Col>
                 <Col xs={24} md={24} lg={13}>
                     <Divider orientation="left">Register per day</Divider>
-                    <LineChart loading={loadingRegister} data={totalRegister} />
+                    <LineChart
+                        max={maxLine}
+                        loading={loadingRegister}
+                        data={totalRegisterData}
+                        labels={totalRegisterLabels}
+                    />
                 </Col>
                 <Col xs={24}>
                     <Divider orientation="left">
                         Number of students per course
                     </Divider>
                     <BarChart
+                        max={maxBar}
                         data={totalCourseAndStu}
                         loading={loadingCourseAndStu}
                     />

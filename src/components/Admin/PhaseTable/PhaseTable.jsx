@@ -15,6 +15,7 @@ import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 import ExcelFile from "@/components/ExcelFile";
+import { DownloadExcel } from "@/components/ExcelFile/ExcelFile";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -26,6 +27,7 @@ const PhaseTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
+    const [importOpen, setImportOpen] = useState(false);
     const pageSize = 10;
 
     const option = [
@@ -76,7 +78,7 @@ const PhaseTable = () => {
         },
         {
             title: "Status",
-            width: "15%",
+            width: "10%",
             render: (record) => {
                 if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
@@ -87,27 +89,34 @@ const PhaseTable = () => {
         },
         {
             title: "Operation",
-            width: "15%",
+            width: "20%",
             render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record);
-
-                if (currentDate > endTime) {
-                    return (
-                        <Typography.Link disabled>
-                            Can not delete
-                        </Typography.Link>
-                    );
-                } else {
-                    return (
+                // console.log(record);
+                return (
+                    <div>
                         <Popconfirm
                             title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
+                            onConfirm={() => handleDelete(record.id)}
                         >
                             <Typography.Link>Delete</Typography.Link>
                         </Popconfirm>
-                    );
-                }
+                        {record.courseDone === 0 ? (
+                            <Typography.Link
+                                onClick={handleImport}
+                                style={{ marginLeft: 20 }}
+                            >
+                                Import
+                            </Typography.Link>
+                        ) : (
+                            <Typography.Link
+                                style={{ marginLeft: 20 }}
+                                disabled
+                            >
+                                Import
+                            </Typography.Link>
+                        )}
+                    </div>
+                );
             },
         },
     ];
@@ -120,7 +129,6 @@ const PhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
-                    console.log(res.data.data);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
@@ -230,6 +238,14 @@ const PhaseTable = () => {
         setSemesterId(id);
     };
 
+    const handleImport = () => {
+        setImportOpen(true);
+    };
+
+    const handleImportOk = () => {
+        setImportOpen(false);
+    };
+
     const layout = {
         labelAlign: "left",
         labelCol: {
@@ -259,6 +275,16 @@ const PhaseTable = () => {
         );
     };
 
+    const importFooter = () => {
+        return (
+            <>
+                <Button type="primary" onClick={handleImportOk}>
+                    Close
+                </Button>
+            </>
+        );
+    };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
@@ -270,13 +296,21 @@ const PhaseTable = () => {
                     className="select"
                     options={semesters}
                 />
-                <ExcelFile />
+                <DownloadExcel />
             </St.StyledLeft>
 
             <ButtonAdd
                 setModalVisible={setModalVisible}
                 title="Add new phase"
             />
+
+            <St.ModalStyled
+                title="Import Excel File"
+                open={importOpen}
+                footer={importFooter}
+            >
+                <ExcelFile />
+            </St.ModalStyled>
 
             <St.ModalStyled
                 title="Add new phase"

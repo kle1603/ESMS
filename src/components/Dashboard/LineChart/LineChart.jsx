@@ -13,6 +13,7 @@ import {
 import PropTypes from "prop-types";
 
 import * as St from "./LineChart.styled";
+// import { useEffect, useState } from "react";
 
 ChartJS.register(
     LineElement,
@@ -24,18 +25,18 @@ ChartJS.register(
     Legend
 );
 
-const LineChart = ({ data, loading }) => {
-    if (!Array.isArray(data)) {
+const LineChart = ({ labels, data, loading, max }) => {
+    if (!Array.isArray(data) || !Array.isArray(labels)) {
         return null;
     }
 
     const datas = {
         // labels: ["Sep", "Oct", "Nov", "Dec"],
-        labels: data.map((item) => item.day),
+        labels: labels,
         datasets: [
             {
                 label: "Value",
-                data: data.map((item) => item.num),
+                data: data,
                 // backgroundColor: "transparent",
                 backgroundColor: "rgb(75, 192, 192)",
                 borderColor: "rgb(75, 192, 192)",
@@ -68,7 +69,7 @@ const LineChart = ({ data, loading }) => {
             },
             y: {
                 min: 0,
-                max: 20,
+                max: max,
                 ticks: {
                     stepSize: 2,
                 },
@@ -86,6 +87,8 @@ const LineChart = ({ data, loading }) => {
 LineChart.propTypes = {
     data: PropTypes.array,
     loading: PropTypes.bool,
+    max: PropTypes.number,
+    labels: PropTypes.array,
 };
 
 export default LineChart;

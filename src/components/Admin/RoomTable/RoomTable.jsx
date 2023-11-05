@@ -57,15 +57,24 @@ const RoomTable = () => {
         {
             title: "Operation",
             width: "20%",
-            render: (record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
+            render: (record) => {
+                if (record.allowed === 1) {
+                    return (
+                        <Popconfirm
+                            title="Sure to delete?"
+                            onConfirm={() => handleDelete(record.id)}
+                        >
+                            <Typography.Link>Delete</Typography.Link>
+                        </Popconfirm>
+                    );
+                } else {
+                    return (
+                        <Typography.Link disabled>
+                            Can not delete
+                        </Typography.Link>
+                    );
+                }
+            },
         },
     ];
 
@@ -95,7 +104,6 @@ const RoomTable = () => {
         form.validateFields()
             .then((values) => {
                 const { roomNumber, location } = values;
-                console.log(values);
                 instance
                     .post("rooms", { roomNum: roomNumber, location })
                     .then(() => {

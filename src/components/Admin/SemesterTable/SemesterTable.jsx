@@ -101,7 +101,6 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({

@@ -7,6 +7,7 @@ import StaffExamPhase from "@/pages/Staff/StaffExamPhase";
 import StaffExamSlot from "@/pages/Staff/StaffExamSlot";
 import StaffExamSlotDetail from "@/pages/Staff/StaffExamSlotDetail";
 import StaffExaminer from "@/pages/Staff/StaffExaminer";
+import StaffVolunteer from "@/pages/Staff/StaffVolunteer";
 import { STAFF } from "@/utils/constants";
 
 const staffRoutes = [
@@ -30,6 +31,10 @@ const staffRoutes = [
                 element: <StaffExamSlotDetail />,
             },
             { path: configs.routes.staffExaminer, element: <StaffExaminer /> },
+            {
+                path: configs.routes.staffVolunteers,
+                element: <StaffVolunteer />,
+            },
         ],
     },
 ];

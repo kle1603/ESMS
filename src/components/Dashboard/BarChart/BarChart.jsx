@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 
 import * as St from "./BarChart.styled";
+// import { useEffect, useState } from "react";
 
 ChartJS.register(
     BarElement,
@@ -21,7 +22,25 @@ ChartJS.register(
     Legend
 );
 
-const BarChart = ({ data, loading }) => {
+const BarChart = ({ data, loading, max }) => {
+    // const [max, setMax] = useState(0);
+
+    // useEffect(() => {
+    //     const numbers = data.map((item) => item.numOfStu);
+    //     const maxNumber = Math.max(...numbers);
+    //     if (maxNumber !== -Infinity) {
+    //         if (maxNumber % 2 === 0) {
+    //             // số chẵn
+    //             setMax(maxNumber + 20);
+    //         } else {
+    //             // số lẻ
+    //             setMax(maxNumber + 19);
+    //         }
+    //     } else {
+    //         setMax(0);
+    //     }
+    // }, [data]);
+
     if (!Array.isArray(data)) {
         return null;
     }
@@ -79,7 +98,7 @@ const BarChart = ({ data, loading }) => {
             },
             y: {
                 min: 0,
-                max: 120,
+                max: max,
                 ticks: {
                     stepSize: 2,
                 },
@@ -99,6 +118,7 @@ const BarChart = ({ data, loading }) => {
 BarChart.propTypes = {
     data: PropTypes.array,
     loading: PropTypes.bool,
+    max: PropTypes.number,
 };
 
 export default BarChart;

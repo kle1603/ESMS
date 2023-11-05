@@ -97,7 +97,6 @@ const UserTable = () => {
                 params: { page_no: page, limit: pageSize },
             })
             .then((res) => {
-                console.log(res);
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);
                     const formattedData = res.data.data.Data.map((item) => ({

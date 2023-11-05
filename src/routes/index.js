@@ -4,6 +4,7 @@ import lecturerRoutes from "./lecturerRoutes";
 import publicRoutes from "./publicRoutes";
 import adminRoutes from "./adminRoutes";
 import staffRoutes from "./staffRoutes";
+import studentRoutes from "./studentRoutes";
 
 const Router = () => {
     useScrollTop();
@@ -13,6 +14,7 @@ const Router = () => {
         ...publicRoutes,
         ...adminRoutes,
         ...staffRoutes,
+        ...studentRoutes,
     ]);
 };
 

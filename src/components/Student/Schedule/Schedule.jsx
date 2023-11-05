@@ -3,12 +3,12 @@ import { momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import Event from "./Event";
-import * as St from "./Schedule.styled";
+import Event from "../Schedule/Event";
 import { useEffect, useState } from "react";
-import ModalSchedule from "./ModalSchedule";
+import ModalSchedule from "../Schedule/ModalSchedule";
 import instance from "@/utils/instance";
 import { Divider } from "antd";
+import * as St from "./Schedule.styled.js";
 
 const localizer = momentLocalizer(moment);
 // localizer.formats.timeGutterFormat = "H:mm";
@@ -37,8 +37,10 @@ const Schedule = () => {
 
     const fetchData = () => {
         instance
-            .get("examiners/allScheduled?userId=256")
+            .get("students/scheduleOfStu")
             .then((res) => {
+                console.log(res.data.data);
+
                 const formattedData = res.data.data.map((item, index) => {
                     item.startTime = new Date(item.startTime);
                     item.endTime = new Date(item.endTime);

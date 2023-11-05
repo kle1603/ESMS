@@ -55,11 +55,19 @@ const ScheduleDetail = ({ noti }) => {
         {
             title: "Operation",
             width: "19%",
-            render: () => {
-                return <Typography.Link>Edit</Typography.Link>;
+            render: (record) => {
+                return (
+                    <Typography.Link onClick={() => handleEdit(record)}>
+                        Edit
+                    </Typography.Link>
+                );
             },
         },
     ];
+
+    const handleEdit = (e) => {
+        console.log(e);
+    };
 
     useEffect(() => {
         // call api here
