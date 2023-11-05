@@ -2,6 +2,10 @@
 import { Card, Divider, Table, Typography } from "antd";
 
 const CardTable = ({ data, loading }) => {
+    if (!Array.isArray(data)) {
+        return null;
+    }
+
     const newData = data;
 
     const columns = [
