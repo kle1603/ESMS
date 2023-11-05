@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Space, Table } from "antd";
+import { Button, Modal, Space, Table } from "antd";
 import Theme from "@/Theme";
 
 export const DivTable = styled.div`
@@ -40,5 +40,11 @@ export const StyledTable = styled(Table)`
 
     .ant-tag {
         font-family: ${Theme.font.primary_font};
+    }
+`;
+
+export const ModalStyled = styled(Modal)`
+    .ant-modal-close {
+        display: none;
     }
 `;

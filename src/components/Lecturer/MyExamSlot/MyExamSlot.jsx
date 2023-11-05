@@ -92,6 +92,7 @@ const MyExamSlot = () => {
                         setSelectPhase(newData[0].label);
                         setPhaseId(newData[0].value);
                         setPhases(newData);
+                        // console.log(newData);
                         if (newData[0].status === false) {
                             setStatusPhase(false);
                         } else {
@@ -162,6 +163,8 @@ const MyExamSlot = () => {
     const handleSelectPhase = (id, option) => {
         // setSelectPhase(option.label);
         // setPhaseId(id);
+        // console.log(option);
+        setStatusPhase(option.status);
 
         if (id !== phaseId) {
             if (option.status === false) {

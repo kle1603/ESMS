@@ -15,7 +15,10 @@ const RoleBasedGuard = ({ children, accessibleRoles }) => {
 
 RoleBasedGuard.propTypes = {
     children: PropTypes.node.isRequired,
-    accessibleRoles: PropTypes.arrayOf(ADMIN, STAFF, LECTURER).isRequired,
+    accessibleRoles: PropTypes.arrayOf(
+        PropTypes.oneOf([ADMIN, STAFF, LECTURER])
+    ).isRequired,
+    // accessibleRoles: PropTypes.arrayOf(ADMIN, STAFF, LECTURER).isRequired,
 };
 
 export default RoleBasedGuard;

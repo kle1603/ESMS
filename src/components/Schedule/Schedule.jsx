@@ -8,6 +8,7 @@ import * as St from "./Schedule.styled";
 import { useEffect, useState } from "react";
 import ModalSchedule from "./ModalSchedule";
 import instance from "@/utils/instance";
+import { Divider } from "antd";
 
 const localizer = momentLocalizer(moment);
 // localizer.formats.timeGutterFormat = "H:mm";
@@ -72,6 +73,7 @@ const Schedule = () => {
 
     return (
         <div>
+        <Divider orientation="left">My Schedule</Divider>
             <ModalSchedule
                 event={event}
                 isModalOpen={isModalOpen}

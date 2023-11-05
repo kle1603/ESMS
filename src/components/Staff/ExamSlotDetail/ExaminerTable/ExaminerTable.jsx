@@ -1,4 +1,4 @@
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import instance from "@/utils/instance";
 import { Table, Typography } from "antd";
@@ -77,6 +77,8 @@ const Examiner = ({ noti }) => {
     );
 };
 
-Examiner.propTypes = {};
+Examiner.propTypes = {
+    noti: PropTypes.bool,
+};
 
 export default Examiner;

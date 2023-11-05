@@ -39,14 +39,14 @@ const HeaderLayout = () => {
                     <St.DivAvatar>
                         <div className="avatar__wrapper">
                             <div className="avatar__content">
-                                <h3 className="avatar__title">{user.name}</h3>
-                                <p className="avatar__desc">{user.email}</p>
+                                {/* <h3 className="avatar__title">{user.name}</h3> */}
+                                {/* <p className="avatar__desc">{user.email}</p> */}
                             </div>
                             <Avatar
                                 className="avatar__icon"
                                 size="large"
                                 // icon={<UserOutlined />}
-                                src={user.image_url}
+                                // src={user.image_url}
                             />
                         </div>
                     </St.DivAvatar>

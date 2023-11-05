@@ -1,6 +1,5 @@
 import { Layout, Menu } from "antd";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import items, { item } from "./StaffLayout.items";
 
 import AdminHeader from "@/components/HeaderLayout/index.js";
@@ -13,7 +12,7 @@ import configs from "@/configs";
 
 const { Content } = Layout;
 
-const StaffLayout = ({ children }) => {
+const StaffLayout = () => {
     // const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(window.location.pathname);
@@ -80,17 +79,13 @@ const StaffLayout = ({ children }) => {
                     }}
                 >
                     <div style={{ minHeight: "calc(100vh - 100px)" }}>
-                        {children}
+                        <Outlet />
                     </div>
                     <FooterContent />
                 </Content>
             </Layout>
         </Layout>
     );
-};
-
-StaffLayout.propTypes = {
-    children: PropTypes.node.isRequired,
 };
 
 export default StaffLayout;

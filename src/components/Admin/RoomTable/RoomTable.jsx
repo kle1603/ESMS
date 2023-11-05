@@ -1,14 +1,5 @@
 // import PropTypes from "prop-types";
-import {
-    Button,
-    Form,
-    Input,
-    Modal,
-    Popconfirm,
-    Select,
-    Tag,
-    Typography,
-} from "antd";
+import { Button, Form, Input, Popconfirm, Select, Tag, Typography } from "antd";
 import * as St from "./RoomTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
@@ -18,33 +9,12 @@ import ButtonAdd from "@/components/ButtonAdd";
 // import { item } from "@/layouts/AdminLayout/AdminLayout.items";
 
 const RoomTable = () => {
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
-
-    const fetchData = () => {
-        instance
-            .get("rooms")
-            .then((res) => {
-                const formattedData = res.data.data.map((item, index) => ({
-                    ...item,
-                    no: index + 1,
-                    key: item.id,
-                }));
-                setData(formattedData);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {});
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
+    const pageSize = 10;
 
     const columns = [
         {
@@ -99,6 +69,28 @@ const RoomTable = () => {
         },
     ];
 
+    const fetchData = () => {
+        instance
+            .get("rooms")
+            .then((res) => {
+                const formattedData = res.data.data.map((item, index) => ({
+                    ...item,
+                    no: index + 1,
+                    key: item.id,
+                }));
+                setData(formattedData);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
@@ -140,17 +132,17 @@ const RoomTable = () => {
             });
     };
 
-    const handleSearch = (e) => {
-        setSearch(e);
+    const handleSearch = () => {
+        // setSearch(e);
     };
 
     const location = [
         {
-            value: 1,
+            value: "XAVALO",
             label: "XAVALO",
         },
         {
-            value: 2,
+            value: "NVH",
             label: "NVH",
         },
     ];
@@ -170,10 +162,10 @@ const RoomTable = () => {
     const modalFooter = () => {
         return (
             <>
+                <Button onClick={handleCancel}>Cancel</Button>
                 <Button type="primary" onClick={handleOk}>
                     Submit
                 </Button>
-                <Button onClick={handleCancel}>Cancel</Button>
             </>
         );
     };
@@ -186,11 +178,11 @@ const RoomTable = () => {
             </St.SpaceStyled>
 
             <ButtonAdd setModalVisible={setModalVisible} title="Add new room" />
-            <Modal
+            <St.ModalStyled
                 title="Add a room"
                 open={modalVisible}
                 onOk={handleOk}
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter}
             >
                 <Form
@@ -226,11 +218,12 @@ const RoomTable = () => {
                                 message: "Please chose a location",
                             },
                         ]}
+                        initialValue={location[0].value}
                     >
                         <Select options={location} />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
             <Form form={form} component={false}>
                 <St.StyledTable
                     bordered
@@ -238,8 +231,8 @@ const RoomTable = () => {
                     columns={columns}
                     rowClassName="editable-row"
                     pagination={{
-                        pageSize: 6,
-                        hideOnSinglePage: data.length <= 6,
+                        pageSize: pageSize,
+                        hideOnSinglePage: data.length <= pageSize,
                         showSizeChanger: false,
                     }}
                     loading={loading}

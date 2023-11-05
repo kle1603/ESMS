@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Flex, Table } from "antd";
+import { Button, Flex, Modal, Table } from "antd";
 import Theme from "@/Theme";
 
 export const DivTable = styled.div`
@@ -64,5 +64,11 @@ export const StyledLeft = styled(Flex)`
 
     .ant-select-item-option-content {
         font-family: ${Theme.font.primary_font} !important;
+    }
+`;
+
+export const ModalStyled = styled(Modal)`
+    .ant-modal-close {
+        display: none;
     }
 `;
