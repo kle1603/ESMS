@@ -38,14 +38,14 @@ const ExamPhaseTable = () => {
             title: "Start Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.startDay}</Typography>;
+                return <Typography>{record.sDay}</Typography>;
             },
         },
         {
             title: "End Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.endDay}</Typography>;
+                return <Typography>{record.eDay}</Typography>;
             },
         },
         {
