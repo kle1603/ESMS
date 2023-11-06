@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import instance from "@/utils/instance";
-import { Button, Input, Table, Tag, Typography, Form } from "antd";
+import { Button, Input, Table, Tag, Typography, Form, Select } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as St from "./ScheduleDetail.styled";
@@ -13,6 +13,9 @@ const ScheduleDetail = ({ noti }) => {
     const [loading, setLoading] = useState(true);
     const param = useParams();
     const pageSize = 10;
+
+    const [freeExaminer, setFreeExaminer] = useState([]);
+    const [loadingSelect, setLoadingSelect] = useState(false);
 
     const columns = [
         // Your columns
@@ -73,6 +76,11 @@ const ScheduleDetail = ({ noti }) => {
         fetchScheduleDetail();
     }, [noti]);
 
+    useEffect(() => {
+        // call api here
+        fetchFreeExaminer();
+    }, []);
+
     const fetchScheduleDetail = () => {
         setLoading(true);
         instance
@@ -93,9 +101,42 @@ const ScheduleDetail = ({ noti }) => {
             .finally(() => {});
     };
 
+    const fetchFreeExaminer = () => {
+        setLoadingSelect(true);
+        instance
+            .get(`examRooms/allExaminerInSlot?examslotId=${param.id}`)
+            .then((res) => {
+                const formattedData = res.data.data.map((item) => ({
+                    value: item.examinerId,
+                    label: item.examinerName,
+                }));
+                setFreeExaminer(formattedData);
+                setLoadingSelect(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
     const handleOk = () => {
         form.validateFields()
-            .then((values) => {})
+            .then((values) => {
+                console.log(values);
+                instance
+                    .put("examRooms/addExaminer", {
+                        examRoomId: values.roomId,
+                        examinerId: values.freeExaminer,
+                    })
+                    .then(() => {
+                        fetchScheduleDetail();
+                        setModalVisible(false);
+                        form.resetFields();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            })
             .catch((info) => {
                 console.log("Validate Failed:", info);
             });
@@ -107,10 +148,12 @@ const ScheduleDetail = ({ noti }) => {
     };
 
     const handleEdit = (e) => {
+        // console.log(e);
         form.setFieldsValue({
             courseCode: e.subCode,
             room: e.roomNum,
             examiner: e.examiner,
+            roomId: e.examroomId,
         });
         setModalVisible(true);
     };
@@ -188,13 +231,48 @@ const ScheduleDetail = ({ noti }) => {
                         name="examiner"
                         rules={[
                             {
-                                required: true,
+                                required: false,
                                 message: "Please input the examiner!",
                             },
                         ]}
                         // initialValue={examiner}
                     >
-                        <Input placeholder="Examiner" allowClear />
+                        <Input placeholder="Examiner" disabled />
+                    </Form.Item>
+
+                    <Form.Item
+                        {...layout}
+                        label="Change examiner"
+                        name="freeExaminer"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please choose the examiner!",
+                            },
+                        ]}
+                        // initialValue={selectFreeExaminer}
+                    >
+                        <Select
+                            placeholder="Please choose the examiner!"
+                            loading={loadingSelect}
+                            // onChange={handleSelect}
+                            // value={selectFreeExaminer}
+                            className="select"
+                            options={freeExaminer}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="roomId"
+                        rules={[
+                            {
+                                required: false,
+                                message: "Please choose the room id!",
+                            },
+                        ]}
+                        hidden
+                    >
+                        <Input placeholder="Room Id" disabled />
                     </Form.Item>
                 </Form>
             </St.ModalStyled>

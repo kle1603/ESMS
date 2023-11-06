@@ -68,6 +68,11 @@ const CourseTable = () => {
             instance
                 .get(`courses/?ePId=${phaseId}`)
                 .then((res) => {
+                    if (res.data === "") {
+                        setData([]);
+                        setLoading(false);
+                        return;
+                    }
                     const formattedData = res.data.data
                         .sort((a, b) => b.courseId - a.courseId)
                         .map((item, index) => ({
@@ -147,7 +152,7 @@ const CourseTable = () => {
                 }
                 return (
                     <Tag color={color} key={record.id}>
-                        {record.status === 1 ? "DONE" : "PENDING"}
+                        {record.status === 1 ? "PENDING" : "DONE"}
                     </Tag>
                 );
             },
