@@ -4,11 +4,13 @@ import instance from "@/utils/instance";
 import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import cookies from "@/utils/cookies";
 
 const ExamRoomTable = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
+    const token = cookies.getToken();
 
     const columns = [
         // Your columns
@@ -43,7 +45,11 @@ const ExamRoomTable = ({ noti }) => {
     const fetchRoom = () => {
         setLoading(true);
         instance
-            .get(`examRooms/getRoomOneSlot?exSlotID=${param.id}`)
+            .get(`examRooms/getRoomOneSlot?exSlotID=${param.id}`, {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 // console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({

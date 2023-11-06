@@ -209,14 +209,19 @@ const ExamPhaseTable = () => {
 
             <St.DivTable>
                 {statusButton ? (
-                    <St.ButtonTable
-                        loading={buttonStatus}
-                        type="primary"
-                        style={{ marginBottom: 16 }}
-                        onClick={handleAdd}
-                    >
-                        Add a exam slot
-                    </St.ButtonTable>
+                    <St.FlexStyled>
+                        <Button style={{ marginRight: 14 }} type="primary">
+                            Auto Generate
+                        </Button>
+                        <Button
+                            loading={buttonStatus}
+                            type="primary"
+                            style={{ marginBottom: 16 }}
+                            onClick={handleAdd}
+                        >
+                            Add a exam slot
+                        </Button>
+                    </St.FlexStyled>
                 ) : null}
                 <Modal
                     title="Add a slot"

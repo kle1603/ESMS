@@ -5,6 +5,7 @@ import { Button, Input, Table, Tag, Typography, Form, Select } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as St from "./ScheduleDetail.styled";
+import cookies from "@/utils/cookies";
 
 const ScheduleDetail = ({ noti }) => {
     const [form] = Form.useForm();
@@ -13,6 +14,7 @@ const ScheduleDetail = ({ noti }) => {
     const [loading, setLoading] = useState(true);
     const param = useParams();
     const pageSize = 10;
+    const token = cookies.getToken();
 
     const [freeExaminer, setFreeExaminer] = useState([]);
     const [loadingSelect, setLoadingSelect] = useState(false);
@@ -90,7 +92,11 @@ const ScheduleDetail = ({ noti }) => {
     const fetchScheduleDetail = () => {
         setLoading(true);
         instance
-            .get(`examRooms/getExamRoomDetailByPhase?examSlotId=${param.id}`)
+            .get(`examRooms/getExamRoomDetailByPhase?examSlotId=${param.id}`, {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
@@ -110,7 +116,11 @@ const ScheduleDetail = ({ noti }) => {
     const fetchFreeExaminer = () => {
         setLoadingSelect(true);
         instance
-            .get(`examRooms/allExaminerInSlot?examslotId=${param.id}`)
+            .get(`examRooms/allExaminerInSlot?examslotId=${param.id}`, {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const formattedData = res.data.data.map((item) => ({
                     value: item.examinerId,
@@ -128,7 +138,7 @@ const ScheduleDetail = ({ noti }) => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                console.log(values);
+                // console.log(values);
                 instance
                     .put("examRooms/addExaminer", {
                         examRoomId: values.roomId,

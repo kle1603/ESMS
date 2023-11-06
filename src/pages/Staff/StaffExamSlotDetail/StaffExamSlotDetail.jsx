@@ -203,11 +203,6 @@ const StaffExamPhaseDetail = () => {
                                 required: true,
                                 message: "Please input number of student!",
                             },
-                            {
-                                pattern: /^1[5-9]|[2-9]\d+$/,
-                                message:
-                                    "Number of students must be greater than or equal to 15",
-                            },
                         ]}
                     >
                         <Input placeholder="Number of Students" />
