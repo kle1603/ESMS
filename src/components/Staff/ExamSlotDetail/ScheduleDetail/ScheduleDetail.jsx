@@ -102,8 +102,8 @@ const ScheduleDetail = ({ noti }) => {
     };
 
     const handleCancel = () => {
-        form.resetFields();
         setModalVisible(false);
+        form.resetFields();
     };
 
     const handleEdit = (e) => {
