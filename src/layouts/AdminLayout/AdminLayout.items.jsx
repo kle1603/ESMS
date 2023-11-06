@@ -97,8 +97,6 @@ const items = [
 
 export default items;
 
-const handleClick = () => {};
-
 export const item = [
     {
         label: "Logout",
@@ -107,7 +105,7 @@ export const item = [
         type: "group",
         children: [
             {
-                label: <span onClick={handleClick}>Logout</span>,
+                label: <span>Logout</span>,
                 key: configs.routes.login,
                 icon: <MdLogout />,
             },

@@ -15,6 +15,7 @@ const ExamPhaseTable = () => {
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
     const navigate = useNavigate();
+    const pageSize = 10;
 
     const columns = [
         // Your columns
@@ -37,14 +38,14 @@ const ExamPhaseTable = () => {
             title: "Start Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.startDay}</Typography>;
+                return <Typography>{record.sDay}</Typography>;
             },
         },
         {
             title: "End Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.endDay}</Typography>;
+                return <Typography>{record.eDay}</Typography>;
             },
         },
         {
@@ -62,7 +63,7 @@ const ExamPhaseTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if (record.status === false) {
+                if (record.courseDone === 1) {
                     return <Tag color="default">CLOSED</Tag>;
                 } else {
                     return <Tag color="green">PENDING</Tag>;
@@ -100,19 +101,18 @@ const ExamPhaseTable = () => {
                             key: item.id,
                             no: index + 1,
                         }));
-                    console.log(formattedData);
                     setData(formattedData);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-                .finally(() => {
-                    setLoading(false);
-                });
+                .finally(() => {});
         }
     };
 
     const fetchSemester = () => {
+        setLoading(true);
         instance
             .get("semesters")
             .then((res) => {
@@ -129,9 +129,7 @@ const ExamPhaseTable = () => {
             .catch((error) => {
                 console.log(error);
             })
-            .finally(() => {
-                setLoading(false);
-            });
+            .finally(() => {});
     };
 
     useEffect(() => {
@@ -176,8 +174,8 @@ const ExamPhaseTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                 }}
             />
         </St.DivTable>

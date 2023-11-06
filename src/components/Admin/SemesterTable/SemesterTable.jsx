@@ -1,7 +1,6 @@
 import {
     Form,
     Input,
-    Modal,
     Popconfirm,
     DatePicker,
     Tag,
@@ -22,6 +21,7 @@ const SemesterTable = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
+    const pageSize = 10;
 
     const columns = [
         // Your columns
@@ -101,7 +101,6 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                console.log(res);
                 const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
@@ -192,14 +191,13 @@ const SemesterTable = () => {
     const modalFooter = () => {
         return (
             <>
+                <Button onClick={handleCancel}>Cancel</Button>
                 <Button
                     /*loading={buttonOk}*/ onClick={handleOk}
                     type="primary"
                 >
                     Submit
                 </Button>
-
-                <Button onClick={handleCancel}>Cancel</Button>
             </>
         );
     };
@@ -211,11 +209,11 @@ const SemesterTable = () => {
                 setModalVisible={setModalVisible}
                 title="Add new semester"
             />
-            <Modal
+            <St.ModalStyled
                 title="Add new semester"
                 open={modalVisible}
                 // onOk={handleOk}
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter()}
             >
                 <Form
@@ -271,15 +269,15 @@ const SemesterTable = () => {
                         />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
             <St.StyledTable
                 columns={columns}
                 dataSource={data}
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                 }}
             />
         </St.DivTable>

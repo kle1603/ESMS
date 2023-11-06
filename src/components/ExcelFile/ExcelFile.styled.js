@@ -2,6 +2,8 @@ import Theme from "@/Theme";
 import styled from "styled-components";
 
 export const DivStyled = styled.div`
+    margin-top: 20px;
+
     input[type="file"] {
         display: none;
     }
@@ -25,7 +27,7 @@ export const DivStyled = styled.div`
     }
 
     .input {
-        margin-left: 20px;
+        /* margin-left: 20px; */
     }
 
     .upload {

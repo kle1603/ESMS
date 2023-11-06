@@ -1,8 +1,27 @@
 import Logo from "@/assets/images/Schedule-amico.svg";
 import Google from "@/assets/images/Group.svg";
 import * as St from "./LoginForm.styled";
+import { useLocation, useNavigate } from "react-router-dom";
+import { message } from "antd";
+import { useEffect } from "react";
+import configs from "@/configs";
 
 function Login() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const query = new URLSearchParams(location.search);
+    const errorMessage = query.get("error_message");
+    const [messageApi, contextHolder] = message.useMessage();
+    useEffect(() => {
+        if (errorMessage) {
+            messageApi.open({
+                type: "error",
+                content: <div>{errorMessage}</div>,
+            });
+            navigate(configs.routes.login);
+        }
+    }, [errorMessage]);
+
     return (
         <St.DivLogin className="login">
             <div className="login__container">

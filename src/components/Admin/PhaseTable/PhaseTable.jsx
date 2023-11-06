@@ -3,7 +3,6 @@ import {
     DatePicker,
     Form,
     Input,
-    Modal,
     Popconfirm,
     Select,
     Tag,
@@ -16,6 +15,7 @@ import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 import ExcelFile from "@/components/ExcelFile";
+import { DownloadExcel } from "@/components/ExcelFile/ExcelFile";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -27,6 +27,8 @@ const PhaseTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
+    const [importOpen, setImportOpen] = useState(false);
+    const pageSize = 10;
 
     const option = [
         { value: 0, label: "Normal" },
@@ -53,14 +55,14 @@ const PhaseTable = () => {
             title: "Start Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.startDay}</Typography>;
+                return <Typography>{record.sDay}</Typography>;
             },
         },
         {
             title: "End Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.endDay}</Typography>;
+                return <Typography>{record.eDay}</Typography>;
             },
         },
         {
@@ -76,7 +78,7 @@ const PhaseTable = () => {
         },
         {
             title: "Status",
-            width: "15%",
+            width: "10%",
             render: (record) => {
                 if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
@@ -87,27 +89,34 @@ const PhaseTable = () => {
         },
         {
             title: "Operation",
-            width: "15%",
+            width: "20%",
             render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record);
-
-                if (currentDate > endTime) {
-                    return (
-                        <Typography.Link disabled>
-                            Can not delete
-                        </Typography.Link>
-                    );
-                } else {
-                    return (
+                // console.log(record);
+                return (
+                    <div>
                         <Popconfirm
                             title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
+                            onConfirm={() => handleDelete(record.id)}
                         >
                             <Typography.Link>Delete</Typography.Link>
                         </Popconfirm>
-                    );
-                }
+                        {record.courseDone === 0 ? (
+                            <Typography.Link
+                                onClick={handleImport}
+                                style={{ marginLeft: 20 }}
+                            >
+                                Import
+                            </Typography.Link>
+                        ) : (
+                            <Typography.Link
+                                style={{ marginLeft: 20 }}
+                                disabled
+                            >
+                                Import
+                            </Typography.Link>
+                        )}
+                    </div>
+                );
             },
         },
     ];
@@ -229,6 +238,14 @@ const PhaseTable = () => {
         setSemesterId(id);
     };
 
+    const handleImport = () => {
+        setImportOpen(true);
+    };
+
+    const handleImportOk = () => {
+        setImportOpen(false);
+    };
+
     const layout = {
         labelAlign: "left",
         labelCol: {
@@ -250,10 +267,20 @@ const PhaseTable = () => {
     const modalFooter = () => {
         return (
             <>
+                <Button onClick={handleCancel}>Cancel</Button>
                 <Button type="primary" onClick={handleOk}>
                     Submit
                 </Button>
-                <Button onClick={handleCancel}>Cancel</Button>
+            </>
+        );
+    };
+
+    const importFooter = () => {
+        return (
+            <>
+                <Button type="primary" onClick={handleImportOk}>
+                    Close
+                </Button>
             </>
         );
     };
@@ -269,7 +296,7 @@ const PhaseTable = () => {
                     className="select"
                     options={semesters}
                 />
-                <ExcelFile />
+                <DownloadExcel />
             </St.StyledLeft>
 
             <ButtonAdd
@@ -277,11 +304,19 @@ const PhaseTable = () => {
                 title="Add new phase"
             />
 
-            <Modal
+            <St.ModalStyled
+                title="Import Excel File"
+                open={importOpen}
+                footer={importFooter}
+            >
+                <ExcelFile />
+            </St.ModalStyled>
+
+            <St.ModalStyled
                 title="Add new phase"
                 open={modalVisible}
                 // onOk={handleOk}
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter}
             >
                 <Form
@@ -352,7 +387,7 @@ const PhaseTable = () => {
                         />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
 
             <St.StyledTable
                 columns={columns}
@@ -360,8 +395,8 @@ const PhaseTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                 }}
             />
         </St.DivTable>

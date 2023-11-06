@@ -8,6 +8,7 @@ import * as St from "./Schedule.styled";
 import { useEffect, useState } from "react";
 import ModalSchedule from "./ModalSchedule";
 import instance from "@/utils/instance";
+import { Divider } from "antd";
 
 const localizer = momentLocalizer(moment);
 // localizer.formats.timeGutterFormat = "H:mm";
@@ -38,12 +39,6 @@ const Schedule = () => {
         instance
             .get("examiners/allScheduled?userId=256")
             .then((res) => {
-                // const formattedData = res.data.data.map((item, index) => ({
-                //     ...item,
-                //     id: index + 1,
-                //     key: index + 1,
-                // }));
-
                 const formattedData = res.data.data.map((item, index) => {
                     item.startTime = new Date(item.startTime);
                     item.endTime = new Date(item.endTime);
@@ -57,7 +52,6 @@ const Schedule = () => {
                         title: item.roomLocation,
                     };
                 });
-                // console.log(formattedData);
                 setData(formattedData);
             })
             .catch((error) => {
@@ -72,6 +66,7 @@ const Schedule = () => {
 
     return (
         <div>
+            <Divider orientation="left">My Schedule</Divider>
             <ModalSchedule
                 event={event}
                 isModalOpen={isModalOpen}

@@ -1,6 +1,5 @@
 import { Layout, Menu } from "antd";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import items, { item } from "./AdminLayout.items";
 
 import AdminHeader from "@/components/HeaderLayout/index.js";
@@ -9,11 +8,15 @@ import { useState } from "react";
 import * as St from "./AdminLayout.styled";
 import logo from "@/assets/images/Logo.svg";
 import FooterContent from "@/components/FooterContent/FooterContent";
+import cookies from "@/utils/cookies";
+import useAuth from "@/hooks/useAuth";
+import { signOut } from "@/contexts/auth/actions";
 
 const { Content } = Layout;
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = () => {
     // const [collapsed, setCollapsed] = useState(false);
+    const { dispatch } = useAuth();
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(window.location.pathname);
 
@@ -24,6 +27,11 @@ const AdminLayout = ({ children }) => {
     const handleClickLogo = () => {
         navigate("/admin");
         setActiveKey("/admin");
+    };
+
+    const handleLogOut = () => {
+        cookies.removeToken();
+        dispatch(signOut());
     };
 
     return (
@@ -57,7 +65,7 @@ const AdminLayout = ({ children }) => {
                         selectedKeys={[activeKey]}
                         mode="inline"
                         items={item}
-                        onClick={handleClick}
+                        onClick={handleLogOut}
                     />
                 </div>
             </St.StyleSider>
@@ -73,17 +81,13 @@ const AdminLayout = ({ children }) => {
                     }}
                 >
                     <div style={{ minHeight: "calc(100vh - 100px)" }}>
-                        {children}
+                        <Outlet />
                     </div>
                     <FooterContent />
                 </Content>
             </Layout>
         </Layout>
     );
-};
-
-AdminLayout.propTypes = {
-    children: PropTypes.node.isRequired,
 };
 
 export default AdminLayout;

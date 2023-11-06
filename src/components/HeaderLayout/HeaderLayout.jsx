@@ -3,24 +3,13 @@ import { Avatar, Badge, Layout, Space } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 import * as St from "./HeaderLayout.styled";
 import PopUpOver from "../PopUpOver";
+import useAuth from "@/hooks/useAuth";
 // import avatar from "../../assets/images/avatar.jpg";
-import jwtDecode from "jwt-decode";
-import { useEffect, useState } from "react";
 
 const { Header } = Layout;
 
 const HeaderLayout = () => {
-    // const token = document.cookie;
-    // if (!token) {
-    //     window.location.href = "/";
-    // }
-
-    const [decode, setDecode] = useState([]);
-
-    // useEffect(() => {
-    //     const result = jwtDecode(token);
-    //     setDecode(result);
-    // }, []);
+    const { user } = useAuth();
 
     return (
         <Header
@@ -50,18 +39,14 @@ const HeaderLayout = () => {
                     <St.DivAvatar>
                         <div className="avatar__wrapper">
                             <div className="avatar__content">
-                                <h3 className="avatar__title">
-                                    {decode ? decode.name : "Nane"}
-                                </h3>
-                                <p className="avatar__desc">
-                                    {decode ? decode.email : "Nane@gmail.com"}
-                                </p>
+                                <h3 className="avatar__title">{user.name}</h3>
+                                <p className="avatar__desc">{user.email}</p>
                             </div>
                             <Avatar
                                 className="avatar__icon"
                                 size="large"
                                 // icon={<UserOutlined />}
-                                src={decode.image_url}
+                                src={user.image_url}
                             />
                         </div>
                     </St.DivAvatar>

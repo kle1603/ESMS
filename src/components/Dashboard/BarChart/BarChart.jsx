@@ -1,4 +1,4 @@
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -11,6 +11,7 @@ import {
 } from "chart.js";
 
 import * as St from "./BarChart.styled";
+// import { useEffect, useState } from "react";
 
 ChartJS.register(
     BarElement,
@@ -21,26 +22,35 @@ ChartJS.register(
     Legend
 );
 
-const BarChart = () => {
-    const data = {
-        labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
+const BarChart = ({ data, loading, max }) => {
+    // const [max, setMax] = useState(0);
+
+    // useEffect(() => {
+    //     const numbers = data.map((item) => item.numOfStu);
+    //     const maxNumber = Math.max(...numbers);
+    //     if (maxNumber !== -Infinity) {
+    //         if (maxNumber % 2 === 0) {
+    //             // số chẵn
+    //             setMax(maxNumber + 20);
+    //         } else {
+    //             // số lẻ
+    //             setMax(maxNumber + 19);
+    //         }
+    //     } else {
+    //         setMax(0);
+    //     }
+    // }, [data]);
+
+    if (!Array.isArray(data)) {
+        return null;
+    }
+
+    const datas = {
+        labels: data.map((item) => item.subCode),
         datasets: [
             {
                 label: "2023",
-                data: [2, 8, 1, 9, 2, 1, 3, 4, 2, 8, 3, 9],
+                data: data.map((item) => item.numOfStu),
                 backgroundColor: [
                     "rgba(255, 99, 132, 0.2)",
                     "rgba(255, 159, 64, 0.2)",
@@ -73,7 +83,7 @@ const BarChart = () => {
             legend: false,
             title: {
                 display: true,
-                text: "Performance 2023",
+                text: "Performance",
                 font: {
                     size: 16,
                     weight: "bold",
@@ -88,7 +98,7 @@ const BarChart = () => {
             },
             y: {
                 min: 0,
-                max: 10,
+                max: max,
                 ticks: {
                     stepSize: 2,
                 },
@@ -98,13 +108,17 @@ const BarChart = () => {
 
     return (
         <div>
-            <St.CardStyled hoverable>
-                <Bar className="chart" data={data} options={options} />
+            <St.CardStyled hoverable loading={loading}>
+                <Bar className="chart" data={datas} options={options} />
             </St.CardStyled>
         </div>
     );
 };
 
-BarChart.propTypes = {};
+BarChart.propTypes = {
+    data: PropTypes.array,
+    loading: PropTypes.bool,
+    max: PropTypes.number,
+};
 
 export default BarChart;

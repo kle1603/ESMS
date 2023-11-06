@@ -1,6 +1,5 @@
 import { Layout, Menu } from "antd";
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import items, { item } from "./StaffLayout.items";
 
 import AdminHeader from "@/components/HeaderLayout/index.js";
@@ -9,12 +8,15 @@ import { useState } from "react";
 import * as St from "./StaffLayout.styled";
 import logo from "@/assets/images/Logo.svg";
 import FooterContent from "@/components/FooterContent/FooterContent";
-import configs from "@/configs";
+import useAuth from "@/hooks/useAuth";
+import cookies from "@/utils/cookies";
+import { signOut } from "@/contexts/auth/actions";
 
 const { Content } = Layout;
 
-const StaffLayout = ({ children }) => {
+const StaffLayout = () => {
     // const [collapsed, setCollapsed] = useState(false);
+    const { dispatch } = useAuth();
     const navigate = useNavigate();
     const [activeKey, setActiveKey] = useState(window.location.pathname);
 
@@ -27,9 +29,9 @@ const StaffLayout = ({ children }) => {
         setActiveKey("/staff");
     };
 
-    const handleLogout = () => {
-        document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-        navigate(configs.routes.login);
+    const handleLogOut = () => {
+        cookies.removeToken();
+        dispatch(signOut());
     };
 
     return (
@@ -59,7 +61,7 @@ const StaffLayout = ({ children }) => {
                 </div>
                 <div className="bottom__wrapper">
                     <Menu
-                        onClick={handleLogout}
+                        onClick={handleLogOut}
                         style={{ borderInlineEnd: "none", marginBottom: "2px" }}
                         // defaultSelectedKeys={[window.location.pathname]}
                         selectedKeys={[activeKey]}
@@ -80,17 +82,13 @@ const StaffLayout = ({ children }) => {
                     }}
                 >
                     <div style={{ minHeight: "calc(100vh - 100px)" }}>
-                        {children}
+                        <Outlet />
                     </div>
                     <FooterContent />
                 </Content>
             </Layout>
         </Layout>
     );
-};
-
-StaffLayout.propTypes = {
-    children: PropTypes.node.isRequired,
 };
 
 export default StaffLayout;

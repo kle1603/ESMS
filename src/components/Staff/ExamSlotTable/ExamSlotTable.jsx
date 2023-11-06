@@ -23,6 +23,7 @@ const ExamPhaseTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const [buttonStatus, setButtonStatus] = useState(true);
     const [statusButton, setStatusButton] = useState(false);
+    const pageSize = 10;
 
     const columns = [
         // Your columns
@@ -80,14 +81,13 @@ const ExamPhaseTable = () => {
     }, [semesterId]);
 
     const fetchData = () => {
-        if (state.data.status === true) {
+        if (state.data.courseDone === 0) {
             setStatusButton(true);
         }
         setSemesterId(state.data.semId);
         instance
             .get(`examSlots/${id}`)
             .then((res) => {
-                // console.log(res.data.data);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: item.id,
@@ -171,8 +171,8 @@ const ExamPhaseTable = () => {
 
     const handleEdit = (e) => {
         // navigate(configs.routes.staff + `/examSlot/${e.id}`);
-        console.log(state.data);
-        console.log(e);
+        // console.log(state.data);
+        // console.log(e);
 
         navigate(configs.routes.staff + `/examSlotDetail/${e.id}`, {
             state: {
@@ -202,9 +202,9 @@ const ExamPhaseTable = () => {
                 </Button>
                 {state.data.ePName +
                     " - " +
-                    state.data.startDay +
+                    state.data.sDay +
                     " - " +
-                    state.data.endDay}
+                    state.data.eDay}
             </Divider>
 
             <St.DivTable>
@@ -261,8 +261,8 @@ const ExamPhaseTable = () => {
                     bordered
                     loading={loading}
                     pagination={{
-                        pageSize: 6,
-                        hideOnSinglePage: data.length <= 6,
+                        pageSize: pageSize,
+                        hideOnSinglePage: data.length <= pageSize,
                     }}
                 />
             </St.DivTable>

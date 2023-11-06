@@ -1,10 +1,5 @@
 // import PropTypes from 'prop-types'
-import {
-    Popconfirm,
-    Select,
-    Tag,
-    Typography,
-} from "antd";
+import { Select, Tag, Typography } from "antd";
 import * as St from "./SlotTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
@@ -19,21 +14,33 @@ const SlotTable = () => {
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
+    const pageSize = 10;
     // const format = "HH:mm";
 
     const columns = [
         {
             title: "No",
-            width: "10%",
+            width: "15%",
             render: (record) => {
                 return <Typography>{record.no}</Typography>;
             },
         },
         {
             title: "Name",
-            width: "20%",
+            width: "25%",
             render: (record) => {
                 return <Typography>Slot {record.id}</Typography>;
+            },
+        },
+        {
+            title: "Type",
+            width: "20%",
+            render: (record) => {
+                if (record.des === 0) {
+                    return <Tag color="red">NORMAL</Tag>;
+                } else {
+                    return <Tag color="green">COURSERA</Tag>;
+                }
             },
         },
         {
@@ -50,30 +57,20 @@ const SlotTable = () => {
                 return <Typography>{record.endTime}</Typography>;
             },
         },
-        {
-            title: "Type",
-            width: "15%",
-            render: (record) => {
-                if (record.des === 0) {
-                    return <Tag color="red">NORMAL</Tag>;
-                } else {
-                    return <Tag color="green">COURSERA</Tag>;
-                }
-            },
-        },
-        {
-            title: "Operation",
-            width: "15%",
-            render: (record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
-        },
+        // {
+        //     title: "Operation",
+        //     width: "15%",
+        //     render: (record) =>
+        //         data.length >= 1 ? (
+        //             <Popconfirm
+
+        //                 title="Sure to delete?"
+        //                 onConfirm={() => handleDelete(record.key)}
+        //             >
+        //                 <Typography.Link>Delete</Typography.Link>
+        //             </Popconfirm>
+        //         ) : null,
+        // },
     ];
 
     const fetchData = () => {
@@ -138,7 +135,7 @@ const SlotTable = () => {
     //     setModalVisible(false);
     // };
 
-    const handleDelete = () => {};
+    // const handleDelete = () => {};
 
     // const handleOnChange = (time, timeString) => {
     //     console.log(time.format("HH:mm"), timeString);
@@ -256,8 +253,8 @@ const SlotTable = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                 }}
             />
         </St.DivSlot>

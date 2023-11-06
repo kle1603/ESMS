@@ -1,5 +1,5 @@
 import configs from "@/configs";
-import { HomeOutlined, EditOutlined } from "@ant-design/icons";
+import { HomeOutlined, EditOutlined, UserOutlined } from "@ant-design/icons";
 import { MdLogout } from "react-icons/md";
 
 const items = [
@@ -27,14 +27,19 @@ const items = [
         type: "group",
         children: [
             {
-                label: "Examiner",
-                key: configs.routes.staffExaminer,
-                icon: <EditOutlined />,
-            },
-            {
                 label: "Exam Phase",
                 key: configs.routes.staffExamPhase,
                 icon: <EditOutlined />,
+            },
+            {
+                label: "Examiner",
+                key: configs.routes.staffExaminer,
+                icon: <UserOutlined />,
+            },
+            {
+                label: "Volunteer",
+                key: configs.routes.staffVolunteers,
+                icon: <UserOutlined />,
             },
         ],
     },

@@ -2,41 +2,278 @@
 
 import CardItem from "@/components/Dashboard/CardItem/CardItem";
 import LineChart from "@/components/Dashboard/LineChart";
-import { Col, Divider, Row } from "antd";
+import { Col, Divider, Flex, Row, Select, Typography } from "antd";
 import {
     HistoryOutlined,
     ScheduleOutlined,
     PaperClipOutlined,
     ExclamationOutlined,
 } from "@ant-design/icons";
-import CardTable from "@/components/Dashboard/CardTable";
-import BarChart from "@/components/Dashboard/BarChart";
+import { useEffect, useState } from "react";
+import * as St from "./DashboardTable.styled";
+import instance from "@/utils/instance";
 
 const DashboardTable = () => {
+    const [semesters, setSemesters] = useState([]);
+    const [selectSemester, setSelectSemester] = useState();
+    const [semesterId, setSemesterId] = useState(0);
+    const [selectPhase, setSelectPhase] = useState();
+    const [phases, setPhases] = useState([]);
+    const [phaseId, setPhaseId] = useState(0);
+
+    const [totalRegister, setTotalRegister] = useState(0);
+    const [loadingTotalRegister, setLoadingTotalRegister] = useState(true);
+
+    const [totalRegisterByPhase, setTotalRegisterByPhase] = useState(0);
+    const [loadingTotalRegisterByPhase, setLoadingTotalRegisterByPhase] =
+        useState(true);
+
+    const [slotComing, setSlotComing] = useState(0);
+    const [loadingSlotComing, setLoadingSlotComing] = useState(true);
+
+    const [chartData, setChartData] = useState([]);
+    const [chartLabels, setChartLabels] = useState([]);
+    const [loadingChart, setLoadingChart] = useState(true);
+
+    const [max, setMax] = useState(0);
+
+    const fetchSemester = () => {
+        instance
+            .get("semesters")
+            .then((res) => {
+                const semestersData = res.data.data.map((item) => ({
+                    label: item.season + " " + item.year,
+                    value: item.id,
+                    status: item.status,
+                }));
+                const newData = semestersData.reverse();
+                setSemesterId(newData[0].value);
+                setSelectSemester(newData[0].label);
+                setSemesters(newData);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchPhase = () => {
+        instance
+            .get(`examPhases/${semesterId}`)
+            .then((res) => {
+                if (semesterId !== 0) {
+                    if (res.data.data.length !== 0) {
+                        const phaseData = res.data.data.map((item) => ({
+                            label: item.ePName,
+                            value: item.id,
+                            status: item.status,
+                        }));
+                        const newData = phaseData.reverse();
+                        setSelectPhase(newData[0].label);
+                        setPhaseId(newData[0].value);
+                        setPhases(newData);
+                        // console.log(newData);
+                    } else {
+                        setSelectPhase("");
+                        setPhases([]);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.log("Phase: " + error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchTotalRegister = () => {
+        setLoadingTotalRegister(true);
+
+        instance
+            .get(`dashboard/totalRegistionOfLec`)
+            .then((res) => {
+                const data = res.data.data;
+                setTotalRegister(data);
+                setLoadingTotalRegister(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            .finally(() => {});
+    };
+
+    const fetchTotalRegisterByPhase = () => {
+        setLoadingTotalRegisterByPhase(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/totalRegistionOfLecOnePhase?phaseId=${phaseId}`)
+                .then((res) => {
+                    const data = res.data.data;
+                    setTotalRegisterByPhase(data);
+                    setLoadingTotalRegisterByPhase(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        }
+    };
+
+    const fetchSlotComing = () => {
+        setLoadingSlotComing(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/futureSlotOfLecOnePhase?phaseId=${phaseId}`)
+                .then((res) => {
+                    const data = res.data.data;
+                    setSlotComing(data);
+                    setLoadingSlotComing(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        }
+    };
+
+    const fetchChartData = () => {
+        setLoadingChart(true);
+        if (semesterId !== 0) {
+            instance
+                .get(
+                    `dashboard/totalRegistionEachPhase?semesterId=${semesterId}`
+                )
+                .then((res) => {
+                    const data = res.data.data;
+                    const numbers = data.map((item) => item.slot);
+                    const maxNumber = Math.max(...numbers);
+                    if (maxNumber !== -Infinity) {
+                        if (maxNumber % 2 === 0) {
+                            // số chẵn
+                            setMax(maxNumber + 2);
+                        } else {
+                            // số lẻ
+                            setMax(maxNumber + 1);
+                        }
+                    } else {
+                        setMax(0);
+                    }
+                    const newData = data.map((item) => item.slot);
+                    setChartData(newData);
+                    const labels = data.map((item) => item.phaseName);
+                    // const labels = data.map(
+                    //     (item, index) => `Phase ${index + 1}`
+                    // );
+                    setChartLabels(labels);
+                    setLoadingChart(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        }
+    };
+
+    useEffect(() => {
+        fetchSemester();
+        fetchTotalRegister();
+    }, []);
+
+    useEffect(() => {
+        fetchPhase();
+        fetchChartData();
+    }, [semesterId]);
+
+    useEffect(() => {
+        fetchTotalRegisterByPhase();
+        fetchSlotComing();
+    }, [phaseId]);
+
+    const handleSelectSemester = (id, option) => {
+        if (id !== semesterId) {
+            if (option.status === 0) {
+                // console.log("false");
+            } else {
+                // console.log("true");
+            }
+            setSelectSemester(option.label);
+            setSemesterId(id);
+            setPhaseId(0);
+            setPhases([]);
+        }
+    };
+
+    const handleSelectPhase = (id, option) => {
+        // setSelectPhase(option.label);
+        // setPhaseId(id);
+        // console.log(option);
+
+        if (id !== phaseId) {
+            if (option.status === false) {
+                // console.log("false");
+            } else {
+                // console.log("true");
+            }
+            setSelectPhase(option.label);
+            setPhaseId(id);
+        }
+    };
+
     return (
         <div>
             <Row gutter={[16, 20]}>
+                <Col xs={24} md={24} lg={24}>
+                    <St.StyledLeft>
+                        <Typography className="title">Semester: </Typography>
+                        <Select
+                            onChange={handleSelectSemester}
+                            value={selectSemester}
+                            className="select"
+                            options={semesters}
+                        />
+                        {phases.length !== 0 ? (
+                            <Flex>
+                                <Typography className="title">
+                                    Phase:{" "}
+                                </Typography>
+                                <Select
+                                    onChange={handleSelectPhase}
+                                    value={selectPhase}
+                                    className="select"
+                                    options={phases}
+                                />
+                            </Flex>
+                        ) : (
+                            <div></div>
+                        )}
+                    </St.StyledLeft>
+                </Col>
                 <Col xs={24} md={24} lg={11}>
                     <Divider orientation="left">Haha</Divider>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} md={12}>
                             <CardItem
+                                loading={loadingTotalRegister}
+                                desc={"At all the time"}
                                 title={"Total Slots"}
-                                value={20}
+                                value={totalRegister}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
+                                desc={"At this phase"}
+                                loading={loadingTotalRegisterByPhase}
                                 title={"Remaining Slots"}
-                                value={0}
+                                value={totalRegisterByPhase}
                                 icon={<PaperClipOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
+                                desc={"At this phase"}
+                                loading={loadingSlotComing}
                                 title={"Completed Slots"}
-                                value={12}
+                                value={slotComing}
                                 icon={<HistoryOutlined className="icon" />}
                             />
                         </Col>
@@ -51,16 +288,21 @@ const DashboardTable = () => {
                 </Col>
                 <Col xs={24} md={24} lg={13}>
                     <Divider orientation="left">Haha</Divider>
-                    <LineChart />
+                    <LineChart
+                        labels={chartLabels}
+                        data={chartData}
+                        max={max}
+                        loading={loadingChart}
+                    />
                 </Col>
-                <Col xs={24}>
+                {/* <Col xs={24}>
                     <Divider orientation="left">Haha</Divider>
                     <BarChart />
                 </Col>
                 <Col xs={24}>
                     <Divider orientation="left">Haha</Divider>
                     <CardTable />
-                </Col>
+                </Col> */}
             </Row>
         </div>
     );

@@ -10,8 +10,10 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
+import PropTypes from "prop-types";
 
 import * as St from "./LineChart.styled";
+// import { useEffect, useState } from "react";
 
 ChartJS.register(
     LineElement,
@@ -23,13 +25,18 @@ ChartJS.register(
     Legend
 );
 
-const LineChart = () => {
-    const data = {
-        labels: ["Sep", "Oct", "Nov", "Dec"],
+const LineChart = ({ labels, data, loading, max }) => {
+    if (!Array.isArray(data) || !Array.isArray(labels)) {
+        return null;
+    }
+
+    const datas = {
+        // labels: ["Sep", "Oct", "Nov", "Dec"],
+        labels: labels,
         datasets: [
             {
-                label: "Fall",
-                data: [2, 8, 3, 9],
+                label: "Value",
+                data: data,
                 // backgroundColor: "transparent",
                 backgroundColor: "rgb(75, 192, 192)",
                 borderColor: "rgb(75, 192, 192)",
@@ -47,7 +54,7 @@ const LineChart = () => {
             legend: false,
             title: {
                 display: true,
-                text: "Performance Fall 2023",
+                text: "Performance",
                 font: {
                     size: 16,
                     weight: "bold",
@@ -62,7 +69,7 @@ const LineChart = () => {
             },
             y: {
                 min: 0,
-                max: 10,
+                max: max,
                 ticks: {
                     stepSize: 2,
                 },
@@ -71,12 +78,17 @@ const LineChart = () => {
     };
 
     return (
-        <St.CardStyled hoverable loading={false}>
-            <Line className="chart" data={data} options={option} />
+        <St.CardStyled hoverable loading={loading}>
+            <Line className="chart" data={datas} options={option} />
         </St.CardStyled>
     );
 };
 
-LineChart.propTypes = {};
+LineChart.propTypes = {
+    data: PropTypes.array,
+    loading: PropTypes.bool,
+    max: PropTypes.number,
+    labels: PropTypes.array,
+};
 
 export default LineChart;

@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Button, Form, Input, Modal, Popconfirm, Tag, Typography } from "antd";
+import { Button, Form, Input, Popconfirm, Tag, Typography } from "antd";
 
 import * as St from "./SubjectTable.styled";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ const SubjectTable = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const pageSize = 10;
 
     const columns = [
         {
@@ -150,11 +151,10 @@ const SubjectTable = () => {
     const modalFooter = () => {
         return (
             <>
+                <Button onClick={handleCancel}>Cancel</Button>
                 <Button type="primary" onClick={handleOk}>
                     Submit
                 </Button>
-
-                <Button onClick={handleCancel}>Cancel</Button>
             </>
         );
     };
@@ -166,11 +166,11 @@ const SubjectTable = () => {
                 title="Add new subject"
             />
 
-            <Modal
+            <St.ModalStyled
                 title="Add a subject"
                 open={modalVisible}
                 // onOk={handleOk}/
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter}
             >
                 <Form
@@ -189,7 +189,7 @@ const SubjectTable = () => {
                             },
                         ]}
                     >
-                        <Input allowClear placeholder="Subject Name"  />
+                        <Input allowClear placeholder="Subject Name" />
                     </Form.Item>
 
                     <Form.Item
@@ -206,7 +206,7 @@ const SubjectTable = () => {
                         <Input allowClear placeholder="Subject Code" />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
             <Form form={form} component={false}>
                 <St.StyledTable
                     scroll={{ x: true }}
@@ -215,8 +215,8 @@ const SubjectTable = () => {
                     columns={columns}
                     rowClassName="editable-row"
                     pagination={{
-                        pageSize: 6,
-                        hideOnSinglePage: data.length <= 6,
+                        pageSize: pageSize,
+                        hideOnSinglePage: data.length <= pageSize,
                         showSizeChanger: false,
                     }}
                     loading={loading}

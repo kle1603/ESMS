@@ -4,10 +4,10 @@ import { Flex, Typography } from "antd";
 
 import * as St from "./CardItem.styled";
 
-const CardItem = ({ title, value, icon }) => {
+const CardItem = ({ title, value, icon, loading, desc }) => {
     return (
         <div>
-            <St.CardStyled hoverable bordered={true} loading={false}>
+            <St.CardStyled hoverable bordered={true} loading={loading}>
                 <Flex className="wrapper">
                     <Typography className="title">{title}</Typography>
                     {icon}
@@ -15,7 +15,7 @@ const CardItem = ({ title, value, icon }) => {
                 <Flex className="value">
                     <Typography className="value-title">{value}</Typography>
                     <Typography className="value-desc">
-                        At this semester
+                       {desc}
                     </Typography>
                 </Flex>
             </St.CardStyled>
@@ -25,8 +25,9 @@ const CardItem = ({ title, value, icon }) => {
 
 CardItem.propTypes = {
     title: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+    // value: PropTypes.number.isRequired,
     icon: PropTypes.node.isRequired,
+    loading: PropTypes.bool,
 };
 
 export default CardItem;
