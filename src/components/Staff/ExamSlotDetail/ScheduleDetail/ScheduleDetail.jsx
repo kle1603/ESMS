@@ -62,11 +62,17 @@ const ScheduleDetail = ({ noti }) => {
             title: "Operation",
             width: "19%",
             render: (record) => {
-                return (
-                    <Typography.Link onClick={() => handleEdit(record)}>
-                        Edit
-                    </Typography.Link>
-                );
+                if (record.status === 1 && record.examiner === "N/A") {
+                    return (
+                        <Typography.Link onClick={() => handleEdit(record)}>
+                            Add examiner
+                        </Typography.Link>
+                    );
+                } else {
+                    return (
+                        <Typography.Link disabled>Can not add</Typography.Link>
+                    );
+                }
             },
         },
     ];
@@ -130,6 +136,7 @@ const ScheduleDetail = ({ noti }) => {
                     })
                     .then(() => {
                         fetchScheduleDetail();
+                        fetchFreeExaminer();
                         setModalVisible(false);
                         form.resetFields();
                     })

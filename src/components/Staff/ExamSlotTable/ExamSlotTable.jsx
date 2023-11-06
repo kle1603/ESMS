@@ -81,7 +81,7 @@ const ExamPhaseTable = () => {
     }, [semesterId]);
 
     const fetchData = () => {
-        if (state.data.courseDone === 0) {
+        if (state.data.status === true) {
             setStatusButton(true);
         }
         setSemesterId(state.data.semId);
@@ -202,9 +202,9 @@ const ExamPhaseTable = () => {
                 </Button>
                 {state.data.ePName +
                     " - " +
-                    state.data.sDay +
+                    state.data.startDay +
                     " - " +
-                    state.data.eDay}
+                    state.data.endDay}
             </Divider>
 
             <St.DivTable>
