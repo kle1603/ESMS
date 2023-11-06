@@ -63,7 +63,7 @@ const ExamPhaseTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if (record.status === false) {
+                if (record.courseDone === 1) {
                     return <Tag color="default">CLOSED</Tag>;
                 } else {
                     return <Tag color="green">PENDING</Tag>;
@@ -101,19 +101,18 @@ const ExamPhaseTable = () => {
                             key: item.id,
                             no: index + 1,
                         }));
-                    console.log(formattedData);
                     setData(formattedData);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
                 })
-                .finally(() => {
-                    setLoading(false);
-                });
+                .finally(() => {});
         }
     };
 
     const fetchSemester = () => {
+        setLoading(true);
         instance
             .get("semesters")
             .then((res) => {
@@ -130,9 +129,7 @@ const ExamPhaseTable = () => {
             .catch((error) => {
                 console.log(error);
             })
-            .finally(() => {
-                setLoading(false);
-            });
+            .finally(() => {});
     };
 
     useEffect(() => {

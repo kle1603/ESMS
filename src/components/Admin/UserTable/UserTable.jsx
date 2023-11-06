@@ -7,6 +7,7 @@ import instance from "@/utils/instance";
 import Search from "antd/es/input/Search";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
+import cookies from "@/utils/cookies";
 
 const UserTable = () => {
     const [data, setData] = useState([]);
@@ -17,6 +18,8 @@ const UserTable = () => {
     const [total, setTotal] = useState();
     const [page, setPage] = useState();
     const pageSize = 10;
+
+    const token = cookies.getToken();
 
     const columns = [
         {
@@ -93,9 +96,17 @@ const UserTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`users/${search}`, {
-                params: { page_no: page, limit: pageSize },
-            })
+            .get(
+                `users/${search}`,
+                {
+                    params: { page_no: page, limit: pageSize },
+                },
+                {
+                    headers: {
+                        token: `Bearer ${token}`,
+                    },
+                }
+            )
             .then((res) => {
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);

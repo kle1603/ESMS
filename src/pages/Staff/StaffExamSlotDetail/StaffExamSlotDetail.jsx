@@ -80,6 +80,7 @@ const StaffExamPhaseDetail = () => {
                         setDefaultValue(formattedData[0].value);
                         setCourses(formattedData);
                         setButtonStatus(false);
+                        setMessage(true);
                     }
                 }
             })
@@ -94,15 +95,12 @@ const StaffExamPhaseDetail = () => {
     };
 
     const handleOk = () => {
-        console.log(phaseId);
         setButtonOk(true);
         form.validateFields()
             .then((values) => {
-                console.log(values);
                 if (values.course === selectCourses) {
                     values.course = defaultValue;
                 }
-                console.log(param.id, values.course, values.numOfStu);
                 instance
                     .post(`subInSlots`, {
                         courId: values.course,

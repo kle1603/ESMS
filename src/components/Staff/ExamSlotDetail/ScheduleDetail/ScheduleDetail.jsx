@@ -1,11 +1,14 @@
 import PropTypes from "prop-types";
 
 import instance from "@/utils/instance";
-import { Table, Tag, Typography } from "antd";
+import { Button, Input, Table, Tag, Typography, Form } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import * as St from "./ScheduleDetail.styled";
 
 const ScheduleDetail = ({ noti }) => {
+    const [form] = Form.useForm();
+    const [modalVisible, setModalVisible] = useState(false);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
@@ -65,10 +68,6 @@ const ScheduleDetail = ({ noti }) => {
         },
     ];
 
-    const handleEdit = (e) => {
-        console.log(e);
-    };
-
     useEffect(() => {
         // call api here
         fetchScheduleDetail();
@@ -94,8 +93,111 @@ const ScheduleDetail = ({ noti }) => {
             .finally(() => {});
     };
 
+    const handleOk = () => {
+        form.validateFields()
+            .then((values) => {})
+            .catch((info) => {
+                console.log("Validate Failed:", info);
+            });
+    };
+
+    const handleCancel = () => {
+        form.resetFields();
+        setModalVisible(false);
+    };
+
+    const handleEdit = (e) => {
+        form.setFieldsValue({
+            courseCode: e.subCode,
+            room: e.roomNum,
+            examiner: e.examiner,
+        });
+        setModalVisible(true);
+    };
+
+    // console.log(courseCode, room, examiner);
+
+    const modalFooter = () => {
+        return (
+            <>
+                <Button onClick={handleCancel}>Cancel</Button>
+                <Button type="primary" onClick={handleOk}>
+                    Submit
+                </Button>
+            </>
+        );
+    };
+
+    const layout = {
+        labelAlign: "left",
+        labelCol: {
+            span: 7,
+        },
+        wrapperCol: {
+            span: 24,
+        },
+    };
+
     return (
         <div>
+            <St.ModalStyled
+                title="Edit information"
+                open={modalVisible}
+                // onOk={handleOk}
+                // onCancel={handleCancel}
+                footer={modalFooter}
+            >
+                <Form
+                    style={{ marginTop: "30px", marginBottom: "30px" }}
+                    form={form}
+                    name="courseCodeForm"
+                >
+                    <Form.Item
+                        {...layout}
+                        label="Course Code"
+                        name="courseCode"
+                        rules={[
+                            {
+                                required: false,
+                                message: "Please input the course code!",
+                            },
+                        ]}
+                        // initialValue={courseCode}
+                    >
+                        <Input placeholder="Course Code" disabled />
+                    </Form.Item>
+
+                    <Form.Item
+                        {...layout}
+                        label="Room"
+                        name="room"
+                        rules={[
+                            {
+                                required: false,
+                                message: "Please input the room!",
+                            },
+                        ]}
+                        // initialValue={room}
+                    >
+                        <Input placeholder="Room" disabled />
+                    </Form.Item>
+
+                    <Form.Item
+                        {...layout}
+                        label="Examiner"
+                        name="examiner"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input the examiner!",
+                            },
+                        ]}
+                        // initialValue={examiner}
+                    >
+                        <Input placeholder="Examiner" allowClear />
+                    </Form.Item>
+                </Form>
+            </St.ModalStyled>
             <Table
                 columns={columns}
                 dataSource={data}
