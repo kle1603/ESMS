@@ -9,6 +9,7 @@ import { Col, Divider, Flex, Row, Select, Typography } from "antd";
 import * as St from "./DashboardTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 
 const DashboardTable = () => {
     const [semesters, setSemesters] = useState([]);
@@ -39,6 +40,8 @@ const DashboardTable = () => {
 
     const [maxLine, setMaxLine] = useState(0);
     const [maxBar, setMaxBar] = useState(0);
+
+    const token = cookies.getToken();
 
     const fetchSemester = () => {
         instance
@@ -89,7 +92,9 @@ const DashboardTable = () => {
         setLoadingExaminer(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/examinerDashBoard?ePId=${phaseId}`)
+                .get(`dashboard/examinerDashBoard`, {
+                    params: { token: token, ePId: phaseId },
+                })
                 .then((res) => {
                     const data = res.data.data;
                     setTotalExaminer(data);
@@ -110,7 +115,9 @@ const DashboardTable = () => {
         setLoadingCourse(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/numOfCourseNotScheduled?ePId=${phaseId}`)
+                .get(`dashboard/numOfCourseNotScheduled`, {
+                    params: { token: token, ePId: phaseId },
+                })
                 .then((res) => {
                     // console.log(res.data.data);
                     const data =
@@ -134,7 +141,9 @@ const DashboardTable = () => {
         setLoadingSlot(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/totalSlotDashBoard?ePId=${phaseId}`)
+                .get(`dashboard/totalSlotDashBoard`, {
+                    params: { token: token, ePId: phaseId },
+                })
                 .then((res) => {
                     const data = res.data.data;
                     setTotalSlot(data);
@@ -155,7 +164,9 @@ const DashboardTable = () => {
         setLoadingRegister(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/numOfDayRegister?ePId=${phaseId}`)
+                .get(`dashboard/numOfDayRegister`, {
+                    params: { token: token, ePId: phaseId },
+                })
                 .then((res) => {
                     // console.log(res.data.data);
                     const data = res.data.data;
@@ -193,7 +204,9 @@ const DashboardTable = () => {
         setLoadingDataTop(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/topThreeExaminerDashBoard?ePId=${phaseId}`)
+                .get(`dashboard/topThreeExaminerDashBoard`, {
+                    params: { token: token, ePId: phaseId },
+                })
                 .then((res) => {
                     const formatData = res.data.data.map((item, index) => ({
                         ...item,
@@ -217,7 +230,9 @@ const DashboardTable = () => {
         setLoadingCourseAndStu(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/courseAndNumOfStuDashBoard?ePId=${phaseId}`)
+                .get(`dashboard/courseAndNumOfStuDashBoard?ePId=${phaseId}`, {
+                    params: { token: token },
+                })
                 .then((res) => {
                     const newData = res.data.data;
                     setTotalCourseAndStu(newData);
