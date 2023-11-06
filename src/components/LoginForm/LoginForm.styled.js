@@ -75,7 +75,8 @@ export const DivLogin = styled.div`
             width: 100%;
             border-radius: 35px;
             align-items: center;
-            border: solid black 2px;
+            border: solid #ccc 2px;
+            cursor: pointer;
             outline: none;
         }
 

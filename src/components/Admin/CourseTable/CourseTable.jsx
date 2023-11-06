@@ -2,6 +2,7 @@ import { Flex, Form, Select, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
+// import cookies from "@/utils/cookies";
 // import ButtonAdd from "@/components/ButtonAdd";
 
 const CourseTable = () => {
@@ -16,6 +17,8 @@ const CourseTable = () => {
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
     const pageSize = 10;
+
+    // const token = cookies.getToken();
 
     const fetchSemester = () => {
         instance

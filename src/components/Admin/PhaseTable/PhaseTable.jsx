@@ -129,6 +129,7 @@ const PhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
+                    console.log(res.data.data);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
