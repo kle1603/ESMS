@@ -9,6 +9,7 @@ import ModalSchedule from "../Schedule/ModalSchedule";
 import instance from "@/utils/instance";
 import { Divider } from "antd";
 import * as St from "./Schedule.styled.js";
+import cookies from "@/utils/cookies";
 
 const localizer = momentLocalizer(moment);
 // localizer.formats.timeGutterFormat = "H:mm";
@@ -19,6 +20,7 @@ const Schedule = () => {
     const [data, setData] = useState([]);
     const start = new Date(0, 0, 0, 7, 0, 0);
     const end = new Date(0, 0, 0, 19, 0, 0);
+    const token = cookies.getToken();
 
     const handleEvent = (event) => {
         setIsModalOpen(true);
@@ -37,9 +39,13 @@ const Schedule = () => {
 
     const fetchData = () => {
         instance
-            .get("students/scheduleOfStu")
+            .get("students/scheduleOfStu", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
-                console.log(res.data.data);
+                // console.log(res.data.data);
 
                 const formattedData = res.data.data.map((item, index) => {
                     item.startTime = new Date(item.startTime);
