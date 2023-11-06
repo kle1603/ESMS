@@ -34,6 +34,12 @@ const DashboardTable = () => {
     const [totalNumOfCourse, setTotalNumOfCourse] = useState(0);
     const [loadingNumOfCourse, setLoadingNumOfCourse] = useState(true);
 
+    const [dataTopExaminer, setDataTopExaminer] = useState([]);
+    const [loadingTop, setLoadingTop] = useState(true);
+
+    const [coursePharse, setCoursePharse] = useState([]);
+    // const [loadingCoursePharse, setLoadingCoursePharse] = useState(true);
+
     const fetchSemester = () => {
         instance
             .get("semesters")
@@ -148,7 +154,7 @@ const DashboardTable = () => {
     };
 
     const fetchNumOfCourse = () => {
-        setLoadingNumOfCourse(true);
+        // setLoadingNumOfCourse(true);
         if (phaseId !== 0) {
             instance
                 .get(`dashboard/numOfCourseNotScheduled`, {
@@ -171,12 +177,57 @@ const DashboardTable = () => {
         }
     };
 
+    const fetchTopExaminer = () => {
+        setLoadingTop(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/topThreeExaminerDashBoard`, {
+                    params: { token: token, ePId: 3 },
+                })
+                .then((res) => {
+                    // console.log(res);
+                    const dataTop = res.data.data.map((item, index) => ({
+                        ...item,
+                        no: index + 1,
+                    }));
+                    setDataTopExaminer(dataTop);
+                    setLoadingTop(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {});
+        } else {
+            setDataTopExaminer([]);
+        }
+    };
+
+    const fetchCoursePharse = () => {
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/totalExamroomByPhase`, {
+                    params: { token: token, ePId: 3 },
+                })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {});
+        } else {
+            setCoursePharse([]);
+        }
+    };
+
     useEffect(() => {
         fetchSemester();
         fetchSlot();
         fetchExaminer();
         fetchCourse();
         fetchNumOfCourse();
+        fetchTopExaminer();
+        fetchCoursePharse();
     }, []);
 
     useEffect(() => {
@@ -274,7 +325,7 @@ const DashboardTable = () => {
                 </Col>
                 <Col xs={24}>
                     <Divider orientation="left">Hello</Divider>
-                    <CardTable />
+                    <CardTable data={dataTopExaminer} loading={loadingTop} />
                 </Col>
             </Row>
         </div>
