@@ -125,18 +125,13 @@ const MyExamSlot = () => {
     }, [phaseId]);
 
     const handleRegister = () => {
-        navigate(`/lecturer/register/${phaseId}`, {
-            params: {
-                token: token,
-            },
-        });
+        navigate(`/lecturer/register/${phaseId}`);
     };
 
     const handleDelete = (e) => {
         instance
             .put("examRooms/delLecturer", {
-                exPhaseId: phaseId,
-                token: token,
+                userId: 256,
                 startTime: e.startTime,
                 endTime: e.endTime,
                 day: e.day,
