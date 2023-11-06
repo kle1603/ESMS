@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import * as St from "./MyExamSlot.styled";
 import { useNavigate } from "react-router-dom";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 
 const MyExamSlot = () => {
     const [loading, setLoading] = useState(true);
@@ -19,13 +20,20 @@ const MyExamSlot = () => {
     const [statusPhase, setStatusPhase] = useState(false);
     const navigate = useNavigate();
 
+    const token = cookies.getToken();
+
     const fetchData = () => {
         setLoading(true);
         if (phaseId !== 0) {
             setLoading(true);
             instance
                 .get(
-                    `examiners/scheduledByPhase?userId=256&examphaseId=${phaseId}`
+                    `examiners/scheduledByPhase?userId=256&examphaseId=${phaseId}`,
+                    {
+                        params: {
+                            token: token,
+                        },
+                    }
                 )
                 .then((res) => {
                     const formattedData = res.data.data.map((item, index) => ({

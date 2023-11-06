@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import * as St from "./DashboardTable.styled";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 
 const DashboardTable = () => {
     const [semesters, setSemesters] = useState([]);
@@ -36,6 +37,8 @@ const DashboardTable = () => {
     const [loadingChart, setLoadingChart] = useState(true);
 
     const [max, setMax] = useState(0);
+
+    const token = cookies.getToken();
 
     const fetchSemester = () => {
         instance
@@ -89,7 +92,11 @@ const DashboardTable = () => {
         setLoadingTotalRegister(true);
 
         instance
-            .get(`dashboard/totalRegistionOfLec`)
+            .get(`dashboard/totalRegistionOfLec`, {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const data = res.data.data;
                 setTotalRegister(data);
@@ -105,7 +112,14 @@ const DashboardTable = () => {
         setLoadingTotalRegisterByPhase(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/totalRegistionOfLecOnePhase?phaseId=${phaseId}`)
+                .get(
+                    `dashboard/totalRegistionOfLecOnePhase?phaseId=${phaseId}`,
+                    {
+                        params: {
+                            token: token,
+                        },
+                    }
+                )
                 .then((res) => {
                     const data = res.data.data;
                     setTotalRegisterByPhase(data);
@@ -122,7 +136,11 @@ const DashboardTable = () => {
         setLoadingSlotComing(true);
         if (phaseId !== 0) {
             instance
-                .get(`dashboard/futureSlotOfLecOnePhase?phaseId=${phaseId}`)
+                .get(`dashboard/futureSlotOfLecOnePhase?phaseId=${phaseId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     const data = res.data.data;
                     setSlotComing(data);
@@ -140,7 +158,12 @@ const DashboardTable = () => {
         if (semesterId !== 0) {
             instance
                 .get(
-                    `dashboard/totalRegistionEachPhase?semesterId=${semesterId}`
+                    `dashboard/totalRegistionEachPhase?semesterId=${semesterId}`,
+                    {
+                        params: {
+                            token: token,
+                        },
+                    }
                 )
                 .then((res) => {
                     const data = res.data.data;

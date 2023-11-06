@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import * as St from "./ExamTable.styled";
 import instance from "@/utils/instance";
 import { useParams } from "react-router-dom";
+import cookies from "@/utils/cookies";
 
 const ExamTable = () => {
     const { id } = useParams();
     // console.log(id);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const token = cookies.getToken();
 
     useEffect(() => {
         fetchData();
@@ -21,7 +23,11 @@ const ExamTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(`examiners/examPhaseId?userId=256&examPhaseId=${id}`)
+            .get(`examiners/examPhaseId?examPhaseId=${id}`, {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
