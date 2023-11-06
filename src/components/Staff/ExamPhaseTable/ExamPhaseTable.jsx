@@ -38,14 +38,14 @@ const ExamPhaseTable = () => {
             title: "Start Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.sDay}</Typography>;
+                return <Typography>{record.startDay}</Typography>;
             },
         },
         {
             title: "End Day",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.eDay}</Typography>;
+                return <Typography>{record.endDay}</Typography>;
             },
         },
         {
@@ -63,10 +63,10 @@ const ExamPhaseTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if (record.courseDone === 1) {
-                    return <Tag color="default">CLOSED</Tag>;
-                } else {
+                if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
+                } else {
+                    return <Tag color="default">CLOSED</Tag>;
                 }
             },
         },
@@ -92,8 +92,9 @@ const ExamPhaseTable = () => {
 
         if (semesterId !== 0) {
             instance
-                .get(`examPhases/${semesterId}`)
+                .get(`examPhases/semId?semesterId=${semesterId}`)
                 .then((res) => {
+                    // console.log(res.data.data);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({

@@ -5,13 +5,13 @@ import StudentLayout from "@/layouts/StudentLayout";
 import StudentDashboard from "@/pages/Student/StudentDashboard";
 import StudentExamSlot from "@/pages/Student/StudentExamSlot";
 import StudentSchedule from "@/pages/Student/StudentSchedule";
-import { ADMIN } from "@/utils/constants";
+import { STUDENT } from "@/utils/constants";
 
 const studentRoutes = [
     {
         element: (
             <AuthGuard>
-                <RoleBasedGuard accessibleRoles={[ADMIN]}>
+                <RoleBasedGuard accessibleRoles={[STUDENT]}>
                     <StudentLayout />
                 </RoleBasedGuard>
             </AuthGuard>
