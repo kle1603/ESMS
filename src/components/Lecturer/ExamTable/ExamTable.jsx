@@ -51,7 +51,7 @@ const ExamTable = () => {
         // console.log(e);
         instance
             .put("examRooms/lecturer", {
-                userId: 256,
+                token: token,
                 startTime: e.startTime,
                 endTime: e.endTime,
                 day: e.day,
