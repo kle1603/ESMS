@@ -18,6 +18,7 @@ const theme = {
         blue_2: "#1677ff",
         blue_3: "#4096ff",
         blue_4: "#5145e5",
+        blue_5: "#1677ff",
         white_color: "#fff",
         white_matte: "rgba(255, 255, 255, 0.7)",
         gray_1: "#ccc",
