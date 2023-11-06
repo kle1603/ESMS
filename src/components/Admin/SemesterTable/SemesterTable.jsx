@@ -101,18 +101,18 @@ const SemesterTable = () => {
         instance
             .get("semesters")
             .then((res) => {
-                const formattedData = res.data.data
+                console.log(res);
+                const formatttedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
                         ...item,
                         no: index + 1,
-                        key: item.id,
                         season: item.season + " " + item.year,
                     }));
-                setData(formattedData);
+                setData(formatttedData);
             })
-            .catch((error) => {
-                console.log(error);
+            .catch((err) => {
+                console.log(err);
             })
             .finally(() => {
                 setLoading(false);

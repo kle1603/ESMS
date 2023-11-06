@@ -10,6 +10,7 @@ import { Col, Divider, Flex, Row, Select, Typography } from "antd";
 import * as St from "./DashboardTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 
 const DashboardTable = () => {
     const [semesters, setSemesters] = useState([]);
@@ -18,6 +19,20 @@ const DashboardTable = () => {
     const [selectPhase, setSelectPhase] = useState();
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
+
+    const token = cookies.getToken();
+
+    const [totalExamSlot, setTotalExamSlot] = useState(0);
+    const [loadingSlot, setLoadingSlot] = useState(true);
+
+    const [totalExaminer, setTotalExaminer] = useState(0);
+    const [loadingExaminer, setLoadingExaminer] = useState(true);
+
+    const [totalCourse, setTotalCourse] = useState(0);
+    const [loadingCourse, setLoadingCourse] = useState(true);
+
+    const [totalNumOfCourse, setTotalNumOfCourse] = useState(0);
+    const [loadingNumOfCourse, setLoadingNumOfCourse] = useState(true);
 
     const fetchSemester = () => {
         instance
@@ -64,8 +79,104 @@ const DashboardTable = () => {
             .finally(() => {});
     };
 
+    const fetchSlot = () => {
+        setLoadingSlot(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/totalExamSlotByPhase`, {
+                    params: { token: token, ePId: 3 },
+                })
+                .then((res) => {
+                    // console.log(res);
+                    const data = res.data.data;
+                    setTotalExamSlot(data);
+                    // console.log(data);
+                    setLoadingSlot(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {});
+        } else {
+            setTotalExamSlot(0);
+        }
+    };
+
+    const fetchExaminer = () => {
+        setLoadingExaminer(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/totalExaminerByPhase`, {
+                    params: { token: token, ePId: 3 },
+                })
+                .then((res) => {
+                    // console.log(res);
+                    const data = res.data.data;
+                    setTotalExaminer(data);
+                    // console.log(data);
+                    setLoadingExaminer(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {});
+        } else {
+            setTotalExaminer(0);
+        }
+    };
+
+    const fetchCourse = () => {
+        setLoadingCourse(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/totalCourseByPhase`, {
+                    params: { token: token, ePId: 3 },
+                })
+                .then((res) => {
+                    // console.log(res)
+                    const data = res.data.data;
+                    setTotalCourse(data);
+                    setLoadingCourse(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {});
+        } else {
+            setLoadingCourse(0);
+        }
+    };
+
+    const fetchNumOfCourse = () => {
+        setLoadingNumOfCourse(true);
+        if (phaseId !== 0) {
+            instance
+                .get(`dashboard/numOfCourseNotScheduled`, {
+                    params: { token: token, ePId: 3 },
+                })
+                .then((res) => {
+                    // console.log(res);
+                    const data =
+                        res.data.data.assigned + "/" + res.data.data.total;
+                    setTotalNumOfCourse(data);
+                    // console.log(data);
+                    setLoadingNumOfCourse(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {});
+        } else {
+            setTotalNumOfCourse(0);
+        }
+    };
+
     useEffect(() => {
         fetchSemester();
+        fetchSlot();
+        fetchExaminer();
+        fetchCourse();
+        fetchNumOfCourse();
     }, []);
 
     useEffect(() => {
@@ -113,33 +224,41 @@ const DashboardTable = () => {
                     </St.StyledLeft>
                 </Col>
                 <Col xs={24} md={24} lg={11}>
-                    <Divider orientation="left">Sumimana</Divider>
+                    <Divider orientation="left">Total</Divider>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} md={12}>
                             <CardItem
-                                title="Title 1"
-                                value={20}
+                                desc={"Total exam slot"}
+                                title="Exam Slot"
+                                value={totalExamSlot}
+                                loading={loadingSlot}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                title="Title 2"
-                                value={20}
+                                desc={"Total examiner"}
+                                title="Examiner"
+                                value={totalExaminer}
+                                loading={loadingExaminer}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                title="Title 3"
-                                value={20}
+                                title="Total Course"
+                                desc={"Total course"}
+                                value={totalCourse}
+                                loading={loadingCourse}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                title="Title 4"
-                                value={20}
+                                title="Num Of Course"
+                                desc={"Not Scheduled"}
+                                value={totalNumOfCourse}
+                                loading={loadingNumOfCourse}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
                         </Col>
