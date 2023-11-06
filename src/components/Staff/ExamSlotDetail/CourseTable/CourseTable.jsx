@@ -4,11 +4,13 @@ import { Table, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as St from "./CourseTable.styled";
+import cookies from "@/utils/cookies";
 
 const CourseTable = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
+    const token = cookies.getToken();
 
     useEffect(() => {
         // call api here
@@ -18,7 +20,11 @@ const CourseTable = ({ noti }) => {
     const fetchCourse = () => {
         setLoading(true);
         instance
-            .get(`examRooms/getCourseAndNumOfStuOneSlot?exSlotID=${param.id}`)
+            .get(`examRooms/getCourseAndNumOfStuOneSlot?exSlotID=${param.id}`, {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 // console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({

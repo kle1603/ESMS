@@ -94,12 +94,12 @@ const ExamPhaseTable = () => {
             instance
                 .get(`examPhases/semId?semesterId=${semesterId}`)
                 .then((res) => {
-                    // console.log(res.data.data);
+                    console.log(res.data.data);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
                             ...item,
-                            key: item.id,
+                            key: index + 1,
                             no: index + 1,
                         }));
                     setData(formattedData);

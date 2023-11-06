@@ -35,7 +35,8 @@ const DashboardTable = () => {
     const [dataTop, setDataTop] = useState([]);
     const [loadingDataTop, setLoadingDataTop] = useState(true);
 
-    const [totalCourseAndStu, setTotalCourseAndStu] = useState([]);
+    const [totalCourseAndStuData, setTotalCourseAndStuData] = useState([]);
+    const [totalCourseAndStuLabels, setTotalCourseAndStuLabels] = useState([]);
     const [loadingCourseAndStu, setLoadingCourseAndStu] = useState(true);
 
     const [maxLine, setMaxLine] = useState(0);
@@ -47,6 +48,7 @@ const DashboardTable = () => {
         instance
             .get("semesters")
             .then((res) => {
+                // console.log(res.data.data);
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
                     value: item.id,
@@ -63,10 +65,10 @@ const DashboardTable = () => {
     };
 
     const fetchPhase = () => {
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                if (semesterId !== 0) {
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
                             label: item.ePName,
@@ -80,12 +82,12 @@ const DashboardTable = () => {
                         setSelectPhase("");
                         setPhases([]);
                     }
-                }
-            })
-            .catch((error) => {
-                console.log("Phase: " + error);
-            })
-            .finally(() => {});
+                })
+                .catch((error) => {
+                    console.log("Phase: " + error);
+                })
+                .finally(() => {});
+        }
     };
 
     const fetchExaminer = () => {
@@ -235,7 +237,6 @@ const DashboardTable = () => {
                 })
                 .then((res) => {
                     const newData = res.data.data;
-                    setTotalCourseAndStu(newData);
                     const numbers = newData.map((item) => item.numOfStu);
                     const maxNumber = Math.max(...numbers);
                     if (maxNumber !== -Infinity) {
@@ -249,6 +250,10 @@ const DashboardTable = () => {
                     } else {
                         setMaxBar(0);
                     }
+                    const labels = newData.map((item) => item.subCode);
+                    setTotalCourseAndStuData(labels);
+                    const dataNum = newData.map((item) => item.numOfStu);
+                    setTotalCourseAndStuLabels(dataNum);
                     setLoadingCourseAndStu(false);
                 })
                 .catch((error) => {
@@ -256,7 +261,8 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setTotalCourseAndStu([]);
+            setTotalCourseAndStuData([]);
+            setTotalCourseAndStuLabels([]);
             // setLoading(false);
         }
     };
@@ -377,7 +383,8 @@ const DashboardTable = () => {
                     </Divider>
                     <BarChart
                         max={maxBar}
-                        data={totalCourseAndStu}
+                        data={totalCourseAndStuData}
+                        labels={totalCourseAndStuLabels}
                         loading={loadingCourseAndStu}
                     />
                 </Col>

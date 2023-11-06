@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button, Flex, Table } from "antd";
+import { Flex, Table } from "antd";
 
 export const DivTable = styled.div`
     margin-top: 20px;
@@ -7,7 +7,7 @@ export const DivTable = styled.div`
     position: relative;
 `;
 
-export const ButtonTable = styled(Button)`
+export const FlexStyled = styled(Flex)`
     position: absolute;
     top: 0;
     right: 0;

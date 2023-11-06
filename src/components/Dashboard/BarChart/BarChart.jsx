@@ -22,7 +22,7 @@ ChartJS.register(
     Legend
 );
 
-const BarChart = ({ data, loading, max }) => {
+const BarChart = ({ data, loading, max, labels }) => {
     // const [max, setMax] = useState(0);
 
     // useEffect(() => {
@@ -41,16 +41,16 @@ const BarChart = ({ data, loading, max }) => {
     //     }
     // }, [data]);
 
-    if (!Array.isArray(data)) {
+    if (!Array.isArray(data) || !Array.isArray(labels)) {
         return null;
     }
 
     const datas = {
-        labels: data.map((item) => item.subCode),
+        labels: labels,
         datasets: [
             {
                 label: "2023",
-                data: data.map((item) => item.numOfStu),
+                data: data,
                 backgroundColor: [
                     "rgba(255, 99, 132, 0.2)",
                     "rgba(255, 159, 64, 0.2)",
@@ -119,6 +119,7 @@ BarChart.propTypes = {
     data: PropTypes.array,
     loading: PropTypes.bool,
     max: PropTypes.number,
+    labels: PropTypes.array,
 };
 
 export default BarChart;
