@@ -18,7 +18,7 @@ const ModalSchedule = ({ event, isModalOpen, setIsModalOpen }) => {
                 onOk={handleOk}
                 onCancel={handleCancel}
             >
-                <Typography>Location: {event.title}</Typography>
+                <Typography>Subject Code: {event.subCode}</Typography>
             </Modal>
         </div>
     );

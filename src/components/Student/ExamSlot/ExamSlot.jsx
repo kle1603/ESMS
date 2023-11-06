@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import * as St from "./ExamSlot.styled";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 
 const ExamSlot = () => {
     const [loading, setLoading] = useState(true);
@@ -12,6 +13,7 @@ const ExamSlot = () => {
     const [semesters, setSemesters] = useState([]);
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
+    const token = cookies.getToken();
 
     const fetchData = () => {
         setLoading(true);
@@ -19,7 +21,12 @@ const ExamSlot = () => {
         if (semesterId !== 0) {
             instance
                 .get(
-                    `students/scheduleOfStuBySemester?semesterId=${semesterId}`
+                    `students/scheduleOfStuBySemester?semesterId=${semesterId}`,
+                    {
+                        params: {
+                            token: token,
+                        },
+                    }
                 )
                 .then((res) => {
                     const formattedData = res.data.data.map((item, index) => ({
