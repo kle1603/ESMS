@@ -9,7 +9,6 @@ const CourseTable = ({ noti }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const param = useParams();
-    // console.log(param);
 
     useEffect(() => {
         // call api here
