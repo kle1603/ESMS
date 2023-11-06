@@ -96,17 +96,9 @@ const UserTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get(
-                `users/${search}`,
-                {
-                    params: { page_no: page, limit: pageSize },
-                },
-                {
-                    headers: {
-                        token: `Bearer ${token}`,
-                    },
-                }
-            )
+            .get(`users/${search}`, {
+                params: { page_no: page, limit: pageSize, token: token },
+            })
             .then((res) => {
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);
