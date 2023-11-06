@@ -131,7 +131,8 @@ const MyExamSlot = () => {
     const handleDelete = (e) => {
         instance
             .put("examRooms/delLecturer", {
-                userId: 256,
+                exPhaseId: phaseId,
+                token: token,
                 startTime: e.startTime,
                 endTime: e.endTime,
                 day: e.day,
