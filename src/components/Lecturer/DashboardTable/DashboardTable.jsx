@@ -286,7 +286,7 @@ const DashboardTable = () => {
                             <CardItem
                                 desc={"At this phase"}
                                 loading={loadingTotalRegisterByPhase}
-                                title={"Remaining Slots"}
+                                title={"Total Register Slots"}
                                 value={totalRegisterByPhase}
                                 icon={<PaperClipOutlined className="icon" />}
                             />
@@ -295,15 +295,15 @@ const DashboardTable = () => {
                             <CardItem
                                 desc={"At this phase"}
                                 loading={loadingSlotComing}
-                                title={"Completed Slots"}
+                                title={"Coming Slots"}
                                 value={slotComing}
                                 icon={<HistoryOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                title={"Violated Slots"}
-                                value={0}
+                                title={"Coming soon"}
+                                value={999}
                                 icon={<ExclamationOutlined className="icon" />}
                             />
                         </Col>
