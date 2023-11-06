@@ -251,9 +251,9 @@ const DashboardTable = () => {
                         setMaxBar(0);
                     }
                     const labels = newData.map((item) => item.subCode);
-                    setTotalCourseAndStuData(labels);
+                    setTotalCourseAndStuLabels(labels);
                     const dataNum = newData.map((item) => item.numOfStu);
-                    setTotalCourseAndStuLabels(dataNum);
+                    setTotalCourseAndStuData(dataNum);
                     setLoadingCourseAndStu(false);
                 })
                 .catch((error) => {
