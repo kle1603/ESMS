@@ -373,7 +373,7 @@ const DashboardTable = () => {
                     </Row>
                 </Col>
                 <Col xs={24} md={24} lg={13}>
-                    <Divider orientation="left">Hello</Divider>
+                    <Divider orientation="left">Performance</Divider>
                     <LineChart
                         max={maxLine}
                         loading={loadingCoursePharse}
@@ -386,7 +386,7 @@ const DashboardTable = () => {
                     <BarChart />
                 </Col> */}
                 <Col xs={24}>
-                    <Divider orientation="left">Hello</Divider>
+                    <Divider orientation="left">Top Examiners</Divider>
                     <CardTable data={dataTopExaminer} loading={loadingTop} />
                 </Col>
             </Row>
