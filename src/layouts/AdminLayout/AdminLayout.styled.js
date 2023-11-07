@@ -38,7 +38,7 @@ export const StyleSider = styled(Sider)`
         .ant-menu-title-content {
             font-family: ${Theme.font.primary_font};
             font-size: 1.5rem;
-            font-weight: 500;
+            /* font-weight: 500; */
         }
 
         .ant-menu-light .ant-menu-item-selected {
