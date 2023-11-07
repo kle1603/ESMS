@@ -104,6 +104,8 @@ const DashboardTable = () => {
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoadingSlot(false);
+                    setTotalExamSlot(0);
                 })
                 .finally(() => {});
         } else {
@@ -127,6 +129,8 @@ const DashboardTable = () => {
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoadingExaminer(false);
+                    setTotalExaminer(0);
                 })
                 .finally(() => {});
         } else {
@@ -149,6 +153,8 @@ const DashboardTable = () => {
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoadingCourse(false);
+                    setTotalCourse(0);
                 })
                 .finally(() => {});
         } else {
@@ -173,6 +179,8 @@ const DashboardTable = () => {
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoadingNumOfCourse(false);
+                    setTotalNumOfCourse(0);
                 })
                 .finally(() => {});
         } else {
@@ -200,6 +208,8 @@ const DashboardTable = () => {
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoadingTop(false);
+                    setDataTopExaminer([]);
                 })
                 .finally(() => {});
         } else {
@@ -236,6 +246,9 @@ const DashboardTable = () => {
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoadingCoursePharse(false);
+                    setCoursePharseData([]);
+                    setCoursePharseLabels([]);
                 })
                 .finally(() => {});
         } else {
