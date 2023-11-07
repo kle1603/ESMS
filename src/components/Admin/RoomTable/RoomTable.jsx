@@ -186,7 +186,7 @@ const RoomTable = () => {
                 <Search onSearch={handleSearch} />
             </St.SpaceStyled>
 
-            <ButtonAdd setModalVisible={setModalVisible} title="Add new room" />
+            <ButtonAdd disabled={true} setModalVisible={setModalVisible} title="Can not add now" />
             <St.ModalStyled
                 title="Add a room"
                 open={modalVisible}

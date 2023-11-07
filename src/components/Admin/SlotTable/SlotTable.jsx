@@ -29,7 +29,7 @@ const SlotTable = () => {
             title: "Name",
             width: "25%",
             render: (record) => {
-                return <Typography>Slot {record.id}</Typography>;
+                return <Typography>Slot {record.no}</Typography>;
             },
         },
         {
