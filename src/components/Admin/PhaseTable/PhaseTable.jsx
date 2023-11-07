@@ -150,6 +150,8 @@ const PhaseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoading(false);
+                    setData([]);
                 })
                 .finally(() => {
                     setLoading(false);
@@ -174,6 +176,8 @@ const PhaseTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
