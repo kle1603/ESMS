@@ -92,31 +92,39 @@ const PhaseTable = () => {
             width: "20%",
             render: (record) => {
                 // console.log(record);
-                return (
-                    <div>
-                        <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.id)}
-                        >
-                            <Typography.Link>Delete</Typography.Link>
-                        </Popconfirm>
-                        {record.courseDone === 0 ? (
-                            <Typography.Link
-                                onClick={handleImport}
-                                style={{ marginLeft: 20 }}
+                if (record.status == true) {
+                    return (
+                        <div>
+                            <Popconfirm
+                                title="Sure to delete?"
+                                onConfirm={() => handleDelete(record.id)}
                             >
-                                Import
-                            </Typography.Link>
-                        ) : (
-                            <Typography.Link
-                                style={{ marginLeft: 20 }}
-                                disabled
-                            >
-                                Import
-                            </Typography.Link>
-                        )}
-                    </div>
-                );
+                                <Typography.Link>Delete</Typography.Link>
+                            </Popconfirm>
+                            {record.courseDone === 0 ? (
+                                <Typography.Link
+                                    onClick={handleImport}
+                                    style={{ marginLeft: 20 }}
+                                >
+                                    Import
+                                </Typography.Link>
+                            ) : (
+                                <Typography.Link
+                                    style={{ marginLeft: 20 }}
+                                    disabled
+                                >
+                                    Import
+                                </Typography.Link>
+                            )}
+                        </div>
+                    );
+                } else {
+                    return (
+                        <Typography.Link disabled>
+                            Can not delete
+                        </Typography.Link>
+                    );
+                }
             },
         },
     ];
@@ -129,7 +137,7 @@ const PhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
-                    console.log(res.data.data);
+                    console.log(res);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({

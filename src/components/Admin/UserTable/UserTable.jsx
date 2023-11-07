@@ -1,5 +1,13 @@
 // import PropTypes from "prop-types";
-import { Button, Form, Input, Popconfirm, Select, Tag, Typography } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Popconfirm,
+    Select,
+    Tag,
+    Typography,
+} from "antd";
 import * as St from "./UserTable.styled";
 
 import { useEffect, useState } from "react";
@@ -229,13 +237,13 @@ const UserTable = () => {
             </>
         );
     };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
             <St.SpaceStyled>
                 <Search allowClear onSearch={handleSearch} />
             </St.SpaceStyled>
-
             <ButtonAdd setModalVisible={setModalVisible} title="Add new user" />
             <St.ModalStyled
                 title="Add new user"

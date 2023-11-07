@@ -76,6 +76,7 @@ const SubjectTable = () => {
         instance
             .get("subjects")
             .then((res) => {
+                console.log(res)
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
