@@ -125,6 +125,8 @@ const SemesterTable = () => {
             })
             .catch((err) => {
                 console.log(err);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {
                 setLoading(false);
