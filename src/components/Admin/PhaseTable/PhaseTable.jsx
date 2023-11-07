@@ -115,18 +115,32 @@ const PhaseTable = () => {
                                 onClick={handleImport}
                                 style={{ marginLeft: 20 }}
                             >
-                                Import
-                            </Typography.Link>
-                        ) : (
-                            <Typography.Link
-                                style={{ marginLeft: 20 }}
-                                disabled
-                            >
-                                Import
-                            </Typography.Link>
-                        )}
-                    </div>
-                );
+                                <Typography.Link>Delete</Typography.Link>
+                            </Popconfirm>
+                            {record.courseDone === 0 ? (
+                                <Typography.Link
+                                    onClick={handleImport}
+                                    style={{ marginLeft: 20 }}
+                                >
+                                    Import
+                                </Typography.Link>
+                            ) : (
+                                <Typography.Link
+                                    style={{ marginLeft: 20 }}
+                                    disabled
+                                >
+                                    Import
+                                </Typography.Link>
+                            )}
+                        </div>
+                    );
+                } else {
+                    return (
+                        <Typography.Link disabled>
+                            Can not delete
+                        </Typography.Link>
+                    );
+                }
             },
         },
     ];
@@ -140,6 +154,7 @@ const PhaseTable = () => {
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
                     // console.log(res.data.data);
+
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
