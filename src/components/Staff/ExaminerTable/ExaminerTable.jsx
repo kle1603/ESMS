@@ -46,11 +46,11 @@ const ExaminerTable = () => {
             width: "15%",
             render: (record) => {
                 if (record.role === "lecturer") {
-                    return <Tag color="red">LECTURER</Tag>;
+                    return <Tag color="red">{record.role.toUpperCase()}</Tag>;
                 } else {
-
-                    return <Tag color="volcano">{record.role.toUpperCase()}</Tag>;
-
+                    return (
+                        <Tag color="volcano">{record.role.toUpperCase()}</Tag>
+                    );
                 }
             },
         },
@@ -58,10 +58,8 @@ const ExaminerTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-
                 if (record.status === true) {
                     return <Tag color="green">INACTIVE</Tag>;
-
                 } else {
                     return <Tag color="default">ACTIVE</Tag>;
                 }
@@ -81,7 +79,6 @@ const ExaminerTable = () => {
         //             </Popconfirm>
         //         ) : null,
         // },
-
     ];
 
     const fetchSemester = () => {
