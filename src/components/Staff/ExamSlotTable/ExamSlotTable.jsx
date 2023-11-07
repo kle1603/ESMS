@@ -1,6 +1,14 @@
 // import PropTypes from "prop-types";
 
-import { Button, Divider, Form, Input, Modal, Select, Table } from "antd";
+import {
+    Button,
+    DatePicker,
+    Divider,
+    Form,
+    Modal,
+    Select,
+    Table,
+} from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import * as St from "./ExamSlotTable.styled";
@@ -26,6 +34,7 @@ const ExamPhaseTable = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [statusButton, setStatusButton] = useState(false);
     const pageSize = 10;
+    const [day, setDay] = useState("");
 
     const token = cookies.getToken();
 
@@ -226,6 +235,10 @@ const ExamPhaseTable = () => {
             });
     };
 
+    const onChangeDay = (_, date) => {
+        // console.log(date);
+        setDay(date);
+    };
     // const handleSelect = (id, option) => {};
 
     const layout = {
@@ -291,7 +304,10 @@ const ExamPhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Input placeholder="Input the day" allowClear />
+                            <DatePicker
+                                onChange={onChangeDay}
+                                style={{ width: "100%" }}
+                            />
                         </Form.Item>
                         <Form.Item
                             {...layout}
