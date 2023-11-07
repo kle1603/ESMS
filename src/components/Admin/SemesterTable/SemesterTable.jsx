@@ -149,13 +149,12 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                // console.log(values.season);
-                // console.log(startDay);
-                // console.log(endDay);
-
+                const newValue = values.season
+                    .toUpperCase()
+                    .replaceAll(" ", "_");
                 instance
                     .post("semesters/whenCreateSemester", {
-                        season: values.season,
+                        season: newValue,
                         start: startDay,
                         end: endDay,
                         token: token,
@@ -242,7 +241,7 @@ const SemesterTable = () => {
                             },
                         ]}
                     >
-                        <Input allowClear placeholder="Season" />
+                        <Input allowClear placeholder="Ex: Fall 2023" />
                     </Form.Item>
 
                     <Form.Item
