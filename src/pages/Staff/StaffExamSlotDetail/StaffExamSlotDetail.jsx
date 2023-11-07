@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import { Button, Divider, Form, Input, Modal, Select } from "antd";
+import { Button, Divider, Form, Input, Select } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import { useLocation, useParams } from "react-router-dom";
@@ -171,11 +171,11 @@ const StaffExamPhaseDetail = () => {
                 </Button>
                 {state.item}
             </Divider>
-            <Modal
+            <St.ModalStyled
                 title="Add new course"
                 open={modalVisible}
                 // onOk={handleOk}
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter()}
             >
                 <Form form={form} name="add_row_form">
@@ -208,7 +208,7 @@ const StaffExamPhaseDetail = () => {
                         <Input placeholder="Number of Students" />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
             <St.TabsStyled
                 tabBarExtraContent={operations}
                 defaultActiveKey="1"
