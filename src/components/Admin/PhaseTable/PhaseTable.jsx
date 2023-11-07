@@ -134,7 +134,11 @@ const PhaseTable = () => {
 
         if (semesterId !== 0) {
             instance
-                .get(`examPhases/${semesterId}`)
+                .get(`examPhases/${semesterId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     // console.log(res.data.data);
 
@@ -162,7 +166,11 @@ const PhaseTable = () => {
     const fetchSemester = () => {
         // setLoading(true);
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const semestersData = res.data.data
                     .sort((a, b) => b.id - a.id)
