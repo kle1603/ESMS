@@ -81,7 +81,7 @@ const ExaminerTable = () => {
                         title="Sure to delete?"
                         onConfirm={() => handleDelete(record.key)}
                     >
-                        <Typography.Link>Detail</Typography.Link>
+                        <Typography.Link>Delete</Typography.Link>
                     </Popconfirm>
                 ) : null,
         },
@@ -143,6 +143,7 @@ const ExaminerTable = () => {
             instance
                 .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`)
                 .then((res) => {
+                    console.log(res);
                     const formattedData = res.data.data.map((item, index) => ({
                         ...item,
                         no: index + 1,
