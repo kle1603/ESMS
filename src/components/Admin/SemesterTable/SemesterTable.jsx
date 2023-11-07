@@ -134,7 +134,12 @@ const SemesterTable = () => {
     const handleDelete = (e) => {
         // console.log(e);
         instance
-            .delete("semesters", { data: { id: e } })
+            // .delete("semesters", { data: { id: e } })
+            .delete(`semesters`, {
+                params: {
+                    id: e,
+                },
+            })
             .then((res) => {
                 console.log(res);
                 toast.success("Successfully deleted!");
