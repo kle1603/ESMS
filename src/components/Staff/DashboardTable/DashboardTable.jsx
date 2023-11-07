@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import BarChart from "@/components/Dashboard/BarChart";
+// import BarChart from "@/components/Dashboard/BarChart";
 import CardItem from "@/components/Dashboard/CardItem/CardItem";
 import CardTable from "@/components/Dashboard/CardTable";
 import LineChart from "@/components/Dashboard/LineChart";

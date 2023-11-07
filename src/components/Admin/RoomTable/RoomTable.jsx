@@ -58,7 +58,7 @@ const RoomTable = () => {
             title: "Operation",
             width: "20%",
             render: (record) => {
-                if (record.allowed === 1) {
+                if (record.delete === 1) {
                     return (
                         <Popconfirm
                             title="Sure to delete?"
@@ -82,10 +82,11 @@ const RoomTable = () => {
         instance
             .get("rooms")
             .then((res) => {
+                console.log(res)
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
-                    key: item.id,
+                    key: index + 1,
                 }));
                 setData(formattedData);
                 setLoading(false);

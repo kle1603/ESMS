@@ -61,7 +61,7 @@ const SemesterTable = () => {
                 const startDay = new Date(record.start);
                 const endDay = new Date(record.end);
 
-                if (currentDate < startDay) {
+                if (currentDate <= startDay) {
                     return <Tag color="blue">FUTURE</Tag>;
                 } else if (currentDate > endDay) {
                     return <Tag color="red">CLOSED</Tag>;
@@ -106,6 +106,7 @@ const SemesterTable = () => {
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
                         ...item,
+                        key: index + 1,
                         no: index + 1,
                         season: item.season + " " + item.year,
                     }));
@@ -127,7 +128,8 @@ const SemesterTable = () => {
         console.log(e);
         instance
             .delete("semesters", { data: { id: e } })
-            .then(() => {
+            .then((res) => {
+                console.log(res);
                 toast.success("Successfully deleted!");
                 fetchData();
             })
