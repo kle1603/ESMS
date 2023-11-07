@@ -66,6 +66,8 @@ const Schedule = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
