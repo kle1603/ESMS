@@ -106,7 +106,11 @@ const SemesterTable = () => {
 
     const fetchData = () => {
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 // console.log(res);
                 const formattedData = res.data.data
@@ -138,6 +142,7 @@ const SemesterTable = () => {
             .delete(`semesters`, {
                 params: {
                     id: e,
+                    token: token,
                 },
             })
             .then((res) => {
