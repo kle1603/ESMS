@@ -42,7 +42,7 @@ const DashboardTable = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters/otherRole")
             .then((res) => {
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
@@ -62,9 +62,13 @@ const DashboardTable = () => {
 
     const fetchPhase = () => {
         instance
-            .get(`examPhases/${semesterId}`)
+            .get(`examPhases/otherRole`, {
+                params: {
+                    id: semesterId,
+                },
+            })
             .then((res) => {
-                // console.log(res.data.data); 
+                // console.log(res.data.data);
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
@@ -105,6 +109,8 @@ const DashboardTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setTotalRegister([]);
+                setLoadingTotalRegister(false);
             })
             .finally(() => {});
     };
@@ -112,6 +118,7 @@ const DashboardTable = () => {
     const fetchTotalRegisterByPhase = () => {
         setLoadingTotalRegisterByPhase(true);
         if (phaseId !== 0) {
+            setLoadingTotalRegisterByPhase(true);
             instance
                 .get(
                     `dashboard/totalRegistionOfLecOnePhase?phaseId=${phaseId}`,
@@ -128,14 +135,20 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setTotalRegisterByPhase([]);
+                    setLoadingTotalRegisterByPhase(false);
                 })
                 .finally(() => {});
+        } else {
+            setTotalRegisterByPhase([]);
+            setLoadingTotalRegisterByPhase(false);
         }
     };
 
     const fetchSlotComing = () => {
         setLoadingSlotComing(true);
         if (phaseId !== 0) {
+            setLoadingSlotComing(true);
             instance
                 .get(`dashboard/futureSlotOfLecOnePhase?phaseId=${phaseId}`, {
                     params: {
@@ -149,8 +162,13 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setSlotComing([]);
+                    setLoadingSlotComing(false);
                 })
                 .finally(() => {});
+        } else {
+            setSlotComing([]);
+            setLoadingSlotComing(false);
         }
     };
 
@@ -193,8 +211,15 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setChartData([]);
+                    setChartLabels([]);
+                    setLoadingChart(false);
                 })
                 .finally(() => {});
+        } else {
+            setChartData([]);
+            setChartLabels([]);
+            setLoadingChart(false);
         }
     };
 
