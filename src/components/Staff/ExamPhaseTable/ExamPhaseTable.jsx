@@ -89,8 +89,9 @@ const ExamPhaseTable = () => {
 
     const fetchData = () => {
         // console.log(semesterId);
-
+        setLoading(true);
         if (semesterId !== 0) {
+            setLoading(true);
             instance
                 .get(`examPhases/semId?semesterId=${semesterId}`)
                 .then((res) => {
@@ -107,8 +108,13 @@ const ExamPhaseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
+        } else {
+            setData([]);
+            setLoading(false);
         }
     };
 

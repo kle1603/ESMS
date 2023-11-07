@@ -107,10 +107,14 @@ const ExaminerTable = () => {
     };
 
     const fetchPhase = () => {
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                if (semesterId !== 0) {
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/otherRole`, {
+                    params: {
+                        id: semesterId,
+                    },
+                })
+                .then((res) => {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
                             label: item.ePName,
@@ -124,17 +128,18 @@ const ExaminerTable = () => {
                         setSelectPhase("");
                         setPhases([]);
                     }
-                }
-            })
-            .catch((error) => {
-                console.log("Phase: " + error);
-            })
-            .finally(() => {});
+                })
+                .catch((error) => {
+                    console.log("Phase: " + error);
+                })
+                .finally(() => {});
+        }
     };
 
     const fetchData = () => {
         setLoading(true);
         if (phaseId !== 0) {
+            setLoading(true);
             instance
                 .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`)
                 .then((res) => {
@@ -148,11 +153,13 @@ const ExaminerTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         } else {
             setData([]);
-            // setLoading(false);
+            setLoading(false);
         }
     };
 
