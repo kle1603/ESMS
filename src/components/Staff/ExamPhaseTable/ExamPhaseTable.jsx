@@ -115,7 +115,7 @@ const ExamPhaseTable = () => {
     const fetchSemester = () => {
         setLoading(true);
         instance
-            .get("semesters")
+            .get("semesters/otherRole")
             .then((res) => {
                 const semestersData = res.data.data
                     .sort((a, b) => b.id - a.id)

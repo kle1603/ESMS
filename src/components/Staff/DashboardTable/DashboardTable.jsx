@@ -45,7 +45,7 @@ const DashboardTable = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters/otherRole")
             .then((res) => {
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
