@@ -7,7 +7,7 @@ import Event from "../Schedule/Event";
 import { useEffect, useState } from "react";
 import ModalSchedule from "../Schedule/ModalSchedule";
 import instance from "@/utils/instance";
-import { Divider } from "antd";
+import { Divider, Spin } from "antd";
 import * as St from "./Schedule.styled.js";
 import cookies from "@/utils/cookies";
 
@@ -21,6 +21,7 @@ const Schedule = () => {
     const start = new Date(0, 0, 0, 7, 0, 0);
     const end = new Date(0, 0, 0, 19, 0, 0);
     const token = cookies.getToken();
+    const [loading, setLoading] = useState(true);
 
     const handleEvent = (event) => {
         setIsModalOpen(true);
@@ -38,6 +39,7 @@ const Schedule = () => {
     };
 
     const fetchData = () => {
+        setLoading(true);
         instance
             .get("students/scheduleOfStu", {
                 params: {
@@ -61,9 +63,12 @@ const Schedule = () => {
                     };
                 });
                 setData(formattedData);
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -80,25 +85,28 @@ const Schedule = () => {
                 isModalOpen={isModalOpen}
                 setIsModalOpen={setIsModalOpen}
             />
-            <St.Calender
-                components={{
-                    header: ({ date }) => moment(date).format("ddd (DD/MM)"),
-                    event: Event,
-                }}
-                enableAutoScroll
-                localizer={localizer}
-                events={data}
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: 578 }}
-                min={start}
-                max={end}
-                eventPropGetter={eventPropGetter}
-                onSelectEvent={handleEvent}
-                popup
-                defaultView="week"
-                views={["month", "week", "day"]}
-            />
+            <Spin spinning={loading}>
+                <St.Calender
+                    components={{
+                        header: ({ date }) =>
+                            moment(date).format("ddd (DD/MM)"),
+                        event: Event,
+                    }}
+                    enableAutoScroll
+                    localizer={localizer}
+                    events={data}
+                    startAccessor="start"
+                    endAccessor="end"
+                    style={{ height: 578 }}
+                    min={start}
+                    max={end}
+                    eventPropGetter={eventPropGetter}
+                    onSelectEvent={handleEvent}
+                    popup
+                    defaultView="week"
+                    views={["month", "week", "day"]}
+                />
+            </Spin>
         </div>
     );
 };
