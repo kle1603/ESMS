@@ -37,8 +37,11 @@ const DashboardTable = () => {
     const [dataTopExaminer, setDataTopExaminer] = useState([]);
     const [loadingTop, setLoadingTop] = useState(true);
 
-    const [coursePharse, setCoursePharse] = useState([]);
-    // const [loadingCoursePharse, setLoadingCoursePharse] = useState(true);
+    const [coursePharseData, setCoursePharseData] = useState([]);
+    const [coursePharseLabels, setCoursePharseLabels] = useState([]);
+    const [loadingCoursePharse, setLoadingCoursePharse] = useState(true);
+
+    const [maxLine, setMaxLine] = useState(0);
 
     const fetchSemester = () => {
         instance
@@ -60,10 +63,10 @@ const DashboardTable = () => {
     };
 
     const fetchPhase = () => {
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                if (semesterId !== 0) {
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
                             label: item.ePName,
@@ -77,12 +80,12 @@ const DashboardTable = () => {
                         setSelectPhase("");
                         setPhases([]);
                     }
-                }
-            })
-            .catch((error) => {
-                console.log("Phase: " + error);
-            })
-            .finally(() => {});
+                })
+                .catch((error) => {
+                    console.log("Phase: " + error);
+                })
+                .finally(() => {});
+        }
     };
 
     const fetchSlot = () => {
@@ -149,7 +152,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setLoadingCourse(0);
+            setTotalCourse(0);
         }
     };
 
@@ -189,7 +192,9 @@ const DashboardTable = () => {
                     const dataTop = res.data.data.map((item, index) => ({
                         ...item,
                         no: index + 1,
+                        key: index + 1,
                     }));
+                    // console.log(dataTop)
                     setDataTopExaminer(dataTop);
                     setLoadingTop(false);
                 })
@@ -209,30 +214,52 @@ const DashboardTable = () => {
                     params: { token: token, ePId: 3 },
                 })
                 .then((res) => {
-                    console.log(res);
+                    const newData = res.data.data;
+                    const numbers = newData.map((item) => item.numExamroom);
+                    const maxNumber = Math.max(...numbers);
+                    if (maxNumber !== -Infinity) {
+                        if (maxNumber % 2 === 0) {
+                            // số chẵn
+                            setMaxLine(maxNumber + 2);
+                        } else {
+                            // số lẻ
+                            setMaxLine(maxNumber + 1);
+                        }
+                    } else {
+                        setMaxLine(0);
+                    }
+                    const labels = newData.map((item) => item.day);
+                    setCoursePharseLabels(labels);
+                    const dataNum = newData.map((item) => item.numExamroom);
+                    setCoursePharseData(dataNum);
+                    setLoadingCoursePharse(false);
                 })
                 .catch((err) => {
                     console.log(err);
                 })
                 .finally(() => {});
         } else {
-            setCoursePharse([]);
+            setCoursePharseData([]);
+            setCoursePharseLabels([]);
         }
     };
 
     useEffect(() => {
-        fetchSemester();
         fetchSlot();
         fetchExaminer();
         fetchCourse();
         fetchNumOfCourse();
         fetchTopExaminer();
         fetchCoursePharse();
-    }, []);
+    }, [phaseId]);
 
     useEffect(() => {
         fetchPhase();
     }, [semesterId]);
+
+    useEffect(() => {
+        fetchSemester();
+    }, []);
 
     const handleSelectSemester = (id, option) => {
         setSelectSemester(option.label);
@@ -317,12 +344,17 @@ const DashboardTable = () => {
                 </Col>
                 <Col xs={24} md={24} lg={13}>
                     <Divider orientation="left">Hello</Divider>
-                    <LineChart />
+                    <LineChart
+                        max={maxLine}
+                        loading={loadingCoursePharse}
+                        labels={coursePharseLabels}
+                        data={coursePharseData}
+                    />
                 </Col>
-                <Col xs={24}>
+                {/* <Col xs={24}>
                     <Divider orientation="left">Hello</Divider>
                     <BarChart />
-                </Col>
+                </Col> */}
                 <Col xs={24}>
                     <Divider orientation="left">Hello</Divider>
                     <CardTable data={dataTopExaminer} loading={loadingTop} />
