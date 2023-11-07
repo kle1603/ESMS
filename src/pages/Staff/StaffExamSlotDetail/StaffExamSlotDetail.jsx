@@ -12,6 +12,7 @@ import ScheduleDetail from "@/components/Staff/ExamSlotDetail/ScheduleDetail";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import useScrollTopContent from "@/hooks/useScrollTopContent";
+import toast, { Toaster } from "react-hot-toast";
 
 const StaffExamPhaseDetail = () => {
     useScrollTopContent();
@@ -108,6 +109,7 @@ const StaffExamPhaseDetail = () => {
                         numStu: values.numOfStu,
                     })
                     .then(() => {
+                        toast.success("Successfully created!");
                         fetchCourse();
                         setButtonOk(false);
                         setModalVisible(false);
@@ -115,6 +117,7 @@ const StaffExamPhaseDetail = () => {
                         setNoti(!noti);
                     })
                     .catch((error) => {
+                        toast.error("This is an error!");
                         console.log(error);
                         fetchCourse();
                         setButtonOk(false);
@@ -165,6 +168,7 @@ const StaffExamPhaseDetail = () => {
 
     return (
         <>
+            <Toaster position="top-right" reverseOrder={false} />
             <Divider orientation="left">
                 <Button onClick={handleBack} style={{ marginRight: 10 }}>
                     <ArrowLeftOutlined />
