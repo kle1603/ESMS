@@ -98,7 +98,7 @@ const DashboardTable = () => {
             setLoadingSlot(true);
             instance
                 .get(`dashboard/totalExamSlotByPhase`, {
-                    params: { token: token, ePId: 3 },
+                    params: { token: token, ePId: phaseId },
                 })
                 .then((res) => {
                     // console.log(res);
@@ -125,7 +125,7 @@ const DashboardTable = () => {
             setLoadingExaminer(true);
             instance
                 .get(`dashboard/totalExaminerByPhase`, {
-                    params: { token: token, ePId: 3 },
+                    params: { token: token, ePId: phaseId },
                 })
                 .then((res) => {
                     // console.log(res);
@@ -152,7 +152,7 @@ const DashboardTable = () => {
             setLoadingCourse(true);
             instance
                 .get(`dashboard/totalCourseByPhase`, {
-                    params: { token: token, ePId: 3 },
+                    params: { token: token, ePId: phaseId },
                 })
                 .then((res) => {
                     // console.log(res)
@@ -178,7 +178,7 @@ const DashboardTable = () => {
             setLoadingNumOfCourse(true);
             instance
                 .get(`dashboard/numOfCourseNotScheduled`, {
-                    params: { token: token, ePId: 3 },
+                    params: { token: token, ePId: phaseId },
                 })
                 .then((res) => {
                     // console.log(res);
@@ -206,7 +206,7 @@ const DashboardTable = () => {
             setLoadingTop(true);
             instance
                 .get(`dashboard/topThreeExaminerDashBoard`, {
-                    params: { token: token, ePId: 3 },
+                    params: { token: token, ePId: phaseId },
                 })
                 .then((res) => {
                     // console.log(res);
@@ -237,7 +237,7 @@ const DashboardTable = () => {
             setLoadingCoursePharse(true);
             instance
                 .get(`dashboard/totalExamroomByPhase`, {
-                    params: { token: token, ePId: 3 },
+                    params: { token: token, ePId: phaseId },
                 })
                 .then((res) => {
                     const newData = res.data.data;
