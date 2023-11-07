@@ -68,9 +68,7 @@ const StaffExamPhaseDetail = () => {
         instance
             .get(`studentExams?ePId=${phaseId}`)
             .then((res) => {
-                if (res.data.message) {
-                    setMessage(false);
-                } else {
+                if (res.data.message && res.data.data) {
                     if (phaseId !== 0) {
                         const formattedData = res.data.data.map((item) => ({
                             value: item.courId,
@@ -82,6 +80,8 @@ const StaffExamPhaseDetail = () => {
                         setButtonStatus(false);
                         setMessage(true);
                     }
+                } else {
+                    setMessage(false);
                 }
             })
             .catch((error) => {
