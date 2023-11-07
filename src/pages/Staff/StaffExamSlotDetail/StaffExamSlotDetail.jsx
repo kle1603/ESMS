@@ -1,6 +1,6 @@
 // import PropTypes from "prop-types";
 
-import { Button, Divider, Form, Input, Modal, Select } from "antd";
+import { Button, Divider, Form, Input, Select } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import { useLocation, useParams } from "react-router-dom";
@@ -12,6 +12,7 @@ import ScheduleDetail from "@/components/Staff/ExamSlotDetail/ScheduleDetail";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import useScrollTopContent from "@/hooks/useScrollTopContent";
+import toast, { Toaster } from "react-hot-toast";
 
 const StaffExamPhaseDetail = () => {
     useScrollTopContent();
@@ -26,7 +27,7 @@ const StaffExamPhaseDetail = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [buttonOk, setButtonOk] = useState(false);
     const [phaseId, setPhaseId] = useState(0);
-    const [message, setMessage] = useState(true);
+    const [message, setMessage] = useState(false);
 
     const [noti, setNoti] = useState(false);
     // console.log(state);
@@ -68,7 +69,12 @@ const StaffExamPhaseDetail = () => {
         instance
             .get(`studentExams?ePId=${phaseId}`)
             .then((res) => {
-                if (res.data.message && res.data.data) {
+                if (
+                    res.data.message ===
+                    "All courses and students are scheduled"
+                ) {
+                    setMessage(false);
+                } else if (res.data.data) {
                     if (phaseId !== 0) {
                         const formattedData = res.data.data.map((item) => ({
                             value: item.courId,
@@ -78,10 +84,8 @@ const StaffExamPhaseDetail = () => {
                         setDefaultValue(formattedData[0].value);
                         setCourses(formattedData);
                         setButtonStatus(false);
-                        setMessage(true);
+                        // setMessage(true);
                     }
-                } else {
-                    setMessage(false);
                 }
             })
             .catch((error) => {
@@ -101,6 +105,7 @@ const StaffExamPhaseDetail = () => {
                 if (values.course === selectCourses) {
                     values.course = defaultValue;
                 }
+                setNoti(!noti);
                 instance
                     .post(`subInSlots`, {
                         courId: values.course,
@@ -109,19 +114,22 @@ const StaffExamPhaseDetail = () => {
                     })
                     .then(() => {
                         fetchCourse();
+                        toast.success("Successfully created!");
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
-                        setNoti(!noti);
                     })
                     .catch((error) => {
-                        console.log(error);
                         fetchCourse();
+                        console.log(error);
+                        toast.error("This is an error!");
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
                     })
-                    .finally(() => {});
+                    .finally(() => {
+                        setNoti(!noti);
+                    });
             })
             .catch((error) => {
                 console.log("Validate Failed:", error);
@@ -165,17 +173,18 @@ const StaffExamPhaseDetail = () => {
 
     return (
         <>
+            <Toaster position="top-right" reverseOrder={false} />
             <Divider orientation="left">
                 <Button onClick={handleBack} style={{ marginRight: 10 }}>
                     <ArrowLeftOutlined />
                 </Button>
                 {state.item}
             </Divider>
-            <Modal
+            <St.ModalStyled
                 title="Add new course"
                 open={modalVisible}
                 // onOk={handleOk}
-                onCancel={handleCancel}
+                // onCancel={handleCancel}
                 footer={modalFooter()}
             >
                 <Form form={form} name="add_row_form">
@@ -208,7 +217,7 @@ const StaffExamPhaseDetail = () => {
                         <Input placeholder="Number of Students" />
                     </Form.Item>
                 </Form>
-            </Modal>
+            </St.ModalStyled>
             <St.TabsStyled
                 tabBarExtraContent={operations}
                 defaultActiveKey="1"
