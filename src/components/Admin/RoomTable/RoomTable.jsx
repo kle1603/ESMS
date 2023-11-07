@@ -79,6 +79,7 @@ const RoomTable = () => {
     ];
 
     const fetchData = () => {
+        setLoading(true);
         instance
             .get("rooms")
             .then((res) => {
@@ -93,6 +94,8 @@ const RoomTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -186,7 +189,11 @@ const RoomTable = () => {
                 <Search onSearch={handleSearch} />
             </St.SpaceStyled>
 
-            <ButtonAdd disabled={true} setModalVisible={setModalVisible} title="Can not add now" />
+            <ButtonAdd
+                disabled={true}
+                setModalVisible={setModalVisible}
+                title="Can not add now"
+            />
             <St.ModalStyled
                 title="Add a room"
                 open={modalVisible}

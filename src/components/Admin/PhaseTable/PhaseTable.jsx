@@ -133,6 +133,7 @@ const PhaseTable = () => {
         // console.log(semesterId);
 
         if (semesterId !== 0) {
+            setLoading(true);
             instance
                 .get(`examPhases/${semesterId}`, {
                     params: {
@@ -151,15 +152,17 @@ const PhaseTable = () => {
                         }));
 
                     setData(formattedData);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
                     setLoading(false);
                     setData([]);
                 })
-                .finally(() => {
-                    setLoading(false);
-                });
+                .finally(() => {});
+        } else {
+            setData([]);
+            setLoading(false);
         }
     };
 

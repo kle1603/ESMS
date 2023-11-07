@@ -75,10 +75,11 @@ const SlotTable = () => {
 
     const fetchData = () => {
         setLoading(true);
-        instance
-            .get(`timeSlots/semId?semId=${semesterId}`)
-            .then((res) => {
-                if (semesterId !== 0) {
+        if (semesterId !== 0) {
+            setLoading(true);
+            instance
+                .get(`timeSlots/semId?semId=${semesterId}`)
+                .then((res) => {
                     const formattedData = res.data.data.map((item, index) => ({
                         ...item,
                         key: item.id,
@@ -88,12 +89,17 @@ const SlotTable = () => {
                     }));
                     setData(formattedData);
                     setLoading(false);
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {});
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setData([]);
+                    setLoading(false);
+                })
+                .finally(() => {});
+        } else {
+            setData([]);
+            setLoading(false);
+        }
     };
 
     const fetchSemester = () => {

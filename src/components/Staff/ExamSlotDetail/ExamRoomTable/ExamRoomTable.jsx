@@ -63,6 +63,8 @@ const ExamRoomTable = ({ noti }) => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
