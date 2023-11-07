@@ -91,6 +91,7 @@ const DashboardTable = () => {
     const fetchSlot = () => {
         setLoadingSlot(true);
         if (phaseId !== 0) {
+            setLoadingSlot(true);
             instance
                 .get(`dashboard/totalExamSlotByPhase`, {
                     params: { token: token, ePId: 3 },
@@ -109,6 +110,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
+            setLoadingSlot(false);
             setTotalExamSlot(0);
         }
     };
@@ -116,6 +118,7 @@ const DashboardTable = () => {
     const fetchExaminer = () => {
         setLoadingExaminer(true);
         if (phaseId !== 0) {
+            setLoadingExaminer(true);
             instance
                 .get(`dashboard/totalExaminerByPhase`, {
                     params: { token: token, ePId: 3 },
@@ -134,6 +137,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
+            setLoadingExaminer(false);
             setTotalExaminer(0);
         }
     };
@@ -141,6 +145,7 @@ const DashboardTable = () => {
     const fetchCourse = () => {
         setLoadingCourse(true);
         if (phaseId !== 0) {
+            setLoadingCourse(true);
             instance
                 .get(`dashboard/totalCourseByPhase`, {
                     params: { token: token, ePId: 3 },
@@ -158,13 +163,15 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
+            setLoadingCourse(false);
             setTotalCourse(0);
         }
     };
 
     const fetchNumOfCourse = () => {
-        // setLoadingNumOfCourse(true);
+        setLoadingNumOfCourse(true);
         if (phaseId !== 0) {
+            setLoadingNumOfCourse(true);
             instance
                 .get(`dashboard/numOfCourseNotScheduled`, {
                     params: { token: token, ePId: 3 },
@@ -184,6 +191,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
+            setLoadingNumOfCourse(false);
             setTotalNumOfCourse(0);
         }
     };
@@ -191,6 +199,7 @@ const DashboardTable = () => {
     const fetchTopExaminer = () => {
         setLoadingTop(true);
         if (phaseId !== 0) {
+            setLoadingTop(true);
             instance
                 .get(`dashboard/topThreeExaminerDashBoard`, {
                     params: { token: token, ePId: 3 },
@@ -213,12 +222,15 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
+            setLoadingTop(false);
             setDataTopExaminer([]);
         }
     };
 
     const fetchCoursePharse = () => {
+        setLoadingCoursePharse(true);
         if (phaseId !== 0) {
+            setLoadingCoursePharse(true);
             instance
                 .get(`dashboard/totalExamroomByPhase`, {
                     params: { token: token, ePId: 3 },
@@ -252,6 +264,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
+            setLoadingCoursePharse(false);
             setCoursePharseData([]);
             setCoursePharseLabels([]);
         }
