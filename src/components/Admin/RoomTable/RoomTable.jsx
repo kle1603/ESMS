@@ -82,7 +82,7 @@ const RoomTable = () => {
         instance
             .get("rooms")
             .then((res) => {
-                console.log(res)
+                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
@@ -224,12 +224,14 @@ const RoomTable = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please chose a location",
+                                message: "Please choose a location",
                             },
                         ]}
-                        initialValue={location[0].value}
                     >
-                        <Select options={location} />
+                        <Select
+                            options={location}
+                            placeholder="Please choose a location"
+                        />
                     </Form.Item>
                 </Form>
             </St.ModalStyled>
