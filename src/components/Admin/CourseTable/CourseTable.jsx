@@ -113,7 +113,7 @@ const CourseTable = () => {
                 .finally(() => {});
         } else {
             setData([]);
-            // setLoading(false);
+            setLoading(false);
         }
     };
 
