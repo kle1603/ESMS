@@ -137,6 +137,7 @@ const ExaminerTable = () => {
     const fetchData = () => {
         setLoading(true);
         if (phaseId !== 0) {
+            setLoading(true);
             instance
                 .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`, {
                     params: {
@@ -160,7 +161,7 @@ const ExaminerTable = () => {
                 .finally(() => {});
         } else {
             setData([]);
-            // setLoading(false);
+            setLoading(false);
         }
     };
 
