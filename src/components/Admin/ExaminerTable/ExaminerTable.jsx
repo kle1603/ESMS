@@ -96,6 +96,8 @@ const ExaminerTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -126,6 +128,8 @@ const ExaminerTable = () => {
             })
             .catch((error) => {
                 console.log("Phase: " + error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -150,6 +154,8 @@ const ExaminerTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         } else {
