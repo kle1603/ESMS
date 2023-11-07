@@ -1,13 +1,5 @@
 // import PropTypes from "prop-types";
-import {
-    Button,
-    Form,
-    Input,
-    Popconfirm,
-    Select,
-    Tag,
-    Typography,
-} from "antd";
+import { Button, Form, Input, Popconfirm, Select, Tag, Typography } from "antd";
 import * as St from "./UserTable.styled";
 
 import { useEffect, useState } from "react";
@@ -124,14 +116,15 @@ const UserTable = () => {
                     }));
                     setData(formattedData);
                     setTotal(formattedData.length);
+                    setLoading(false);
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })
-            .finally(() => {
+                setData([]);
                 setLoading(false);
-            });
+            })
+            .finally(() => {});
     };
 
     useEffect(() => {

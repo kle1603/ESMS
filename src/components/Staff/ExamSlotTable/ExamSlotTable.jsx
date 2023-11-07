@@ -104,6 +104,8 @@ const ExamPhaseTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {
                 setLoading(false);
@@ -131,6 +133,7 @@ const ExamPhaseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setTimeSlots([]);
                 })
                 .finally(() => {});
         }

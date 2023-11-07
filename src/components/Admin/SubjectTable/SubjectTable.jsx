@@ -87,10 +87,10 @@ const SubjectTable = () => {
             })
             .catch((error) => {
                 console.log(error);
-            })
-            .finally(() => {
+                setData([]);
                 setLoading(false);
-            });
+            })
+            .finally(() => {});
     };
 
     useEffect(() => {

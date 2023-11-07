@@ -77,13 +77,14 @@ const VolunteerTable = () => {
                         }));
 
                     setData(formattedData);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
-                })
-                .finally(() => {
+                    setData([]);
                     setLoading(false);
-                });
+                })
+                .finally(() => {});
         }
     };
 
