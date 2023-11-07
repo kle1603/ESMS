@@ -34,7 +34,7 @@ function Login() {
                             Join to create the future with us
                         </h2>
                         <a
-                            href="http://localhost:8080/auth/google"
+                            href="http://localhost:8081/auth/google"
                             className="login-button"
                         >
                             <button className="button">

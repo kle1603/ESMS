@@ -67,7 +67,7 @@ const PhaseTable = () => {
         },
         {
             title: "Type",
-            width: "15%",
+            width: "14%",
             render: (record) => {
                 if (record.des === 0) {
                     return <Tag color="red">NORMAL</Tag>;
@@ -78,7 +78,7 @@ const PhaseTable = () => {
         },
         {
             title: "Status",
-            width: "10%",
+            width: "14%",
             render: (record) => {
                 if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
@@ -89,12 +89,12 @@ const PhaseTable = () => {
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "17%",
             render: (record) => {
                 // console.log(record);
                 return (
                     <div>
-                        {record.status === true ? (
+                        {record.del === 0 && record.status === true ? (
                             <Popconfirm
                                 title="Sure to delete?"
                                 onConfirm={() => handleDelete(record.id)}

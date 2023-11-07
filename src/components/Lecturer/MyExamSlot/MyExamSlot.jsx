@@ -28,7 +28,7 @@ const MyExamSlot = () => {
             setLoading(true);
             instance
                 .get(
-                    `examiners/scheduledByPhase?userId=256&examphaseId=${phaseId}`,
+                    `examiners/scheduledByPhase?examphaseId=${phaseId}`,
                     {
                         params: {
                             token: token,

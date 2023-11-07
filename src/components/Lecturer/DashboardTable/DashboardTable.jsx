@@ -64,6 +64,7 @@ const DashboardTable = () => {
         instance
             .get(`examPhases/${semesterId}`)
             .then((res) => {
+                // console.log(res.data.data); 
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
@@ -166,6 +167,7 @@ const DashboardTable = () => {
                     }
                 )
                 .then((res) => {
+                    console.log(res.data.data);
                     const data = res.data.data;
                     const numbers = data.map((item) => item.slot);
                     const maxNumber = Math.max(...numbers);
@@ -286,7 +288,7 @@ const DashboardTable = () => {
                             <CardItem
                                 desc={"At this phase"}
                                 loading={loadingTotalRegisterByPhase}
-                                title={"Total Register Slots"}
+                                title={"Total Register"}
                                 value={totalRegisterByPhase}
                                 icon={<PaperClipOutlined className="icon" />}
                             />
@@ -302,15 +304,16 @@ const DashboardTable = () => {
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
+                                desc={"Coming soon"}
                                 title={"Coming soon"}
-                                value={999}
+                                value={0}
                                 icon={<ExclamationOutlined className="icon" />}
                             />
                         </Col>
                     </Row>
                 </Col>
                 <Col xs={24} md={24} lg={13}>
-                    <Divider orientation="left">Haha</Divider>
+                    <Divider orientation="left">Performance</Divider>
                     <LineChart
                         labels={chartLabels}
                         data={chartData}
