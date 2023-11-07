@@ -4,7 +4,7 @@ import BarChart from "@/components/Dashboard/BarChart";
 import CardItem from "@/components/Dashboard/CardItem/CardItem";
 import CardTable from "@/components/Dashboard/CardTable";
 import LineChart from "@/components/Dashboard/LineChart";
-import { ScheduleOutlined, UserOutlined } from "@ant-design/icons";
+import { ScheduleOutlined, UserOutlined,ShopOutlined  } from "@ant-design/icons";
 import { Col, Divider, Flex, Row, Select, Typography } from "antd";
 import * as St from "./DashboardTable.styled";
 import { useEffect, useState } from "react";
@@ -336,7 +336,7 @@ const DashboardTable = () => {
                             <CardItem
                                 desc={"At this phase"}
                                 loading={loadingExaminer}
-                                title="Total examiners"
+                                title="Total Examiners"
                                 value={totalExaminer}
                                 icon={<UserOutlined className="icon" />}
                             />
@@ -356,13 +356,14 @@ const DashboardTable = () => {
                                 loading={loadingSlot}
                                 title="Total ExamRooms"
                                 value={totalSlot}
-                                icon={<ScheduleOutlined className="icon" />}
+                                icon={<ShopOutlined  className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                title="Title 4"
-                                value={20}
+                            desc="Coming soon"
+                                title="Coming soon"
+                                value={0}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
                         </Col>
