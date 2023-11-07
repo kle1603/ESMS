@@ -68,6 +68,7 @@ const DashboardTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setSemesterId(0);
             })
             .finally(() => {});
     };
@@ -97,6 +98,7 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log("Phase: " + error);
+                    setPhaseId(0);
                 })
                 .finally(() => {});
         }
@@ -117,6 +119,8 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingExaminer(false);
+                    setTotalExaminer(0);
                 })
                 .finally(() => {});
         } else {
@@ -143,6 +147,8 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingCourse(false);
+                    setTotalCourse("No data");
                 })
                 .finally(() => {});
         } else {
@@ -166,6 +172,8 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingSlot(false);
+                    setTotalSlot(0);
                 })
                 .finally(() => {});
         } else {
@@ -205,6 +213,9 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingRegister(false);
+                    setTotalRegisterLabels([]);
+                    setTotalRegisterData([]);
                 })
                 .finally(() => {});
         } else {
@@ -232,6 +243,8 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingDataTop(false);
+                    setDataTop([]);
                 })
                 .finally(() => {});
         } else {
@@ -270,6 +283,9 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingCourseAndStu(false);
+                    setTotalCourseAndStuLabels([]);
+                    setTotalCourseAndStuData([]);
                 })
                 .finally(() => {});
         } else {
