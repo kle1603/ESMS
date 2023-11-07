@@ -94,12 +94,22 @@ const PhaseTable = () => {
                 // console.log(record);
                 return (
                     <div>
-                        <Popconfirm
+                        {record.status === true ? (
+                            <Popconfirm
+                                title="Sure to delete?"
+                                onConfirm={() => handleDelete(record.id)}
+                            >
+                                <Typography.Link>Delete</Typography.Link>
+                            </Popconfirm>
+                        ) : (
+                            <Typography.Link disabled>Delete</Typography.Link>
+                        )}
+                        {/* <Popconfirm
                             title="Sure to delete?"
                             onConfirm={() => handleDelete(record.id)}
                         >
                             <Typography.Link>Delete</Typography.Link>
-                        </Popconfirm>
+                        </Popconfirm> */}
                         {record.courseDone === 0 ? (
                             <Typography.Link
                                 onClick={handleImport}
@@ -129,7 +139,7 @@ const PhaseTable = () => {
             instance
                 .get(`examPhases/${semesterId}`)
                 .then((res) => {
-                    console.log(res.data.data);
+                    // console.log(res.data.data);
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
