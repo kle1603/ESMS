@@ -5,6 +5,7 @@ import * as St from "./ExaminerTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
+import cookies from "@/utils/cookies";
 
 const ExaminerTable = () => {
     const [data, setData] = useState([]);
@@ -18,6 +19,8 @@ const ExaminerTable = () => {
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
     const pageSize = 10;
+
+    const token = cookies.getToken();
 
     const columns = [
         {
@@ -76,7 +79,11 @@ const ExaminerTable = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
@@ -89,13 +96,19 @@ const ExaminerTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
 
     const fetchPhase = () => {
         instance
-            .get(`examPhases/${semesterId}`)
+            .get(`examPhases/${semesterId}`, {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {
@@ -115,6 +128,8 @@ const ExaminerTable = () => {
             })
             .catch((error) => {
                 console.log("Phase: " + error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -122,8 +137,13 @@ const ExaminerTable = () => {
     const fetchData = () => {
         setLoading(true);
         if (phaseId !== 0) {
+            setLoading(true);
             instance
-                .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`)
+                .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     const formattedData = res.data.data.map((item, index) => ({
                         ...item,
@@ -135,11 +155,13 @@ const ExaminerTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         } else {
             setData([]);
-            // setLoading(false);
+            setLoading(false);
         }
     };
 

@@ -16,6 +16,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 import ExcelFile from "@/components/ExcelFile";
 import { DownloadExcel } from "@/components/ExcelFile/ExcelFile";
+import cookies from "@/utils/cookies";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -29,6 +30,7 @@ const PhaseTable = () => {
     const [endDay, setEndDay] = useState("");
     const [importOpen, setImportOpen] = useState(false);
     const pageSize = 10;
+    const token = cookies.getToken();
 
     const option = [
         { value: 0, label: "Normal" },
@@ -67,7 +69,7 @@ const PhaseTable = () => {
         },
         {
             title: "Type",
-            width: "15%",
+            width: "14%",
             render: (record) => {
                 if (record.des === 0) {
                     return <Tag color="red">NORMAL</Tag>;
@@ -78,7 +80,7 @@ const PhaseTable = () => {
         },
         {
             title: "Status",
-            width: "10%",
+            width: "14%",
             render: (record) => {
                 if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
@@ -89,12 +91,12 @@ const PhaseTable = () => {
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "17%",
             render: (record) => {
                 // console.log(record);
                 return (
                     <div>
-                        {record.status === true ? (
+                        {record.del === 0 && record.status === true ? (
                             <Popconfirm
                                 title="Sure to delete?"
                                 onConfirm={() => handleDelete(record.id)}
@@ -104,12 +106,7 @@ const PhaseTable = () => {
                         ) : (
                             <Typography.Link disabled>Delete</Typography.Link>
                         )}
-                        {/* <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.id)}
-                        >
-                            <Typography.Link>Delete</Typography.Link>
-                        </Popconfirm> */}
+
                         {record.courseDone === 0 ? (
                             <Typography.Link
                                 onClick={handleImport}
@@ -136,10 +133,16 @@ const PhaseTable = () => {
         // console.log(semesterId);
 
         if (semesterId !== 0) {
+            setLoading(true);
             instance
-                .get(`examPhases/${semesterId}`)
+                .get(`examPhases/${semesterId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     // console.log(res.data.data);
+
                     const formattedData = res.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
@@ -149,20 +152,28 @@ const PhaseTable = () => {
                         }));
 
                     setData(formattedData);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
-                })
-                .finally(() => {
                     setLoading(false);
-                });
+                    setData([]);
+                })
+                .finally(() => {});
+        } else {
+            setData([]);
+            setLoading(false);
         }
     };
 
     const fetchSemester = () => {
         // setLoading(true);
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const semestersData = res.data.data
                     .sort((a, b) => b.id - a.id)
@@ -176,6 +187,8 @@ const PhaseTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -191,7 +204,7 @@ const PhaseTable = () => {
     const handleDelete = (e) => {
         setLoading(true);
         instance
-            .delete("examPhases", { data: { id: e } })
+            .delete("examPhases", { data: { id: e, token: token } })
             .then(() => {
                 toast.success("Successfully deleted!");
                 fetchData();
@@ -205,10 +218,10 @@ const PhaseTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                console.log(values.name);
-                console.log(values.option);
-                console.log(startDay);
-                console.log(endDay);
+                // console.log(values.name);
+                // console.log(values.option);
+                // console.log(startDay);
+                // console.log(endDay);
 
                 instance
                     .post("examPhases", {
@@ -216,6 +229,7 @@ const PhaseTable = () => {
                         des: values.option,
                         startDay: startDay,
                         endDay: endDay,
+                        semId: semesterId,
                     })
                     .then(() => {
                         toast.success("Successfully created!");
@@ -320,7 +334,10 @@ const PhaseTable = () => {
                 open={importOpen}
                 footer={importFooter}
             >
-                <ExcelFile />
+                <ExcelFile
+                    fetchData={fetchData}
+                    setImportOpen={setImportOpen}
+                />
             </St.ModalStyled>
 
             <St.ModalStyled

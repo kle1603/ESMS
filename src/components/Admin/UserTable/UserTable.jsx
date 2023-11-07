@@ -117,13 +117,14 @@ const UserTable = () => {
                     setData(formattedData);
                     setTotal(formattedData.length);
                 }
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
-            })
-            .finally(() => {
+                setData([]);
                 setLoading(false);
-            });
+            })
+            .finally(() => {});
     };
 
     useEffect(() => {
@@ -229,13 +230,13 @@ const UserTable = () => {
             </>
         );
     };
+
     return (
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
             <St.SpaceStyled>
                 <Search allowClear onSearch={handleSearch} />
             </St.SpaceStyled>
-
             <ButtonAdd setModalVisible={setModalVisible} title="Add new user" />
             <St.ModalStyled
                 title="Add new user"

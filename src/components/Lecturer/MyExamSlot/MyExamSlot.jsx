@@ -27,14 +27,11 @@ const MyExamSlot = () => {
         if (phaseId !== 0) {
             setLoading(true);
             instance
-                .get(
-                    `examiners/scheduledByPhase?userId=256&examphaseId=${phaseId}`,
-                    {
-                        params: {
-                            token: token,
-                        },
-                    }
-                )
+                .get(`examiners/scheduledByPhase?examphaseId=${phaseId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     const formattedData = res.data.data.map((item, index) => ({
                         ...item,
@@ -61,7 +58,7 @@ const MyExamSlot = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters/otherRole")
             .then((res) => {
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
@@ -81,7 +78,11 @@ const MyExamSlot = () => {
 
     const fetchPhase = () => {
         instance
-            .get(`examPhases/${semesterId}`)
+            .get(`examPhases/otherRole/`, {
+                params: {
+                    id: semesterId,
+                },
+            })
             .then((res) => {
                 if (semesterId !== 0) {
                     if (res.data.data.length !== 0) {

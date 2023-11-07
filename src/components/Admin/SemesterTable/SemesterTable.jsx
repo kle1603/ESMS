@@ -13,6 +13,7 @@ import * as St from "./SemesterTable.styled";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
+import cookies from "@/utils/cookies";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
@@ -22,6 +23,7 @@ const SemesterTable = () => {
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
     const pageSize = 10;
+    const token = cookies.getToken();
 
     const columns = [
         // Your columns
@@ -57,16 +59,24 @@ const SemesterTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                const currentDate = new Date();
-                const startDay = new Date(record.start);
-                const endDay = new Date(record.end);
+                // const currentDate = new Date();
+                // const startDay = new Date(record.start);
+                // const endDay = new Date(record.end);
 
-                if (currentDate < startDay) {
-                    return <Tag color="blue">FUTURE</Tag>;
-                } else if (currentDate > endDay) {
-                    return <Tag color="red">CLOSED</Tag>;
+                // if (currentDate <= startDay) {
+                //     return <Tag color="blue">FUTURE</Tag>;
+                // } else if (currentDate > endDay) {
+                //     return <Tag color="red">CLOSED</Tag>;
+                // } else {
+                //     return <Tag color="green">ON-GOING</Tag>;
+                // }
+                // return <Tag color="green">{record.time}</Tag>;
+                if (record.time === "FUTURE") {
+                    return <Tag color="blue">{record.time}</Tag>;
+                } else if (record.time === "PASSED") {
+                    return <Tag color="green">{record.time}</Tag>;
                 } else {
-                    return <Tag color="green">ON-GOING</Tag>;
+                    return <Tag color="volcano">{record.time}</Tag>;
                 }
             },
         },
@@ -74,10 +84,7 @@ const SemesterTable = () => {
             title: "Operation",
             width: "15%",
             render: (record) => {
-                const currentDate = new Date();
-                const endTime = new Date(record.end);
-
-                if (currentDate > endTime) {
+                if (record.delete === 0) {
                     return (
                         <Typography.Link disabled>
                             Can not delete
@@ -87,7 +94,7 @@ const SemesterTable = () => {
                     return (
                         <Popconfirm
                             title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.key)}
+                            onConfirm={() => handleDelete(record.id)}
                         >
                             <Typography.Link>Delete</Typography.Link>
                         </Popconfirm>
@@ -99,20 +106,27 @@ const SemesterTable = () => {
 
     const fetchData = () => {
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
-                console.log(res);
-                const formatttedData = res.data.data
+                // console.log(res);
+                const formattedData = res.data.data
                     .sort((a, b) => b.id - a.id)
                     .map((item, index) => ({
                         ...item,
+                        key: index + 1,
                         no: index + 1,
                         season: item.season + " " + item.year,
                     }));
-                setData(formatttedData);
+                setData(formattedData);
             })
             .catch((err) => {
                 console.log(err);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {
                 setLoading(false);
@@ -124,10 +138,17 @@ const SemesterTable = () => {
     }, []);
 
     const handleDelete = (e) => {
-        console.log(e);
+        // console.log(e);
         instance
-            .delete("semesters", { data: { id: e } })
-            .then(() => {
+            // .delete("semesters", { data: { id: e } })
+            .delete(`semesters`, {
+                params: {
+                    id: e,
+                    token: token,
+                },
+            })
+            .then((res) => {
+                console.log(res);
                 toast.success("Successfully deleted!");
                 fetchData();
             })
@@ -140,15 +161,15 @@ const SemesterTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                console.log(values.season);
-                console.log(startDay);
-                console.log(endDay);
-
+                const newValue = values.season
+                    .toUpperCase()
+                    .replaceAll(" ", "_");
                 instance
                     .post("semesters/whenCreateSemester", {
-                        season: values.season,
+                        season: newValue,
                         start: startDay,
                         end: endDay,
+                        token: token,
                     })
                     .then((res) => {
                         console.log(res);
@@ -232,7 +253,7 @@ const SemesterTable = () => {
                             },
                         ]}
                     >
-                        <Input allowClear placeholder="Season" />
+                        <Input allowClear placeholder="Ex: Fall 2023" />
                     </Form.Item>
 
                     <Form.Item

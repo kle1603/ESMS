@@ -58,7 +58,7 @@ const RoomTable = () => {
             title: "Operation",
             width: "20%",
             render: (record) => {
-                if (record.allowed === 1) {
+                if (record.delete === 1) {
                     return (
                         <Popconfirm
                             title="Sure to delete?"
@@ -79,19 +79,23 @@ const RoomTable = () => {
     ];
 
     const fetchData = () => {
+        setLoading(true);
         instance
             .get("rooms")
             .then((res) => {
+                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
-                    key: item.id,
+                    key: index + 1,
                 }));
                 setData(formattedData);
                 setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -185,7 +189,11 @@ const RoomTable = () => {
                 <Search onSearch={handleSearch} />
             </St.SpaceStyled>
 
-            <ButtonAdd setModalVisible={setModalVisible} title="Add new room" />
+            <ButtonAdd
+                disabled={true}
+                setModalVisible={setModalVisible}
+                title="Can not add now"
+            />
             <St.ModalStyled
                 title="Add a room"
                 open={modalVisible}
@@ -223,12 +231,14 @@ const RoomTable = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "Please chose a location",
+                                message: "Please choose a location",
                             },
                         ]}
-                        initialValue={location[0].value}
                     >
-                        <Select options={location} />
+                        <Select
+                            options={location}
+                            placeholder="Please choose a location"
+                        />
                     </Form.Item>
                 </Form>
             </St.ModalStyled>

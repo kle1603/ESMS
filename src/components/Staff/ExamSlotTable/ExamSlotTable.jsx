@@ -1,6 +1,14 @@
 // import PropTypes from "prop-types";
 
-import { Button, Divider, Form, Input, Modal, Select, Table } from "antd";
+import {
+    Button,
+    DatePicker,
+    Divider,
+    Form,
+    Modal,
+    Select,
+    Table,
+} from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import * as St from "./ExamSlotTable.styled";
@@ -26,6 +34,7 @@ const ExamPhaseTable = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [statusButton, setStatusButton] = useState(false);
     const pageSize = 10;
+    const [day, setDay] = useState("");
 
     const token = cookies.getToken();
 
@@ -104,6 +113,8 @@ const ExamPhaseTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {
                 setLoading(false);
@@ -131,6 +142,7 @@ const ExamPhaseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setTimeSlots([]);
                 })
                 .finally(() => {});
         }
@@ -154,12 +166,14 @@ const ExamPhaseTable = () => {
                         day: values.day,
                     })
                     .then((res) => {
+                        toast.success("Successfully created!");
                         console.log(res);
                         fetchData();
                         setModalVisible(false);
                         form.resetFields();
                     })
                     .catch((error) => {
+                        toast.error("This is an error");
                         console.log(error.response.data.message);
                     });
             })
@@ -221,7 +235,21 @@ const ExamPhaseTable = () => {
             });
     };
 
+    const onChangeDay = (_, date) => {
+        // console.log(date);
+        setDay(date);
+    };
     // const handleSelect = (id, option) => {};
+
+    const layout = {
+        labelCol: {
+            span: 6,
+        },
+        labelAlign: "left",
+        wrapperCol: {
+            span: 24,
+        },
+    };
 
     return (
         <>
@@ -266,6 +294,8 @@ const ExamPhaseTable = () => {
                 >
                     <Form form={form} name="add_row_form">
                         <Form.Item
+                            {...layout}
+                            label="Day"
                             name="day"
                             rules={[
                                 {
@@ -274,9 +304,14 @@ const ExamPhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Input placeholder="Day" />
+                            <DatePicker
+                                onChange={onChangeDay}
+                                style={{ width: "100%" }}
+                            />
                         </Form.Item>
                         <Form.Item
+                            {...layout}
+                            label="Time slot"
                             name="slot"
                             rules={[
                                 {
@@ -284,13 +319,14 @@ const ExamPhaseTable = () => {
                                     message: "Please choose the slot!",
                                 },
                             ]}
-                            initialValue={selectTimeSlot}
+                            // initialValue={selectTimeSlot}
                         >
                             <Select
                                 // onChange={handleSelect}
                                 // value={selectTimeSlot}
                                 className="select"
                                 options={timeSlots}
+                                placeholder="Choose a slot"
                             />
                         </Form.Item>
                     </Form>

@@ -1,4 +1,4 @@
-import { Tabs } from "antd";
+import { Modal, Tabs } from "antd";
 import styled from "styled-components";
 
 export const TabsStyled = styled(Tabs)`
@@ -31,5 +31,11 @@ export const TabsStyled = styled(Tabs)`
     .ant-pagination-next {
         margin: 0;
         padding: 0;
+    }
+`;
+
+export const ModalStyled = styled(Modal)`
+    .ant-modal-close {
+        display: none;
     }
 `;

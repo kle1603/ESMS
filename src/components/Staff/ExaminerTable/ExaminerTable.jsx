@@ -55,9 +55,9 @@ const ExaminerTable = () => {
             width: "15%",
             render: (record) => {
                 if (record.role === "lecturer") {
-                    return <Tag color="red">LECTURER</Tag>;
+                    return <Tag color="red">{record.role.toUpperCase()}</Tag>;
                 } else {
-                    return <Tag color="blue">ACTIVE</Tag>;
+                    return <Tag color="blue">{record.role.toUpperCase()}</Tag>;
                 }
             },
         },
@@ -65,7 +65,7 @@ const ExaminerTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if (record.status) {
+                if (record.status === true) {
                     return <Tag color="red">INACTIVE</Tag>;
                 } else {
                     return <Tag color="blue">ACTIVE</Tag>;
@@ -81,7 +81,7 @@ const ExaminerTable = () => {
                         title="Sure to delete?"
                         onConfirm={() => handleDelete(record.key)}
                     >
-                        <Typography.Link>Detail</Typography.Link>
+                        <Typography.Link>Delete</Typography.Link>
                     </Popconfirm>
                 ) : null,
         },
@@ -89,7 +89,7 @@ const ExaminerTable = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters/otherRole")
             .then((res) => {
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
@@ -107,10 +107,14 @@ const ExaminerTable = () => {
     };
 
     const fetchPhase = () => {
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                if (semesterId !== 0) {
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/otherRole`, {
+                    params: {
+                        id: semesterId,
+                    },
+                })
+                .then((res) => {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
                             label: item.ePName,
@@ -124,17 +128,18 @@ const ExaminerTable = () => {
                         setSelectPhase("");
                         setPhases([]);
                     }
-                }
-            })
-            .catch((error) => {
-                console.log("Phase: " + error);
-            })
-            .finally(() => {});
+                })
+                .catch((error) => {
+                    console.log("Phase: " + error);
+                })
+                .finally(() => {});
+        }
     };
 
     const fetchData = () => {
         setLoading(true);
         if (phaseId !== 0) {
+            setLoading(true);
             instance
                 .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`)
                 .then((res) => {
@@ -148,11 +153,13 @@ const ExaminerTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         } else {
             setData([]);
-            // setLoading(false);
+            setLoading(false);
         }
     };
 

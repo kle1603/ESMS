@@ -2,6 +2,7 @@ import { Flex, Form, Select, Tag, Typography } from "antd";
 import { useEffect, useState } from "react";
 import * as St from "./CourseTable.styled";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 // import cookies from "@/utils/cookies";
 // import ButtonAdd from "@/components/ButtonAdd";
 
@@ -18,11 +19,15 @@ const CourseTable = () => {
     const [phaseId, setPhaseId] = useState(0);
     const pageSize = 10;
 
-    // const token = cookies.getToken();
+    const token = cookies.getToken();
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const semestersData = res.data.data.map((item) => ({
                     label: item.season + " " + item.year,
@@ -35,6 +40,8 @@ const CourseTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -42,7 +49,11 @@ const CourseTable = () => {
     const fetchPhase = () => {
         if (semesterId !== 0) {
             instance
-                .get(`examPhases/${semesterId}`)
+                .get(`examPhases/${semesterId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     if (semesterId !== 0) {
                         if (res.data.data.length !== 0) {
@@ -62,6 +73,8 @@ const CourseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         }
@@ -70,8 +83,13 @@ const CourseTable = () => {
     const fetchData = () => {
         setLoading(true);
         if (phaseId !== 0) {
+            setLoading(true);
             instance
-                .get(`courses/?ePId=${phaseId}`)
+                .get(`courses/?ePId=${phaseId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     if (res.data === "") {
                         setData([]);
@@ -90,11 +108,13 @@ const CourseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         } else {
             setData([]);
-            // setLoading(false);
+            setLoading(false);
         }
     };
 

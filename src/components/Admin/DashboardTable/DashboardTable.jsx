@@ -4,7 +4,11 @@ import BarChart from "@/components/Dashboard/BarChart";
 import CardItem from "@/components/Dashboard/CardItem/CardItem";
 import CardTable from "@/components/Dashboard/CardTable";
 import LineChart from "@/components/Dashboard/LineChart";
-import { ScheduleOutlined, UserOutlined,ShopOutlined  } from "@ant-design/icons";
+import {
+    ScheduleOutlined,
+    UserOutlined,
+    ShopOutlined,
+} from "@ant-design/icons";
 import { Col, Divider, Flex, Row, Select, Typography } from "antd";
 import * as St from "./DashboardTable.styled";
 import { useEffect, useState } from "react";
@@ -46,7 +50,11 @@ const DashboardTable = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 // console.log(res.data.data);
                 const semestersData = res.data.data.map((item) => ({
@@ -60,6 +68,7 @@ const DashboardTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setSemesterId(0);
             })
             .finally(() => {});
     };
@@ -67,7 +76,11 @@ const DashboardTable = () => {
     const fetchPhase = () => {
         if (semesterId !== 0) {
             instance
-                .get(`examPhases/${semesterId}`)
+                .get(`examPhases/${semesterId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
@@ -85,6 +98,7 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log("Phase: " + error);
+                    setPhaseId(0);
                 })
                 .finally(() => {});
         }
@@ -93,6 +107,7 @@ const DashboardTable = () => {
     const fetchExaminer = () => {
         setLoadingExaminer(true);
         if (phaseId !== 0) {
+            setLoadingExaminer(true);
             instance
                 .get(`dashboard/examinerDashBoard`, {
                     params: { token: token, ePId: phaseId },
@@ -105,17 +120,20 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingExaminer(false);
+                    setTotalExaminer(0);
                 })
                 .finally(() => {});
         } else {
+            setLoadingExaminer(false);
             setTotalExaminer(0);
-            // setLoading(false);
         }
     };
 
     const fetchCourse = () => {
         setLoadingCourse(true);
         if (phaseId !== 0) {
+            setLoadingCourse(true);
             instance
                 .get(`dashboard/numOfCourseNotScheduled`, {
                     params: { token: token, ePId: phaseId },
@@ -131,17 +149,20 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingCourse(false);
+                    setTotalCourse("No data");
                 })
                 .finally(() => {});
         } else {
-            setTotalCourse("");
-            // setLoading(false);
+            setLoadingCourse(false);
+            setTotalCourse("No data");
         }
     };
 
     const fetchSlot = () => {
         setLoadingSlot(true);
         if (phaseId !== 0) {
+            setLoadingSlot(true);
             instance
                 .get(`dashboard/totalSlotDashBoard`, {
                     params: { token: token, ePId: phaseId },
@@ -154,17 +175,20 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingSlot(false);
+                    setTotalSlot(0);
                 })
                 .finally(() => {});
         } else {
+            setLoadingSlot(false);
             setTotalSlot(0);
-            // setLoading(false);
         }
     };
 
     const fetchTotalRegisterByDay = () => {
         setLoadingRegister(true);
         if (phaseId !== 0) {
+            setLoadingRegister(true);
             instance
                 .get(`dashboard/numOfDayRegister`, {
                     params: { token: token, ePId: phaseId },
@@ -193,10 +217,13 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingRegister(false);
+                    setTotalRegisterLabels([]);
+                    setTotalRegisterData([]);
                 })
                 .finally(() => {});
         } else {
-            // setLoading(false);
+            setLoadingRegister(false);
             setTotalRegisterLabels([]);
             setTotalRegisterData([]);
         }
@@ -205,6 +232,7 @@ const DashboardTable = () => {
     const fetchTopExaminer = () => {
         setLoadingDataTop(true);
         if (phaseId !== 0) {
+            setLoadingDataTop(true);
             instance
                 .get(`dashboard/topThreeExaminerDashBoard`, {
                     params: { token: token, ePId: phaseId },
@@ -220,17 +248,20 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingDataTop(false);
+                    setDataTop([]);
                 })
                 .finally(() => {});
         } else {
+            setLoadingDataTop(false);
             setDataTop([]);
-            // setLoading(false);
         }
     };
 
     const fetchCourseAndStu = () => {
         setLoadingCourseAndStu(true);
         if (phaseId !== 0) {
+            setLoadingCourseAndStu(true);
             instance
                 .get(`dashboard/courseAndNumOfStuDashBoard?ePId=${phaseId}`, {
                     params: { token: token },
@@ -258,12 +289,15 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setLoadingCourseAndStu(false);
+                    setTotalCourseAndStuLabels([]);
+                    setTotalCourseAndStuData([]);
                 })
                 .finally(() => {});
         } else {
-            setTotalCourseAndStuData([]);
+            setLoadingCourseAndStu(false);
             setTotalCourseAndStuLabels([]);
-            // setLoading(false);
+            setTotalCourseAndStuData([]);
         }
     };
 
@@ -356,12 +390,12 @@ const DashboardTable = () => {
                                 loading={loadingSlot}
                                 title="Total ExamRooms"
                                 value={totalSlot}
-                                icon={<ShopOutlined  className="icon" />}
+                                icon={<ShopOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                            desc="Coming soon"
+                                desc="Coming soon"
                                 title="Coming soon"
                                 value={0}
                                 icon={<ScheduleOutlined className="icon" />}

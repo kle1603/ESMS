@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import * as St from "./VolunteerTable.styled";
 import instance from "@/utils/instance";
 import ButtonAdd from "@/components/ButtonAdd";
+import toast from "react-hot-toast";
 
 const VolunteerTable = () => {
     const [form] = Form.useForm();
@@ -68,6 +69,7 @@ const VolunteerTable = () => {
             instance
                 .get(`examiners/volunteerExaminer?semesterId=${semesterId}`)
                 .then((res) => {
+                    console.log(res);
                     const formattedData = res.data.data
                         // .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
@@ -77,19 +79,20 @@ const VolunteerTable = () => {
                         }));
 
                     setData(formattedData);
+                    setLoading(false);
                 })
                 .catch((error) => {
                     console.log(error);
-                })
-                .finally(() => {
+                    setData([]);
                     setLoading(false);
-                });
+                })
+                .finally(() => {});
         }
     };
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters/otherRole")
             .then((res) => {
                 const semestersData = res.data.data
                     .sort((a, b) => b.id - a.id)
@@ -126,11 +129,13 @@ const VolunteerTable = () => {
                             semesterId: semesterId,
                         })
                         .then(() => {
+                            toast.success("Successfully created!");
                             form.resetFields();
                             setModalVisible(false);
                             fetchData();
                         })
                         .catch((error) => {
+                            toast.error("This is an error!");
                             console.log(error);
                         });
                 }
@@ -159,7 +164,7 @@ const VolunteerTable = () => {
     const layout = {
         labelAlign: "left",
         labelCol: {
-            span: 7,
+            span: 4,
         },
         wrapperCol: {
             span: 24,

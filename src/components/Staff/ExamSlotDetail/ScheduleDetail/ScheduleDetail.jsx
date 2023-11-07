@@ -109,6 +109,8 @@ const ScheduleDetail = ({ noti }) => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -131,6 +133,8 @@ const ScheduleDetail = ({ noti }) => {
             })
             .catch((error) => {
                 console.log(error);
+                setFreeExaminer([]);
+                setLoadingSelect(false);
             })
             .finally(() => {});
     };

@@ -76,6 +76,7 @@ const SubjectTable = () => {
         instance
             .get("subjects")
             .then((res) => {
+                console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
@@ -86,10 +87,10 @@ const SubjectTable = () => {
             })
             .catch((error) => {
                 console.log(error);
-            })
-            .finally(() => {
+                setData([]);
                 setLoading(false);
-            });
+            })
+            .finally(() => {});
     };
 
     useEffect(() => {
@@ -162,8 +163,9 @@ const SubjectTable = () => {
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
             <ButtonAdd
+                disabled={true}
                 setModalVisible={setModalVisible}
-                title="Add new subject"
+                title="Can not add now"
             />
 
             <St.ModalStyled
