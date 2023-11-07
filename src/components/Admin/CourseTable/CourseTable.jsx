@@ -40,6 +40,8 @@ const CourseTable = () => {
             })
             .catch((error) => {
                 console.log(error);
+                setData([]);
+                setLoading(false);
             })
             .finally(() => {});
     };
@@ -71,6 +73,8 @@ const CourseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         }
@@ -103,6 +107,8 @@ const CourseTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
+                    setData([]);
+                    setLoading(false);
                 })
                 .finally(() => {});
         } else {
