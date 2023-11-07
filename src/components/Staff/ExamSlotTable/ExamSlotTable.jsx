@@ -154,12 +154,14 @@ const ExamPhaseTable = () => {
                         day: values.day,
                     })
                     .then((res) => {
+                        toast.success("Successfully created!");
                         console.log(res);
                         fetchData();
                         setModalVisible(false);
                         form.resetFields();
                     })
                     .catch((error) => {
+                        toast.error("This is an error");
                         console.log(error.response.data.message);
                     });
             })
@@ -223,6 +225,16 @@ const ExamPhaseTable = () => {
 
     // const handleSelect = (id, option) => {};
 
+    const layout = {
+        labelCol: {
+            span: 6,
+        },
+        labelAlign: "left",
+        wrapperCol: {
+            span: 24,
+        },
+    };
+
     return (
         <>
             <Toaster position="top-right" reverseOrder={false} />
@@ -266,6 +278,8 @@ const ExamPhaseTable = () => {
                 >
                     <Form form={form} name="add_row_form">
                         <Form.Item
+                            {...layout}
+                            label="Day"
                             name="day"
                             rules={[
                                 {
@@ -274,9 +288,11 @@ const ExamPhaseTable = () => {
                                 },
                             ]}
                         >
-                            <Input placeholder="Day" />
+                            <Input placeholder="Input the day" allowClear />
                         </Form.Item>
                         <Form.Item
+                            {...layout}
+                            label="Time slot"
                             name="slot"
                             rules={[
                                 {
@@ -284,13 +300,14 @@ const ExamPhaseTable = () => {
                                     message: "Please choose the slot!",
                                 },
                             ]}
-                            initialValue={selectTimeSlot}
+                            // initialValue={selectTimeSlot}
                         >
                             <Select
                                 // onChange={handleSelect}
                                 // value={selectTimeSlot}
                                 className="select"
                                 options={timeSlots}
+                                placeholder="Choose a slot"
                             />
                         </Form.Item>
                     </Form>
