@@ -27,7 +27,7 @@ const StaffExamPhaseDetail = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [buttonOk, setButtonOk] = useState(false);
     const [phaseId, setPhaseId] = useState(0);
-    const [message, setMessage] = useState(true);
+    const [message, setMessage] = useState(false);
 
     const [noti, setNoti] = useState(false);
     // console.log(state);
@@ -69,7 +69,12 @@ const StaffExamPhaseDetail = () => {
         instance
             .get(`studentExams?ePId=${phaseId}`)
             .then((res) => {
-                if (res.data.message && res.data.data) {
+                if (
+                    res.data.message ===
+                    "All courses and students are scheduled"
+                ) {
+                    setMessage(false);
+                } else if (res.data.data) {
                     if (phaseId !== 0) {
                         const formattedData = res.data.data.map((item) => ({
                             value: item.courId,
@@ -79,10 +84,8 @@ const StaffExamPhaseDetail = () => {
                         setDefaultValue(formattedData[0].value);
                         setCourses(formattedData);
                         setButtonStatus(false);
-                        setMessage(true);
+                        // setMessage(true);
                     }
-                } else {
-                    setMessage(false);
                 }
             })
             .catch((error) => {
@@ -102,6 +105,7 @@ const StaffExamPhaseDetail = () => {
                 if (values.course === selectCourses) {
                     values.course = defaultValue;
                 }
+                setNoti(!noti);
                 instance
                     .post(`subInSlots`, {
                         courId: values.course,
@@ -109,22 +113,23 @@ const StaffExamPhaseDetail = () => {
                         numStu: values.numOfStu,
                     })
                     .then(() => {
-                        toast.success("Successfully created!");
                         fetchCourse();
+                        toast.success("Successfully created!");
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
-                        setNoti(!noti);
                     })
                     .catch((error) => {
-                        toast.error("This is an error!");
-                        console.log(error);
                         fetchCourse();
+                        console.log(error);
+                        toast.error("This is an error!");
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
                     })
-                    .finally(() => {});
+                    .finally(() => {
+                        setNoti(!noti);
+                    });
             })
             .catch((error) => {
                 console.log("Validate Failed:", error);
