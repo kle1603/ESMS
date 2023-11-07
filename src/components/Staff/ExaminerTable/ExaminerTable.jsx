@@ -1,14 +1,5 @@
 // import PropTypes from "prop-types";
-import {
-    Flex,
-    Form,
-    Input,
-    Modal,
-    Popconfirm,
-    Select,
-    Tag,
-    Typography,
-} from "antd";
+import { Flex, Form, Input, Modal, Select, Tag, Typography } from "antd";
 import * as St from "./ExaminerTable.styled";
 
 import { useEffect, useState } from "react";
@@ -57,7 +48,9 @@ const ExaminerTable = () => {
                 if (record.role === "lecturer") {
                     return <Tag color="red">LECTURER</Tag>;
                 } else {
-                    return <Tag color="blue">ACTIVE</Tag>;
+
+                    return <Tag color="volcano">{record.role.toUpperCase()}</Tag>;
+
                 }
             },
         },
@@ -65,26 +58,30 @@ const ExaminerTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if (record.status) {
-                    return <Tag color="red">INACTIVE</Tag>;
+
+                if (record.status === true) {
+                    return <Tag color="green">INACTIVE</Tag>;
+
                 } else {
-                    return <Tag color="blue">ACTIVE</Tag>;
+                    return <Tag color="default">ACTIVE</Tag>;
                 }
             },
         },
-        {
-            title: "Operation",
-            width: "15%",
-            render: (record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
-        },
+
+        // {
+        //     title: "Operation",
+        //     width: "15%",
+        //     render: (record) =>
+        //         data.length >= 1 ? (
+        //             <Popconfirm
+        //                 title="Sure to delete?"
+        //                 onConfirm={() => handleDelete(record.key)}
+        //             >
+        //                 <Typography.Link>Detail</Typography.Link>
+        //             </Popconfirm>
+        //         ) : null,
+        // },
+
     ];
 
     const fetchSemester = () => {
@@ -180,19 +177,19 @@ const ExaminerTable = () => {
         fetchPhase();
     }, [semesterId]);
 
-    const handleDelete = (e) => {
-        setLoading(true);
-        instance
-            .delete("users", { data: { email: e } })
-            .then(() => {
-                toast.success("Successfully deleted!");
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("Error deleted!");
-                console.log(error);
-            });
-    };
+    // const handleDelete = (e) => {
+    //     setLoading(true);
+    //     instance
+    //         .delete("users", { data: { email: e } })
+    //         .then(() => {
+    //             toast.success("Successfully deleted!");
+    //             fetchData();
+    //         })
+    //         .catch((error) => {
+    //             toast.error("Error deleted!");
+    //             console.log(error);
+    //         });
+    // };
 
     const handleOk = () => {
         form.validateFields()

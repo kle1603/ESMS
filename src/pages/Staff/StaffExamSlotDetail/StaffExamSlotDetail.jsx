@@ -74,7 +74,7 @@ const StaffExamPhaseDetail = () => {
                     "All courses and students are scheduled"
                 ) {
                     setMessage(false);
-                } else if (res.data.data) {
+                } else {
                     if (phaseId !== 0) {
                         const formattedData = res.data.data.map((item) => ({
                             value: item.courId,
@@ -84,7 +84,7 @@ const StaffExamPhaseDetail = () => {
                         setDefaultValue(formattedData[0].value);
                         setCourses(formattedData);
                         setButtonStatus(false);
-                        // setMessage(true);
+                        setMessage(true);
                     }
                 }
             })
@@ -105,7 +105,6 @@ const StaffExamPhaseDetail = () => {
                 if (values.course === selectCourses) {
                     values.course = defaultValue;
                 }
-                setNoti(!noti);
                 instance
                     .post(`subInSlots`, {
                         courId: values.course,
@@ -114,6 +113,7 @@ const StaffExamPhaseDetail = () => {
                     })
                     .then(() => {
                         fetchCourse();
+                        setNoti(!noti);
                         toast.success("Successfully created!");
                         setButtonOk(false);
                         setModalVisible(false);
@@ -121,15 +121,15 @@ const StaffExamPhaseDetail = () => {
                     })
                     .catch((error) => {
                         fetchCourse();
+                        setNoti(!noti);
                         console.log(error);
                         toast.error("This is an error!");
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
                     })
-                    .finally(() => {
-                        setNoti(!noti);
-                    });
+                    .finally(() => {});
+                setNoti(!noti);
             })
             .catch((error) => {
                 console.log("Validate Failed:", error);

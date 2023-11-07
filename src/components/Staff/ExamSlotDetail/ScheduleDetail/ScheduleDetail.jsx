@@ -54,9 +54,9 @@ const ScheduleDetail = ({ noti }) => {
             width: "20%",
             render: (record) => {
                 if (record.examiner === "N/A") {
-                    return <Tag color="volcano">EMPTY</Tag>;
+                    return <Tag color="default">EMPTY</Tag>;
                 } else {
-                    return <Typography>{record.examiner}</Typography>;
+                    return <Tag color="volcano">{record.examiner}</Tag>;
                 }
             },
         },
