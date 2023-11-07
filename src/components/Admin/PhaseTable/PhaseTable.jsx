@@ -67,7 +67,7 @@ const PhaseTable = () => {
         },
         {
             title: "Type",
-            width: "15%",
+            width: "14%",
             render: (record) => {
                 if (record.des === 0) {
                     return <Tag color="red">NORMAL</Tag>;
@@ -78,7 +78,7 @@ const PhaseTable = () => {
         },
         {
             title: "Status",
-            width: "10%",
+            width: "14%",
             render: (record) => {
                 if (record.status === true) {
                     return <Tag color="green">PENDING</Tag>;
@@ -89,12 +89,12 @@ const PhaseTable = () => {
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "17%",
             render: (record) => {
                 // console.log(record);
                 return (
                     <div>
-                        {record.status === true ? (
+                        {record.del === 0 && record.status === true ? (
                             <Popconfirm
                                 title="Sure to delete?"
                                 onConfirm={() => handleDelete(record.id)}
@@ -104,43 +104,24 @@ const PhaseTable = () => {
                         ) : (
                             <Typography.Link disabled>Delete</Typography.Link>
                         )}
-                        {/* <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.id)}
-                        >
-                            <Typography.Link>Delete</Typography.Link>
-                        </Popconfirm> */}
+
                         {record.courseDone === 0 ? (
                             <Typography.Link
                                 onClick={handleImport}
                                 style={{ marginLeft: 20 }}
                             >
-                                <Typography.Link>Delete</Typography.Link>
-                            </Popconfirm>
-                            {record.courseDone === 0 ? (
-                                <Typography.Link
-                                    onClick={handleImport}
-                                    style={{ marginLeft: 20 }}
-                                >
-                                    Import
-                                </Typography.Link>
-                            ) : (
-                                <Typography.Link
-                                    style={{ marginLeft: 20 }}
-                                    disabled
-                                >
-                                    Import
-                                </Typography.Link>
-                            )}
-                        </div>
-                    );
-                } else {
-                    return (
-                        <Typography.Link disabled>
-                            Can not delete
-                        </Typography.Link>
-                    );
-                }
+                                Import
+                            </Typography.Link>
+                        ) : (
+                            <Typography.Link
+                                style={{ marginLeft: 20 }}
+                                disabled
+                            >
+                                Import
+                            </Typography.Link>
+                        )}
+                    </div>
+                );
             },
         },
     ];
