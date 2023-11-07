@@ -3,9 +3,10 @@ import { Button } from "antd";
 import { useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
 import * as St from "./ExcelFile.styled";
+import PropTypes from "prop-types";
 // import * as XLSX from "xlsx";
 
-function ExcelFile() {
+function ExcelFile({ setImportOpen, fetchData }) {
     const [file, setFile] = useState();
     const [fileLabel, setFileLabel] = useState("Import File");
 
@@ -16,6 +17,8 @@ function ExcelFile() {
             .post("studentSubjects/excel", formData)
             .then((res) => {
                 console.log(res);
+                setImportOpen(false);
+                fetchData();
             })
             .catch((error) => {
                 console.log(error);
@@ -55,6 +58,11 @@ function ExcelFile() {
     );
 }
 
+ExcelFile.propTypes = {
+    setImportOpen: PropTypes.func,
+    fetchData: PropTypes.func,
+};
+
 export const DownloadExcel = () => {
     const formFile = "/src/assets/fileExcel/test.xlsx";
 
@@ -66,7 +74,11 @@ export const DownloadExcel = () => {
     };
 
     return (
-        <Button style={{marginLeft: 10}} className="download" onClick={handleDownload}>
+        <Button
+            style={{ marginLeft: 10 }}
+            className="download"
+            onClick={handleDownload}
+        >
             <DownloadOutlined />
             Download File
         </Button>

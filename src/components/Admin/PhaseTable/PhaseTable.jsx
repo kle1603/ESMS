@@ -334,7 +334,10 @@ const PhaseTable = () => {
                 open={importOpen}
                 footer={importFooter}
             >
-                <ExcelFile />
+                <ExcelFile
+                    fetchData={fetchData}
+                    setImportOpen={setImportOpen}
+                />
             </St.ModalStyled>
 
             <St.ModalStyled
