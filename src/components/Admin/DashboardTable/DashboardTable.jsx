@@ -4,7 +4,11 @@ import BarChart from "@/components/Dashboard/BarChart";
 import CardItem from "@/components/Dashboard/CardItem/CardItem";
 import CardTable from "@/components/Dashboard/CardTable";
 import LineChart from "@/components/Dashboard/LineChart";
-import { ScheduleOutlined, UserOutlined,ShopOutlined  } from "@ant-design/icons";
+import {
+    ScheduleOutlined,
+    UserOutlined,
+    ShopOutlined,
+} from "@ant-design/icons";
 import { Col, Divider, Flex, Row, Select, Typography } from "antd";
 import * as St from "./DashboardTable.styled";
 import { useEffect, useState } from "react";
@@ -46,7 +50,11 @@ const DashboardTable = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 // console.log(res.data.data);
                 const semestersData = res.data.data.map((item) => ({
@@ -67,7 +75,11 @@ const DashboardTable = () => {
     const fetchPhase = () => {
         if (semesterId !== 0) {
             instance
-                .get(`examPhases/${semesterId}`)
+                .get(`examPhases/${semesterId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     if (res.data.data.length !== 0) {
                         const phaseData = res.data.data.map((item) => ({
@@ -356,12 +368,12 @@ const DashboardTable = () => {
                                 loading={loadingSlot}
                                 title="Total ExamRooms"
                                 value={totalSlot}
-                                icon={<ShopOutlined  className="icon" />}
+                                icon={<ShopOutlined className="icon" />}
                             />
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                            desc="Coming soon"
+                                desc="Coming soon"
                                 title="Coming soon"
                                 value={0}
                                 icon={<ScheduleOutlined className="icon" />}
