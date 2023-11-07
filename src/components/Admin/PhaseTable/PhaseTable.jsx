@@ -104,43 +104,24 @@ const PhaseTable = () => {
                         ) : (
                             <Typography.Link disabled>Delete</Typography.Link>
                         )}
-                        {/* <Popconfirm
-                            title="Sure to delete?"
-                            onConfirm={() => handleDelete(record.id)}
-                        >
-                            <Typography.Link>Delete</Typography.Link>
-                        </Popconfirm> */}
+
                         {record.courseDone === 0 ? (
                             <Typography.Link
                                 onClick={handleImport}
                                 style={{ marginLeft: 20 }}
                             >
-                                <Typography.Link>Delete</Typography.Link>
-                            </Popconfirm>
-                            {record.courseDone === 0 ? (
-                                <Typography.Link
-                                    onClick={handleImport}
-                                    style={{ marginLeft: 20 }}
-                                >
-                                    Import
-                                </Typography.Link>
-                            ) : (
-                                <Typography.Link
-                                    style={{ marginLeft: 20 }}
-                                    disabled
-                                >
-                                    Import
-                                </Typography.Link>
-                            )}
-                        </div>
-                    );
-                } else {
-                    return (
-                        <Typography.Link disabled>
-                            Can not delete
-                        </Typography.Link>
-                    );
-                }
+                                Import
+                            </Typography.Link>
+                        ) : (
+                            <Typography.Link
+                                style={{ marginLeft: 20 }}
+                                disabled
+                            >
+                                Import
+                            </Typography.Link>
+                        )}
+                    </div>
+                );
             },
         },
     ];
