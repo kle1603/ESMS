@@ -16,6 +16,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 import ExcelFile from "@/components/ExcelFile";
 import { DownloadExcel } from "@/components/ExcelFile/ExcelFile";
+import cookies from "@/utils/cookies";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -29,6 +30,7 @@ const PhaseTable = () => {
     const [endDay, setEndDay] = useState("");
     const [importOpen, setImportOpen] = useState(false);
     const pageSize = 10;
+    const token = cookies.getToken();
 
     const option = [
         { value: 0, label: "Normal" },
@@ -187,7 +189,7 @@ const PhaseTable = () => {
     const handleDelete = (e) => {
         setLoading(true);
         instance
-            .delete("examPhases", { data: { id: e } })
+            .delete("examPhases", { data: { id: e, token: token } })
             .then(() => {
                 toast.success("Successfully deleted!");
                 fetchData();
@@ -201,10 +203,10 @@ const PhaseTable = () => {
     const handleOk = () => {
         form.validateFields()
             .then((values) => {
-                console.log(values.name);
-                console.log(values.option);
-                console.log(startDay);
-                console.log(endDay);
+                // console.log(values.name);
+                // console.log(values.option);
+                // console.log(startDay);
+                // console.log(endDay);
 
                 instance
                     .post("examPhases", {
@@ -212,6 +214,7 @@ const PhaseTable = () => {
                         des: values.option,
                         startDay: startDay,
                         endDay: endDay,
+                        semId: semesterId,
                     })
                     .then(() => {
                         toast.success("Successfully created!");
