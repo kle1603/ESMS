@@ -55,9 +55,9 @@ const ExaminerTable = () => {
             width: "15%",
             render: (record) => {
                 if (record.role === "lecturer") {
-                    return <Tag color="red">{record.role.toUpperCase()}</Tag>;
+                    return <Tag color="red">LECTURER</Tag>;
                 } else {
-                    return <Tag color="blue">{record.role.toUpperCase()}</Tag>;
+                    return <Tag color="blue">ACTIVE</Tag>;
                 }
             },
         },
@@ -65,7 +65,7 @@ const ExaminerTable = () => {
             title: "Status",
             width: "15%",
             render: (record) => {
-                if (record.status === true) {
+                if (record.status) {
                     return <Tag color="red">INACTIVE</Tag>;
                 } else {
                     return <Tag color="blue">ACTIVE</Tag>;
@@ -143,6 +143,7 @@ const ExaminerTable = () => {
             instance
                 .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`)
                 .then((res) => {
+                    console.log(res);
                     const formattedData = res.data.data.map((item, index) => ({
                         ...item,
                         no: index + 1,
