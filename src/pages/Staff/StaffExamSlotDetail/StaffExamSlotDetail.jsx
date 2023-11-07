@@ -171,6 +171,16 @@ const StaffExamPhaseDetail = () => {
         );
     };
 
+    const layout = {
+        labelAlign: "left",
+        labelCol: {
+            span: 8,
+        },
+        wrapperCol: {
+            span: 24,
+        },
+    };
+
     return (
         <>
             <Toaster position="top-right" reverseOrder={false} />
@@ -187,25 +197,34 @@ const StaffExamPhaseDetail = () => {
                 // onCancel={handleCancel}
                 footer={modalFooter()}
             >
-                <Form form={form} name="add_row_form">
+                <Form
+                    form={form}
+                    name="add_row_form"
+                    style={{ marginTop: "20px" }}
+                >
                     <Form.Item
+                        {...layout}
+                        label="Course"
                         name="course"
                         rules={[
                             {
                                 required: true,
-                                message: "Please choose the course!",
+                                message: "Please choose a course!",
                             },
                         ]}
-                        initialValue={selectCourses}
+                        // initialValue={selectCourses}
                     >
                         <Select
                             // onChange={handleSelect}
                             // value={selectTimeSlot}
                             className="select"
                             options={courses}
+                            placeholder="Choose a course"
                         />
                     </Form.Item>
                     <Form.Item
+                        {...layout}
+                        label="Number of Student"
                         name="numOfStu"
                         rules={[
                             {
