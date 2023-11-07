@@ -8,6 +8,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import configs from "@/configs";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
+import toast, { Toaster } from "react-hot-toast";
 
 const ExamPhaseTable = () => {
     const { id } = useParams();
@@ -24,6 +26,8 @@ const ExamPhaseTable = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [statusButton, setStatusButton] = useState(false);
     const pageSize = 10;
+
+    const token = cookies.getToken();
 
     const columns = [
         // Your columns
@@ -192,10 +196,37 @@ const ExamPhaseTable = () => {
         window.history.back();
     };
 
+    const handleAuto = () => {
+        instance
+            .get(`autoCreateExamRooms`, {
+                params: {
+                    examPhaseId: id,
+                    token: token,
+                },
+            })
+            .then(() => {
+                // console.log(res);
+                fetchData();
+            })
+            .catch((error) => {
+                // console.log(error.response.data.message);
+                toast.error(error.response.data.message, {
+                    // icon: "👏",
+                    style: {
+                        borderRadius: "10px",
+                        background: "#333",
+                        color: "#fff",
+                    },
+                });
+            });
+    };
+
     // const handleSelect = (id, option) => {};
 
     return (
         <>
+            <Toaster position="top-right" reverseOrder={false} />
+
             <Divider orientation="left">
                 <Button onClick={handleBack} style={{ marginRight: 10 }}>
                     <ArrowLeftOutlined />
@@ -210,7 +241,11 @@ const ExamPhaseTable = () => {
             <St.DivTable>
                 {statusButton ? (
                     <St.FlexStyled>
-                        <Button style={{ marginRight: 14 }} type="primary">
+                        <Button
+                            style={{ marginRight: 14 }}
+                            type="primary"
+                            onClick={handleAuto}
+                        >
                             Auto Generate
                         </Button>
                         <Button

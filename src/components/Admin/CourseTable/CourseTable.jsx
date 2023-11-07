@@ -40,29 +40,31 @@ const CourseTable = () => {
     };
 
     const fetchPhase = () => {
-        instance
-            .get(`examPhases/${semesterId}`)
-            .then((res) => {
-                if (semesterId !== 0) {
-                    if (res.data.data.length !== 0) {
-                        const phaseData = res.data.data.map((item) => ({
-                            label: item.ePName,
-                            value: item.id,
-                        }));
-                        const newData = phaseData.reverse();
-                        setSelectPhase(newData[0].label);
-                        setPhaseId(newData[0].value);
-                        setPhases(newData);
-                    } else {
-                        setSelectPhase("");
-                        setPhases([]);
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/${semesterId}`)
+                .then((res) => {
+                    if (semesterId !== 0) {
+                        if (res.data.data.length !== 0) {
+                            const phaseData = res.data.data.map((item) => ({
+                                label: item.ePName,
+                                value: item.id,
+                            }));
+                            const newData = phaseData.reverse();
+                            setSelectPhase(newData[0].label);
+                            setPhaseId(newData[0].value);
+                            setPhases(newData);
+                        } else {
+                            setSelectPhase("");
+                            setPhases([]);
+                        }
                     }
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {});
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        }
     };
 
     const fetchData = () => {
