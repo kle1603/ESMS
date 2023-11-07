@@ -83,6 +83,7 @@ const CourseTable = () => {
     const fetchData = () => {
         setLoading(true);
         if (phaseId !== 0) {
+            setLoading(true);
             instance
                 .get(`courses/?ePId=${phaseId}`, {
                     params: {
