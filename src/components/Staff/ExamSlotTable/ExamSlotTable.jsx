@@ -1,14 +1,6 @@
 // import PropTypes from "prop-types";
 
-import {
-    Button,
-    DatePicker,
-    Divider,
-    Form,
-    Modal,
-    Select,
-    Table,
-} from "antd";
+import { Button, DatePicker, Divider, Form, Modal, Select, Table } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import * as St from "./ExamSlotTable.styled";
@@ -102,7 +94,7 @@ const ExamPhaseTable = () => {
             .get(`examSlots/${id}`, {
                 params: {
                     token: token,
-                }
+                },
             })
             .then((res) => {
                 const formattedData = res.data.data.map((item, index) => ({
@@ -168,7 +160,7 @@ const ExamPhaseTable = () => {
                         ePId: id,
                         timeSlotId: values.slot,
                         day: values.day,
-                        token: token
+                        token: token,
                     })
                     .then((res) => {
                         toast.success("Successfully created!");

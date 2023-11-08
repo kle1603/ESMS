@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
+import cookies from "@/utils/cookies";
 
 const SubjectTable = () => {
     const [form] = Form.useForm();
@@ -13,6 +14,8 @@ const SubjectTable = () => {
     const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const pageSize = 10;
+
+    const token = cookies.getToken();
 
     const columns = [
         {
@@ -74,7 +77,11 @@ const SubjectTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get("subjects")
+            .get("subjects", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({

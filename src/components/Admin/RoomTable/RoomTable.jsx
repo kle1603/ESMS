@@ -6,6 +6,7 @@ import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import Search from "antd/es/input/Search";
 import ButtonAdd from "@/components/ButtonAdd";
+import cookies from "@/utils/cookies";
 // import { item } from "@/layouts/AdminLayout/AdminLayout.items";
 
 const RoomTable = () => {
@@ -15,6 +16,8 @@ const RoomTable = () => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const pageSize = 10;
+
+    const token = cookies.getToken();
 
     const columns = [
         {
@@ -81,7 +84,11 @@ const RoomTable = () => {
     const fetchData = () => {
         setLoading(true);
         instance
-            .get("rooms")
+            .get("rooms", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
