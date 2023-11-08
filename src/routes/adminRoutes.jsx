@@ -1,6 +1,6 @@
 import configs from "@/configs";
-import AuthGuard from "@/guards/AuthGuard";
-import RoleBasedGuard from "@/guards/RoleBasedGuard";
+// import AuthGuard from "@/guards/AuthGuard";
+// import RoleBasedGuard from "@/guards/RoleBasedGuard";
 import AdminLayout from "@/layouts/AdminLayout";
 import AdminCourses from "@/pages/Admin/AdminCourses";
 import AdminDashboard from "@/pages/Admin/AdminDashboard";
@@ -11,16 +11,17 @@ import AdminSemesters from "@/pages/Admin/AdminSemesters";
 import AdminSlots from "@/pages/Admin/AdminSlots";
 import AdminSubjects from "@/pages/Admin/AdminSubjects";
 import AdminUser from "@/pages/Admin/AdminUser";
-import { ADMIN } from "@/utils/constants";
+// import { ADMIN } from "@/utils/constants";
 
 const adminRoutes = [
     {
         element: (
-            <AuthGuard>
-                <RoleBasedGuard accessibleRoles={[ADMIN]}>
-                    <AdminLayout />
-                </RoleBasedGuard>
-            </AuthGuard>
+            // <AuthGuard>
+            //     <RoleBasedGuard accessibleRoles={[ADMIN]}>
+            //         <AdminLayout />
+            //     </RoleBasedGuard>
+            // </AuthGuard>
+            <AdminLayout />
         ),
         children: [
             { path: configs.routes.admin, element: <AdminDashboard /> },
