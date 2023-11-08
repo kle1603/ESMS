@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { useEffect } from "react";
 import configs from "@/configs";
+import instance from "@/utils/instance";
 
 function Login() {
     const location = useLocation();
@@ -22,6 +23,17 @@ function Login() {
         }
     }, [errorMessage]);
 
+    const handleClick = () => {
+        instance
+            .get("auth")
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     return (
         <>
             {contextHolder}
@@ -33,9 +45,10 @@ function Login() {
                         <h2 className="login-desc">
                             Join to create the future with us
                         </h2>
-                        <a
+                        <div
+                            onClick={handleClick}
                             // href="http://localhost:8081/auth/google"
-                            href={configs.publicRuntime.API_URL + "auth/google"}
+                            // href={configs.publicRuntime.API_URL + "auth/google"}
                             className="login-button"
                         >
                             <button className="button">
@@ -70,7 +83,7 @@ function Login() {
                                     Continue with Google
                                 </span>
                             </button>
-                        </a>
+                        </div>
                         <div className="login-contact">
                             <p>
                                 Cannot login?{" "}
