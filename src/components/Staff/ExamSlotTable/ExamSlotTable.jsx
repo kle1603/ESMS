@@ -99,7 +99,11 @@ const ExamPhaseTable = () => {
         }
         setSemesterId(state.data.semId);
         instance
-            .get(`examSlots/${id}`)
+            .get(`examSlots/${id}`, {
+                params: {
+                    token: token,
+                }
+            })
             .then((res) => {
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
@@ -164,6 +168,7 @@ const ExamPhaseTable = () => {
                         ePId: id,
                         timeSlotId: values.slot,
                         day: values.day,
+                        token: token
                     })
                     .then((res) => {
                         toast.success("Successfully created!");
