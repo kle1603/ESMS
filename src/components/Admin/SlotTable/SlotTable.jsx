@@ -3,6 +3,7 @@ import { Select, Tag, Typography } from "antd";
 import * as St from "./SlotTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 // import moment from "moment";
 // import moment from "moment";
 
@@ -16,6 +17,7 @@ const SlotTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const pageSize = 10;
     // const format = "HH:mm";
+    const token = cookies.getToken();
 
     const columns = [
         {
@@ -78,7 +80,11 @@ const SlotTable = () => {
         if (semesterId !== 0) {
             setLoading(true);
             instance
-                .get(`timeSlots/semId?semId=${semesterId}`)
+                .get(`timeSlots/semId?semId=${semesterId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     const formattedData = res.data.data.map((item, index) => ({
                         ...item,
@@ -104,7 +110,11 @@ const SlotTable = () => {
 
     const fetchSemester = () => {
         instance
-            .get("semesters")
+            .get("semesters", {
+                params: {
+                    token: token,
+                },
+            })
             .then((res) => {
                 const semestersData = res.data.data
                     .sort((a, b) => b.id - a.id)
