@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import useScrollTopContent from "@/hooks/useScrollTopContent";
 import toast, { Toaster } from "react-hot-toast";
+import cookies from "@/utils/cookies";
 
 const StaffExamPhaseDetail = () => {
     useScrollTopContent();
@@ -30,6 +31,8 @@ const StaffExamPhaseDetail = () => {
     const [message, setMessage] = useState(false);
 
     const [noti, setNoti] = useState(false);
+
+    const token = cookies.getToken();
     // console.log(state);
 
     const items = [
@@ -110,6 +113,7 @@ const StaffExamPhaseDetail = () => {
                         courId: values.course,
                         examSlotId: param.id,
                         numStu: values.numOfStu,
+                        token: token
                     })
                     .then(() => {
                         fetchCourse();
