@@ -6,6 +6,7 @@ import { message } from "antd";
 import { useEffect } from "react";
 import configs from "@/configs";
 import instance from "@/utils/instance";
+import cookies from "@/utils/cookies";
 
 function Login() {
     const location = useLocation();
@@ -27,6 +28,9 @@ function Login() {
         instance
             .get("auth")
             .then((res) => {
+                const query = new URLSearchParams(location.search);
+                const token = query.get("token");
+                cookies.setToken(token);
                 console.log(res);
             })
             .catch((err) => {
