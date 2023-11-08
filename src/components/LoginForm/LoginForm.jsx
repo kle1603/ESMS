@@ -3,39 +3,54 @@ import Logo from "@/assets/images/Schedule-amico.svg";
 import * as St from "./LoginForm.styled";
 import { useLocation, useNavigate } from "react-router-dom";
 import { message } from "antd";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import configs from "@/configs";
-import instance from "@/utils/instance";
 import cookies from "@/utils/cookies";
+import useAuth from "@/hooks/useAuth";
+import { signIn } from "@/contexts/auth/actions";
+// import useAuth from "@/hooks/useAuth";
+// import instance from "@/utils/instance";
+// import cookies from "@/utils/cookies";
 
 function Login() {
     const location = useLocation();
     const navigate = useNavigate();
+    const { dispatch } = useAuth();
     const query = new URLSearchParams(location.search);
     const errorMessage = query.get("error_message");
+    const token = query.get("token");
+
     const [messageApi, contextHolder] = message.useMessage();
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (errorMessage) {
             messageApi.open({
                 type: "error",
                 content: <div>{errorMessage}</div>,
             });
             navigate(configs.routes.login);
+        } else if (token) {
+            cookies.setToken(token);
+
+            const user = cookies.decodeJwt();
+            dispatch(signIn({ user }));
         }
-    }, [errorMessage]);
+    }, [errorMessage, token]);
 
     const handleClick = () => {
-        instance
-            .get("auth")
-            .then((res) => {
-                const query = new URLSearchParams(location.search);
-                const token = query.get("token");
-                cookies.setToken(token);
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        window.location.href = configs.publicRuntime.API_URL + "auth";
+        // instance
+        //     .get("auth")
+        //     .then((res) => {
+        //         const query = new URLSearchParams(location.search);
+        //         // Navigate ...
+        //         const token = query.get("token");
+        //         console.log(token);
+        //         cookies.setToken(token);
+        //         console.log(res);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     };
 
     return (
