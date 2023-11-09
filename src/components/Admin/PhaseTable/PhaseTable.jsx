@@ -17,6 +17,7 @@ import ButtonAdd from "@/components/ButtonAdd";
 import ExcelFile from "@/components/ExcelFile";
 import { DownloadExcel } from "@/components/ExcelFile/ExcelFile";
 import cookies from "@/utils/cookies";
+import dayjs from "dayjs";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -30,6 +31,7 @@ const PhaseTable = () => {
     const [endDay, setEndDay] = useState("");
     const [importOpen, setImportOpen] = useState(false);
     const pageSize = 10;
+
     const token = cookies.getToken();
 
     const option = [
@@ -290,6 +292,10 @@ const PhaseTable = () => {
         setEndDay(date);
     };
 
+    const disabledDate = (current) => {
+        return current && current < dayjs().endOf("day");
+    };
+
     const modalFooter = () => {
         return (
             <>
@@ -394,6 +400,7 @@ const PhaseTable = () => {
                         ]}
                     >
                         <DatePicker
+                            disabledDate={disabledDate}
                             onChange={onChangeStart}
                             style={{ width: "100%" }}
                         />
@@ -411,6 +418,7 @@ const PhaseTable = () => {
                         ]}
                     >
                         <DatePicker
+                            disabledDate={disabledDate}
                             onChange={onChangeEnd}
                             style={{ width: "100%" }}
                         />
