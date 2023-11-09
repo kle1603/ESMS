@@ -14,6 +14,7 @@ const CourseTable = ({ noti }) => {
 
     useEffect(() => {
         // call api here
+        console.log("noti", noti);
         fetchCourse();
     }, [noti]);
 
