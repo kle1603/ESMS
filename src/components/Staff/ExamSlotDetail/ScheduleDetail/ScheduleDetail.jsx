@@ -147,6 +147,7 @@ const ScheduleDetail = ({ noti }) => {
                     .put("examRooms/addExaminer", {
                         examRoomId: values.roomId,
                         examinerId: values.freeExaminer,
+                        token: token,
                     })
                     .then(() => {
                         fetchScheduleDetail();
