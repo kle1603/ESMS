@@ -11,6 +11,7 @@ const Examiner = ({ noti }) => {
     const [loading, setLoading] = useState(true);
     const param = useParams();
     const token = cookies.getToken();
+    const pageSize = 10;
 
     const columns = [
         // Your columns
@@ -76,8 +77,8 @@ const Examiner = ({ noti }) => {
                 loading={loading}
                 bordered
                 pagination={{
-                    pageSize: 5,
-                    hideOnSinglePage: data.length <= 5,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                 }}
             />
         </div>

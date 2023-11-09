@@ -26,7 +26,7 @@ const ExamPhaseTable = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [statusButton, setStatusButton] = useState(false);
     const pageSize = 10;
-    const [day, setDay] = useState("");
+    // const [day, setDay] = useState("");
 
     const token = cookies.getToken();
 
@@ -232,10 +232,10 @@ const ExamPhaseTable = () => {
             });
     };
 
-    const onChangeDay = (_, date) => {
-        // console.log(date);
-        setDay(date);
-    };
+    // const onChangeDay = (_, date) => {
+    //     // console.log(date);
+    //     setDay(date);
+    // };
     // const handleSelect = (id, option) => {};
 
     const layout = {
@@ -302,7 +302,7 @@ const ExamPhaseTable = () => {
                             ]}
                         >
                             <DatePicker
-                                onChange={onChangeDay}
+                                // onChange={onChangeDay}
                                 style={{ width: "100%" }}
                             />
                         </Form.Item>

@@ -5,12 +5,9 @@ import { Typography } from "antd";
 import PropTypes from "prop-types";
 
 const Event = ({ event }) => {
-    return (
-        <div>
-            <Typography className="title">Location: {event.title}</Typography>
-            {/* <Typography className="title">Status: {event.status}</Typography> */}
-        </div>
-    );
+    // console.log(event);
+
+    return <Typography className="title">Location: {event.title}</Typography>;
 };
 
 Event.propTypes = {
