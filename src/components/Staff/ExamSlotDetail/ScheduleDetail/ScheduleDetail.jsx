@@ -19,6 +19,8 @@ const ScheduleDetail = ({ noti }) => {
     const [freeExaminer, setFreeExaminer] = useState([]);
     const [loadingSelect, setLoadingSelect] = useState(false);
 
+    const [loadingButton, setLoadingButton] = useState(false);
+
     const columns = [
         // Your columns
         {
@@ -140,6 +142,7 @@ const ScheduleDetail = ({ noti }) => {
     };
 
     const handleOk = () => {
+        setLoadingButton(true);
         form.validateFields()
             .then((values) => {
                 // console.log(values);
@@ -152,11 +155,13 @@ const ScheduleDetail = ({ noti }) => {
                     .then(() => {
                         fetchScheduleDetail();
                         fetchFreeExaminer();
+                        setLoadingButton(false);
                         setModalVisible(false);
                         form.resetFields();
                     })
                     .catch((error) => {
                         console.log(error);
+                        setLoadingButton(false);
                     });
             })
             .catch((info) => {
@@ -185,8 +190,14 @@ const ScheduleDetail = ({ noti }) => {
     const modalFooter = () => {
         return (
             <>
-                <Button onClick={handleCancel}>Cancel</Button>
-                <Button type="primary" onClick={handleOk}>
+                <Button loading={loadingButton} onClick={handleCancel}>
+                    Cancel
+                </Button>
+                <Button
+                    loading={loadingButton}
+                    type="primary"
+                    onClick={handleOk}
+                >
                     Submit
                 </Button>
             </>

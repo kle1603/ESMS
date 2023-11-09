@@ -48,6 +48,7 @@ const Schedule = () => {
                 },
             })
             .then((res) => {
+                // console.log(res);
                 const formattedData = res.data.data.map((item, index) => {
                     item.startTime = new Date(item.startTime);
                     item.endTime = new Date(item.endTime);
@@ -96,7 +97,7 @@ const Schedule = () => {
                     events={data}
                     startAccessor="start"
                     endAccessor="end"
-                    style={{ height: 578 }}
+                    style={{ height: "100vh" }}
                     min={start}
                     max={end}
                     eventPropGetter={eventPropGetter}

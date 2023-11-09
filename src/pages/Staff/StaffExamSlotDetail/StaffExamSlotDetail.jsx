@@ -79,23 +79,24 @@ const StaffExamPhaseDetail = () => {
                 })
                 .then((res) => {
                     // console.log(res.data);
-                    // if (
-                    //     res.data.message ===
-                    //     "All courses and students are scheduled"
-                    // ) {
-                    //     // setMessage(false);
-                    // } else {
-
-                    const formattedData = res.data.data.map((item) => ({
-                        value: item.courId,
-                        label: item.subCode + " - " + item.numOfStu,
-                    }));
-                    setSelectCourses(formattedData[0].label);
-                    setDefaultValue(formattedData[0].value);
-                    setCourses(formattedData);
-                    setButtonStatus(false);
-                    setMessage(false);
-                    // }
+                    if (
+                        res.data.message ===
+                        "All courses and students are scheduled"
+                    ) {
+                        // setMessage(false);
+                        // console.log("message");
+                        setButtonStatus(false);
+                    } else {
+                        const formattedData = res.data.data.map((item) => ({
+                            value: item.courId,
+                            label: item.subCode + " - " + item.numOfStu,
+                        }));
+                        setSelectCourses(formattedData[0].label);
+                        setDefaultValue(formattedData[0].value);
+                        setCourses(formattedData);
+                        setButtonStatus(false);
+                        setMessage(false);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
