@@ -4,11 +4,14 @@ import { useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
 import * as St from "./ExcelFile.styled";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import configs from "@/configs";
 // import * as XLSX from "xlsx";
 
 function ExcelFile({ setImportOpen, fetchData }) {
     const [file, setFile] = useState();
     const [fileLabel, setFileLabel] = useState("Import File");
+    const navigate = useNavigate()
 
     const upload = () => {
         const formData = new FormData();
@@ -19,6 +22,7 @@ function ExcelFile({ setImportOpen, fetchData }) {
                 console.log(res);
                 setImportOpen(false);
                 fetchData();
+                navigate(configs.routes.adminCourses)
             })
             .catch((error) => {
                 console.log(error);
