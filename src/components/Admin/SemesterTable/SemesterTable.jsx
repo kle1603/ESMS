@@ -14,6 +14,7 @@ import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 import cookies from "@/utils/cookies";
+import dayjs from "dayjs";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
@@ -209,6 +210,10 @@ const SemesterTable = () => {
         setEndDay(date);
     };
 
+    const disabledDate = (current) => {
+        return current && current < dayjs().endOf("day");
+    };
+
     const modalFooter = () => {
         return (
             <>
@@ -268,6 +273,7 @@ const SemesterTable = () => {
                         ]}
                     >
                         <DatePicker
+                            disabledDate={disabledDate}
                             onChange={onChangeStart}
                             style={{ width: "100%" }}
                         />
@@ -285,6 +291,7 @@ const SemesterTable = () => {
                         ]}
                     >
                         <DatePicker
+                            disabledDate={disabledDate}
                             onChange={onChangeEnd}
                             style={{ width: "100%" }}
                         />
