@@ -336,8 +336,8 @@ const DashboardTable = () => {
                     <Row gutter={[16, 16]}>
                         <Col xs={24} md={12}>
                             <CardItem
-                                desc={"Total exam slot"}
-                                title="at this phase"
+                                desc={"at this phase"}
+                                title="Exam Slot"
                                 value={totalExamSlot}
                                 loading={loadingSlot}
                                 icon={<ScheduleOutlined className="icon" />}
@@ -345,8 +345,8 @@ const DashboardTable = () => {
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                desc={"Total examiner"}
-                                title="at this phase"
+                                desc={"at this phase"}
+                                title="Examiner"
                                 value={totalExaminer}
                                 loading={loadingExaminer}
                                 icon={<ScheduleOutlined className="icon" />}
