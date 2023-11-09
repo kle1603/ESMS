@@ -72,7 +72,11 @@ const StaffExamPhaseDetail = () => {
         // setButtonStatus(true);
         if (phaseId !== 0) {
             instance
-                .get(`studentExams?ePId=${phaseId}`)
+                .get(`studentExams?ePId=${phaseId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     // console.log(res.data);
                     // if (
