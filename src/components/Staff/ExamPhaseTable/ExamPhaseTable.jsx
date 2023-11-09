@@ -114,7 +114,7 @@ const ExamPhaseTable = () => {
                 .finally(() => {});
         } else {
             setData([]);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 

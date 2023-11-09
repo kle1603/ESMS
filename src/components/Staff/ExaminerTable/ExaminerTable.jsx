@@ -154,7 +154,7 @@ const ExaminerTable = () => {
                 .finally(() => {});
         } else {
             setData([]);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 

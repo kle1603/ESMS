@@ -70,17 +70,18 @@ const StaffExamPhaseDetail = () => {
         setMessage(true);
         // console.log(phaseId);
         // setButtonStatus(true);
-        instance
-            .get(`studentExams?ePId=${phaseId}`)
-            .then((res) => {
-                // console.log(res.data);
-                // if (
-                //     res.data.message ===
-                //     "All courses and students are scheduled"
-                // ) {
-                //     // setMessage(false);
-                // } else {
-                if (phaseId !== 0) {
+        if (phaseId !== 0) {
+            instance
+                .get(`studentExams?ePId=${phaseId}`)
+                .then((res) => {
+                    // console.log(res.data);
+                    // if (
+                    //     res.data.message ===
+                    //     "All courses and students are scheduled"
+                    // ) {
+                    //     // setMessage(false);
+                    // } else {
+
                     const formattedData = res.data.data.map((item) => ({
                         value: item.courId,
                         label: item.subCode + " - " + item.numOfStu,
@@ -90,13 +91,13 @@ const StaffExamPhaseDetail = () => {
                     setCourses(formattedData);
                     setButtonStatus(false);
                     setMessage(false);
-                }
-                // }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-            .finally(() => {});
+                    // }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {});
+        }
     };
 
     const handleBack = () => {
