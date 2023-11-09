@@ -141,7 +141,7 @@ const DashboardTable = () => {
                 .finally(() => {});
         } else {
             setTotalRegisterByPhase([]);
-            setLoadingTotalRegisterByPhase(false);
+            // setLoadingTotalRegisterByPhase(false);
         }
     };
 
@@ -168,7 +168,7 @@ const DashboardTable = () => {
                 .finally(() => {});
         } else {
             setSlotComing([]);
-            setLoadingSlotComing(false);
+            // setLoadingSlotComing(false);
         }
     };
 
@@ -219,7 +219,7 @@ const DashboardTable = () => {
         } else {
             setChartData([]);
             setChartLabels([]);
-            setLoadingChart(false);
+            // setLoadingChart(false);
         }
     };
 
@@ -298,7 +298,7 @@ const DashboardTable = () => {
                     </St.StyledLeft>
                 </Col>
                 <Col xs={24} md={24} lg={11}>
-                    <Divider orientation="left">Haha</Divider>
+                    <Divider orientation="left">Total</Divider>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} md={12}>
                             <CardItem

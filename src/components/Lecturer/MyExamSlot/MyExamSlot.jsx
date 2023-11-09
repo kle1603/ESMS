@@ -52,11 +52,12 @@ const MyExamSlot = () => {
                 .finally(() => {});
         } else {
             setData([]);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
     const fetchSemester = () => {
+        // setLoading(true);
         instance
             .get("semesters/otherRole")
             .then((res) => {
@@ -77,6 +78,7 @@ const MyExamSlot = () => {
     };
 
     const fetchPhase = () => {
+        // setLoading(true);
         instance
             .get(`examPhases/otherRole/`, {
                 params: {
@@ -290,15 +292,14 @@ const MyExamSlot = () => {
                 )}
             </St.StyledLeft>
 
-            {statusPhase === false ? null : (
-                <St.ButtonTable
-                    type="primary"
-                    style={{ marginBottom: 16 }}
-                    onClick={handleRegister}
-                >
-                    Register
-                </St.ButtonTable>
-            )}
+            <St.ButtonTable
+                type="primary"
+                style={{ marginBottom: 16 }}
+                onClick={handleRegister}
+                disabled={statusPhase === false}
+            >
+                Register
+            </St.ButtonTable>
 
             <Table
                 scroll={{ x: true }}

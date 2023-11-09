@@ -107,7 +107,7 @@ const ExamTable = () => {
             title: "Operation",
             width: "20%",
             render: (record) => {
-                if (record.register === 1) {
+                if (record.register === 1 && record.available > 0) {
                     return (
                         <Popconfirm
                             title="Sure to register?"
