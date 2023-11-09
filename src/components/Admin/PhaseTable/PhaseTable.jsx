@@ -164,7 +164,6 @@ const PhaseTable = () => {
                 .finally(() => {});
         } else {
             setData([]);
-            setLoading(false);
         }
     };
 

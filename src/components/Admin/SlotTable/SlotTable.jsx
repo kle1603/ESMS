@@ -104,7 +104,6 @@ const SlotTable = () => {
                 .finally(() => {});
         } else {
             setData([]);
-            setLoading(false);
         }
     };
 
