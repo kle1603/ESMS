@@ -8,6 +8,7 @@ import * as St from "./ExamTable.styled";
 import instance from "@/utils/instance";
 import { useParams } from "react-router-dom";
 import cookies from "@/utils/cookies";
+import toast from "react-hot-toast";
 
 const ExamTable = () => {
     const { id } = useParams();
@@ -59,11 +60,15 @@ const ExamTable = () => {
             })
             .then(() => {
                 // console.log(res);
-                setLoading(true);
+                toast.success("Successfully registed !");
                 fetchData();
             })
             .catch((error) => {
+                toast.error("This is an error!");
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(true);
             });
     };
 

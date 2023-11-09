@@ -7,6 +7,7 @@ import * as St from "./MyExamSlot.styled";
 import { useNavigate } from "react-router-dom";
 import instance from "@/utils/instance";
 import cookies from "@/utils/cookies";
+import toast from "react-hot-toast";
 
 const MyExamSlot = () => {
     const [loading, setLoading] = useState(true);
@@ -141,12 +142,16 @@ const MyExamSlot = () => {
                 day: e.day,
             })
             .then((res) => {
-                setLoading(true);
+                toast.success("Successfully");
                 console.log(res);
                 fetchData();
             })
             .catch((error) => {
+                toast.error("Error");
                 console.log(error);
+            })
+            .finally(() => {
+                setLoading(true);
             });
     };
 
