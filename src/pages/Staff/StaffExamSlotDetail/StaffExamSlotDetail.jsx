@@ -105,11 +105,22 @@ const StaffExamPhaseDetail = () => {
 
     const handleOk = () => {
         setButtonOk(true);
+
         form.validateFields()
             .then((values) => {
                 if (values.course === selectCourses) {
                     values.course = defaultValue;
                 }
+
+                toast("Please allow time for generation!", {
+                    icon: "😰",
+                    style: {
+                        borderRadius: "10px",
+                        background: "#333",
+                        color: "#fff",
+                    },
+                });
+
                 instance
                     .post(`subInSlots`, {
                         courId: values.course,
@@ -122,7 +133,13 @@ const StaffExamPhaseDetail = () => {
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
-                        toast.success("Successfully created!");
+                        toast.success("Successfully created!", {
+                            style: {
+                                borderRadius: "10px",
+                                background: "#333",
+                                color: "#fff",
+                            },
+                        });
                         if (res) {
                             setNoti(!noti);
                         }
@@ -133,7 +150,13 @@ const StaffExamPhaseDetail = () => {
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
-                        toast.error("This is an error!");
+                        toast.error("This is an error!", {
+                            style: {
+                                borderRadius: "10px",
+                                background: "#333",
+                                color: "#fff",
+                            },
+                        });
                         if (error) {
                             setNoti(!noti);
                         }
@@ -173,7 +196,9 @@ const StaffExamPhaseDetail = () => {
                     Submit
                 </Button>
 
-                <Button onClick={handleCancel}>Cancel</Button>
+                <Button loading={buttonOk} onClick={handleCancel}>
+                    Cancel
+                </Button>
             </>
         );
     };
