@@ -28,7 +28,7 @@ const StaffExamPhaseDetail = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [buttonOk, setButtonOk] = useState(false);
     const [phaseId, setPhaseId] = useState(0);
-    const [message, setMessage] = useState(false);
+    const [message, setMessage] = useState(true);
 
     const [noti, setNoti] = useState(false);
 
@@ -67,29 +67,31 @@ const StaffExamPhaseDetail = () => {
     }, [phaseId]);
 
     const fetchCourse = () => {
+        setMessage(true);
         // console.log(phaseId);
         // setButtonStatus(true);
         instance
             .get(`studentExams?ePId=${phaseId}`)
             .then((res) => {
-                if (
-                    res.data.message ===
-                    "All courses and students are scheduled"
-                ) {
+                // console.log(res.data);
+                // if (
+                //     res.data.message ===
+                //     "All courses and students are scheduled"
+                // ) {
+                //     // setMessage(false);
+                // } else {
+                if (phaseId !== 0) {
+                    const formattedData = res.data.data.map((item) => ({
+                        value: item.courId,
+                        label: item.subCode + " - " + item.numOfStu,
+                    }));
+                    setSelectCourses(formattedData[0].label);
+                    setDefaultValue(formattedData[0].value);
+                    setCourses(formattedData);
+                    setButtonStatus(false);
                     setMessage(false);
-                } else {
-                    if (phaseId !== 0) {
-                        const formattedData = res.data.data.map((item) => ({
-                            value: item.courId,
-                            label: item.subCode + " - " + item.numOfStu,
-                        }));
-                        setSelectCourses(formattedData[0].label);
-                        setDefaultValue(formattedData[0].value);
-                        setCourses(formattedData);
-                        setButtonStatus(false);
-                        setMessage(true);
-                    }
                 }
+                // }
             })
             .catch((error) => {
                 console.log(error);
@@ -113,27 +115,31 @@ const StaffExamPhaseDetail = () => {
                         courId: values.course,
                         examSlotId: param.id,
                         numStu: values.numOfStu,
-                        token: token
+                        token: token,
                     })
-                    .then(() => {
+                    .then((res) => {
                         fetchCourse();
-                        setNoti(!noti);
-                        toast.success("Successfully created!");
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
+                        toast.success("Successfully created!");
+                        if (res) {
+                            setNoti(!noti);
+                        }
                     })
                     .catch((error) => {
                         fetchCourse();
-                        setNoti(!noti);
                         console.log(error);
-                        toast.error("This is an error!");
                         setButtonOk(false);
                         setModalVisible(false);
                         form.resetFields();
+                        toast.error("This is an error!");
+                        if (error) {
+                            setNoti(!noti);
+                        }
                     })
                     .finally(() => {});
-                setNoti(!noti);
+                // setNoti(!noti);
             })
             .catch((error) => {
                 console.log("Validate Failed:", error);
@@ -150,17 +156,14 @@ const StaffExamPhaseDetail = () => {
     };
 
     const operations = (
-        <div>
-            {message ? (
-                <Button
-                    loading={buttonStatus}
-                    onClick={handleAdd}
-                    type="primary"
-                >
-                    Add new course
-                </Button>
-            ) : null}
-        </div>
+        <Button
+            disabled={message}
+            loading={buttonStatus}
+            onClick={handleAdd}
+            type="primary"
+        >
+            Add new course
+        </Button>
     );
 
     const modalFooter = () => {
