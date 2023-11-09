@@ -363,8 +363,8 @@ const DashboardTable = () => {
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                title="Num Of Course"
-                                desc={"Not Scheduled"}
+                                title="Assigned/Total"
+                                desc={"Number of courses not scheduled"}
                                 value={totalNumOfCourse}
                                 loading={loadingNumOfCourse}
                                 icon={<ScheduleOutlined className="icon" />}

@@ -269,6 +269,7 @@ const PhaseTable = () => {
 
     const handleImportOk = () => {
         setImportOpen(false);
+        // navigate(configs.routes.adminCourses);
     };
 
     const layout = {
