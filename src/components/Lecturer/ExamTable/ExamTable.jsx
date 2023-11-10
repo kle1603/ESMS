@@ -8,7 +8,7 @@ import * as St from "./ExamTable.styled";
 import instance from "@/utils/instance";
 import { useParams } from "react-router-dom";
 import cookies from "@/utils/cookies";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 const ExamTable = () => {
     const { id } = useParams();
@@ -30,7 +30,7 @@ const ExamTable = () => {
                 },
             })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     key: index + 1,
@@ -39,16 +39,19 @@ const ExamTable = () => {
                     endTime: item.endTime.slice(0, 5),
                 }));
                 setData(formattedData);
+                setLoading(false);
             })
             .catch((error) => {
                 console.log(error);
+                setLoading(false);
             })
             .finally(() => {
-                setLoading(false);
+                // setLoading(false);
             });
     };
 
     const handleAdd = (e) => {
+        setLoading(true);
         // console.log(e);
         instance
             .put("examRooms/lecturer", {
@@ -67,9 +70,7 @@ const ExamTable = () => {
                 toast.error("This is an error!");
                 console.log(error);
             })
-            .finally(() => {
-                setLoading(true);
-            });
+            .finally(() => {});
     };
 
     const columns = [
@@ -146,6 +147,8 @@ const ExamTable = () => {
 
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
+
             <Divider orientation="left">
                 <Button onClick={handleBack} style={{ marginRight: 10 }}>
                     <ArrowLeftOutlined />
