@@ -336,8 +336,8 @@ const DashboardTable = () => {
                     <Row gutter={[16, 16]}>
                         <Col xs={24} md={12}>
                             <CardItem
-                                desc={"at this phase"}
-                                title="Exam Slot"
+                                desc={"At this phase"}
+                                title="Total Exam Slot"
                                 value={totalExamSlot}
                                 loading={loadingSlot}
                                 icon={<ScheduleOutlined className="icon" />}
@@ -345,8 +345,8 @@ const DashboardTable = () => {
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                desc={"at this phase"}
-                                title="Examiner"
+                                desc={"At this phase"}
+                                title="Total Examiner"
                                 value={totalExaminer}
                                 loading={loadingExaminer}
                                 icon={<ScheduleOutlined className="icon" />}
@@ -354,8 +354,8 @@ const DashboardTable = () => {
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
+                                desc={"At this phase"}
                                 title="Total Course"
-                                desc={"at this phase"}
                                 value={totalCourse}
                                 loading={loadingCourse}
                                 icon={<ScheduleOutlined className="icon" />}
@@ -364,7 +364,7 @@ const DashboardTable = () => {
                         <Col xs={24} md={12}>
                             <CardItem
                                 title="Assigned/Total"
-                                desc={"at this phase"}
+                                desc={"At this phase"}
                                 value={totalNumOfCourse}
                                 loading={loadingNumOfCourse}
                                 icon={<ScheduleOutlined className="icon" />}

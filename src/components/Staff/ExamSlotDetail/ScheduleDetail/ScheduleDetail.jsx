@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import * as St from "./ScheduleDetail.styled";
 import cookies from "@/utils/cookies";
+import toast, { Toaster } from "react-hot-toast";
 
 const ScheduleDetail = ({ noti }) => {
     const [form] = Form.useForm();
@@ -158,10 +159,24 @@ const ScheduleDetail = ({ noti }) => {
                         setLoadingButton(false);
                         setModalVisible(false);
                         form.resetFields();
+                        toast.success("Add successfully!", {
+                            style: {
+                                borderRadius: "10px",
+                                background: "#333",
+                                color: "#fff",
+                            },
+                        });
                     })
                     .catch((error) => {
                         console.log(error);
                         setLoadingButton(false);
+                        toast.error("Can not add!", {
+                            style: {
+                                borderRadius: "10px",
+                                background: "#333",
+                                color: "#fff",
+                            },
+                        });
                     });
             })
             .catch((info) => {
@@ -175,13 +190,29 @@ const ScheduleDetail = ({ noti }) => {
     };
 
     const handleEdit = (e) => {
+        // console.log(e.examiner);
+        if (e.examiner === "N/A") {
+            form.setFieldsValue({
+                courseCode: e.subCode,
+                room: e.roomNum,
+                examiner: "Empty",
+                roomId: e.examroomId,
+            });
+        } else {
+            form.setFieldsValue({
+                courseCode: e.subCode,
+                room: e.roomNum,
+                examiner: e.examiner,
+                roomId: e.examroomId,
+            });
+        }
         // console.log(e);
-        form.setFieldsValue({
-            courseCode: e.subCode,
-            room: e.roomNum,
-            examiner: e.examiner,
-            roomId: e.examroomId,
-        });
+        // form.setFieldsValue({
+        //     courseCode: e.subCode,
+        //     room: e.roomNum,
+        //     examiner: e.examiner,
+        //     roomId: e.examroomId,
+        // });
         setModalVisible(true);
     };
 
@@ -215,7 +246,9 @@ const ScheduleDetail = ({ noti }) => {
     };
 
     return (
-        <div>
+        <>
+            <Toaster position="top-right" reverseOrder={false} />
+
             <St.ModalStyled
                 title="Edit information"
                 open={modalVisible}
@@ -319,7 +352,7 @@ const ScheduleDetail = ({ noti }) => {
                     hideOnSinglePage: data.length <= pageSize,
                 }}
             />
-        </div>
+        </>
     );
 };
 

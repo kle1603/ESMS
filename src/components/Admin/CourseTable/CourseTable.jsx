@@ -85,7 +85,7 @@ const CourseTable = () => {
         if (phaseId !== 0) {
             setLoading(true);
             instance
-                .get(`courses/?ePId=${phaseId}`, {
+                .get(`courses?ePId=${phaseId}`, {
                     params: {
                         token: token,
                     },

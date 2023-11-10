@@ -185,8 +185,13 @@ const DashboardTable = () => {
                     }
                 )
                 .then((res) => {
-                    console.log(res.data.data);
+                    // console.log(res.data.data);
                     const data = res.data.data;
+                    const formattedData = data
+                        .sort((a, b) => b.phaseId - a.phaseId)
+                        .map((item) => ({
+                            ...item,
+                        }));
                     const numbers = data.map((item) => item.slot);
                     const maxNumber = Math.max(...numbers);
                     if (maxNumber !== -Infinity) {
@@ -200,12 +205,12 @@ const DashboardTable = () => {
                     } else {
                         setMax(0);
                     }
-                    const newData = data.map((item) => item.slot);
+                    const newData = formattedData.map((item) => item.slot);
                     setChartData(newData);
-                    const labels = data.map((item) => item.phaseName);
-                    // const labels = data.map(
-                    //     (item, index) => `Phase ${index + 1}`
-                    // );
+                    // const labels = data.map((item) => item.phaseName);
+                    const labels = formattedData.map(
+                        (item, index) => `Phase ${index + 1}`
+                    );
                     setChartLabels(labels);
                     setLoadingChart(false);
                 })

@@ -125,7 +125,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setLoadingExaminer(false);
+            // setLoadingExaminer(false);
             setTotalExaminer(0);
         }
     };
@@ -154,7 +154,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setLoadingCourse(false);
+            // setLoadingCourse(false);
             setTotalCourse("No data");
         }
     };
@@ -180,7 +180,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setLoadingSlot(false);
+            // setLoadingSlot(false);
             setTotalSlot(0);
         }
     };
@@ -223,7 +223,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setLoadingRegister(false);
+            // setLoadingRegister(false);
             setTotalRegisterLabels([]);
             setTotalRegisterData([]);
         }
@@ -253,7 +253,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setLoadingDataTop(false);
+            // setLoadingDataTop(false);
             setDataTop([]);
         }
     };
@@ -295,7 +295,7 @@ const DashboardTable = () => {
                 })
                 .finally(() => {});
         } else {
-            setLoadingCourseAndStu(false);
+            // setLoadingCourseAndStu(false);
             setTotalCourseAndStuLabels([]);
             setTotalCourseAndStuData([]);
         }
