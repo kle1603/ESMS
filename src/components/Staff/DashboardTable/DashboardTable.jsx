@@ -337,7 +337,7 @@ const DashboardTable = () => {
                         <Col xs={24} md={12}>
                             <CardItem
                                 desc={"At this phase"}
-                                title="Total Exam Slot"
+                                title="Total Exam Slots"
                                 value={totalExamSlot}
                                 loading={loadingSlot}
                                 icon={<ScheduleOutlined className="icon" />}
@@ -346,7 +346,7 @@ const DashboardTable = () => {
                         <Col xs={24} md={12}>
                             <CardItem
                                 desc={"At this phase"}
-                                title="Total Examiner"
+                                title="Total Examiners"
                                 value={totalExaminer}
                                 loading={loadingExaminer}
                                 icon={<ScheduleOutlined className="icon" />}
@@ -355,7 +355,7 @@ const DashboardTable = () => {
                         <Col xs={24} md={12}>
                             <CardItem
                                 desc={"At this phase"}
-                                title="Total Course"
+                                title="Total Courses"
                                 value={totalCourse}
                                 loading={loadingCourse}
                                 icon={<ScheduleOutlined className="icon" />}
@@ -364,7 +364,7 @@ const DashboardTable = () => {
                         <Col xs={24} md={12}>
                             <CardItem
                                 title="Assigned/Total"
-                                desc={"At this phase"}
+                                desc={"Courses at this phase"}
                                 value={totalNumOfCourse}
                                 loading={loadingNumOfCourse}
                                 icon={<ScheduleOutlined className="icon" />}
