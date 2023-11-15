@@ -10,6 +10,7 @@ import configs from "@/configs";
 import instance from "@/utils/instance";
 import cookies from "@/utils/cookies";
 import toast, { Toaster } from "react-hot-toast";
+import { postExamSlot } from "@/services/staffExamSlot";
 
 const ExamPhaseTable = () => {
     const { id } = useParams();
@@ -148,31 +149,59 @@ const ExamPhaseTable = () => {
         setModalVisible(true);
     };
 
+    // const handleOk = () => {
+    //     form.validateFields()
+    //         .then((values) => {
+    //             if (values.slot === selectTimeSlot) {
+    //                 values.slot = defaultValue;
+    //             }
+    //             // console.log(id, values.day, values.slot);
+    //             instance
+    //                 .post(`examSlots`, {
+    //                     ePId: id,
+    //                     timeSlotId: values.slot,
+    //                     day: values.day,
+    //                     token: token,
+    //                 })
+    //                 .then((res) => {
+    //                     toast.success("Successfully created!");
+    //                     console.log(res);
+    //                     fetchData();
+    //                     setModalVisible(false);
+    //                     form.resetFields();
+    //                 })
+    //                 .catch((error) => {
+    //                     toast.error("This is an error");
+    //                     console.log(error.response.data.message);
+    //                 });
+    //         })
+    //         .catch((error) => {
+    //             console.log("Validate Failed:", error);
+    //         });
+    // };
+
     const handleOk = () => {
         form.validateFields()
-            .then((values) => {
-                if (values.slot === selectTimeSlot) {
-                    values.slot = defaultValue;
-                }
-                // console.log(id, values.day, values.slot);
-                instance
-                    .post(`examSlots`, {
+            .then(async (values) => {
+                try {
+                    if (values.slot === selectTimeSlot) {
+                        values.slot = defaultValue;
+                    }
+
+                    await postExamSlot({
                         ePId: id,
                         timeSlotId: values.slot,
                         day: values.day,
-                        token: token,
-                    })
-                    .then((res) => {
-                        toast.success("Successfully created!");
-                        console.log(res);
-                        fetchData();
-                        setModalVisible(false);
-                        form.resetFields();
-                    })
-                    .catch((error) => {
-                        toast.error("This is an error");
-                        console.log(error.response.data.message);
                     });
+                    toast.success("Successfully created!");
+                    // console.log(res);
+                    fetchData();
+                    setModalVisible(false);
+                    form.resetFields();
+                } catch (error) {
+                    toast.error("This is an error");
+                    console.log(error.response.data.message);
+                }
             })
             .catch((error) => {
                 console.log("Validate Failed:", error);
