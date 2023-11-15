@@ -141,7 +141,7 @@ const DashboardTable = () => {
                 .then((res) => {
                     // console.log(res.data.data);
                     const data =
-                        res.data.data.assigned + "/ " + res.data.data.total;
+                        res.data.data.assigned + "/" + res.data.data.total;
                     // console.log(data)                    ;
                     setTotalCourse(data);
 
@@ -379,7 +379,7 @@ const DashboardTable = () => {
                             <CardItem
                                 desc={"Courses at this phase"}
                                 loading={loadingCourse}
-                                title="Assigned/ Total"
+                                title="Assigned/Total"
                                 value={totalCourse}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
