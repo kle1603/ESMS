@@ -192,7 +192,7 @@ const StaffExamPhaseDetail = () => {
             onClick={handleAdd}
             type="primary"
         >
-            Add new course
+            Assign Course
         </Button>
     );
 
