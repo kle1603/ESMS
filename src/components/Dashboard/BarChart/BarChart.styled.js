@@ -6,7 +6,7 @@ export const CardStyled = styled(Card)`
     justify-content: center;
     align-items: center;
 
-    height: 400px;
+    height: 500px;
 
     .ant-card-body {
         width: 100%;

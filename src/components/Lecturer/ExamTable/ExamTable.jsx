@@ -9,6 +9,7 @@ import instance from "@/utils/instance";
 import { useParams } from "react-router-dom";
 import cookies from "@/utils/cookies";
 import toast, { Toaster } from "react-hot-toast";
+import { putRegister } from "@/services/lecturerRegister";
 
 const ExamTable = () => {
     const { id } = useParams();
@@ -50,27 +51,44 @@ const ExamTable = () => {
             });
     };
 
-    const handleAdd = (e) => {
-        setLoading(true);
-        // console.log(e);
-        instance
-            .put("examRooms/lecturer", {
-                token: token,
+    // const handleAdd = (e) => {
+    //     setLoading(true);
+    //     // console.log(e);
+    //     instance
+    //         .put("examRooms/lecturer", {
+    //             token: token,
+    //             startTime: e.startTime,
+    //             endTime: e.endTime,
+    //             day: e.day,
+    //             exPhaseId: id,
+    //         })
+    //         .then(() => {
+    //             // console.log(res);
+    //             toast.success("Successfully registed !");
+    //             fetchData();
+    //         })
+    //         .catch((error) => {
+    //             toast.error("This is an error!");
+    //             console.log(error);
+    //         })
+    //         .finally(() => {});
+    // };
+
+    const handleAdd = async (e) => {
+        try {
+            setLoading(true);
+            await putRegister("examRooms/lecturer", {
                 startTime: e.startTime,
                 endTime: e.endTime,
                 day: e.day,
                 exPhaseId: id,
-            })
-            .then(() => {
-                // console.log(res);
-                toast.success("Successfully registed !");
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("This is an error!");
-                console.log(error);
-            })
-            .finally(() => {});
+            });
+            toast.success("Successfully registed !");
+            fetchData();
+        } catch (error) {
+            toast.error("This is an error!");
+            console.log(error);
+        }
     };
 
     const columns = [
