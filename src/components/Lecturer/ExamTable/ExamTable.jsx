@@ -77,7 +77,7 @@ const ExamTable = () => {
     const handleAdd = async (e) => {
         try {
             setLoading(true);
-            await putRegister("examRooms/lecturer", {
+            await putRegister({
                 startTime: e.startTime,
                 endTime: e.endTime,
                 day: e.day,
