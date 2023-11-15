@@ -31,7 +31,7 @@ const items = [
         type: "divider",
     },
     {
-        label: "Group 1",
+        label: "Frequently Table",
         key: "title2",
         icon: "null",
         type: "group",
@@ -58,7 +58,7 @@ const items = [
         type: "divider",
     },
     {
-        label: "Group 2",
+        label: "Seldom Table",
         title: "title3",
         icon: "null",
         type: "group",

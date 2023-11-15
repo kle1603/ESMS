@@ -21,7 +21,7 @@ const GuestGuard = ({ children }) => {
                 return <Navigate to={configs.routes.lecturer} />;
 
             case STUDENT:
-                return <Navigate to={configs.routes.student} />;
+                return <Navigate to={configs.routes.studentExamSlots} />;
 
             default:
                 return <Navigate to={configs.routes.login} />;

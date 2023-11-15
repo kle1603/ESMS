@@ -324,7 +324,7 @@ const ExaminerTable = () => {
                     pageSize: pageSize,
                     hideOnSinglePage: data.length <= pageSize,
                     showSizeChanger: false,
-                    showQuickJumper: true,
+                    // showQuickJumper: true,
                     // onChange: handleChange,
                 }}
             />

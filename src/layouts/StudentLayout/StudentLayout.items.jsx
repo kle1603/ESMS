@@ -1,25 +1,25 @@
 import configs from "@/configs";
-import { HomeOutlined, EditOutlined, UserOutlined } from "@ant-design/icons";
+import { EditOutlined, UserOutlined } from "@ant-design/icons";
 import { MdLogout } from "react-icons/md";
 
 const items = [
-    {
-        label: "Dashboard",
-        key: "title",
-        icon: null,
-        type: "group",
-        children: [
-            {
-                label: "Dashboard",
-                key: configs.routes.student,
-                icon: <HomeOutlined />,
-            },
-        ],
-    },
+    // {
+    //     label: "Dashboard",
+    //     key: "title",
+    //     icon: null,
+    //     type: "group",
+    //     children: [
+    //         {
+    //             label: "Dashboard",
+    //             key: configs.routes.student,
+    //             icon: <HomeOutlined />,
+    //         },
+    //     ],
+    // },
 
-    {
-        type: "divider",
-    },
+    // {
+    //     type: "divider",
+    // },
     {
         label: "Exam Schedule",
         key: "title2",
