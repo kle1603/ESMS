@@ -86,6 +86,7 @@ const ExamTable = () => {
             toast.success("Successfully registed !");
             fetchData();
         } catch (error) {
+            setLoading(false);
             toast.error("This is an error!");
             console.log(error);
         }
