@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import * as St from "./ScheduleDetail.styled";
 import cookies from "@/utils/cookies";
 import toast, { Toaster } from "react-hot-toast";
+import { putExaminer } from "@/services/staffAddExaminer";
 
 const ScheduleDetail = ({ noti }) => {
     const [form] = Form.useForm();
@@ -142,42 +143,80 @@ const ScheduleDetail = ({ noti }) => {
             .finally(() => {});
     };
 
-    const handleOk = () => {
+    // const handleOk = () => {
+    //     setLoadingButton(true);
+    //     form.validateFields()
+    //         .then((values) => {
+    //             // console.log(values);
+    //             instance
+    //                 .put("examRooms/addExaminer", {
+    //                     examRoomId: values.roomId,
+    //                     examinerId: values.freeExaminer,
+    //                     token: token,
+    //                 })
+    //                 .then(() => {
+    //                     fetchScheduleDetail();
+    //                     fetchFreeExaminer();
+    //                     setLoadingButton(false);
+    //                     setModalVisible(false);
+    //                     form.resetFields();
+    //                     toast.success("Add successfully!", {
+    //                         style: {
+    //                             borderRadius: "10px",
+    //                             background: "#333",
+    //                             color: "#fff",
+    //                         },
+    //                     });
+    //                 })
+    //                 .catch((error) => {
+    //                     console.log(error);
+    //                     setLoadingButton(false);
+    //                     toast.error("Can not add!", {
+    //                         style: {
+    //                             borderRadius: "10px",
+    //                             background: "#333",
+    //                             color: "#fff",
+    //                         },
+    //                     });
+    //                 });
+    //         })
+    //         .catch((info) => {
+    //             console.log("Validate Failed:", info);
+    //         });
+    // };
+
+    const handleOk = async () => {
         setLoadingButton(true);
         form.validateFields()
-            .then((values) => {
-                // console.log(values);
-                instance
-                    .put("examRooms/addExaminer", {
+            .then(async (values) => {
+                try {
+                    await putExaminer({
                         examRoomId: values.roomId,
                         examinerId: values.freeExaminer,
-                        token: token,
-                    })
-                    .then(() => {
-                        fetchScheduleDetail();
-                        fetchFreeExaminer();
-                        setLoadingButton(false);
-                        setModalVisible(false);
-                        form.resetFields();
-                        toast.success("Add successfully!", {
-                            style: {
-                                borderRadius: "10px",
-                                background: "#333",
-                                color: "#fff",
-                            },
-                        });
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        setLoadingButton(false);
-                        toast.error("Can not add!", {
-                            style: {
-                                borderRadius: "10px",
-                                background: "#333",
-                                color: "#fff",
-                            },
-                        });
                     });
+                    fetchScheduleDetail();
+                    fetchFreeExaminer();
+                    setLoadingButton(false);
+                    setModalVisible(false);
+                    form.resetFields();
+                    toast.success("Add successfully!", {
+                        style: {
+                            borderRadius: "10px",
+                            background: "#333",
+                            color: "#fff",
+                        },
+                    });
+                } catch (error) {
+                    console.log(error);
+                    setLoadingButton(false);
+                    toast.error("Can not add!", {
+                        style: {
+                            borderRadius: "10px",
+                            background: "#333",
+                            color: "#fff",
+                        },
+                    });
+                }
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);

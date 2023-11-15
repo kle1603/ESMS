@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import instance from "@/utils/instance";
 import cookies from "@/utils/cookies";
 import toast from "react-hot-toast";
+import { putDeleteRegister } from "@/services/lecturerDeleteRegister";
 
 const MyExamSlot = () => {
     const [loading, setLoading] = useState(true);
@@ -132,27 +133,45 @@ const MyExamSlot = () => {
         navigate(`/lecturer/register/${phaseId}`);
     };
 
-    const handleDelete = (e) => {
-        instance
-            .put("examRooms/delLecturer", {
+    // const handleDelete = (e) => {
+    //     instance
+    //         .put("examRooms/delLecturer", {
+    //             exPhaseId: phaseId,
+    //             token: token,
+    //             startTime: e.startTime,
+    //             endTime: e.endTime,
+    //             day: e.day,
+    //         })
+    //         .then((res) => {
+    //             toast.success("Successfully");
+    //             console.log(res);
+    //             fetchData();
+    //         })
+    //         .catch((error) => {
+    //             toast.error("Error");
+    //             console.log(error);
+    //         })
+    //         .finally(() => {
+    //             setLoading(true);
+    //         });
+    // };
+
+    const handleDelete = async (e) => {
+        try {
+            setLoading(true);
+            await putDeleteRegister({
                 exPhaseId: phaseId,
-                token: token,
                 startTime: e.startTime,
                 endTime: e.endTime,
                 day: e.day,
-            })
-            .then((res) => {
-                toast.success("Successfully");
-                console.log(res);
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("Error");
-                console.log(error);
-            })
-            .finally(() => {
-                setLoading(true);
             });
+            toast.success("Successfully");
+            // console.log(res);
+            fetchData();
+        } catch (error) {
+            toast.error("Error");
+            console.log(error);
+        }
     };
 
     const handleSelectSemester = (id, option) => {
