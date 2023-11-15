@@ -129,12 +129,20 @@ const StaffExamPhaseDetail = () => {
                 });
 
                 instance
-                    .post(`subInSlots`, {
-                        courId: values.course,
-                        examSlotId: param.id,
-                        numStu: values.numOfStu,
-                        token: token,
-                    })
+                    .post(
+                        `subInSlots`,
+                        {
+                            courId: values.course,
+                            examSlotId: param.id,
+                            numStu: values.numOfStu,
+                            token: token,
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    )
                     .then((res) => {
                         fetchCourse();
                         setButtonOk(false);
