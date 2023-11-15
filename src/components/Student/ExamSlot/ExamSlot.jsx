@@ -14,6 +14,7 @@ const ExamSlot = () => {
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
     const token = cookies.getToken();
+    const pageSize = 10;
 
     const fetchData = () => {
         setLoading(true);
@@ -170,8 +171,8 @@ const ExamSlot = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                     showSizeChanger: false,
                 }}
             />
