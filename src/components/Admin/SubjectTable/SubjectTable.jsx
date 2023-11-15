@@ -1,5 +1,5 @@
 // import PropTypes from "prop-types";
-import { Button, Form, Input, Popconfirm, Tag, Typography } from "antd";
+import { Button, Form, Input, Tag, Typography } from "antd";
 
 import * as St from "./SubjectTable.styled";
 import { useEffect, useState } from "react";
@@ -57,15 +57,8 @@ const SubjectTable = () => {
         {
             title: "Operation",
             width: "15%",
-            render: (record) => {
-                return (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                );
+            render: () => {
+                return <Typography.Link disabled>Delete</Typography.Link>;
             },
         },
     ];
@@ -104,18 +97,18 @@ const SubjectTable = () => {
         fetchData();
     }, []);
 
-    const handleDelete = (e) => {
-        instance
-            .delete("subjects", { data: { id: e.id } })
-            .then(() => {
-                toast.success("Successfully deleted!");
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("Error deleted!");
-                console.log(error);
-            });
-    };
+    // const handleDelete = (e) => {
+    //     instance
+    //         .delete("subjects", { data: { id: e.id } })
+    //         .then(() => {
+    //             toast.success("Successfully deleted!");
+    //             fetchData();
+    //         })
+    //         .catch((error) => {
+    //             toast.error("Error deleted!");
+    //             console.log(error);
+    //         });
+    // };
 
     const handleOk = () => {
         form.validateFields()
