@@ -16,7 +16,8 @@ export const request = (
         method,
         headers: {
             ...headers,
-            token,
+            Authorization: `Bearer ${token}`,
+            // token,
         },
         params: {
             ...params,
