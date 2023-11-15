@@ -7,7 +7,7 @@ import * as St from "./MyExamSlot.styled";
 import { useNavigate } from "react-router-dom";
 import instance from "@/utils/instance";
 import cookies from "@/utils/cookies";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { putDeleteRegister } from "@/services/lecturerDeleteRegister";
 
 const MyExamSlot = () => {
@@ -293,6 +293,8 @@ const MyExamSlot = () => {
 
     return (
         <St.DivTable>
+            <Toaster position="top-right" reverseOrder={false} />
+
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select
