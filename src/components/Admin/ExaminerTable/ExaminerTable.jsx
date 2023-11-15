@@ -31,14 +31,14 @@ const ExaminerTable = () => {
         },
         {
             title: "Email",
-            width: "20%",
+            width: "25%",
             render: (record) => {
                 return <Typography>{record.exEmail}</Typography>;
             },
         },
         {
             title: "Name",
-            width: "20%",
+            width: "18%",
             render: (record) => {
                 return <Typography>{record.exName}</Typography>;
             },
@@ -47,7 +47,7 @@ const ExaminerTable = () => {
             title: "Role",
             width: "15%",
             render: (record) => {
-                return <Typography>{record.role}</Typography>;
+                return <Tag color="volcano">{record.role}</Tag>;
             },
         },
         {
@@ -63,7 +63,7 @@ const ExaminerTable = () => {
         },
         {
             title: "Operation",
-            width: "20%",
+            width: "15%",
             render: () => {
                 return (
                     <Typography.Link disabled>Can not delete</Typography.Link>
