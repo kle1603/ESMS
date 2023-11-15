@@ -15,7 +15,7 @@ export const request = (
         url: configs.publicRuntime.API_URL + endpoint,
         method,
         headers: Object.assign({}, headers, {
-            Authorization: `Bearer ${token}`,
+            Authorization: `${token}`,
         }),
         params: {
             ...params,
