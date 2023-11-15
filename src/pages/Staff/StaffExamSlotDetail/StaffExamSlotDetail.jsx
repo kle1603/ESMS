@@ -74,6 +74,7 @@ const StaffExamPhaseDetail = () => {
             instance
                 .get(`studentExams?ePId=${phaseId}`, {
                     params: {
+                        exslotId: param.id,
                         token: token,
                     },
                 })
