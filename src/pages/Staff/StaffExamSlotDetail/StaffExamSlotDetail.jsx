@@ -14,6 +14,7 @@ import instance from "@/utils/instance";
 import useScrollTopContent from "@/hooks/useScrollTopContent";
 import toast, { Toaster } from "react-hot-toast";
 import cookies from "@/utils/cookies";
+import { postNewStaff } from "@/services/staffDetailServices";
 
 const StaffExamPhaseDetail = () => {
     useScrollTopContent();
@@ -110,11 +111,77 @@ const StaffExamPhaseDetail = () => {
         window.history.back();
     };
 
+    // const handleOk = () => {
+    //     setButtonOk(true);
+
+    //     form.validateFields()
+    //         .then((values) => {
+    //             if (values.course === selectCourses) {
+    //                 values.course = defaultValue;
+    //             }
+
+    //             toast("Please allow time for generation!", {
+    //                 icon: "😰",
+    //                 style: {
+    //                     borderRadius: "10px",
+    //                     background: "#333",
+    //                     color: "#fff",
+    //                 },
+    //             });
+
+    //             instance
+    //                 .post(`subInSlots`, {
+    //                     courId: values.course,
+    //                     examSlotId: param.id,
+    //                     numStu: values.numOfStu,
+    //                     token: token,
+    //                 })
+    //                 .then((res) => {
+    //                     fetchCourse();
+    //                     setButtonOk(false);
+    //                     setModalVisible(false);
+    //                     form.resetFields();
+    //                     toast.success("Successfully created!", {
+    //                         style: {
+    //                             borderRadius: "10px",
+    //                             background: "#333",
+    //                             color: "#fff",
+    //                         },
+    //                     });
+    //                     if (res) {
+    //                         setNoti(!noti);
+    //                     }
+    //                 })
+    //                 .catch((error) => {
+    //                     fetchCourse();
+    //                     console.log(error);
+    //                     setButtonOk(false);
+    //                     setModalVisible(false);
+    //                     form.resetFields();
+    //                     toast.error("This is an error!", {
+    //                         style: {
+    //                             borderRadius: "10px",
+    //                             background: "#333",
+    //                             color: "#fff",
+    //                         },
+    //                     });
+    //                     if (error) {
+    //                         setNoti(!noti);
+    //                     }
+    //                 })
+    //                 .finally(() => {});
+    //             // setNoti(!noti);
+    //         })
+    //         .catch((error) => {
+    //             console.log("Validate Failed:", error);
+    //         });
+    // };
+
     const handleOk = () => {
         setButtonOk(true);
 
         form.validateFields()
-            .then((values) => {
+            .then(async (values) => {
                 if (values.course === selectCourses) {
                     values.course = defaultValue;
                 }
@@ -128,65 +195,43 @@ const StaffExamPhaseDetail = () => {
                     },
                 });
 
-                instance
-                    .post(
-                        `subInSlots`,
-                        // {
-                        //     courId: values.course,
-                        //     examSlotId: param.id,
-                        //     numStu: values.numOfStu,
-                        //     token: token,
-                        // },
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                            body: {
-                                courId: values.course,
-                                examSlotId: param.id,
-                                numStu: values.numOfStu,
-                                token: token,
-                            },
-                        }
-                    )
-                    .then((res) => {
-                        fetchCourse();
-                        setButtonOk(false);
-                        setModalVisible(false);
-                        form.resetFields();
-                        toast.success("Successfully created!", {
-                            style: {
-                                borderRadius: "10px",
-                                background: "#333",
-                                color: "#fff",
-                            },
-                        });
-                        if (res) {
-                            setNoti(!noti);
-                        }
-                    })
-                    .catch((error) => {
-                        fetchCourse();
-                        console.log(error);
-                        setButtonOk(false);
-                        setModalVisible(false);
-                        form.resetFields();
-                        toast.error("This is an error!", {
-                            style: {
-                                borderRadius: "10px",
-                                background: "#333",
-                                color: "#fff",
-                            },
-                        });
-                        if (error) {
-                            setNoti(!noti);
-                        }
-                    })
-                    .finally(() => {});
-                // setNoti(!noti);
+                const res = await postNewStaff({
+                    courId: values.course,
+                    examSlotId: param.id,
+                    numStu: values.numOfStu,
+                });
+
+                fetchCourse();
+                setButtonOk(false);
+                setModalVisible(false);
+                form.resetFields();
+                toast.success("Successfully created!", {
+                    style: {
+                        borderRadius: "10px",
+                        background: "#333",
+                        color: "#fff",
+                    },
+                });
+                if (res) {
+                    setNoti(!noti);
+                }
             })
             .catch((error) => {
-                console.log("Validate Failed:", error);
+                fetchCourse();
+                console.log(error);
+                setButtonOk(false);
+                setModalVisible(false);
+                form.resetFields();
+                toast.error("This is an error!", {
+                    style: {
+                        borderRadius: "10px",
+                        background: "#333",
+                        color: "#fff",
+                    },
+                });
+                if (error) {
+                    setNoti(!noti);
+                }
             });
     };
 
