@@ -14,11 +14,9 @@ export const request = (
     return axios({
         url: configs.publicRuntime.API_URL + endpoint,
         method,
-        headers: {
-            ...headers,
+        headers: Object.assign({}, headers, {
             Authorization: `Bearer ${token}`,
-            // token,
-        },
+        }),
         params: {
             ...params,
         },
