@@ -131,15 +131,21 @@ const StaffExamPhaseDetail = () => {
                 instance
                     .post(
                         `subInSlots`,
-                        {
-                            courId: values.course,
-                            examSlotId: param.id,
-                            numStu: values.numOfStu,
-                            token: token,
-                        },
+                        // {
+                        //     courId: values.course,
+                        //     examSlotId: param.id,
+                        //     numStu: values.numOfStu,
+                        //     token: token,
+                        // },
                         {
                             headers: {
                                 Authorization: `Bearer ${token}`,
+                            },
+                            body: {
+                                courId: values.course,
+                                examSlotId: param.id,
+                                numStu: values.numOfStu,
+                                token: token,
                             },
                         }
                     )
