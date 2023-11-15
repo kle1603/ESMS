@@ -1,10 +1,9 @@
 // import PropTypes from "prop-types";
-import { Flex, Popconfirm, Select, Tag, Typography } from "antd";
+import { Flex, Select, Tag, Typography } from "antd";
 import * as St from "./ExaminerTable.styled";
 
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
-import toast, { Toaster } from "react-hot-toast";
 import cookies from "@/utils/cookies";
 
 const ExaminerTable = () => {
@@ -65,15 +64,11 @@ const ExaminerTable = () => {
         {
             title: "Operation",
             width: "20%",
-            render: (record) =>
-                data.length >= 1 ? (
-                    <Popconfirm
-                        title="Sure to delete?"
-                        onConfirm={() => handleDelete(record.key)}
-                    >
-                        <Typography.Link>Delete</Typography.Link>
-                    </Popconfirm>
-                ) : null,
+            render: () => {
+                return (
+                    <Typography.Link disabled>Can not delete</Typography.Link>
+                );
+            },
         },
     ];
 
@@ -180,20 +175,6 @@ const ExaminerTable = () => {
         fetchPhase();
     }, [semesterId]);
 
-    const handleDelete = (e) => {
-        setLoading(true);
-        instance
-            .delete("users", { data: { email: e } })
-            .then(() => {
-                toast.success("Successfully deleted!");
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("Error deleted!");
-                console.log(error);
-            });
-    };
-
     // const handleOk = () => {
     //     form.validateFields()
     //         .then((values) => {
@@ -239,7 +220,6 @@ const ExaminerTable = () => {
 
     return (
         <St.DivTable>
-            <Toaster position="top-right" reverseOrder={false} />
             <St.StyledLeft>
                 <Typography className="title">Semester: </Typography>
                 <Select
