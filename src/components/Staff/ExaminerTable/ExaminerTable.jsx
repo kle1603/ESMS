@@ -62,9 +62,9 @@ const ExaminerTable = () => {
             width: "15%",
             render: (record) => {
                 if (record.status === true) {
-                    return <Tag color="green">INACTIVE</Tag>;
+                    return <Tag color="default">INACTIVE</Tag>;
                 } else {
-                    return <Tag color="default">ACTIVE</Tag>;
+                    return <Tag color="green">ACTIVE</Tag>;
                 }
             },
         },
