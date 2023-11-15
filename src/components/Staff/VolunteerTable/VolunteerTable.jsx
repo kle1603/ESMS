@@ -5,6 +5,7 @@ import * as St from "./VolunteerTable.styled";
 import instance from "@/utils/instance";
 import ButtonAdd from "@/components/ButtonAdd";
 import toast from "react-hot-toast";
+import cookies from "@/utils/cookies";
 
 const VolunteerTable = () => {
     const [form] = Form.useForm();
@@ -15,6 +16,8 @@ const VolunteerTable = () => {
     const [selectSemester, setSelectSemester] = useState();
     const [semesterId, setSemesterId] = useState(0);
     const pageSize = 10;
+
+    const token = cookies.getToken();
 
     const columns = [
         // Your columns
@@ -67,7 +70,11 @@ const VolunteerTable = () => {
         setLoading(true);
         if (semesterId !== 0) {
             instance
-                .get(`examiners/volunteerExaminer?semesterId=${semesterId}`)
+                .get(`examiners/volunteerExaminer?semesterId=${semesterId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     console.log(res);
                     const formattedData = res.data.data

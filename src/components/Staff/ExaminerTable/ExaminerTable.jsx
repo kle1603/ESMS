@@ -5,6 +5,7 @@ import * as St from "./ExaminerTable.styled";
 import { useEffect, useState } from "react";
 import instance from "@/utils/instance";
 import toast, { Toaster } from "react-hot-toast";
+import cookies from "@/utils/cookies";
 
 const ExaminerTable = () => {
     const [data, setData] = useState([]);
@@ -18,6 +19,8 @@ const ExaminerTable = () => {
     const [phases, setPhases] = useState([]);
     const [phaseId, setPhaseId] = useState(0);
     const pageSize = 10;
+
+    const token = cookies.getToken();
 
     const columns = [
         {
@@ -135,7 +138,11 @@ const ExaminerTable = () => {
         if (phaseId !== 0) {
             setLoading(true);
             instance
-                .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`)
+                .get(`examiners/getExaminerByPhase?exPhaseId=${phaseId}`, {
+                    params: {
+                        token: token,
+                    },
+                })
                 .then((res) => {
                     console.log(res);
                     const formattedData = res.data.data.map((item, index) => ({
