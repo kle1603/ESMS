@@ -5,11 +5,7 @@ import useScrollTopContent from "@/hooks/useScrollTopContent";
 const Dashboard = () => {
     useScrollTopContent();
 
-    return (
-        <div>
-            <DashboardTable />
-        </div>
-    );
+    return <DashboardTable />;
 };
 
 Dashboard.propTypes = {};
