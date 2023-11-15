@@ -1,7 +1,6 @@
+import configs from "@/configs";
 import axios from "axios";
 import Cookies from "universal-cookie";
-
-import config from "../config";
 
 export const request = (
     endpoint,
@@ -13,7 +12,7 @@ export const request = (
     const token = new Cookies().get("token") || "";
 
     return axios({
-        url: config.publicRuntime.API_URL + endpoint,
+        url: configs.publicRuntime.API_URL + endpoint,
         method,
         headers: {
             ...headers,
