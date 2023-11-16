@@ -56,7 +56,7 @@ export const DivLogin = styled.div`
     }
 
     .login-button {
-        margin-top: 71px;
+        margin-top: 60px;
         padding: 8px 26px;
         display: flex;
         justify-content: center;
@@ -65,38 +65,40 @@ export const DivLogin = styled.div`
         cursor: pointer;
 
         button {
-            min-width: 250px;
+            min-width: 230px;
             display: flex;
             justify-content: center;
+            align-items: center;
             padding: 0.7rem 1.4rem;
             font-size: 1.2rem;
-            line-height: 1.25rem;
+            /* line-height: 1.25rem; */
             font-weight: 700;
             text-align: center;
             text-transform: uppercase;
             vertical-align: middle;
-            align-items: center;
             border-radius: 50px;
             border: 1px solid rgba(0, 0, 0, 0.25);
             gap: 0.75rem;
             color: rgb(65, 63, 63);
             background-color: #fff;
             cursor: pointer;
-            /* transition: all 0.6s ease; */
+            transition: all 0.6s ease;
         }
 
         .button svg {
+            margin-right: 10px;
             height: 24px;
         }
 
         button:hover {
-            transform: scale(1.02);
+            /* transform: scale(1.02); */
+            background-color: #eef5ff;
         }
     }
 
     .login-contact {
-        margin-top: 100px;
-        padding-bottom: 20px;
+        margin-top: 80px;
+        padding-bottom: 30px;
 
         .login-contact-link {
             cursor: pointer;

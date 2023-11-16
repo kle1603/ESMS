@@ -109,7 +109,7 @@ const DashboardTable = () => {
             })
             .catch((error) => {
                 console.log(error);
-                setTotalRegister([]);
+                setTotalRegister(0);
                 setLoadingTotalRegister(false);
             })
             .finally(() => {});
@@ -135,7 +135,7 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    setTotalRegisterByPhase([]);
+                    setTotalRegisterByPhase(0);
                     setLoadingTotalRegisterByPhase(false);
                 })
                 .finally(() => {});
@@ -162,7 +162,7 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    setSlotComing([]);
+                    setSlotComing(0);
                     setLoadingSlotComing(false);
                 })
                 .finally(() => {});
@@ -318,7 +318,7 @@ const DashboardTable = () => {
                             <CardItem
                                 desc={"At this phase"}
                                 loading={loadingTotalRegisterByPhase}
-                                title={"Total Register"}
+                                title={"Total Slots"}
                                 value={totalRegisterByPhase}
                                 icon={<PaperClipOutlined className="icon" />}
                             />

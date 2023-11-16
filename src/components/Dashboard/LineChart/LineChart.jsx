@@ -54,7 +54,7 @@ const LineChart = ({ labels, data, loading, max }) => {
             legend: false,
             title: {
                 display: true,
-                text: "Performance",
+                text: "Data",
                 font: {
                     size: 16,
                     weight: "bold",
