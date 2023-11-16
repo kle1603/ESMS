@@ -9,7 +9,7 @@ import cookies from "@/utils/cookies";
 import toast, { Toaster } from "react-hot-toast";
 import { putExaminer } from "@/services/staffAddExaminer";
 
-const ScheduleDetail = ({ noti }) => {
+const ScheduleDetail = ({ noti, setNoti }) => {
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
     const [data, setData] = useState([]);
@@ -199,6 +199,7 @@ const ScheduleDetail = ({ noti }) => {
                     setLoadingButton(false);
                     setModalVisible(false);
                     form.resetFields();
+                    setNoti(!noti);
                     toast.success("Add successfully!", {
                         style: {
                             borderRadius: "10px",
@@ -397,6 +398,7 @@ const ScheduleDetail = ({ noti }) => {
 
 ScheduleDetail.propTypes = {
     noti: PropTypes.bool,
+    setNoti: PropTypes.func,
 };
 
 export default ScheduleDetail;

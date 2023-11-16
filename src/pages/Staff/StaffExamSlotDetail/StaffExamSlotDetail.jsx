@@ -55,7 +55,7 @@ const StaffExamPhaseDetail = () => {
         {
             key: "4",
             label: "Schedule Detail",
-            children: <ScheduleDetail noti={noti} />,
+            children: <ScheduleDetail setNoti={setNoti} noti={noti} />,
         },
     ];
 
