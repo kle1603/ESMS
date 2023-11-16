@@ -18,6 +18,7 @@ import ExcelFile from "@/components/ExcelFile";
 import { DownloadExcel } from "@/components/ExcelFile/ExcelFile";
 import cookies from "@/utils/cookies";
 import dayjs from "dayjs";
+import { postNewPhase } from "@/services/adminAddPhase";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -222,32 +223,58 @@ const PhaseTable = () => {
             });
     };
 
+    // const handleOk = () => {
+    //     form.validateFields()
+    //         .then((values) => {
+    //             // console.log(values.name);
+    //             // console.log(values.option);
+    //             // console.log(startDay);
+    //             // console.log(endDay);
+
+    //             instance
+    //                 .post("examPhases", {
+    //                     ePName: values.name,
+    //                     des: values.option,
+    //                     startDay: startDay,
+    //                     endDay: endDay,
+    //                     semId: semesterId,
+    //                 })
+    //                 .then(() => {
+    //                     toast.success("Successfully created!");
+    //                     form.resetFields();
+    //                     setModalVisible(false);
+    //                     fetchData();
+    //                 })
+    //                 .catch((error) => {
+    //                     console.log(error);
+    //                     toast.error("Error created!");
+    //                 });
+    //         })
+    //         .catch((info) => {
+    //             console.log("Validate Failed:", info);
+    //         });
+    // };
+
     const handleOk = () => {
         form.validateFields()
-            .then((values) => {
-                // console.log(values.name);
-                // console.log(values.option);
-                // console.log(startDay);
-                // console.log(endDay);
-
-                instance
-                    .post("examPhases", {
+            .then(async (values) => {
+                try {
+                    await postNewPhase({
                         ePName: values.name,
                         des: values.option,
                         startDay: startDay,
                         endDay: endDay,
                         semId: semesterId,
-                    })
-                    .then(() => {
-                        toast.success("Successfully created!");
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        toast.error("Error created!");
                     });
+
+                    toast.success("Successfully created!");
+                    form.resetFields();
+                    setModalVisible(false);
+                    fetchData();
+                } catch (error) {
+                    console.log(error);
+                    toast.error("Cannot created!");
+                }
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
