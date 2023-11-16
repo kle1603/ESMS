@@ -2,12 +2,22 @@
 
 import CardItem from "@/components/Dashboard/CardItem/CardItem";
 import LineChart from "@/components/Dashboard/LineChart";
-import { Col, Divider, Flex, Row, Select, Table, Tag, Typography } from "antd";
+import {
+    Card,
+    Col,
+    Divider,
+    Flex,
+    Row,
+    Select,
+    Table,
+    Tag,
+    Typography,
+} from "antd";
 import {
     HistoryOutlined,
     ScheduleOutlined,
     PaperClipOutlined,
-    ExclamationOutlined,
+    MoneyCollectOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import * as St from "./DashboardTable.styled";
@@ -164,7 +174,7 @@ const DashboardTable = () => {
 
                     setLoadingSlotComing(false);
 
-                    const money = data * 120000;
+                    const money = data * 180000;
                     const formatMoney = (amount) => {
                         return new Intl.NumberFormat("vi-VN", {
                             style: "currency",
@@ -454,7 +464,7 @@ const DashboardTable = () => {
                                 title={"Total bonus"}
                                 value={money}
                                 loading={loadingSlotComing}
-                                icon={<ExclamationOutlined className="icon" />}
+                                icon={<MoneyCollectOutlined className="icon" />}
                             />
                         </Col>
                     </Row>
@@ -472,20 +482,22 @@ const DashboardTable = () => {
                     <Divider orientation="left">Haha</Divider>
                     <BarChart />
                 </Col> */}
-                <Col xs={24}>
-                    <Divider orientation="left">Incoming Slots</Divider>
-                    <Table
-                        scroll={{ x: true }}
-                        columns={columns}
-                        dataSource={data}
-                        bordered
-                        loading={loading}
-                        pagination={{
-                            pageSize: pageSize,
-                            hideOnSinglePage: data.length <= pageSize,
-                            showSizeChanger: false,
-                        }}
-                    />
+                <Col xs={24} style={{marginTop: 20}}>
+                    <Card hoverable>
+                        <Divider orientation="left">Incoming Slots</Divider>
+                        <Table
+                            scroll={{ x: true }}
+                            columns={columns}
+                            dataSource={data}
+                            bordered
+                            loading={loading}
+                            pagination={{
+                                pageSize: pageSize,
+                                hideOnSinglePage: data.length <= pageSize,
+                                showSizeChanger: false,
+                            }}
+                        />
+                    </Card>
                 </Col>
             </Row>
         </div>
