@@ -2,7 +2,7 @@
 
 import CardItem from "@/components/Dashboard/CardItem/CardItem";
 import LineChart from "@/components/Dashboard/LineChart";
-import { Col, Divider, Flex, Row, Select, Typography } from "antd";
+import { Col, Divider, Flex, Row, Select, Table, Tag, Typography } from "antd";
 import {
     HistoryOutlined,
     ScheduleOutlined,
@@ -228,6 +228,39 @@ const DashboardTable = () => {
         }
     };
 
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    const fetchChartData2 = () => {
+        setLoading(true);
+        if (phaseId !== 0) {
+            instance
+                .get("dashboard/detailFutureSlotOfLecOnePhase", {
+                    params: {
+                        phaseId: phaseId,
+                        token: token,
+                    },
+                })
+                .then((res) => {
+                    // console.log(res.data.data);
+                    const formattedData = res.data.data.map((item, index) => ({
+                        ...item,
+                        key: index + 1,
+                        no: index + 1,
+                        // startTime: item.startTime.slice(0, 5),
+                        // endTime: item.endTime.slice(0, 5),
+                    }));
+                    setData(formattedData);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setData([]);
+                    setLoading(false);
+                    console.log(error);
+                });
+        }
+    };
+
     useEffect(() => {
         fetchSemester();
         fetchTotalRegister();
@@ -241,6 +274,7 @@ const DashboardTable = () => {
     useEffect(() => {
         fetchTotalRegisterByPhase();
         fetchSlotComing();
+        fetchChartData2();
     }, [phaseId]);
 
     const handleSelectSemester = (id, option) => {
@@ -272,6 +306,73 @@ const DashboardTable = () => {
             setPhaseId(id);
         }
     };
+
+    const columns = [
+        {
+            title: "No",
+            width: "10%",
+            render: (record) => {
+                return <Typography>{record.no}</Typography>;
+            },
+        },
+        {
+            title: "Day",
+            width: "20%",
+            render: (record) => {
+                return <Typography>{record.day}</Typography>;
+            },
+            // onCell: (record, rowIndex) => {
+            //     let rowSpan = 1;
+            //     if (rowIndex > 0 && data[rowIndex - 1].day === record.day) {
+            //         rowSpan = 0;
+            //     } else {
+            //         let count = 0;
+            //         while (
+            //             rowIndex + count < data.length &&
+            //             data[rowIndex + count].day === record.day
+            //         ) {
+            //             count++;
+            //         }
+            //         rowSpan = count;
+            //     }
+            //     return {
+            //         rowSpan: rowSpan,
+            //     };
+            // },
+        },
+        {
+            title: "Start Time",
+            width: "15%",
+            render: (record) => {
+                return <Typography>{record.sTime}</Typography>;
+            },
+        },
+        {
+            title: "End Time",
+            width: "15%",
+            render: (record) => {
+                return <Typography>{record.eTime}</Typography>;
+            },
+        },
+        {
+            title: "Room",
+            width: "15%",
+            render: (record) => {
+                if (record.room === "N/A") {
+                    return <Tag color="default">COMING SOON</Tag>;
+                } else {
+                    return <Typography>{record.room}</Typography>;
+                }
+            },
+        },
+        {
+            title: "Location",
+            width: "25%",
+            render: (record) => {
+                return <Typography>{record.location}</Typography>;
+            },
+        },
+    ];
 
     return (
         <div>
@@ -354,11 +455,22 @@ const DashboardTable = () => {
                 {/* <Col xs={24}>
                     <Divider orientation="left">Haha</Divider>
                     <BarChart />
-                </Col>
-                <Col xs={24}>
-                    <Divider orientation="left">Haha</Divider>
-                    <CardTable />
                 </Col> */}
+                <Col xs={24}>
+                    <Divider orientation="left">Incoming Slots</Divider>
+                    <Table
+                        scroll={{ x: true }}
+                        columns={columns}
+                        dataSource={data}
+                        bordered
+                        loading={loading}
+                        pagination={{
+                            pageSize: 6,
+                            hideOnSinglePage: data.length <= 6,
+                            showSizeChanger: false,
+                        }}
+                    />
+                </Col>
             </Row>
         </div>
     );

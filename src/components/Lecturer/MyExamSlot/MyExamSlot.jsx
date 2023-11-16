@@ -21,6 +21,7 @@ const MyExamSlot = () => {
     const [phaseId, setPhaseId] = useState(0);
     const [statusPhase, setStatusPhase] = useState(false);
     const navigate = useNavigate();
+    const pageSize = 10;
 
     const token = cookies.getToken();
 
@@ -324,7 +325,7 @@ const MyExamSlot = () => {
                 onClick={handleRegister}
                 disabled={statusPhase === false}
             >
-                Register
+                Register Exam Schedule
             </St.ButtonTable>
 
             <Table
@@ -334,8 +335,8 @@ const MyExamSlot = () => {
                 bordered
                 loading={loading}
                 pagination={{
-                    pageSize: 6,
-                    hideOnSinglePage: data.length <= 6,
+                    pageSize: pageSize,
+                    hideOnSinglePage: data.length <= pageSize,
                     showSizeChanger: false,
                 }}
             />
