@@ -31,7 +31,7 @@ const PhaseTable = () => {
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
     const [importOpen, setImportOpen] = useState(false);
-    const pageSize = 2;
+    const pageSize = 10;
     const [page, setPage] = useState();
     const [total, setTotal] = useState();
 
@@ -228,7 +228,7 @@ const PhaseTable = () => {
     const handleDelete = async (e) => {
         setLoading(true);
         try {
-            deletePhase({ id: e });
+            await deletePhase({ id: e });
             toast.success("Successfully deleted!");
             fetchData();
         } catch (error) {

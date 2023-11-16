@@ -4,8 +4,8 @@ import { useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
 import * as St from "./ExcelFile.styled";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
-import configs from "@/configs";
+// import { useNavigate } from "react-router-dom";
+// import configs from "@/configs";
 import toast, { Toaster } from "react-hot-toast";
 
 // import * as XLSX from "xlsx";
@@ -13,7 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 function ExcelFile({ setImportOpen, fetchData, setLoadingUpload, loadingUpload }) {
     const [file, setFile] = useState();
     const [fileLabel, setFileLabel] = useState("Import File");
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const upload = () => {
         setLoadingUpload(true);
@@ -27,7 +27,7 @@ function ExcelFile({ setImportOpen, fetchData, setLoadingUpload, loadingUpload }
                 setImportOpen(false);
                 setLoadingUpload(false);
                 fetchData();
-                navigate(configs.routes.adminCourses);
+                // navigate(configs.routes.adminCourses);
             })
             .catch((error) => {
                 toast.error("Import failed!");
