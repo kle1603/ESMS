@@ -30,7 +30,7 @@ const PhaseTable = () => {
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
     const [importOpen, setImportOpen] = useState(false);
-    const pageSize = 10;
+    const pageSize = 2;
     const [page, setPage] = useState();
     const [total, setTotal] = useState();
 
@@ -149,7 +149,7 @@ const PhaseTable = () => {
                 .then((res) => {
                     // console.log(res.data.data);
 
-                    const formattedData = res.data.data
+                    const formattedData = res.data.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
                             ...item,
@@ -157,7 +157,7 @@ const PhaseTable = () => {
                             no: index + 1,
                         }));
 
-                    setTotal(res.data.total);
+                    setTotal(res.data.data.total);
 
                     setData(formattedData);
                     setLoading(false);
@@ -206,7 +206,7 @@ const PhaseTable = () => {
 
     useEffect(() => {
         fetchData();
-    }, [semesterId]);
+    }, [semesterId, page]);
 
     const handleDelete = (e) => {
         setLoading(true);

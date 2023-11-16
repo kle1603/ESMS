@@ -76,9 +76,10 @@ const DashboardTable = () => {
     const fetchPhase = () => {
         if (semesterId !== 0) {
             instance
-                .get(`examPhases/${semesterId}`, {
+                .get(`examPhases/otherRole`, {
                     params: {
                         token: token,
+                        id: semesterId,
                     },
                 })
                 .then((res) => {

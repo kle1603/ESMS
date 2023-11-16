@@ -98,35 +98,38 @@ const ExaminerTable = () => {
     };
 
     const fetchPhase = () => {
-        instance
-            .get(`examPhases/${semesterId}`, {
-                params: {
-                    token: token,
-                },
-            })
-            .then((res) => {
-                if (semesterId !== 0) {
-                    if (res.data.data.length !== 0) {
-                        const phaseData = res.data.data.map((item) => ({
-                            label: item.ePName,
-                            value: item.id,
-                        }));
-                        const newData = phaseData.reverse();
-                        setSelectPhase(newData[0].label);
-                        setPhaseId(newData[0].value);
-                        setPhases(newData);
-                    } else {
-                        setSelectPhase("");
-                        setPhases([]);
+        if (semesterId !== 0) {
+            instance
+                .get(`examPhases/otherRole`, {
+                    params: {
+                        token: token,
+                        id: semesterId,
+                    },
+                })
+                .then((res) => {
+                    if (semesterId !== 0) {
+                        if (res.data.data.length !== 0) {
+                            const phaseData = res.data.data.map((item) => ({
+                                label: item.ePName,
+                                value: item.id,
+                            }));
+                            const newData = phaseData.reverse();
+                            setSelectPhase(newData[0].label);
+                            setPhaseId(newData[0].value);
+                            setPhases(newData);
+                        } else {
+                            setSelectPhase("");
+                            setPhases([]);
+                        }
                     }
-                }
-            })
-            .catch((error) => {
-                console.log("Phase: " + error);
-                setData([]);
-                setLoading(false);
-            })
-            .finally(() => {});
+                })
+                .catch((error) => {
+                    console.log("Phase: " + error);
+                    setData([]);
+                    setLoading(false);
+                })
+                .finally(() => {});
+        }
     };
 
     const fetchData = () => {
