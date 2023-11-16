@@ -15,6 +15,7 @@ const RoomTable = () => {
     const [loading, setLoading] = useState(true);
     const [form] = Form.useForm();
     const [modalVisible, setModalVisible] = useState(false);
+    const [search, setSearch] = useState("");
     const pageSize = 10;
 
     const token = cookies.getToken();
@@ -83,14 +84,15 @@ const RoomTable = () => {
 
     const fetchData = () => {
         setLoading(true);
+        // console.log(search);
         instance
-            .get("rooms", {
+            .get(`rooms/${search}`, {
                 params: {
                     token: token,
                 },
             })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 const formattedData = res.data.data.map((item, index) => ({
                     ...item,
                     no: index + 1,
@@ -109,7 +111,7 @@ const RoomTable = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [search]);
 
     const handleOk = () => {
         form.validateFields()
@@ -151,8 +153,8 @@ const RoomTable = () => {
             });
     };
 
-    const handleSearch = () => {
-        // setSearch(e);
+    const handleSearch = (e) => {
+        setSearch(e);
     };
 
     const location = [
@@ -193,7 +195,7 @@ const RoomTable = () => {
         <St.DivTable>
             <Toaster position="top-right" reverseOrder={false} />
             <St.SpaceStyled>
-                <Search onSearch={handleSearch} />
+                <Search allowClear onSearch={handleSearch} />
             </St.SpaceStyled>
 
             <ButtonAdd

@@ -11,6 +11,7 @@ import instance from "@/utils/instance";
 import cookies from "@/utils/cookies";
 import toast, { Toaster } from "react-hot-toast";
 import { postExamSlot } from "@/services/staffExamSlot";
+import dayjs from "dayjs";
 
 const ExamPhaseTable = () => {
     const { id } = useParams();
@@ -187,7 +188,6 @@ const ExamPhaseTable = () => {
                     if (values.slot === selectTimeSlot) {
                         values.slot = defaultValue;
                     }
-
                     await postExamSlot({
                         ePId: id,
                         timeSlotId: values.slot,
@@ -206,6 +206,10 @@ const ExamPhaseTable = () => {
             .catch((error) => {
                 console.log("Validate Failed:", error);
             });
+    };
+
+    const disabledDate = (current) => {
+        return current && current < dayjs().endOf("day");
     };
 
     const handleCancel = () => {
@@ -331,6 +335,7 @@ const ExamPhaseTable = () => {
                             ]}
                         >
                             <DatePicker
+                                disabledDate={disabledDate}
                                 // onChange={onChangeDay}
                                 style={{ width: "100%" }}
                             />

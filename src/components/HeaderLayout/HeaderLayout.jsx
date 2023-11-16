@@ -25,7 +25,7 @@ const HeaderLayout = () => {
             >
                 <Space align="center">
                     <PopUpOver>
-                        <Badge dot count={5} offset={[-8, 0]}>
+                        <Badge dot count={0} offset={[-8, 0]}>
                             <BellOutlined
                                 style={{
                                     cursor: "pointer",

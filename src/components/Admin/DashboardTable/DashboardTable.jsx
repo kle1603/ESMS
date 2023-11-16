@@ -185,6 +185,34 @@ const DashboardTable = () => {
         }
     };
 
+    const [loadingPercent, setLoadingPercent] = useState(true);
+    const [dataPercent, setDataPercent] = useState("");
+
+    const fetchPercent = () => {
+        setLoadingPercent(true);
+        if (phaseId !== 0) {
+            setLoadingPercent(true);
+            instance
+                .get(`dashboard/percentRegisOnePhase`, {
+                    params: { token: token, ePId: phaseId },
+                })
+                .then((res) => {
+                    const data = res.data.data;
+                    setDataPercent(data);
+                    setLoadingPercent(false);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setDataPercent("");
+                    setLoadingPercent(false);
+                })
+                .finally(() => {});
+        } else {
+            // setLoadingSlot(false);
+            setDataPercent("");
+        }
+    };
+
     const fetchTotalRegisterByDay = () => {
         setLoadingRegister(true);
         if (phaseId !== 0) {
@@ -312,6 +340,8 @@ const DashboardTable = () => {
         fetchTotalRegisterByDay();
         fetchTopExaminer();
         fetchCourseAndStu();
+
+        fetchPercent();
     }, [phaseId]);
 
     useEffect(() => {
@@ -395,9 +425,10 @@ const DashboardTable = () => {
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                desc="Coming soon"
-                                title="Coming soon"
-                                value={0}
+                                loading={loadingPercent}
+                                desc="At this phase"
+                                title="Percent of registered"
+                                value={dataPercent}
                                 icon={<ScheduleOutlined className="icon" />}
                             />
                         </Col>
