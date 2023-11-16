@@ -15,6 +15,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ButtonAdd from "@/components/ButtonAdd";
 import cookies from "@/utils/cookies";
 import dayjs from "dayjs";
+import { postNewSemester } from "@/services/adminAddSemester";
 
 const SemesterTable = () => {
     const [form] = Form.useForm();
@@ -159,30 +160,57 @@ const SemesterTable = () => {
             });
     };
 
+    // const handleOk = () => {
+    //     form.validateFields()
+    //         .then((values) => {
+    //             const newValue = values.season
+    //                 .toUpperCase()
+    //                 .replaceAll(" ", "_");
+    //             instance
+    //                 .post("semesters/whenCreateSemester", {
+    //                     season: newValue,
+    //                     start: startDay,
+    //                     end: endDay,
+    //                     token: token,
+    //                 })
+    //                 .then((res) => {
+    //                     console.log(res);
+    //                     toast.success("Successfully created!");
+    //                     form.resetFields();
+    //                     setModalVisible(false);
+    //                     fetchData();
+    //                 })
+    //                 .catch((error) => {
+    //                     toast.error("This is an error!");
+    //                     console.log(error);
+    //                 });
+    //         })
+    //         .catch((info) => {
+    //             console.log("Validate Failed:", info);
+    //         });
+    // };
+
     const handleOk = () => {
         form.validateFields()
-            .then((values) => {
-                const newValue = values.season
-                    .toUpperCase()
-                    .replaceAll(" ", "_");
-                instance
-                    .post("semesters/whenCreateSemester", {
+            .then(async (values) => {
+                try {
+                    const newValue = values.season
+                        .toUpperCase()
+                        .replaceAll(" ", "_");
+                    await postNewSemester({
                         season: newValue,
                         start: startDay,
                         end: endDay,
-                        token: token,
-                    })
-                    .then((res) => {
-                        console.log(res);
-                        toast.success("Successfully created!");
-                        form.resetFields();
-                        setModalVisible(false);
-                        fetchData();
-                    })
-                    .catch((error) => {
-                        toast.error("This is an error!");
-                        console.log(error);
                     });
+
+                    toast.success("Successfully created!");
+                    form.resetFields();
+                    setModalVisible(false);
+                    fetchData();
+                } catch (error) {
+                    toast.error("This is an error!");
+                    console.log(error);
+                }
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
