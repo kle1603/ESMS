@@ -18,7 +18,7 @@ import ExcelFile from "@/components/ExcelFile";
 import { DownloadExcel } from "@/components/ExcelFile/ExcelFile";
 import cookies from "@/utils/cookies";
 import dayjs from "dayjs";
-import { postNewPhase } from "@/services/adminAddPhase";
+import { deletePhase, postNewPhase } from "@/services/adminPhase";
 
 const PhaseTable = () => {
     const [form] = Form.useForm();
@@ -209,18 +209,30 @@ const PhaseTable = () => {
         fetchData();
     }, [semesterId, page]);
 
-    const handleDelete = (e) => {
+    // const handleDelete = (e) => {
+    //     setLoading(true);
+    //     instance
+    //         .delete("examPhases", { data: { id: e, token: token } })
+    //         .then(() => {
+    //             toast.success("Successfully deleted!");
+    //             fetchData();
+    //         })
+    //         .catch((error) => {
+    //             toast.error("Error deleted!");
+    //             console.log(error);
+    //         });
+    // };
+
+    const handleDelete = async (e) => {
         setLoading(true);
-        instance
-            .delete("examPhases", { data: { id: e, token: token } })
-            .then(() => {
-                toast.success("Successfully deleted!");
-                fetchData();
-            })
-            .catch((error) => {
-                toast.error("Error deleted!");
-                console.log(error);
-            });
+        try {
+            deletePhase({ id: e });
+            toast.success("Successfully deleted!");
+            fetchData();
+        } catch (error) {
+            toast.error("Error deleted!");
+            console.log(error);
+        }
     };
 
     // const handleOk = () => {
