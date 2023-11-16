@@ -221,6 +221,7 @@ const ScheduleDetail = ({ noti, setNoti }) => {
             })
             .catch((info) => {
                 console.log("Validate Failed:", info);
+                setLoadingButton(false);
             });
     };
 

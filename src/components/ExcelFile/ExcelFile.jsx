@@ -94,7 +94,7 @@ export const DownloadExcel = () => {
             onClick={handleDownload}
         >
             <DownloadOutlined />
-            Download File
+            Download Template
         </Button>
     );
 };

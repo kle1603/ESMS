@@ -1,5 +1,5 @@
 import configs from "@/configs";
-import { EditOutlined, UserOutlined } from "@ant-design/icons";
+import { EditOutlined, CalendarOutlined } from "@ant-design/icons";
 import { MdLogout } from "react-icons/md";
 
 const items = [
@@ -34,7 +34,7 @@ const items = [
             {
                 label: "Schedule",
                 key: configs.routes.studentSchedule,
-                icon: <UserOutlined />,
+                icon: <CalendarOutlined />,
             },
         ],
     },
