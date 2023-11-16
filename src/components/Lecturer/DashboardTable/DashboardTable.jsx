@@ -9,6 +9,7 @@ import {
     PaperClipOutlined,
     ExclamationOutlined,
 } from "@ant-design/icons";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import * as St from "./DashboardTable.styled";
 import instance from "@/utils/instance";
@@ -454,7 +455,9 @@ const DashboardTable = () => {
                                 title={"Total bonus"}
                                 value={money}
                                 loading={loadingSlotComing}
-                                icon={<ExclamationOutlined className="icon" />}
+                                icon={
+                                    <RiMoneyDollarCircleLine className="icon" />
+                                }
                             />
                         </Col>
                     </Row>
