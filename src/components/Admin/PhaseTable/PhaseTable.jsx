@@ -31,7 +31,7 @@ const PhaseTable = () => {
     const [startDay, setStartDay] = useState("");
     const [endDay, setEndDay] = useState("");
     const [importOpen, setImportOpen] = useState(false);
-    const pageSize = 2;
+    const pageSize = 10;
     const [page, setPage] = useState();
     const [total, setTotal] = useState();
 
