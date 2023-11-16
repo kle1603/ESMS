@@ -28,7 +28,7 @@ const ExamPhaseTable = () => {
     const [buttonStatus, setButtonStatus] = useState(true);
     const [statusButton, setStatusButton] = useState(false);
     const pageSize = 10;
-    // const [day, setDay] = useState("");
+    const [day, setDay] = useState("");
 
     const token = cookies.getToken();
 
@@ -188,11 +188,11 @@ const ExamPhaseTable = () => {
                     if (values.slot === selectTimeSlot) {
                         values.slot = defaultValue;
                     }
-                    console.log(id, values.day, values.slot);
+                    console.log(id, day, values.slot);
                     await postExamSlot({
                         ePId: id,
                         timeSlotId: values.slot,
-                        day: values.day,
+                        day: day,
                     });
                     toast.success("Successfully created!");
                     // console.log(res);
@@ -272,6 +272,10 @@ const ExamPhaseTable = () => {
     // };
     // const handleSelect = (id, option) => {};
 
+    const onChangeDay = (_, date) => {
+        setDay(date);
+    };
+
     const layout = {
         labelCol: {
             span: 6,
@@ -337,7 +341,7 @@ const ExamPhaseTable = () => {
                         >
                             <DatePicker
                                 disabledDate={disabledDate}
-                                // onChange={onChangeDay}
+                                onChange={onChangeDay}
                                 style={{ width: "100%" }}
                             />
                         </Form.Item>
