@@ -186,7 +186,7 @@ const StaffExamPhaseDetail = () => {
                     values.course = defaultValue;
                 }
 
-                toast("Please allow time for generation!", {
+                toast("Please wait few seconds for the generation!", {
                     icon: "😰",
                     style: {
                         borderRadius: "10px",

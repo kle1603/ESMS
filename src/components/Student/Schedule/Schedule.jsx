@@ -47,7 +47,7 @@ const Schedule = () => {
                 },
             })
             .then((res) => {
-                // console.log(res.data.data);
+                console.log(res.data.data);
 
                 const formattedData = res.data.data.map((item, index) => {
                     item.startTime = new Date(item.startTime);

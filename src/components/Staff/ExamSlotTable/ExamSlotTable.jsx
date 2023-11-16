@@ -194,13 +194,25 @@ const ExamPhaseTable = () => {
                         timeSlotId: values.slot,
                         day: day,
                     });
-                    toast.success("Successfully created!");
+                    toast.success("Successfully created!", {
+                        style: {
+                            borderRadius: "10px",
+                            background: "#333",
+                            color: "#fff",
+                        },
+                    });
                     // console.log(res);
                     fetchData();
                     setModalVisible(false);
                     form.resetFields();
                 } catch (error) {
-                    toast.error("This is an error");
+                    toast.error("This is an error", {
+                        style: {
+                            borderRadius: "10px",
+                            background: "#333",
+                            color: "#fff",
+                        },
+                    });
                     console.log(error.response.data.message);
                 }
             })
