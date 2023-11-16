@@ -6,25 +6,29 @@ import * as St from "./ExcelFile.styled";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import configs from "@/configs";
+import toast, { Toaster } from "react-hot-toast";
+
 // import * as XLSX from "xlsx";
 
 function ExcelFile({ setImportOpen, fetchData }) {
     const [file, setFile] = useState();
     const [fileLabel, setFileLabel] = useState("Import File");
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const upload = () => {
         const formData = new FormData();
         formData.append("excelFile", file);
         instance
             .post("studentSubjects/excel", formData)
-            .then((res) => {
-                console.log(res);
+            .then(() => {
+                toast.success("Import success!");
+                // console.log(res);
                 setImportOpen(false);
                 fetchData();
-                navigate(configs.routes.adminCourses)
+                navigate(configs.routes.adminCourses);
             })
             .catch((error) => {
+                toast.error("Import failed!");
                 console.log(error);
             });
     };
@@ -36,6 +40,7 @@ function ExcelFile({ setImportOpen, fetchData }) {
 
     return (
         <St.DivStyled>
+            <Toaster position="top-right" reverseOrder={false} />
             {/* <input type="file" onChange={(e) => setFile(e.target.files[0])} /> */}
             {/* <Button className="download" onClick={handleDownload}>
                 <DownloadOutlined />
