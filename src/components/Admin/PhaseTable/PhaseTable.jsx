@@ -228,7 +228,7 @@ const PhaseTable = () => {
     const handleDelete = async (e) => {
         setLoading(true);
         try {
-            deletePhase({ id: e });
+            await deletePhase({ id: e });
             toast.success("Successfully deleted!");
             fetchData();
         } catch (error) {
