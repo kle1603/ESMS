@@ -172,7 +172,7 @@ const ExamTable = () => {
                 <Button onClick={handleBack} style={{ marginRight: 10 }}>
                     <ArrowLeftOutlined />
                 </Button>
-                Register
+                Register Exam Schedule
             </Divider>
             <Table
                 scroll={{ x: true }}
