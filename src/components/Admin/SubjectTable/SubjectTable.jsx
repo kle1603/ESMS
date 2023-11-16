@@ -41,7 +41,7 @@ const SubjectTable = () => {
         },
         {
             title: "Status",
-            width: "20%",
+            width: "15%",
             render: (record) => {
                 let color = "geekblue";
                 if (record.status === 1) {
@@ -56,9 +56,9 @@ const SubjectTable = () => {
         },
         {
             title: "Operation",
-            width: "15%",
+            width: "20%",
             render: () => {
-                return <Typography.Link disabled>Delete</Typography.Link>;
+                return <Typography.Link disabled>Can not delete</Typography.Link>;
             },
         },
     ];
