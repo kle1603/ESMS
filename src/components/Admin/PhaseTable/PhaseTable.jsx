@@ -109,7 +109,9 @@ const PhaseTable = () => {
                                 <Typography.Link>Delete</Typography.Link>
                             </Popconfirm>
                         ) : (
-                            <Typography.Link disabled>Delete</Typography.Link>
+                            <Typography.Link disabled>
+                                Can not delete
+                            </Typography.Link>
                         )}
 
                         {record.courseDone === 0 ? (
@@ -352,10 +354,16 @@ const PhaseTable = () => {
         );
     };
 
+    const [loadingUpload, setLoadingUpload] = useState(false);
+
     const importFooter = () => {
         return (
             <>
-                <Button type="primary" onClick={handleImportOk}>
+                <Button
+                    loading={loadingUpload}
+                    type="primary"
+                    onClick={handleImportOk}
+                >
                     Close
                 </Button>
             </>
@@ -389,6 +397,8 @@ const PhaseTable = () => {
                 <ExcelFile
                     fetchData={fetchData}
                     setImportOpen={setImportOpen}
+                    setLoadingUpload={setLoadingUpload}
+                    loadingUpload={loadingUpload}
                 />
             </St.ModalStyled>
 
