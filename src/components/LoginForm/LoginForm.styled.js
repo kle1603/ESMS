@@ -61,226 +61,36 @@ export const DivLogin = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 300px;
+        width: 430px;
         cursor: pointer;
 
-        .button {
-            padding: 10px;
-            font-weight: bold;
+        button {
+            min-width: 250px;
             display: flex;
             justify-content: center;
+            padding: 0.7rem 1.4rem;
+            font-size: 1.2rem;
+            line-height: 1.25rem;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            vertical-align: middle;
             align-items: center;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            border-radius: 35px;
-            align-items: center;
-            border: solid #ccc 2px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            gap: 0.75rem;
+            color: rgb(65, 63, 63);
+            background-color: #fff;
             cursor: pointer;
-            outline: none;
+            /* transition: all 0.6s ease; */
         }
 
-        .svg {
-            height: 25px;
-            margin-right: 10px;
+        .button svg {
+            height: 24px;
         }
 
-        .button .text {
-            z-index: 10;
-            font-size: 14px;
-        }
-
-        .button:hover .text {
-            animation: text forwards 0.3s;
-            /*color: white;*/
-        }
-
-        @keyframes text {
-            from {
-                color: black;
-            }
-
-            to {
-                color: white;
-            }
-        }
-
-        .svg {
-            z-index: 6;
-        }
-
-        .button:hover::before {
-            content: "";
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 9%;
-            transform: translate(-50%, -50%);
-            width: 0;
-            height: 0;
-            opacity: 0;
-            border-radius: 300px;
-            animation: wave1 2.5s ease-in-out forwards;
-        }
-
-        .button:hover::after {
-            content: "";
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 9%;
-            transform: translate(-50%, -50%);
-            width: 0;
-            height: 0;
-            opacity: 0;
-            border-radius: 300px;
-            animation: wave2 2.5s ease-in-out forwards;
-        }
-
-        @keyframes wave1 {
-            0% {
-                z-index: 1;
-                background: #eb4335;
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-
-            1% {
-                z-index: 1;
-                background: #eb4335;
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-
-            25% {
-                z-index: 1;
-                background: #eb4335;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-
-            26% {
-                z-index: 3;
-                background: #34a853;
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-
-            50% {
-                z-index: 3;
-                background: #34a853;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-
-            70% {
-                z-index: 3;
-                background: #34a853;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-
-            100% {
-                z-index: 3;
-                background: #34a853;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-        }
-
-        @keyframes wave2 {
-            0% {
-                z-index: 2;
-                background: #fbbc05;
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-
-            11% {
-                z-index: 2;
-                background: #fbbc05;
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-
-            35% {
-                z-index: 2;
-                background: #fbbc05;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-
-            39% {
-                z-index: 2;
-                background: #fbbc05;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-
-            40% {
-                z-index: 4;
-                background: #4285f4;
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-
-            64% {
-                z-index: 4;
-                background: #4285f4;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-
-            100% {
-                z-index: 4;
-                background: #4285f4;
-                width: 800px;
-                height: 800px;
-                opacity: 1;
-            }
-        }
-
-        .button:hover .red {
-            animation: disappear 0.1s forwards;
-            animation-delay: 0.1s;
-        }
-
-        .button:hover .yellow {
-            animation: disappear 0.1s forwards;
-            animation-delay: 0.3s;
-        }
-
-        .button:hover .green {
-            animation: disappear 0.1s forwards;
-            animation-delay: 0.7s;
-        }
-
-        .button:hover .blue {
-            animation: disappear 0.1s forwards;
-            animation-delay: 1.1s;
-        }
-
-        @keyframes disappear {
-            from {
-                filter: brightness(1);
-            }
-
-            to {
-                filter: brightness(100);
-            }
+        button:hover {
+            transform: scale(1.02);
         }
     }
 
