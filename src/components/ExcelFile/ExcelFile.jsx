@@ -10,12 +10,13 @@ import toast, { Toaster } from "react-hot-toast";
 
 // import * as XLSX from "xlsx";
 
-function ExcelFile({ setImportOpen, fetchData }) {
+function ExcelFile({ setImportOpen, fetchData, setLoadingUpload, loadingUpload }) {
     const [file, setFile] = useState();
     const [fileLabel, setFileLabel] = useState("Import File");
     const navigate = useNavigate();
 
     const upload = () => {
+        setLoadingUpload(true);
         const formData = new FormData();
         formData.append("excelFile", file);
         instance
@@ -24,11 +25,13 @@ function ExcelFile({ setImportOpen, fetchData }) {
                 toast.success("Import success!");
                 // console.log(res);
                 setImportOpen(false);
+                setLoadingUpload(false);
                 fetchData();
                 navigate(configs.routes.adminCourses);
             })
             .catch((error) => {
                 toast.error("Import failed!");
+                setLoadingUpload(false);
                 console.log(error);
             });
     };
@@ -59,7 +62,7 @@ function ExcelFile({ setImportOpen, fetchData }) {
                 Upload
             </Button> */}
             {file && (
-                <Button className="upload" onClick={upload}>
+                <Button loading={loadingUpload} className="upload" onClick={upload}>
                     Upload
                 </Button>
             )}
@@ -70,6 +73,8 @@ function ExcelFile({ setImportOpen, fetchData }) {
 ExcelFile.propTypes = {
     setImportOpen: PropTypes.func,
     fetchData: PropTypes.func,
+    setLoadingUpload: PropTypes.func,
+    loadingUpload: PropTypes.bool,
 };
 
 export const DownloadExcel = () => {
