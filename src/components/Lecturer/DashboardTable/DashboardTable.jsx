@@ -7,9 +7,8 @@ import {
     HistoryOutlined,
     ScheduleOutlined,
     PaperClipOutlined,
-    ExclamationOutlined,
+    MoneyCollectOutlined,
 } from "@ant-design/icons";
-import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import * as St from "./DashboardTable.styled";
 import instance from "@/utils/instance";
@@ -456,7 +455,7 @@ const DashboardTable = () => {
                                 value={money}
                                 loading={loadingSlotComing}
                                 icon={
-                                    <RiMoneyDollarCircleLine className="icon" />
+                                    <MoneyCollectOutlined  className="icon" />
                                 }
                             />
                         </Col>
