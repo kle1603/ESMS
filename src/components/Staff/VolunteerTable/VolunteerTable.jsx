@@ -6,6 +6,7 @@ import instance from "@/utils/instance";
 import ButtonAdd from "@/components/ButtonAdd";
 import toast from "react-hot-toast";
 import cookies from "@/utils/cookies";
+import { postNewVolunteer } from "@/services/staffAddVolunteer";
 
 const VolunteerTable = () => {
     const [form] = Form.useForm();
@@ -125,26 +126,51 @@ const VolunteerTable = () => {
         fetchData();
     }, [semesterId]);
 
+    // const handleOk = () => {
+    //     form.validateFields()
+    //         .then((values) => {
+    //             if (semesterId !== 0) {
+    //                 instance
+    //                     .post("examiners/volunteerExaminer/", {
+    //                         email: values.email,
+    //                         name: values.name,
+    //                         semesterId: semesterId,
+    //                     })
+    //                     .then(() => {
+    //                         toast.success("Successfully created!");
+    //                         form.resetFields();
+    //                         setModalVisible(false);
+    //                         fetchData();
+    //                     })
+    //                     .catch((error) => {
+    //                         toast.error("This is an error!");
+    //                         console.log(error);
+    //                     });
+    //             }
+    //         })
+    //         .catch((info) => {
+    //             console.log("Validate Failed:", info);
+    //         });
+    // };
+
     const handleOk = () => {
         form.validateFields()
-            .then((values) => {
-                if (semesterId !== 0) {
-                    instance
-                        .post("examiners/volunteerExaminer/", {
+            .then(async (values) => {
+                try {
+                    if (semesterId !== 0) {
+                        await postNewVolunteer({
                             email: values.email,
                             name: values.name,
                             semesterId: semesterId,
-                        })
-                        .then(() => {
-                            toast.success("Successfully created!");
-                            form.resetFields();
-                            setModalVisible(false);
-                            fetchData();
-                        })
-                        .catch((error) => {
-                            toast.error("This is an error!");
-                            console.log(error);
                         });
+                        toast.success("Successfully created!");
+                        form.resetFields();
+                        setModalVisible(false);
+                        fetchData();
+                    }
+                } catch (error) {
+                    toast.error("This is an error!");
+                    console.log(error);
                 }
             })
             .catch((info) => {
