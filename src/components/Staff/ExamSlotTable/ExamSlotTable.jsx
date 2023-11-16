@@ -188,11 +188,12 @@ const ExamPhaseTable = () => {
                     if (values.slot === selectTimeSlot) {
                         values.slot = defaultValue;
                     }
-                    await postExamSlot({
+                    const { data } = await postExamSlot({
                         ePId: id,
                         timeSlotId: values.slot,
                         day: values.day,
                     });
+                    console.log(data);
                     toast.success("Successfully created!");
                     // console.log(res);
                     fetchData();

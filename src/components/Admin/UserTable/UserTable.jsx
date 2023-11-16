@@ -207,16 +207,16 @@ const UserTable = () => {
 
     const role = [
         {
-            value: "admin",
-            label: "ADMIN",
-        },
-        {
             value: "staff",
             label: "STAFF",
         },
         {
             value: "lecturer",
             label: "LECTURER",
+        },
+        {
+            value: "student",
+            label: "STUDENT",
         },
     ];
 
