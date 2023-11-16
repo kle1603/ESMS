@@ -16,6 +16,8 @@ const ExamPhaseTable = () => {
     const [semesterId, setSemesterId] = useState(0);
     const navigate = useNavigate();
     const pageSize = 10;
+    const [page, setPage] = useState();
+    const [total, setTotal] = useState();
 
     const columns = [
         // Your columns
@@ -87,22 +89,30 @@ const ExamPhaseTable = () => {
         },
     ];
 
+    const handleChange = (page) => {
+        // console.log(page);
+        setPage(page);
+    };
+
     const fetchData = () => {
         // console.log(semesterId);
         setLoading(true);
         if (semesterId !== 0) {
             setLoading(true);
             instance
-                .get(`examPhases/semId?semesterId=${semesterId}`)
+                .get(`examPhases/semId?semesterId=${semesterId}`, {
+                    params: { page_no: page, limit: pageSize },
+                })
                 .then((res) => {
-                    console.log(res.data.data);
-                    const formattedData = res.data.data
+                    // console.log(res);
+                    const formattedData = res.data.data.data
                         .sort((a, b) => b.id - a.id)
                         .map((item, index) => ({
                             ...item,
                             key: index + 1,
                             no: index + 1,
                         }));
+                    setTotal(res.data.data.total);
                     setData(formattedData);
                     setLoading(false);
                 })
@@ -145,7 +155,7 @@ const ExamPhaseTable = () => {
 
     useEffect(() => {
         fetchData();
-    }, [semesterId]);
+    }, [semesterId, page]);
 
     const handleEdit = (e) => {
         // navigate(configs.routes.staff + `/examPhase/${e.no}`);
@@ -183,6 +193,8 @@ const ExamPhaseTable = () => {
                 pagination={{
                     pageSize: pageSize,
                     hideOnSinglePage: data.length <= pageSize,
+                    onChange: handleChange,
+                    total: total,
                 }}
             />
         </St.DivTable>
