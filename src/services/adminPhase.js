@@ -1,9 +1,9 @@
-import { post } from "@/utils/ApiCaller";
+import { post, remove } from "@/utils/ApiCaller";
 
 export const postNewPhase = (data) => {
     return post("examPhases/", data);
 };
 
-export const deletePhase = (id) => {
-    return post("examPhases/", id);
+export const deletePhase = (data) => {
+    return remove("examPhases/", data);
 };

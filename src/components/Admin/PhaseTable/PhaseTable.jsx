@@ -231,6 +231,7 @@ const PhaseTable = () => {
             fetchData();
         } catch (error) {
             toast.error("Error deleted!");
+            setLoading(false);
             console.log(error);
         }
     };
