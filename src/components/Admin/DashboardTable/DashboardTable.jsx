@@ -186,7 +186,7 @@ const DashboardTable = () => {
     };
 
     const [loadingPercent, setLoadingPercent] = useState(true);
-    const [dataPercent, setDataPercent] = useState("");
+    const [dataPercent, setDataPercent] = useState("No data");
 
     const fetchPercent = () => {
         setLoadingPercent(true);
@@ -203,13 +203,13 @@ const DashboardTable = () => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    setDataPercent("");
+                    setDataPercent("No data");
                     setLoadingPercent(false);
                 })
                 .finally(() => {});
         } else {
             // setLoadingSlot(false);
-            setDataPercent("");
+            setDataPercent("No data");
         }
     };
 
