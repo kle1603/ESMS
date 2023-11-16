@@ -150,9 +150,12 @@ const SemesterTable = () => {
                 },
             })
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 toast.success("Successfully deleted!");
-                fetchData();
+                // fetchData();
+                if (res) {
+                    fetchData();
+                }
             })
             .catch((error) => {
                 toast.error("Error deleted!");
