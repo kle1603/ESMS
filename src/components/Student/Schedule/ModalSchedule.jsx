@@ -26,32 +26,32 @@ const ModalSchedule = ({ event, isModalOpen, setIsModalOpen }) => {
                 onCancel={handleCancel}
             >
                 <Flex>
-                    <Typography style={{ minWidth: 80 }}>
+                    <Typography style={{ minWidth: 100 }}>
                         Subject Code:
                     </Typography>
                     <Typography>{event.subCode}</Typography>
                 </Flex>
                 <Flex>
-                    <Typography style={{ minWidth: 80 }}>
+                    <Typography style={{ minWidth: 100 }}>
                         Subject Name:
                     </Typography>
                     <Typography>{event.subName}</Typography>
                 </Flex>
                 <Flex>
-                    <Typography style={{ minWidth: 80 }}>Day:</Typography>
+                    <Typography style={{ minWidth: 100 }}>Day:</Typography>
                     <Typography>
                         {day === "N/A" ? "Coming soon!" : day}
                     </Typography>
                 </Flex>
                 <Flex>
-                    <Typography style={{ minWidth: 80 }}>Time:</Typography>
+                    <Typography style={{ minWidth: 100 }}>Time:</Typography>
                     <Typography>
                         {startTime === "N/A" ? "Coming soon!" : startTime} -{" "}
                         {endTime === "N/A" ? "Coming soon!" : endTime}
                     </Typography>
                 </Flex>
                 <Flex>
-                    <Typography style={{ minWidth: 80 }}>Room:</Typography>
+                    <Typography style={{ minWidth: 100 }}>Room:</Typography>
                     <Typography>{event.roomNum}</Typography>
                 </Flex>
             </Modal>
