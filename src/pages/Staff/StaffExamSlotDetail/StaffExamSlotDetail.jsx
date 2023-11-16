@@ -291,7 +291,7 @@ const StaffExamPhaseDetail = () => {
             <St.ModalStyled
                 title="Add new course"
                 open={modalVisible}
-                // onOk={handleOk}
+                onOk={handleOk}
                 // onCancel={handleCancel}
                 footer={modalFooter()}
             >

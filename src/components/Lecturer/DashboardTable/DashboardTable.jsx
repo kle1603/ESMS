@@ -36,9 +36,12 @@ const DashboardTable = () => {
     const [chartLabels, setChartLabels] = useState([]);
     const [loadingChart, setLoadingChart] = useState(true);
 
+    const [money, setMoney] = useState("0 vnd");
+
     const [max, setMax] = useState(0);
 
     const token = cookies.getToken();
+    const pageSize = 10;
 
     const fetchSemester = () => {
         instance
@@ -158,7 +161,18 @@ const DashboardTable = () => {
                 .then((res) => {
                     const data = res.data.data;
                     setSlotComing(data);
+
                     setLoadingSlotComing(false);
+
+                    const money = data * 120000;
+                    const formatMoney = (amount) => {
+                        return new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                        }).format(amount);
+                    };
+                    setMoney(formatMoney(money));
+                    // setMoney(`${formatMoney(money)} vnd`);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -234,6 +248,7 @@ const DashboardTable = () => {
     const fetchChartData2 = () => {
         setLoading(true);
         if (phaseId !== 0) {
+            // console.log(phaseId);
             instance
                 .get("dashboard/detailFutureSlotOfLecOnePhase", {
                     params: {
@@ -435,9 +450,10 @@ const DashboardTable = () => {
                         </Col>
                         <Col xs={24} md={12}>
                             <CardItem
-                                desc={"Coming soon"}
-                                title={"Coming soon"}
-                                value={0}
+                                desc={"At this phase"}
+                                title={"Total bonus"}
+                                value={money}
+                                loading={loadingSlotComing}
                                 icon={<ExclamationOutlined className="icon" />}
                             />
                         </Col>
@@ -465,8 +481,8 @@ const DashboardTable = () => {
                         bordered
                         loading={loading}
                         pagination={{
-                            pageSize: 6,
-                            hideOnSinglePage: data.length <= 6,
+                            pageSize: pageSize,
+                            hideOnSinglePage: data.length <= pageSize,
                             showSizeChanger: false,
                         }}
                     />
