@@ -31,6 +31,8 @@ const PhaseTable = () => {
     const [endDay, setEndDay] = useState("");
     const [importOpen, setImportOpen] = useState(false);
     const pageSize = 10;
+    const [page, setPage] = useState();
+    const [total, setTotal] = useState();
 
     const token = cookies.getToken();
 
@@ -130,6 +132,10 @@ const PhaseTable = () => {
         },
     ];
 
+    const handleChange = (page) => {
+        setPage(page);
+    };
+
     const fetchData = () => {
         setLoading(true);
         // console.log(semesterId);
@@ -138,9 +144,7 @@ const PhaseTable = () => {
             setLoading(true);
             instance
                 .get(`examPhases/${semesterId}`, {
-                    params: {
-                        token: token,
-                    },
+                    params: { page_no: page, limit: pageSize, token: token },
                 })
                 .then((res) => {
                     // console.log(res.data.data);
@@ -152,6 +156,8 @@ const PhaseTable = () => {
                             key: item.id,
                             no: index + 1,
                         }));
+
+                    setTotal(res.data.total);
 
                     setData(formattedData);
                     setLoading(false);
@@ -433,6 +439,8 @@ const PhaseTable = () => {
                 pagination={{
                     pageSize: pageSize,
                     hideOnSinglePage: data.length <= pageSize,
+                    onChange: handleChange,
+                    total: total,
                 }}
             />
         </St.DivTable>
