@@ -102,17 +102,19 @@ const UserTable = () => {
             .then((res) => {
                 if (res.data.data.Data) {
                     setTotal(res.data.data.Total);
-                    const formattedData = res.data.data.Data.map((item) => ({
-                        ...item,
-                        key: item.email,
-                        no: item.id,
-                    }));
+                    const formattedData = res.data.data.Data.map(
+                        (item, index) => ({
+                            ...item,
+                            key: item.id,
+                            no: index + 1,
+                        })
+                    );
                     setData(formattedData);
                 } else {
-                    const formattedData = res.data.data.map((item) => ({
+                    const formattedData = res.data.data.map((item, index) => ({
                         ...item,
-                        key: item.email,
-                        no: item.id,
+                        key: item.id,
+                        no: index + 1,
                     }));
                     setData(formattedData);
                     setTotal(formattedData.length);
